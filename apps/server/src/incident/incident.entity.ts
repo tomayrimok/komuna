@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 import { IncidentStatus } from '../types/enums/IncidentStatus.enum';
 
 @Entity()
@@ -24,9 +24,6 @@ export class Incident {
     @Column()
     reporterId: string;
 
-    @Column()
-    createdAt: Date;
-
     @Column({ type: 'enum', enum: IncidentStatus })
     status: IncidentStatus;
 
@@ -35,4 +32,10 @@ export class Incident {
 
     @Column({ nullable: true })
     managerResponse: string;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

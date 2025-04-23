@@ -25,7 +25,6 @@ export class ExpenseService {
             amount,
             paidBy: userId,
             splits,
-            createdAt: new Date(),
         });
 
         await this.expenseRepo.save(expense);
