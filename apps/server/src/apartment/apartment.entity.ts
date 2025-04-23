@@ -16,26 +16,26 @@ export class Apartment {
     @Column()
     name: string;
 
-    @Column()
-    image: string;
+    @Column({ nullable: true })
+    image?: string;
 
-    @Column()
-    pincode: string;
-
-    @Column()
-    address: string;
-
-    @Column()
-    city: string;
+    @Column({ unique: true })
+    code: string;
 
     @Column({ nullable: true })
-    managerId: string;
+    address?: string;
 
-    @Column()
-    contract: string;
+    @Column({ nullable: true })
+    city?: string;
 
-    @Column()
-    billsDetails: string;
+    @Column({ nullable: true })
+    managerId?: string;
+
+    @Column({ nullable: true })
+    contract?: string;
+
+    @Column({ nullable: true })
+    billsDetails?: string;
 
     @OneToMany(() => UserApartment, ua => ua.apartmentId)
     residents: UserApartment[];
