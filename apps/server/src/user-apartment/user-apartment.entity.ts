@@ -1,28 +1,28 @@
-// src/entities/user-apartment.entity.ts
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Apartment } from '../apartment/apartment.entity';
 import { User } from '../user/user.entity';
+import { UserRole } from '../types/enums/UserRole.enum';
 
 @Entity()
 export class UserApartment {
     @PrimaryColumn()
-    aid: string;
+    apartmentId: string;
 
     @PrimaryColumn()
-    uid: string;
+    userId: string;
 
     @Column('float')
     rent: number;
 
-    @Column()
-    role: 'manager' | 'member'; //todo enum
+    @Column({ enum: UserRole })
+    role: UserRole;
 
     @ManyToOne(() => Apartment, a => a.residents)
-    @JoinColumn({ name: 'aid' })
+    @JoinColumn({ name: 'apartmentId' })
     apartment: Apartment;
 
     @ManyToOne(() => User, u => u.apartments)
-    @JoinColumn({ name: 'uid' })
+    @JoinColumn({ name: 'userId' })
     user: User;
 
     @ManyToOne(() => User, u => u.payableRents, { nullable: true })

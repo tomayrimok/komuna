@@ -1,5 +1,3 @@
-
-// src/entities/payment.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
@@ -8,7 +6,7 @@ export class Payment {
     paymentId: string;
 
     @Column()
-    aid: string;
+    apartmentId: string;
 
     @Column()
     fromId: string;

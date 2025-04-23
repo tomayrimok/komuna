@@ -1,4 +1,3 @@
-// src/entities/apartment.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Task } from '../task/task.entity';
@@ -12,7 +11,7 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 @Entity()
 export class Apartment {
     @PrimaryGeneratedColumn('uuid')
-    aid: string;
+    apartmentId: string;
 
     @Column()
     name: string;
@@ -38,22 +37,22 @@ export class Apartment {
     @Column()
     billsDetails: string;
 
-    @OneToMany(() => UserApartment, ua => ua.aid)
+    @OneToMany(() => UserApartment, ua => ua.apartmentId)
     residents: UserApartment[];
 
-    @OneToMany(() => Task, task => task.aid)
+    @OneToMany(() => Task, task => task.apartmentId)
     tasks: Task[];
 
-    @OneToMany(() => Expense, e => e.aid)
+    @OneToMany(() => Expense, e => e.apartmentId)
     expenses: Expense[];
 
-    @OneToMany(() => Payment, p => p.aid)
+    @OneToMany(() => Payment, p => p.apartmentId)
     payments: Payment[];
 
-    @OneToMany(() => Incident, i => i.aid)
+    @OneToMany(() => Incident, i => i.apartmentId)
     incidents: Incident[];
 
-    @OneToMany(() => ShoppingTemplate, st => st.aid)
+    @OneToMany(() => ShoppingTemplate, st => st.apartmentId)
     shoppingTemplates: ShoppingTemplate[];
 
     @OneToMany(() => ShoppingList, sl => sl.contextId)

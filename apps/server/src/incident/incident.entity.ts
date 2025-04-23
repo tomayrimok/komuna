@@ -1,14 +1,13 @@
-
-// src/entities/incident.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { IncidentStatus } from '../types/enums/IncidentStatus.enum';
 
 @Entity()
 export class Incident {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    incidentId: string;
 
     @Column()
-    aid: string; //todo longer name?
+    apartmentId: string; //todo longer name?
 
     @Column()
     title: string;
@@ -28,8 +27,8 @@ export class Incident {
     @Column()
     createdAt: Date;
 
-    @Column()
-    status: 'open' | 'inprogress' | 'solved'; //todo enum
+    @Column({ enum: IncidentStatus })
+    status: IncidentStatus;
 
     @Column()
     seenByManager: boolean;

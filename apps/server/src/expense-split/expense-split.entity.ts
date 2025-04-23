@@ -1,4 +1,3 @@
-// src/entities/expense-split.entity.ts
 import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
 import { Expense } from '../expense/expense.entity';
 import { User } from '../user/user.entity';

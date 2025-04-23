@@ -1,5 +1,3 @@
-
-// src/entities/expense.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../user/user.entity';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
@@ -7,10 +5,10 @@ import { ExpenseSplit } from '../expense-split/expense-split.entity';
 @Entity()
 export class Expense {
     @PrimaryGeneratedColumn('uuid')
-    eid: string;
+    expenseId: string;
 
     @Column()
-    aid: string;
+    apartmentId: string;
 
     @Column()
     description: string;

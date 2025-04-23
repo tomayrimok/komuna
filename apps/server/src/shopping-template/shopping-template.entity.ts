@@ -1,14 +1,13 @@
 
-// src/entities/shopping-template.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class ShoppingTemplate {
     @PrimaryGeneratedColumn('uuid')
-    tid: string;
+    shoppingTemplateId: string;
 
     @Column()
-    aid: string;
+    apartmentId: string;
 
     @Column('json')
     items: any[];

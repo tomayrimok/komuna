@@ -1,5 +1,3 @@
-
-// src/entities/user.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Expense } from '../expense/expense.entity';
@@ -7,7 +5,7 @@ import { Expense } from '../expense/expense.entity';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    uid: string;
+    userId: string;
 
     @Column()
     firstName: string;
@@ -24,7 +22,7 @@ export class User {
     @Column()
     verificationCode: string;
 
-    @OneToMany(() => UserApartment, ua => ua.uid)
+    @OneToMany(() => UserApartment, ua => ua.userId)
     apartments: UserApartment[];
 
     @OneToMany(() => UserApartment, ua => ua.payableByUser)

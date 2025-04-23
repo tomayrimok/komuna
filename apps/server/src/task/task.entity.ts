@@ -1,5 +1,3 @@
-
-// src/entities/task.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
@@ -8,7 +6,7 @@ export class Task {
     taskId: string;
 
     @Column()
-    aid: string;
+    apartmentId: string;
 
     @Column()
     title: string;

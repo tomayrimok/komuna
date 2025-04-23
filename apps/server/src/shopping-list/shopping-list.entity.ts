@@ -1,21 +1,20 @@
-
-// src/entities/shopping-list.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ContextType } from '../types/enums/ContextType.enum';
 
 @Entity()
 export class ShoppingList {
     @PrimaryGeneratedColumn('uuid')
-    sid: string;
+    shoppingListId: string;
 
-    @Column()
-    contextType: 'house' | 'user'; //todo enum
+    @Column({ enum: ContextType })
+    contextType: ContextType;
 
     @Column()
     contextId: string;
 
     @Column('json')
     items: {
-        id: string;
+        itemId: string;
         name: string;
         isPurchased: boolean;
         image: string;
