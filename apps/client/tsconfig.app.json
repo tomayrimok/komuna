@@ -6,10 +6,8 @@
       "node",
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts",
-      "@emotion/react/types/jsx-namespace"
-    ],
-    "jsx": "react-jsx",
-
+      "vite/client"
+    ]
   },
   "exclude": [
     "src/**/*.spec.ts",
@@ -20,7 +18,10 @@
     "src/**/*.test.js",
     "src/**/*.spec.jsx",
     "src/**/*.test.jsx",
-    "jest.config.ts"
+    "vite.config.ts",
+    "vite.config.mts",
+    "vitest.config.ts",
+    "vitest.config.mts"
   ],
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }
