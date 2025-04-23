@@ -27,7 +27,7 @@ export class Incident {
     @Column()
     createdAt: Date;
 
-    @Column({ enum: IncidentStatus })
+    @Column({ type: 'enum', enum: IncidentStatus })
     status: IncidentStatus;
 
     @Column()

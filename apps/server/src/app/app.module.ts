@@ -6,6 +6,19 @@ import { DebtEdgeModule } from '../debt-edge/debt-edge.module';
 import { UserModule } from '../user/user.module';
 import { ExpenseModule } from '../expense/expense.module';
 import { PaymentModule } from '../payment/payment.module';
+import { ApartmentModule } from '../apartment/apartment.module';
+import { UserApartmentModule } from '../user-apartment/user-apartment.module';
+import { User } from '../user/user.entity';
+import { UserApartment } from '../user-apartment/user-apartment.entity';
+import { Apartment } from '../apartment/apartment.entity';
+import { DebtEdge } from '../debt-edge/debt-edge.entity';
+import { Expense } from '../expense/expense.entity';
+import { ExpenseSplit } from '../expense-split/expense-split.entity';
+import { Incident } from '../incident/incident.entity';
+import { Payment } from '../payment/payment.entity';
+import { ShoppingList } from '../shopping-list/shopping-list.entity';
+import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
+import { Task } from '../task/task.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -15,13 +28,15 @@ import { PaymentModule } from '../payment/payment.module';
       username: 'root',
       password: 'root',
       database: 'test',
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [User, UserApartment, Apartment, DebtEdge, Expense, ExpenseSplit, Incident, Payment, ShoppingList, ShoppingTemplate, Task],
       synchronize: true,
     }),
     DebtEdgeModule,
     UserModule,
     ExpenseModule,
     PaymentModule,
+    ApartmentModule,
+    UserApartmentModule
   ],
   controllers: [AppController],
   providers: [AppService],

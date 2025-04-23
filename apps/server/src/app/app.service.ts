@@ -1,26 +1,49 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { UserService } from '../user/user.service';
+import { ExpenseService } from '../expense/expense.service';
+import { PaymentService } from '../payment/payment.service';
+import { ApartmentService } from '../apartment/apartment.service';
+import { UserApartmentService } from '../user-apartment/user-apartment.service';
+import { UserRole } from '../types/enums/UserRole.enum';
 
 @Injectable()
 export class AppService implements OnModuleInit {
 
   constructor(
     private readonly debtEdgeService: DebtEdgeService,
-    private readonly paymentService: DebtEdgeService,
-    private readonly expenseService: DebtEdgeService,
+    private readonly paymentService: PaymentService,
+    private readonly expenseService: ExpenseService,
     private readonly userService: UserService,
+    private readonly apartmentService: ApartmentService,
+    private readonly userApartmentService: UserApartmentService,
   ) {
 
   }
 
   onModuleInit() {
     console.log("AppService initialized");
+    this.testDebtEdgeService();
   }
 
-  testDebtEdgeService() {
-    // create user
-    const user1 = this.userService.createUser({ name: 'User 1' });
+  async testDebtEdgeService() {
+
+    // const aaa = await this.userService.createUser({ firstName: 'aaa', lastName: 'aaa', phoneNumber: '054-1234567' });
+    // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
+    // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });
+    // const apartment = await this.apartmentService.createApartment({ name: 'Herzel 14', code: '1234' });
+    // create user-apartment relation
+    // await this.userApartmentService.createUserApartment({ userId: aaa.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
+    // await this.userApartmentService.createUserApartment({ userId: bbb.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
+    // Now bbb payed for batteries
+    // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 20, apartmentId: apartment.apartmentId, splits: [{ userId: aaa.userId, amount: 10 }, { userId: bbb.userId, amount: 10 }] }, aaa.userId);
+    // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 20, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', splits: [{ userId: aaa.userId, amount: 10 }, { userId: bbb.userId, amount: 10 }] }, aaa.userId);
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', aaa.userId, bbb.userId, 60);
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', bbb.userId, ccc.userId, 30);
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 60);
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 30);
+
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', bbb.userId, aaa.userId, 10);
 
   }
 

@@ -11,10 +11,10 @@ export class UserApartment {
     @PrimaryColumn()
     userId: string;
 
-    @Column('float')
-    rent: number;
+    @Column('float', { nullable: true })
+    rent?: number;
 
-    @Column({ enum: UserRole })
+    @Column({ type: 'enum', enum: UserRole })
     role: UserRole;
 
     @ManyToOne(() => Apartment, a => a.residents)

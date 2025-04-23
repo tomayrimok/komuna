@@ -13,14 +13,14 @@ export class User {
     @Column()
     lastName: string;
 
-    @Column()
-    image: string;
+    @Column({ nullable: true })
+    image?: string;
 
-    @Column()
+    @Column({ unique: true })
     phoneNumber: string;
 
-    @Column()
-    verificationCode: string;
+    @Column({ nullable: true })
+    verificationCode?: string;
 
     @OneToMany(() => UserApartment, ua => ua.userId)
     apartments: UserApartment[];

@@ -6,7 +6,7 @@ export class ShoppingList {
     @PrimaryGeneratedColumn('uuid')
     shoppingListId: string;
 
-    @Column({ enum: ContextType })
+    @Column({ type: 'enum', enum: ContextType })
     contextType: ContextType;
 
     @Column()

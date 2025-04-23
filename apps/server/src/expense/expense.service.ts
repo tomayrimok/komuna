@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Expense } from './expense.entity';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 
@@ -13,9 +13,7 @@ export class ExpenseService {
         private readonly debtEdgeService: DebtEdgeService,
     ) { }
 
-    async createExpense(createDto,
-        // : CreateExpenseDto, 
-        userId: string) {
+    async createExpense(createDto: DeepPartial<Expense>, userId: string) {
         const { apartmentId, description, amount, splits } = createDto;
 
         const expense = this.expenseRepo.create({
@@ -24,6 +22,7 @@ export class ExpenseService {
             amount,
             paidBy: userId,
             splits,
+            createdAt: new Date(),
         });
 
         await this.expenseRepo.save(expense);
