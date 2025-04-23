@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, useBreakpointValue } from '@chakra-ui/react';
+import { Box, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { WebView } from '../components/WebView';
 import { Home } from '../components/Home';
+import { LanguegeSelector } from '../components/LanguegeSelector';
 
 export default function App() {
   const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Box
       minH="100vh"
@@ -15,7 +17,10 @@ export default function App() {
       bg={isMobile ? 'white' : 'gray.100'}
       p={4}
     >
-      {isMobile ? <Home /> : <WebView />}
+      <VStack>
+        <LanguegeSelector />
+        {isMobile ? <Home /> : <WebView />}
+      </VStack>
     </Box>
   );
 }
