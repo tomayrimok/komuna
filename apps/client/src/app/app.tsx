@@ -1,19 +1,21 @@
-import styled from '@emotion/styled';
-import { Button, HStack } from '@chakra-ui/react';
+import React from 'react';
+import { Box, useBreakpointValue } from '@chakra-ui/react';
+import { WebView } from '../components/WebView';
+import { Home } from '../components/Home';
 
-const StyledApp = styled.div`
-  // Your style here
-`;
-
-export function App() {
+export default function App() {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <StyledApp>
-      <HStack>
-        <Button>Click me</Button>
-        <Button>Click me</Button>
-      </HStack>
-    </StyledApp>
+    <Box
+      minH="100vh"
+      w="100%"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      bg={isMobile ? 'white' : 'gray.100'}
+      p={4}
+    >
+      {isMobile ? <Home /> : <WebView />}
+    </Box>
   );
 }
-
-export default App;
