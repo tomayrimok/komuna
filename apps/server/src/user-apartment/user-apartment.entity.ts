@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Apartment } from '../apartment/apartment.entity';
 import { User } from '../user/user.entity';
 import { UserRole } from '../types/enums/UserRole.enum';
@@ -28,5 +28,8 @@ export class UserApartment {
     @ManyToOne(() => User, u => u.payableRents, { nullable: true })
     @JoinColumn({ name: 'payableBy' })
     payableByUser: User;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
 }

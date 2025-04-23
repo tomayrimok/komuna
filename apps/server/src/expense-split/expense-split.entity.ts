@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column, CreateDateColumn } from 'typeorm';
 import { Expense } from '../expense/expense.entity';
 import { User } from '../user/user.entity';
 
@@ -20,5 +20,8 @@ export class ExpenseSplit {
     @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'userId' })
     user: User;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
 }

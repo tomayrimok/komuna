@@ -10,6 +10,16 @@ export class DebtEdgeService {
         private debtRepo: Repository<DebtEdge>,
     ) { }
 
+
+    // This method updates the debt between two users in an apartment.
+    // It first checks if there is a direct debt edge between the two users.
+    // If there is, it updates the amount. If not, it creates a new debt edge.
+    // It also checks if there is a reverse debt edge (i.e., the other user owes the first user).
+    // If there is, it updates the amount accordingly.
+    // If the reverse edge amount is greater than the direct edge amount, it reduces the reverse edge amount.
+    // If the reverse edge amount is less than the direct edge amount, it creates a new direct edge with the difference.
+    // If the reverse edge amount is equal to the direct edge amount, it removes the reverse edge.
+    // Finally, it calls the simplifyDebts method to simplify the debts in the apartment.
     async updateDebt(apartmentId: string, fromId: string, toId: string, delta: number) {
         if (fromId === toId || delta === 0) return;
 
@@ -43,6 +53,12 @@ export class DebtEdgeService {
         await this.simplifyDebts(apartmentId);
     }
 
+    // This method simplifies the debts in an apartment by consolidating the debts between users.
+    // It first retrieves all the debts in the apartment and creates a balance map for each user.
+    // It then separates the users into creditors and debtors based on their balances.
+    // Finally, it creates new debt edges between the creditors and debtors to simplify the debts.
+    // It deletes the old debt edges and saves the new ones.
+    // This is done to reduce the number of transactions and make it easier to manage the debts.
     async simplifyDebts(apartmentId: string) {
         const edges = await this.debtRepo.findBy({ apartmentId });
         const balanceMap = new Map<string, number>();

@@ -15,6 +15,10 @@ export class ApartmentService {
         return await this.apartmentRepo.save(apartment);
     }
 
+    async updateApartment(apartmentId: string, apartment: Partial<Apartment>) {
+        return await this.apartmentRepo.update({ apartmentId }, apartment);
+    }
+
     async getApartment(apartmentId: string) {
         return await this.apartmentRepo.findOneBy({ apartmentId });
     }

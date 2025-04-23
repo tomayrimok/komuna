@@ -1,5 +1,5 @@
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class ShoppingTemplate {
@@ -10,8 +10,14 @@ export class ShoppingTemplate {
     apartmentId: string;
 
     @Column('json')
-    items: any[];
+    items: { name: string; category: string; amount: number; }[]; //todo move to separate entity?
 
     @Column()
     name: string;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

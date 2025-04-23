@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Task } from '../task/task.entity';
 import { Expense } from '../expense/expense.entity';
@@ -57,4 +57,7 @@ export class Apartment {
 
     @OneToMany(() => ShoppingList, sl => sl.contextId)
     shoppingLists: ShoppingList[];
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

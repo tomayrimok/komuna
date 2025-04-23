@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Expense } from '../expense/expense.entity';
 
@@ -30,4 +30,7 @@ export class User {
 
     @OneToMany(() => Expense, e => e.paidBy)
     expenses: Expense[];
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

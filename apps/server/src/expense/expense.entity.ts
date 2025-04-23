@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
 
@@ -19,9 +19,9 @@ export class Expense {
     @OneToMany(() => ExpenseSplit, s => s.expense)
     splits: ExpenseSplit[];
 
-    @Column()
-    createdAt: Date;
-
     @ManyToOne(() => User, (user) => user.expenses)
     paidBy: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

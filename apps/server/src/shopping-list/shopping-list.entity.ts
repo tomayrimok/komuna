@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { ContextType } from '../types/enums/ContextType.enum';
 
 @Entity()
@@ -23,5 +23,11 @@ export class ShoppingList {
         amount: number;
         creatorId: string;
         assignedTo: string;
-    }[];
+    }[]; //todo move to separate entity? assignedTo is a userId
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

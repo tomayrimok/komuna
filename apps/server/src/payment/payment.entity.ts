@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Payment {
@@ -17,6 +17,6 @@ export class Payment {
     @Column('float')
     amount: number;
 
-    @Column()
+    @CreateDateColumn()
     createdAt: Date;
 }
