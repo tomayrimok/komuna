@@ -13,7 +13,10 @@ export class ExpenseService {
         private readonly debtEdgeService: DebtEdgeService,
     ) { }
 
-    async createExpense(createDto: DeepPartial<Expense>, userId: string) {
+    // This method creates a new expense and updates the debts of the users involved in the expense.
+    // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
+    // and update the debts of the other members in the group.
+    async createExpense(createDto: DeepPartial<Expense>, userId: string) { //todo noam add dto validation
         const { apartmentId, description, amount, splits } = createDto;
 
         const expense = this.expenseRepo.create({
