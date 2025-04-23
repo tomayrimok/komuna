@@ -10,6 +10,9 @@ export class ExpenseSplit {
     @PrimaryColumn()
     userId: string;
 
+    @Column('float')
+    amount: number;
+
     @ManyToOne(() => Expense, expense => expense.splits, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'expenseId' })
     expense: Expense;
@@ -18,6 +21,4 @@ export class ExpenseSplit {
     @JoinColumn({ name: 'userId' })
     user: User;
 
-    @Column('float')
-    amount: number;
 }
