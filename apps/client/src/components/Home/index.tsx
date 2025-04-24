@@ -4,9 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 export const Home = () => {
   const { t } = useTranslation();
-
-  console.log('Test');
-
   return (
     <VStack padding="4" gap="4">
       <Image src="meerkats/swiping.svg" />
