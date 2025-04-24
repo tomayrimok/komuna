@@ -28,12 +28,12 @@ jobs:
       - name: Lint affected
         run: npx nx affected --target=lint \
                              --parallel \
-                             --base=origin/main \
+                             --base=origin/master \
                              --head=$GITHUB_SHA
 
       # 5. Build (compile) affected projects
       - name: Build affected
         run: npx nx affected --target=build \
                              --parallel \
-                             --base=origin/main \
+                             --base=origin/master \
                              --head=$GITHUB_SHA
