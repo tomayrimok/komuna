@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [ infra/added_ci ]
   pull_request:
     branches:
       - master
