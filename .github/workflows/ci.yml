@@ -1,41 +1,42 @@
 name: CI
 
 on:
-  push:
-    branches: [ infra/added_ci ]
   pull_request:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Check out the PR branch
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0      # <— get full history (so master exists)
+          fetch-depth: 0
 
-      # 2. Install Node.js v20 and cache npm modules
+      # make sure the PR’s target branch exists locally
+      - name: Fetch base branch
+        run: |
+          git fetch origin \
+            ${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}
+
       - uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. Install dependencies
       - run: npm ci
 
-      # 4. Lint only the affected projects (apps/client and apps/server, plus any libs)
       - name: Lint affected
-        run: npx nx affected --target=lint \
-                             --parallel \
-                             --base=origin/master \
-                             --head=$GITHUB_SHA
+        run: |
+          BASE=${{ github.event.pull_request.base.ref }}
+          npx nx affected --target=lint \
+            --parallel \
+            --base=origin/${BASE} \
+            --head=${{ github.sha }}
 
-      # 5. Build (compile) affected projects
       - name: Build affected
-        run: npx nx affected --target=build \
-                             --parallel \
-                             --base=origin/master \
-                             --head=$GITHUB_SHA
+        run: |
+          BASE=${{ github.event.pull_request.base.ref }}
+          npx nx affected --target=build \
+            --parallel \
+            --base=origin/${BASE} \
+            --head=${{ github.sha }}
