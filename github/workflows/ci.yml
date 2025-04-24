@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the PR branch
+      - uses: actions/checkout@v3
+
+      # 2. Install Node.js v20 and cache npm modules
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - run: npm ci
+
+      # 4. Lint only the affected projects (apps/client and apps/server, plus any libs)
+      - name: Lint affected
+        run: npx nx affected --target=lint \
+                             --parallel \
+                             --base=origin/main \
+                             --head=$GITHUB_SHA
+
+      # 5. Build (compile) affected projects
+      - name: Build affected
+        run: npx nx affected --target=build \
+                             --parallel \
+                             --base=origin/main \
+                             --head=$GITHUB_SHA
