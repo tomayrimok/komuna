@@ -5,38 +5,51 @@ on:
     branches: [ master ]
 
 jobs:
-  ci:
+  install:
+    name: Install dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      # make sure the PR’s target branch exists locally
-      - name: Fetch base branch
-        run: |
-          git fetch origin \
-            ${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}
-
       - uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: 'npm'
-
       - run: npm ci
 
-      - name: Lint affected
-        run: |
-          BASE=${{ github.event.pull_request.base.ref }}
-          npx nx affected --target=lint \
-            --parallel \
-            --base=origin/${BASE} \
-            --head=${{ github.sha }}
+  lint:
+    name: Lint affected
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx nx affected --target=lint \
+                             --parallel \
+                             --base=origin/${{ github.event.pull_request.base.ref }} \
+                             --head=${{ github.sha }}
 
-      - name: Build affected
-        run: |
-          BASE=${{ github.event.pull_request.base.ref }}
-          npx nx affected --target=build \
-            --parallel \
-            --base=origin/${BASE} \
-            --head=${{ github.sha }}
+  build:
+    name: Build affected
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx nx affected --target=build \
+                             --parallel \
+                             --base=origin/${{ github.event.pull_request.base.ref }} \
+                             --head=${{ github.sha }}
