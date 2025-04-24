@@ -13,6 +13,7 @@ const config = defineConfig({
     tokens: {
       colors: {
         brand: {
+          '10': { value: '#FFFCF4' },
           '50': { value: 'hsl(45, 100%, 97%)' },
           '100': { value: 'hsl(45, 100%, 90%)' },
           '200': { value: 'hsl(45, 100%, 85%)' },
@@ -44,7 +45,9 @@ const config = defineConfig({
   globalCss: {
     html: {
       colorPalette: 'brand',
-      bg: 'brand.50',
+    },
+    body: {
+      backgroundColor: 'brand.10',
     },
   },
 });
