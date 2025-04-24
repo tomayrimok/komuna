@@ -27,10 +27,9 @@ export class AppService implements OnModuleInit {
   }
 
   async testDebtEdgeService() {
-
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
-    // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
-    // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });
+    // const bbb = await this.userService.getUserById('eee5a7aa-5ba4-4eab-9f4b-2897e6ffbb18');
+    // const ccc = await this.userService.getUserById('6beae274-68db-488c-a98b-95f3bbf304d6');
     // const apartment = await this.apartmentService.createApartment({ name: 'Herzel 14', code: '1111' });
     // create user-apartment relation
     // await this.userApartmentService.createUserApartment({ userId: aaa.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
@@ -38,7 +37,7 @@ export class AppService implements OnModuleInit {
     // Now bbb payed for batteries
     // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 500, apartmentId: apartment.apartmentId, splits: [{ userId: aaa.userId, amount: 10 }, { userId: aaa.userId, amount: 10 }] }, aaa.userId);
     // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 20, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', splits: [{ userId: aaa.userId, amount: 10 }, { userId: bbb.userId, amount: 10 }] }, aaa.userId);
-    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', aaa.userId, bbb.userId, 60);
+    // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', aaa.userId, ccc.userId, 345);
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', bbb.userId, ccc.userId, 30);
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 60);
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 30);

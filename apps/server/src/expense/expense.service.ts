@@ -23,7 +23,7 @@ export class ExpenseService {
             apartmentId,
             description,
             amount,
-            paidBy: userId,
+            paidById: userId,
             splits,
         });
 
@@ -35,5 +35,16 @@ export class ExpenseService {
         }
 
         return expense;
+    }
+
+    getApartmentExpenses(apartmentId: string, userId: string) {
+        return this.expenseRepo.find({
+            where: {
+                apartmentId,
+            },
+            relations: {
+                splits: true,
+            },
+        });
     }
 }

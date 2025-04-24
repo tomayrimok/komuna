@@ -102,5 +102,39 @@ export class DebtEdgeService {
             if (creditor.amount === 0) j++;
         }
     }
+
+    getUserBalance(apartmentId: string, userId: string) {
+        return this.debtRepo
+            .createQueryBuilder('debt')
+            .select('SUM(CASE WHEN debt.fromId = :userId THEN -debt.amount ELSE debt.amount END)', 'balance')
+            .where('debt.apartmentId = :apartmentId', { apartmentId })
+            .andWhere('(debt.fromId = :userId OR debt.toId = :userId)', { userId })
+            .setParameters({ userId, apartmentId })
+            .getRawOne()
+            .then((result) => result.balance || 0);
+    }
+
+    getUserBalanceDetails(apartmentId: string, userId: string) {
+        return this.debtRepo
+            .createQueryBuilder('debt')
+            .select([
+                'debt.debtId',
+                'debt.fromId',
+                'debt.toId',
+                'debt.amount',
+                'debt.updatedAt',
+                'userFrom.firstName',
+                'userFrom.lastName',
+                'userTo.firstName',
+                'userTo.lastName',
+                'CASE WHEN debt.fromId = :userId THEN true ELSE false END AS debtor',
+            ])
+            .leftJoin('debt.fromUser', 'userFrom')
+            .leftJoin('debt.toUser', 'userTo')
+            .where('debt.apartmentId = :apartmentId', { apartmentId })
+            .andWhere('(debt.fromId = :userId OR debt.toId = :userId)', { userId })
+            .setParameters({ userId, apartmentId })
+            .getRawMany();
+    }
 }
 

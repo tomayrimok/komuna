@@ -3,6 +3,7 @@ import { Box, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { WebView } from '../components/WebView';
 import { Home } from '../components/Home';
 import { LanguegeSelector } from '../components/LanguegeSelector';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App() {
   const isMobile = useBreakpointValue({ base: true, md: false });

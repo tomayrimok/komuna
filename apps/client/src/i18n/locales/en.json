@@ -4,5 +4,13 @@
         "description": "This website is only supported on mobile devices. Please open it on your phone to continue."
     },
     "title": "Welcome to Komuna",
-    "button": "Start Exploring"
+    "button": "Start Exploring",
+    "payments": {
+        "debt": "You have a small debt of {{amount}}₪ 😞",
+        "balanced": "Everything is balanced here!",
+        "people-owe-you": "How nice! People owe you {{amount}}₪",
+        "owe-you": "{{name}} owes you {{amount}}₪",
+        "you-owe": "You owe {{name}} {{amount}}₪",
+        "settle-up": "Let's settle up"
+    }
 }
