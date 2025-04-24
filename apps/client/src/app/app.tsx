@@ -14,7 +14,7 @@ export default function App() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      bg={isMobile ? 'white' : 'gray.100'}
+      bg={isMobile ? 'none' : 'gray.100'}
       p={4}
     >
       <VStack>
