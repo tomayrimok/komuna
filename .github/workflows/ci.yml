@@ -5,51 +5,40 @@ on:
     branches: [ master ]
 
 jobs:
-  install:
-    name: Install dependencies
+  ci:
+    name: ${{ matrix.target }}
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
 
-  lint:
-    name: Lint affected
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx nx affected --target=lint \
-                             --parallel \
-                             --base=origin/${{ github.event.pull_request.base.ref }} \
-                             --head=${{ github.sha }}
+    strategy:
+      matrix:
+        target: [ lint, build ]
 
-  build:
-    name: Build affected
-    needs: install
-    runs-on: ubuntu-latest
     steps:
+      # 1. Check out your PR branch (full history)
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      # 2. Fetch all remote branches so origin/<base> exists
+      - name: Fetch all branches
+        run: git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+
+      # 3. Install Node.js & cache
       - uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
-      - run: npx nx affected --target=build \
-                             --parallel \
-                             --base=origin/${{ github.event.pull_request.base.ref }} \
-                             --head=${{ github.sha }}
+
+      # 4. Install deps
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. Run lint or build depending on the matrix target
+      - name: Run ${{ matrix.target }}
+        run: |
+          BASE=${{ github.event.pull_request.base.ref }}
+          npx nx affected \
+            --target=${{ matrix.target }} \
+            --parallel \
+            --base=origin/${BASE} \
+            --head=${{ github.sha }}
