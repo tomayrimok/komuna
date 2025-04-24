@@ -14,6 +14,8 @@ jobs:
     steps:
       # 1. Check out the PR branch
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0      # <— get full history (so master exists)
 
       # 2. Install Node.js v20 and cache npm modules
       - uses: actions/setup-node@v3
