@@ -13,6 +13,8 @@ export type BalanceDetails = {
     userTo_lastName: string;
     userFrom_phoneNumber: string;
     userTo_phoneNumber: string;
+    userTo_image: string;
+    userFrom_image: string;
     debt_updatedAt: string;
 };
 

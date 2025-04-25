@@ -140,5 +140,28 @@ export class DebtEdgeService {
             .setParameters({ userId, apartmentId })
             .getRawMany();
     }
+
+    getDebtDetails(debtId: string) {
+        return this.debtRepo
+            .createQueryBuilder('debt')
+            .select([
+                'debt.debtId',
+                'debt.fromId',
+                'debt.toId',
+                'debt.amount',
+                'userFrom.firstName',
+                'userFrom.lastName',
+                'userTo.firstName',
+                'userTo.lastName',
+                'userFrom.phoneNumber',
+                'userTo.phoneNumber',
+                'userFrom.image',
+                'userTo.image',
+            ])
+            .leftJoin('debt.fromUser', 'userFrom')
+            .leftJoin('debt.toUser', 'userTo')
+            .where('debt.debtId = :debtId', { debtId })
+            .getRawOne();
+    }
 }
 

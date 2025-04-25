@@ -16,4 +16,9 @@ export class DebtEdgeController {
     async getUserBalance(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
         return await this.debtEdgeService.getUserBalance(apartmentId, userId);
     }
+
+    @Get('debt-details')
+    async getDebtDetails(@Query('debtId') debtId: string) {
+        return await this.debtEdgeService.getDebtDetails(debtId);
+    }
 }
