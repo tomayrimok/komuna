@@ -1,33 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { ContextType } from '../types/enums/ContextType.enum';
+import { ShoppingListContextType } from '@komuna/types';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class ShoppingList {
-    @PrimaryGeneratedColumn('uuid')
-    shoppingListId: string;
+  @PrimaryGeneratedColumn('uuid')
+  shoppingListId: string;
 
-    @Column({ type: 'enum', enum: ContextType })
-    contextType: ContextType;
+  @Column({ type: 'enum', enum: ShoppingListContextType })
+  contextType: ShoppingListContextType;
 
-    @Column()
-    contextId: string;
+  @Column()
+  contextId: string;
 
-    @Column('json')
-    items: {
-        itemId: string;
-        name: string;
-        isPurchased: boolean;
-        image: string;
-        category: string;
-        isUrgent: boolean;
-        amount: number;
-        creatorId: string;
-        assignedTo: string;
-    }[]; //todo move to separate entity? assignedTo is a userId
+  @Column('json')
+  items: {
+    itemId: string;
+    name: string;
+    isPurchased: boolean;
+    image: string;
+    category: string;
+    isUrgent: boolean;
+    amount: number;
+    creatorId: string;
+    assignedTo: string;
+  }[]; //todo move to separate entity? assignedTo is a userId
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 }

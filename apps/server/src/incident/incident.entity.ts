@@ -1,41 +1,47 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm';
-import { IncidentStatus } from '../types/enums/IncidentStatus.enum';
+import { IncidentStatus } from '@komuna/types';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Incident {
-    @PrimaryGeneratedColumn('uuid')
-    incidentId: string;
+  @PrimaryGeneratedColumn('uuid')
+  incidentId: string;
 
-    @Column()
-    apartmentId: string; //todo longer name?
+  @Column()
+  apartmentId: string; //todo longer name?
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column('json')
-    images: string[];
+  @Column('json')
+  images: string[];
 
-    @Column('int')
-    urgencyLevel: number;
+  @Column('int')
+  urgencyLevel: number;
 
-    @Column()
-    reporterId: string;
+  @Column()
+  reporterId: string;
 
-    @Column({ type: 'enum', enum: IncidentStatus })
-    status: IncidentStatus;
+  @Column({ type: 'enum', enum: IncidentStatus })
+  status: IncidentStatus;
 
-    @Column()
-    seenByManager: boolean;
+  @Column()
+  seenByManager: boolean;
 
-    @Column({ nullable: true })
-    managerResponse: string;
+  @Column({ nullable: true })
+  managerResponse: string;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 }
