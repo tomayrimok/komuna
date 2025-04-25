@@ -6,7 +6,7 @@ const config = defineConfig({
     recipes: {
       button: {
         base: {
-          borderRadius: 'xl',
+          borderRadius: 'lg',
         },
       },
     },
