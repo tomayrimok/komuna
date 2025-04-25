@@ -2,10 +2,11 @@
 import axios from "axios";
 
 export type DebtDetails = {
+    debt_apartmentId: string;
     debt_amount: number;
     debt_debtId: string;
-    fromId: string;
-    toId: string;
+    debt_fromId: string;
+    debt_toId: string;
     userFrom_firstName: string;
     userFrom_lastName: string;
     userTo_firstName: string;

@@ -146,6 +146,7 @@ export class DebtEdgeService {
             .createQueryBuilder('debt')
             .select([
                 'debt.debtId',
+                'debt.apartmentId',
                 'debt.fromId',
                 'debt.toId',
                 'debt.amount',

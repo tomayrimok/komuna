@@ -32,6 +32,8 @@
         "you-borrowed": "You borrowed\n{{amount}}₪",
         "settle-up-title": "Who should we settle up with?",
         "you-owe": "You owe {{amount}}₪",
-        "owe-you": "Owes you {{amount}}₪"
+        "owe-you": "Owes you {{amount}}₪",
+        "payment-made": "Payment made from {{payer}} to {{receiver}}",
+        "amount-prefix": "For the amount of"
     }
 }

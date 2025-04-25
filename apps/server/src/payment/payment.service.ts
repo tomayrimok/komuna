@@ -15,7 +15,9 @@ export class PaymentService {
 
     // This method creates a new payment and updates the debts of the users involved in the payment.
     // This is for the "settling up" process, where one user pays another user he owes money.
-    async addPayment(apartmentId: string, fromId: string, toId: string, amount: number) {
+    async createPayment(apartmentId: string, fromId: string, toId: string, amount: number) {
+
+        console.log(' :', apartmentId, fromId, toId, amount);
         const payment = this.paymentRepo.create({ apartmentId, fromId, toId, amount });
         await this.paymentRepo.save(payment);
         await this.debtEdgeService.updateDebt(apartmentId, fromId, toId, -amount);

@@ -32,6 +32,8 @@
         "you-borrowed": "שילמו בשבילך\n{{amount}}₪",
         "settle-up-title": "עם מי נסגור חשבון?",
         "you-owe": "צריך לשלם\n{{amount}}₪",
-        "owe-you": "צריך לקבל\n{{amount}}₪"
+        "owe-you": "צריך לקבל\n{{amount}}₪",
+        "payment-made": "התבצע תשלום מ{{payer}} ל{{receiver}}",
+        "amount-prefix": "בסכום של"
     }
 }
