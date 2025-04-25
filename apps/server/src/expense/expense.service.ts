@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Expense } from './expense.entity';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
+import { ExpenseSplit } from '../expense-split/expense-split.entity';
 
 @Injectable()
 export class ExpenseService {
@@ -29,22 +30,30 @@ export class ExpenseService {
 
         await this.expenseRepo.save(expense);
 
-        for (const split of splits) {
-            if (split.userId === userId) continue;
-            await this.debtEdgeService.updateDebt(apartmentId, split.userId, userId, split.amount);
-        }
+        // for (const split of splits) {
+        //     if (split.userId === userId) continue;
+        //     await this.debtEdgeService.updateDebt(apartmentId, split.userId, userId, split.amount);
+        // }
 
         return expense;
     }
 
-    getApartmentExpenses(apartmentId: string, userId: string) {
-        return this.expenseRepo.find({
-            where: {
-                apartmentId,
-            },
-            relations: {
-                splits: true,
-            },
-        });
+    async getApartmentExpenses(apartmentId: string, userId: string) {
+        return this.expenseRepo
+            .createQueryBuilder('expense')
+            .select([
+                'expense',
+                `expense.splits ->> :userId AS "splitAmount"`,
+                `"expense"."paidById"::uuid = :userId::uuid AS "paidByMe"`,
+                'paidByUser.firstName AS "paidByFirstName"',
+                'paidByUser.lastName AS "paidByLastName"'
+            ])
+            .leftJoin('expense.paidByUser', 'paidByUser')
+            .where('expense.apartmentId = :apartmentId', { apartmentId })
+            .setParameters({ userId })
+            .getRawMany();
     }
+
+
+
 }

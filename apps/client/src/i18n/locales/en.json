@@ -5,12 +5,30 @@
     },
     "title": "Welcome to Komuna",
     "button": "Start Exploring",
+    "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    },
     "payments": {
         "debt": "You have a small debt of {{amount}}₪ 😞",
         "balanced": "Everything is balanced here!",
         "people-owe-you": "How nice! People owe you {{amount}}₪",
         "owe-you": "{{name}} owes you {{amount}}₪",
         "you-owe": "You owe {{name}} {{amount}}₪",
-        "settle-up": "Let's settle up"
+        "settle-up": "Let's settle up",
+        "payed-by": "{{name}} paid {{amount}}₪",
+        "you-payed": "You paid {{amount}}₪",
+        "you-lent": "You lent\n{{amount}}₪",
+        "you-borrowed": "You borrowed\n{{amount}}₪"
     }
 }
