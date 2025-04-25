@@ -1,33 +1,29 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { UserService } from '../user/user.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { ApartmentService } from '../apartment/apartment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
-import { UserRole } from '../types/enums/UserRole.enum';
 
 @Injectable()
 export class AppService implements OnModuleInit {
-
   constructor(
     private readonly debtEdgeService: DebtEdgeService,
     private readonly paymentService: PaymentService,
     private readonly expenseService: ExpenseService,
     private readonly userService: UserService,
     private readonly apartmentService: ApartmentService,
-    private readonly userApartmentService: UserApartmentService,
-  ) {
-
-  }
+    private readonly userApartmentService: UserApartmentService
+  ) {}
 
   onModuleInit() {
-    console.log("AppService initialized");
+    console.log('AppService initialized');
     this.testDebtEdgeService();
   }
 
   async testDebtEdgeService() {
-
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });
@@ -42,9 +38,6 @@ export class AppService implements OnModuleInit {
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', bbb.userId, ccc.userId, 30);
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 60);
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', ccc.userId, aaa.userId, 30);
-
     // await this.debtEdgeService.updateDebt('60514c72-5b94-417f-b4a3-9da2092a267f', bbb.userId, aaa.userId, 10);
-
   }
-
 }
