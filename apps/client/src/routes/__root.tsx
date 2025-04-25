@@ -7,8 +7,6 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { type AuthContextValue } from '../context/auth/AuthProvider';
 import { Box, useBreakpointValue, VStack } from '@chakra-ui/react';
-import { LanguegeSelector } from '../components/LanguegeSelector';
-import { Home } from '../components/Home';
 import { WebView } from '../components/WebView';
 
 export const Route = createRootRouteWithContext<AuthContextValue>()({
@@ -32,24 +30,24 @@ const Main = () => {
     <Box
       minH="100vh"
       w="100%"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+      // display="flex"
+      // alignItems="center"
+      // justifyContent="center"
       bg={isMobile ? 'none' : 'gray.100'}
-      p={4}
+      p={6}
     >
       <VStack>
-        <LanguegeSelector />
+        {/* <LanguegeSelector /> */}
         {isMobile ? (
           <>
-            <Link to="/login" style={{ backgroundColor: 'yellow' }}>
+            {/* <Link to="/login" style={{ backgroundColor: 'yellow' }}>
               Login
-            </Link>
-            <Link to="/register" style={{ backgroundColor: 'yellow' }}>
+            </Link> */}
+            {/* <Link to="/register" style={{ backgroundColor: 'yellow' }}>
               Register
-            </Link>
+            </Link> */}
             <Outlet />
-            <Home />
+            {/* <Home /> */}
           </>
         ) : (
           <WebView />

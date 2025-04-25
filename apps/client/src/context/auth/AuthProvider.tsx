@@ -18,7 +18,7 @@ export interface AuthContextValue {
 
 export const defaultAuthContextValues: AuthContextValue = {
   auth: {
-    isAuthenticated: false,
+    isAuthenticated: true,
     role: null,
   },
   login: () => null,
@@ -32,7 +32,7 @@ export const AuthContext = createContext<AuthContextValue>(
 // Provider component that wraps your app
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState<Auth>({
-    isAuthenticated: false,
+    isAuthenticated: true,
     role: null,
   });
 

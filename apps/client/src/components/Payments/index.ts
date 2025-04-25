@@ -1,2 +1,2 @@
 export * from './balanceCard';
-export * from './PaymentPage';
+export * from './paymentPage';

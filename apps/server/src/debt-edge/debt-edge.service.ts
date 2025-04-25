@@ -127,6 +127,10 @@ export class DebtEdgeService {
                 'userFrom.lastName',
                 'userTo.firstName',
                 'userTo.lastName',
+                'userFrom.image',
+                'userTo.image',
+                'userFrom.phoneNumber',
+                'userTo.phoneNumber',
                 'CASE WHEN debt.fromId = :userId THEN true ELSE false END AS debtor',
             ])
             .leftJoin('debt.fromUser', 'userFrom')

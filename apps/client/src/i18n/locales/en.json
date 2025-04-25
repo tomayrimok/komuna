@@ -23,12 +23,15 @@
         "debt": "You have a small debt of {{amount}}₪ 😞",
         "balanced": "Everything is balanced here!",
         "people-owe-you": "How nice! People owe you {{amount}}₪",
-        "owe-you": "{{name}} owes you {{amount}}₪",
-        "you-owe": "You owe {{name}} {{amount}}₪",
+        "owe-you-to": "{{name}} owes you {{amount}}₪",
+        "someone-you-owe": "You owe {{name}} {{amount}}₪",
         "settle-up": "Let's settle up",
         "payed-by": "{{name}} paid {{amount}}₪",
         "you-payed": "You paid {{amount}}₪",
         "you-lent": "You lent\n{{amount}}₪",
-        "you-borrowed": "You borrowed\n{{amount}}₪"
+        "you-borrowed": "You borrowed\n{{amount}}₪",
+        "settle-up-title": "Who should we settle up with?",
+        "you-owe": "You owe {{amount}}₪",
+        "owe-you": "Owes you {{amount}}₪"
     }
 }
