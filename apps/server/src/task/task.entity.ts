@@ -1,32 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
-import { TaskType } from '../types/enums/TaskType.enum';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Task {
-    @PrimaryGeneratedColumn('uuid')
-    taskId: string;
+  @PrimaryGeneratedColumn('uuid')
+  taskId: string;
 
-    @Column()
-    apartmentId: string;
+  @Column()
+  apartmentId: string;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column({ nullable: true })
-    assignedTo?: string;
+  @Column({ nullable: true })
+  assignedTo?: string;
 
-    @Column({ type: 'enum', enum: TaskType })
-    taskType: TaskType;
+  @Column()
+  isCompleted: boolean;
 
-    @Column()
-    isCompleted: boolean;
+  @Column()
+  dueDate: Date;
 
-    @Column()
-    date: Date;
-
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 }

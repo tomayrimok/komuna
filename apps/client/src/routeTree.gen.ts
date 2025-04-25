@@ -17,30 +17,36 @@ import { Route as SelectApartmentImport } from './routes/select-apartment'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
-import { Route as MemberIndexImport } from './routes/member/index'
+import { Route as RoommateIndexImport } from './routes/roommate/index'
+import { Route as RoommateTasksImport } from './routes/roommate/tasks'
+import { Route as RoommateShoppingImport } from './routes/roommate/shopping'
+import { Route as RoommateBalancesImport } from './routes/roommate/balances'
+import { Route as RoommateLayoutImport } from './routes/roommate/_layout'
 import { Route as OnboardingSelectRoleImport } from './routes/onboarding/select-role'
 import { Route as OnboardingInviteImport } from './routes/onboarding/invite'
 import { Route as OnboardingCreateProfileImport } from './routes/onboarding/create-profile'
 import { Route as OnboardingCreateApartmentImport } from './routes/onboarding/create-apartment'
 import { Route as OnboardingLayoutImport } from './routes/onboarding/_layout'
-import { Route as MemberTasksImport } from './routes/member/tasks'
-import { Route as MemberShoppingImport } from './routes/member/shopping'
-import { Route as MemberBalancesImport } from './routes/member/balances'
-import { Route as MemberLayoutImport } from './routes/member/_layout'
-import { Route as ManagerSettingsImport } from './routes/manager/settings'
-import { Route as ManagerIncidentsImport } from './routes/manager/incidents'
-import { Route as ManagerApartmentDetailsImport } from './routes/manager/apartment-details'
-import { Route as ManagerLayoutImport } from './routes/manager/_layout'
-import { Route as MemberIncidentsIndexImport } from './routes/member/incidents/index'
-import { Route as MemberIncidentsIncidentIdImport } from './routes/member/incidents/$incidentId'
+import { Route as LandloardSettingsImport } from './routes/landloard/settings'
+import { Route as LandloardIncidentsImport } from './routes/landloard/incidents'
+import { Route as LandloardApartmentDetailsImport } from './routes/landloard/apartment-details'
+import { Route as LandloardLayoutImport } from './routes/landloard/_layout'
+import { Route as RoommateIncidentsIndexImport } from './routes/roommate/incidents/index'
+import { Route as RoommateIncidentsIncidentIdImport } from './routes/roommate/incidents/$incidentId'
 
 // Create Virtual Routes
 
+const RoommateImport = createFileRoute('/roommate')()
 const OnboardingImport = createFileRoute('/onboarding')()
-const MemberImport = createFileRoute('/member')()
-const ManagerImport = createFileRoute('/manager')()
+const LandloardImport = createFileRoute('/landloard')()
 
 // Create/Update Routes
+
+const RoommateRoute = RoommateImport.update({
+  id: '/roommate',
+  path: '/roommate',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const OnboardingRoute = OnboardingImport.update({
   id: '/onboarding',
@@ -48,15 +54,9 @@ const OnboardingRoute = OnboardingImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MemberRoute = MemberImport.update({
-  id: '/member',
-  path: '/member',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ManagerRoute = ManagerImport.update({
-  id: '/manager',
-  path: '/manager',
+const LandloardRoute = LandloardImport.update({
+  id: '/landloard',
+  path: '/landloard',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -84,10 +84,33 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MemberIndexRoute = MemberIndexImport.update({
+const RoommateIndexRoute = RoommateIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => MemberRoute,
+  getParentRoute: () => RoommateRoute,
+} as any)
+
+const RoommateTasksRoute = RoommateTasksImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => RoommateRoute,
+} as any)
+
+const RoommateShoppingRoute = RoommateShoppingImport.update({
+  id: '/shopping',
+  path: '/shopping',
+  getParentRoute: () => RoommateRoute,
+} as any)
+
+const RoommateBalancesRoute = RoommateBalancesImport.update({
+  id: '/balances',
+  path: '/balances',
+  getParentRoute: () => RoommateRoute,
+} as any)
+
+const RoommateLayoutRoute = RoommateLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => RoommateRoute,
 } as any)
 
 const OnboardingSelectRoleRoute = OnboardingSelectRoleImport.update({
@@ -119,63 +142,41 @@ const OnboardingLayoutRoute = OnboardingLayoutImport.update({
   getParentRoute: () => OnboardingRoute,
 } as any)
 
-const MemberTasksRoute = MemberTasksImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => MemberRoute,
-} as any)
-
-const MemberShoppingRoute = MemberShoppingImport.update({
-  id: '/shopping',
-  path: '/shopping',
-  getParentRoute: () => MemberRoute,
-} as any)
-
-const MemberBalancesRoute = MemberBalancesImport.update({
-  id: '/balances',
-  path: '/balances',
-  getParentRoute: () => MemberRoute,
-} as any)
-
-const MemberLayoutRoute = MemberLayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => MemberRoute,
-} as any)
-
-const ManagerSettingsRoute = ManagerSettingsImport.update({
+const LandloardSettingsRoute = LandloardSettingsImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => ManagerRoute,
+  getParentRoute: () => LandloardRoute,
 } as any)
 
-const ManagerIncidentsRoute = ManagerIncidentsImport.update({
+const LandloardIncidentsRoute = LandloardIncidentsImport.update({
   id: '/incidents',
   path: '/incidents',
-  getParentRoute: () => ManagerRoute,
+  getParentRoute: () => LandloardRoute,
 } as any)
 
-const ManagerApartmentDetailsRoute = ManagerApartmentDetailsImport.update({
+const LandloardApartmentDetailsRoute = LandloardApartmentDetailsImport.update({
   id: '/apartment-details',
   path: '/apartment-details',
-  getParentRoute: () => ManagerRoute,
+  getParentRoute: () => LandloardRoute,
 } as any)
 
-const ManagerLayoutRoute = ManagerLayoutImport.update({
+const LandloardLayoutRoute = LandloardLayoutImport.update({
   id: '/_layout',
-  getParentRoute: () => ManagerRoute,
+  getParentRoute: () => LandloardRoute,
 } as any)
 
-const MemberIncidentsIndexRoute = MemberIncidentsIndexImport.update({
+const RoommateIncidentsIndexRoute = RoommateIncidentsIndexImport.update({
   id: '/incidents/',
   path: '/incidents/',
-  getParentRoute: () => MemberRoute,
+  getParentRoute: () => RoommateRoute,
 } as any)
 
-const MemberIncidentsIncidentIdRoute = MemberIncidentsIncidentIdImport.update({
-  id: '/incidents/$incidentId',
-  path: '/incidents/$incidentId',
-  getParentRoute: () => MemberRoute,
-} as any)
+const RoommateIncidentsIncidentIdRoute =
+  RoommateIncidentsIncidentIdImport.update({
+    id: '/incidents/$incidentId',
+    path: '/incidents/$incidentId',
+    getParentRoute: () => RoommateRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -209,75 +210,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SelectApartmentImport
       parentRoute: typeof rootRoute
     }
-    '/manager': {
-      id: '/manager'
-      path: '/manager'
-      fullPath: '/manager'
-      preLoaderRoute: typeof ManagerImport
+    '/landloard': {
+      id: '/landloard'
+      path: '/landloard'
+      fullPath: '/landloard'
+      preLoaderRoute: typeof LandloardImport
       parentRoute: typeof rootRoute
     }
-    '/manager/_layout': {
-      id: '/manager/_layout'
-      path: '/manager'
-      fullPath: '/manager'
-      preLoaderRoute: typeof ManagerLayoutImport
-      parentRoute: typeof ManagerRoute
+    '/landloard/_layout': {
+      id: '/landloard/_layout'
+      path: '/landloard'
+      fullPath: '/landloard'
+      preLoaderRoute: typeof LandloardLayoutImport
+      parentRoute: typeof LandloardRoute
     }
-    '/manager/apartment-details': {
-      id: '/manager/apartment-details'
+    '/landloard/apartment-details': {
+      id: '/landloard/apartment-details'
       path: '/apartment-details'
-      fullPath: '/manager/apartment-details'
-      preLoaderRoute: typeof ManagerApartmentDetailsImport
-      parentRoute: typeof ManagerImport
+      fullPath: '/landloard/apartment-details'
+      preLoaderRoute: typeof LandloardApartmentDetailsImport
+      parentRoute: typeof LandloardImport
     }
-    '/manager/incidents': {
-      id: '/manager/incidents'
+    '/landloard/incidents': {
+      id: '/landloard/incidents'
       path: '/incidents'
-      fullPath: '/manager/incidents'
-      preLoaderRoute: typeof ManagerIncidentsImport
-      parentRoute: typeof ManagerImport
+      fullPath: '/landloard/incidents'
+      preLoaderRoute: typeof LandloardIncidentsImport
+      parentRoute: typeof LandloardImport
     }
-    '/manager/settings': {
-      id: '/manager/settings'
+    '/landloard/settings': {
+      id: '/landloard/settings'
       path: '/settings'
-      fullPath: '/manager/settings'
-      preLoaderRoute: typeof ManagerSettingsImport
-      parentRoute: typeof ManagerImport
-    }
-    '/member': {
-      id: '/member'
-      path: '/member'
-      fullPath: '/member'
-      preLoaderRoute: typeof MemberImport
-      parentRoute: typeof rootRoute
-    }
-    '/member/_layout': {
-      id: '/member/_layout'
-      path: '/member'
-      fullPath: '/member'
-      preLoaderRoute: typeof MemberLayoutImport
-      parentRoute: typeof MemberRoute
-    }
-    '/member/balances': {
-      id: '/member/balances'
-      path: '/balances'
-      fullPath: '/member/balances'
-      preLoaderRoute: typeof MemberBalancesImport
-      parentRoute: typeof MemberImport
-    }
-    '/member/shopping': {
-      id: '/member/shopping'
-      path: '/shopping'
-      fullPath: '/member/shopping'
-      preLoaderRoute: typeof MemberShoppingImport
-      parentRoute: typeof MemberImport
-    }
-    '/member/tasks': {
-      id: '/member/tasks'
-      path: '/tasks'
-      fullPath: '/member/tasks'
-      preLoaderRoute: typeof MemberTasksImport
-      parentRoute: typeof MemberImport
+      fullPath: '/landloard/settings'
+      preLoaderRoute: typeof LandloardSettingsImport
+      parentRoute: typeof LandloardImport
     }
     '/onboarding': {
       id: '/onboarding'
@@ -321,71 +287,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingSelectRoleImport
       parentRoute: typeof OnboardingImport
     }
-    '/member/': {
-      id: '/member/'
+    '/roommate': {
+      id: '/roommate'
+      path: '/roommate'
+      fullPath: '/roommate'
+      preLoaderRoute: typeof RoommateImport
+      parentRoute: typeof rootRoute
+    }
+    '/roommate/_layout': {
+      id: '/roommate/_layout'
+      path: '/roommate'
+      fullPath: '/roommate'
+      preLoaderRoute: typeof RoommateLayoutImport
+      parentRoute: typeof RoommateRoute
+    }
+    '/roommate/balances': {
+      id: '/roommate/balances'
+      path: '/balances'
+      fullPath: '/roommate/balances'
+      preLoaderRoute: typeof RoommateBalancesImport
+      parentRoute: typeof RoommateImport
+    }
+    '/roommate/shopping': {
+      id: '/roommate/shopping'
+      path: '/shopping'
+      fullPath: '/roommate/shopping'
+      preLoaderRoute: typeof RoommateShoppingImport
+      parentRoute: typeof RoommateImport
+    }
+    '/roommate/tasks': {
+      id: '/roommate/tasks'
+      path: '/tasks'
+      fullPath: '/roommate/tasks'
+      preLoaderRoute: typeof RoommateTasksImport
+      parentRoute: typeof RoommateImport
+    }
+    '/roommate/': {
+      id: '/roommate/'
       path: '/'
-      fullPath: '/member/'
-      preLoaderRoute: typeof MemberIndexImport
-      parentRoute: typeof MemberImport
+      fullPath: '/roommate/'
+      preLoaderRoute: typeof RoommateIndexImport
+      parentRoute: typeof RoommateImport
     }
-    '/member/incidents/$incidentId': {
-      id: '/member/incidents/$incidentId'
+    '/roommate/incidents/$incidentId': {
+      id: '/roommate/incidents/$incidentId'
       path: '/incidents/$incidentId'
-      fullPath: '/member/incidents/$incidentId'
-      preLoaderRoute: typeof MemberIncidentsIncidentIdImport
-      parentRoute: typeof MemberImport
+      fullPath: '/roommate/incidents/$incidentId'
+      preLoaderRoute: typeof RoommateIncidentsIncidentIdImport
+      parentRoute: typeof RoommateImport
     }
-    '/member/incidents/': {
-      id: '/member/incidents/'
+    '/roommate/incidents/': {
+      id: '/roommate/incidents/'
       path: '/incidents'
-      fullPath: '/member/incidents'
-      preLoaderRoute: typeof MemberIncidentsIndexImport
-      parentRoute: typeof MemberImport
+      fullPath: '/roommate/incidents'
+      preLoaderRoute: typeof RoommateIncidentsIndexImport
+      parentRoute: typeof RoommateImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface ManagerRouteChildren {
-  ManagerLayoutRoute: typeof ManagerLayoutRoute
-  ManagerApartmentDetailsRoute: typeof ManagerApartmentDetailsRoute
-  ManagerIncidentsRoute: typeof ManagerIncidentsRoute
-  ManagerSettingsRoute: typeof ManagerSettingsRoute
+interface LandloardRouteChildren {
+  LandloardLayoutRoute: typeof LandloardLayoutRoute
+  LandloardApartmentDetailsRoute: typeof LandloardApartmentDetailsRoute
+  LandloardIncidentsRoute: typeof LandloardIncidentsRoute
+  LandloardSettingsRoute: typeof LandloardSettingsRoute
 }
 
-const ManagerRouteChildren: ManagerRouteChildren = {
-  ManagerLayoutRoute: ManagerLayoutRoute,
-  ManagerApartmentDetailsRoute: ManagerApartmentDetailsRoute,
-  ManagerIncidentsRoute: ManagerIncidentsRoute,
-  ManagerSettingsRoute: ManagerSettingsRoute,
+const LandloardRouteChildren: LandloardRouteChildren = {
+  LandloardLayoutRoute: LandloardLayoutRoute,
+  LandloardApartmentDetailsRoute: LandloardApartmentDetailsRoute,
+  LandloardIncidentsRoute: LandloardIncidentsRoute,
+  LandloardSettingsRoute: LandloardSettingsRoute,
 }
 
-const ManagerRouteWithChildren =
-  ManagerRoute._addFileChildren(ManagerRouteChildren)
-
-interface MemberRouteChildren {
-  MemberLayoutRoute: typeof MemberLayoutRoute
-  MemberBalancesRoute: typeof MemberBalancesRoute
-  MemberShoppingRoute: typeof MemberShoppingRoute
-  MemberTasksRoute: typeof MemberTasksRoute
-  MemberIndexRoute: typeof MemberIndexRoute
-  MemberIncidentsIncidentIdRoute: typeof MemberIncidentsIncidentIdRoute
-  MemberIncidentsIndexRoute: typeof MemberIncidentsIndexRoute
-}
-
-const MemberRouteChildren: MemberRouteChildren = {
-  MemberLayoutRoute: MemberLayoutRoute,
-  MemberBalancesRoute: MemberBalancesRoute,
-  MemberShoppingRoute: MemberShoppingRoute,
-  MemberTasksRoute: MemberTasksRoute,
-  MemberIndexRoute: MemberIndexRoute,
-  MemberIncidentsIncidentIdRoute: MemberIncidentsIncidentIdRoute,
-  MemberIncidentsIndexRoute: MemberIncidentsIndexRoute,
-}
-
-const MemberRouteWithChildren =
-  MemberRoute._addFileChildren(MemberRouteChildren)
+const LandloardRouteWithChildren = LandloardRoute._addFileChildren(
+  LandloardRouteChildren,
+)
 
 interface OnboardingRouteChildren {
   OnboardingLayoutRoute: typeof OnboardingLayoutRoute
@@ -407,27 +386,51 @@ const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
   OnboardingRouteChildren,
 )
 
+interface RoommateRouteChildren {
+  RoommateLayoutRoute: typeof RoommateLayoutRoute
+  RoommateBalancesRoute: typeof RoommateBalancesRoute
+  RoommateShoppingRoute: typeof RoommateShoppingRoute
+  RoommateTasksRoute: typeof RoommateTasksRoute
+  RoommateIndexRoute: typeof RoommateIndexRoute
+  RoommateIncidentsIncidentIdRoute: typeof RoommateIncidentsIncidentIdRoute
+  RoommateIncidentsIndexRoute: typeof RoommateIncidentsIndexRoute
+}
+
+const RoommateRouteChildren: RoommateRouteChildren = {
+  RoommateLayoutRoute: RoommateLayoutRoute,
+  RoommateBalancesRoute: RoommateBalancesRoute,
+  RoommateShoppingRoute: RoommateShoppingRoute,
+  RoommateTasksRoute: RoommateTasksRoute,
+  RoommateIndexRoute: RoommateIndexRoute,
+  RoommateIncidentsIncidentIdRoute: RoommateIncidentsIncidentIdRoute,
+  RoommateIncidentsIndexRoute: RoommateIncidentsIndexRoute,
+}
+
+const RoommateRouteWithChildren = RoommateRoute._addFileChildren(
+  RoommateRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
-  '/manager': typeof ManagerLayoutRoute
-  '/manager/apartment-details': typeof ManagerApartmentDetailsRoute
-  '/manager/incidents': typeof ManagerIncidentsRoute
-  '/manager/settings': typeof ManagerSettingsRoute
-  '/member': typeof MemberLayoutRoute
-  '/member/balances': typeof MemberBalancesRoute
-  '/member/shopping': typeof MemberShoppingRoute
-  '/member/tasks': typeof MemberTasksRoute
+  '/landloard': typeof LandloardLayoutRoute
+  '/landloard/apartment-details': typeof LandloardApartmentDetailsRoute
+  '/landloard/incidents': typeof LandloardIncidentsRoute
+  '/landloard/settings': typeof LandloardSettingsRoute
   '/onboarding': typeof OnboardingLayoutRoute
   '/onboarding/create-apartment': typeof OnboardingCreateApartmentRoute
   '/onboarding/create-profile': typeof OnboardingCreateProfileRoute
   '/onboarding/invite': typeof OnboardingInviteRoute
   '/onboarding/select-role': typeof OnboardingSelectRoleRoute
-  '/member/': typeof MemberIndexRoute
-  '/member/incidents/$incidentId': typeof MemberIncidentsIncidentIdRoute
-  '/member/incidents': typeof MemberIncidentsIndexRoute
+  '/roommate': typeof RoommateLayoutRoute
+  '/roommate/balances': typeof RoommateBalancesRoute
+  '/roommate/shopping': typeof RoommateShoppingRoute
+  '/roommate/tasks': typeof RoommateTasksRoute
+  '/roommate/': typeof RoommateIndexRoute
+  '/roommate/incidents/$incidentId': typeof RoommateIncidentsIncidentIdRoute
+  '/roommate/incidents': typeof RoommateIncidentsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -435,21 +438,21 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
-  '/manager': typeof ManagerLayoutRoute
-  '/manager/apartment-details': typeof ManagerApartmentDetailsRoute
-  '/manager/incidents': typeof ManagerIncidentsRoute
-  '/manager/settings': typeof ManagerSettingsRoute
-  '/member': typeof MemberIndexRoute
-  '/member/balances': typeof MemberBalancesRoute
-  '/member/shopping': typeof MemberShoppingRoute
-  '/member/tasks': typeof MemberTasksRoute
+  '/landloard': typeof LandloardLayoutRoute
+  '/landloard/apartment-details': typeof LandloardApartmentDetailsRoute
+  '/landloard/incidents': typeof LandloardIncidentsRoute
+  '/landloard/settings': typeof LandloardSettingsRoute
   '/onboarding': typeof OnboardingLayoutRoute
   '/onboarding/create-apartment': typeof OnboardingCreateApartmentRoute
   '/onboarding/create-profile': typeof OnboardingCreateProfileRoute
   '/onboarding/invite': typeof OnboardingInviteRoute
   '/onboarding/select-role': typeof OnboardingSelectRoleRoute
-  '/member/incidents/$incidentId': typeof MemberIncidentsIncidentIdRoute
-  '/member/incidents': typeof MemberIncidentsIndexRoute
+  '/roommate': typeof RoommateIndexRoute
+  '/roommate/balances': typeof RoommateBalancesRoute
+  '/roommate/shopping': typeof RoommateShoppingRoute
+  '/roommate/tasks': typeof RoommateTasksRoute
+  '/roommate/incidents/$incidentId': typeof RoommateIncidentsIncidentIdRoute
+  '/roommate/incidents': typeof RoommateIncidentsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -458,25 +461,25 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
-  '/manager': typeof ManagerRouteWithChildren
-  '/manager/_layout': typeof ManagerLayoutRoute
-  '/manager/apartment-details': typeof ManagerApartmentDetailsRoute
-  '/manager/incidents': typeof ManagerIncidentsRoute
-  '/manager/settings': typeof ManagerSettingsRoute
-  '/member': typeof MemberRouteWithChildren
-  '/member/_layout': typeof MemberLayoutRoute
-  '/member/balances': typeof MemberBalancesRoute
-  '/member/shopping': typeof MemberShoppingRoute
-  '/member/tasks': typeof MemberTasksRoute
+  '/landloard': typeof LandloardRouteWithChildren
+  '/landloard/_layout': typeof LandloardLayoutRoute
+  '/landloard/apartment-details': typeof LandloardApartmentDetailsRoute
+  '/landloard/incidents': typeof LandloardIncidentsRoute
+  '/landloard/settings': typeof LandloardSettingsRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/onboarding/_layout': typeof OnboardingLayoutRoute
   '/onboarding/create-apartment': typeof OnboardingCreateApartmentRoute
   '/onboarding/create-profile': typeof OnboardingCreateProfileRoute
   '/onboarding/invite': typeof OnboardingInviteRoute
   '/onboarding/select-role': typeof OnboardingSelectRoleRoute
-  '/member/': typeof MemberIndexRoute
-  '/member/incidents/$incidentId': typeof MemberIncidentsIncidentIdRoute
-  '/member/incidents/': typeof MemberIncidentsIndexRoute
+  '/roommate': typeof RoommateRouteWithChildren
+  '/roommate/_layout': typeof RoommateLayoutRoute
+  '/roommate/balances': typeof RoommateBalancesRoute
+  '/roommate/shopping': typeof RoommateShoppingRoute
+  '/roommate/tasks': typeof RoommateTasksRoute
+  '/roommate/': typeof RoommateIndexRoute
+  '/roommate/incidents/$incidentId': typeof RoommateIncidentsIncidentIdRoute
+  '/roommate/incidents/': typeof RoommateIncidentsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -486,68 +489,68 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/select-apartment'
-    | '/manager'
-    | '/manager/apartment-details'
-    | '/manager/incidents'
-    | '/manager/settings'
-    | '/member'
-    | '/member/balances'
-    | '/member/shopping'
-    | '/member/tasks'
+    | '/landloard'
+    | '/landloard/apartment-details'
+    | '/landloard/incidents'
+    | '/landloard/settings'
     | '/onboarding'
     | '/onboarding/create-apartment'
     | '/onboarding/create-profile'
     | '/onboarding/invite'
     | '/onboarding/select-role'
-    | '/member/'
-    | '/member/incidents/$incidentId'
-    | '/member/incidents'
+    | '/roommate'
+    | '/roommate/balances'
+    | '/roommate/shopping'
+    | '/roommate/tasks'
+    | '/roommate/'
+    | '/roommate/incidents/$incidentId'
+    | '/roommate/incidents'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/register'
     | '/select-apartment'
-    | '/manager'
-    | '/manager/apartment-details'
-    | '/manager/incidents'
-    | '/manager/settings'
-    | '/member'
-    | '/member/balances'
-    | '/member/shopping'
-    | '/member/tasks'
+    | '/landloard'
+    | '/landloard/apartment-details'
+    | '/landloard/incidents'
+    | '/landloard/settings'
     | '/onboarding'
     | '/onboarding/create-apartment'
     | '/onboarding/create-profile'
     | '/onboarding/invite'
     | '/onboarding/select-role'
-    | '/member/incidents/$incidentId'
-    | '/member/incidents'
+    | '/roommate'
+    | '/roommate/balances'
+    | '/roommate/shopping'
+    | '/roommate/tasks'
+    | '/roommate/incidents/$incidentId'
+    | '/roommate/incidents'
   id:
     | '__root__'
     | '/'
     | '/login'
     | '/register'
     | '/select-apartment'
-    | '/manager'
-    | '/manager/_layout'
-    | '/manager/apartment-details'
-    | '/manager/incidents'
-    | '/manager/settings'
-    | '/member'
-    | '/member/_layout'
-    | '/member/balances'
-    | '/member/shopping'
-    | '/member/tasks'
+    | '/landloard'
+    | '/landloard/_layout'
+    | '/landloard/apartment-details'
+    | '/landloard/incidents'
+    | '/landloard/settings'
     | '/onboarding'
     | '/onboarding/_layout'
     | '/onboarding/create-apartment'
     | '/onboarding/create-profile'
     | '/onboarding/invite'
     | '/onboarding/select-role'
-    | '/member/'
-    | '/member/incidents/$incidentId'
-    | '/member/incidents/'
+    | '/roommate'
+    | '/roommate/_layout'
+    | '/roommate/balances'
+    | '/roommate/shopping'
+    | '/roommate/tasks'
+    | '/roommate/'
+    | '/roommate/incidents/$incidentId'
+    | '/roommate/incidents/'
   fileRoutesById: FileRoutesById
 }
 
@@ -556,9 +559,9 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   SelectApartmentRoute: typeof SelectApartmentRoute
-  ManagerRoute: typeof ManagerRouteWithChildren
-  MemberRoute: typeof MemberRouteWithChildren
+  LandloardRoute: typeof LandloardRouteWithChildren
   OnboardingRoute: typeof OnboardingRouteWithChildren
+  RoommateRoute: typeof RoommateRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -566,9 +569,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   SelectApartmentRoute: SelectApartmentRoute,
-  ManagerRoute: ManagerRouteWithChildren,
-  MemberRoute: MemberRouteWithChildren,
+  LandloardRoute: LandloardRouteWithChildren,
   OnboardingRoute: OnboardingRouteWithChildren,
+  RoommateRoute: RoommateRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -585,9 +588,9 @@ export const routeTree = rootRoute
         "/login",
         "/register",
         "/select-apartment",
-        "/manager",
-        "/member",
-        "/onboarding"
+        "/landloard",
+        "/onboarding",
+        "/roommate"
       ]
     },
     "/": {
@@ -602,58 +605,30 @@ export const routeTree = rootRoute
     "/select-apartment": {
       "filePath": "select-apartment.tsx"
     },
-    "/manager": {
-      "filePath": "manager",
+    "/landloard": {
+      "filePath": "landloard",
       "children": [
-        "/manager/_layout",
-        "/manager/apartment-details",
-        "/manager/incidents",
-        "/manager/settings"
+        "/landloard/_layout",
+        "/landloard/apartment-details",
+        "/landloard/incidents",
+        "/landloard/settings"
       ]
     },
-    "/manager/_layout": {
-      "filePath": "manager/_layout.tsx",
-      "parent": "/manager"
+    "/landloard/_layout": {
+      "filePath": "landloard/_layout.tsx",
+      "parent": "/landloard"
     },
-    "/manager/apartment-details": {
-      "filePath": "manager/apartment-details.tsx",
-      "parent": "/manager"
+    "/landloard/apartment-details": {
+      "filePath": "landloard/apartment-details.tsx",
+      "parent": "/landloard"
     },
-    "/manager/incidents": {
-      "filePath": "manager/incidents.tsx",
-      "parent": "/manager"
+    "/landloard/incidents": {
+      "filePath": "landloard/incidents.tsx",
+      "parent": "/landloard"
     },
-    "/manager/settings": {
-      "filePath": "manager/settings.tsx",
-      "parent": "/manager"
-    },
-    "/member": {
-      "filePath": "member",
-      "children": [
-        "/member/_layout",
-        "/member/balances",
-        "/member/shopping",
-        "/member/tasks",
-        "/member/",
-        "/member/incidents/$incidentId",
-        "/member/incidents/"
-      ]
-    },
-    "/member/_layout": {
-      "filePath": "member/_layout.tsx",
-      "parent": "/member"
-    },
-    "/member/balances": {
-      "filePath": "member/balances.tsx",
-      "parent": "/member"
-    },
-    "/member/shopping": {
-      "filePath": "member/shopping.tsx",
-      "parent": "/member"
-    },
-    "/member/tasks": {
-      "filePath": "member/tasks.tsx",
-      "parent": "/member"
+    "/landloard/settings": {
+      "filePath": "landloard/settings.tsx",
+      "parent": "/landloard"
     },
     "/onboarding": {
       "filePath": "onboarding",
@@ -685,17 +660,45 @@ export const routeTree = rootRoute
       "filePath": "onboarding/select-role.tsx",
       "parent": "/onboarding"
     },
-    "/member/": {
-      "filePath": "member/index.tsx",
-      "parent": "/member"
+    "/roommate": {
+      "filePath": "roommate",
+      "children": [
+        "/roommate/_layout",
+        "/roommate/balances",
+        "/roommate/shopping",
+        "/roommate/tasks",
+        "/roommate/",
+        "/roommate/incidents/$incidentId",
+        "/roommate/incidents/"
+      ]
     },
-    "/member/incidents/$incidentId": {
-      "filePath": "member/incidents/$incidentId.tsx",
-      "parent": "/member"
+    "/roommate/_layout": {
+      "filePath": "roommate/_layout.tsx",
+      "parent": "/roommate"
     },
-    "/member/incidents/": {
-      "filePath": "member/incidents/index.tsx",
-      "parent": "/member"
+    "/roommate/balances": {
+      "filePath": "roommate/balances.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/shopping": {
+      "filePath": "roommate/shopping.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/tasks": {
+      "filePath": "roommate/tasks.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/": {
+      "filePath": "roommate/index.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/incidents/$incidentId": {
+      "filePath": "roommate/incidents/$incidentId.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/incidents/": {
+      "filePath": "roommate/incidents/index.tsx",
+      "parent": "/roommate"
     }
   }
 }
