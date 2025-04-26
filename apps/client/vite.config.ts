@@ -14,7 +14,7 @@ export default defineConfig(() => ({
   },
   preview: {
     port: 4300,
-    host: 'localhost',
+    host: true,
   },
   plugins: [
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),

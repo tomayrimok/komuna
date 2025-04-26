@@ -6,7 +6,7 @@ export const WebView = () => {
   const { t } = useTranslation();
 
   return (
-    <VStack padding="4" gap="4" textAlign="center">
+    <VStack padding="4" gap="4" textAlign="center" alignItems="center" justifyContent="center" flex="1">
       <Text fontSize="2xl" fontWeight="bold">
         {t('web.title')} 😔
       </Text>

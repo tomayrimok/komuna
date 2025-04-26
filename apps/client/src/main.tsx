@@ -1,5 +1,5 @@
 import './i18n/';
-import { StrictMode } from 'react';
+import { StrictMode, useEffect } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider, LocaleProvider } from '@chakra-ui/react';
@@ -8,10 +8,7 @@ import theme from './chakra/theme';
 import { useLocaleChange } from './hooks/useLocaleChange';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
-import {
-  AuthProvider,
-  defaultAuthContextValues,
-} from './context/auth/AuthProvider';
+import { AuthProvider, defaultAuthContextValues } from './context/auth/AuthProvider';
 
 const router = createRouter({
   routeTree,
@@ -24,9 +21,7 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const queryClient = new QueryClient();
 
