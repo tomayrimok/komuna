@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Expense } from './expense.entity';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
-import { ExpenseSplit } from '../expense-split/expense-split.entity';
 
 @Injectable()
 export class ExpenseService {
@@ -29,11 +28,6 @@ export class ExpenseService {
         });
 
         await this.expenseRepo.save(expense);
-
-        // for (const split of splits) {
-        //     if (split.userId === userId) continue;
-        //     await this.debtEdgeService.updateDebt(apartmentId, split.userId, userId, split.amount);
-        // }
 
         return expense;
     }

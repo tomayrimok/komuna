@@ -4,7 +4,7 @@ import { fetchApartmentExpenses } from "../api/apartmentExpenses";
 
 export const useApartmentExpenses = (apartmentId: string, userId: string) => {
     return useQuery({
-        queryKey: ["apartmentExpenses"],
+        queryKey: ["apartmentExpenses", apartmentId, userId],
         queryFn: () => fetchApartmentExpenses(apartmentId, userId),
         staleTime: 1000 * 60 * 5, // 5 דקות
         refetchOnWindowFocus: false,

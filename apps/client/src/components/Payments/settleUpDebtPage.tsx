@@ -14,8 +14,6 @@ export const SettleUpDebt = () => {
     const { t } = useTranslation();
     const [value, setValue] = useState<number>();
 
-
-
     return (
         <div>
             {debtDetails && (
@@ -48,7 +46,7 @@ export const SettleUpDebt = () => {
                                 onValueChange={(e) => setValue(Number(e.value))}
                             >
                                 <NumberInput.Control />
-                                <NumberInput.Input />
+                                <NumberInput.Input placeholder="0.00" />
                             </NumberInput.Root>
                             <Text fontSize="xl" >
                                 ₪
