@@ -1,6 +1,5 @@
 import React, { ComponentProps, ReactNode } from 'react';
 import { Box, VStack } from '@chakra-ui/react';
-import { BackNavigationBar } from '../../components/BackNavigationBar';
 
 interface LoginLayoutProps {
   heading: ReactNode;

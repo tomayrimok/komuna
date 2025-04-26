@@ -17,7 +17,6 @@ export const EnterPhoneStep = ({ onSendPincodeSuccess }: EnterPhoneStepProps) =>
     mutationFn: async () => {
       await new Promise<void>((resolve) => {
         setTimeout(() => {
-          console.log('login');
           resolve();
           onSendPincodeSuccess();
         }, 3000);

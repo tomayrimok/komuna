@@ -1,5 +1,5 @@
 import './i18n/';
-import { StrictMode, useEffect } from 'react';
+import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider, LocaleProvider } from '@chakra-ui/react';
