@@ -19,7 +19,7 @@ export class ExpenseService {
     async createExpense(createDto: DeepPartial<Expense>, userId: string) { //todo noam add dto validation
         const { apartmentId, description, amount, splits } = createDto;
 
-        const expense = this.expenseRepo.create({
+        const expenseData = this.expenseRepo.create({
             apartmentId,
             description,
             amount,
@@ -27,7 +27,12 @@ export class ExpenseService {
             splits,
         });
 
-        await this.expenseRepo.save(expense);
+        const expense = await this.expenseRepo.save(expenseData);
+
+        // Update the debts of the users involved in the expense
+        Object.entries(splits).forEach(([fromId, amount]) => {
+            this.debtEdgeService.updateDebt(apartmentId, fromId, userId, amount);
+        });
 
         return expense;
     }

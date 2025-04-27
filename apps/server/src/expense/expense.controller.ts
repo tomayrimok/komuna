@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ExpenseService } from './expense.service';
 
 @Controller('expense')
@@ -13,8 +13,14 @@ export class ExpenseController {
         return await this.expenseService.getApartmentExpenses(apartmentId, userId);
     }
 
-    // @Post('create-expense')
-    // async createExpense(@Body() createDto: DeepPartial<Expense>, @User() user: User) {
-    //     return await this.expenseService.createExpense(createDto, user.userId);
-    // }
+    @Post('create-expense')
+    async createExpense(@Body('apartmentId') apartmentId: string, @Body('splits') splits: any, @Body('amount') amount: number, @Body('description') description: string, @Body('userId') userId: string) {
+        return await this.expenseService.createExpense({
+            apartmentId,
+            splits,
+            amount,
+            description
+        }, userId
+        );
+    }
 }

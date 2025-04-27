@@ -4,7 +4,7 @@ import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
 import { useNavigate } from "@tanstack/react-router";
 import UserCard from "../General/userCard";
 
-const SettleUp = () => {
+const SettleUpPage = () => {
 
     const { t } = useTranslation();
     const { data, isLoading, isError } = useUserBalanceDetails('60514c72-5b94-417f-b4a3-9da2092a267f', '9ebd215a-8101-4a5a-96c3-04016aabcd1b');
@@ -22,7 +22,7 @@ const SettleUp = () => {
                             <For each={data.balanceDetails}>
                                 {(item) => (
                                     <UserCard
-
+                                        key={item.debt_debtId}
                                         user={item.debtor ?
                                             {
                                                 firstName: item.userTo_firstName,
@@ -62,4 +62,4 @@ const SettleUp = () => {
     )
 }
 
-export default SettleUp
+export default SettleUpPage

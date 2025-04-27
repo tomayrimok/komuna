@@ -6,6 +6,7 @@ import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { ApartmentService } from '../apartment/apartment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
+import { UserRole } from '@komuna/types';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -24,12 +25,12 @@ export class AppService implements OnModuleInit {
   }
 
   async testDebtEdgeService() {
-    const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
-    const bbb = await this.userService.getUserById('eee5a7aa-5ba4-4eab-9f4b-2897e6ffbb18');
+    // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
+    // const bbb = await this.userService.getUserById('eee5a7aa-5ba4-4eab-9f4b-2897e6ffbb18');
     // const ccc = await this.userService.getUserById('6beae274-68db-488c-a98b-95f3bbf304d6');
     // const apartment = await this.apartmentService.createApartment({ name: 'Herzel 14', code: '1111' });
     // create user-apartment relation
-    // await this.userApartmentService.createUserApartment({ userId: aaa.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
+    // await this.userApartmentService.createUserApartment({ userId: ccc.userId, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', role: UserRole.ROOMMATE });
     // await this.userApartmentService.createUserApartment({ userId: bbb.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
     // Now bbb payed for batteries
     // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 500, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', splits: { [aaa.userId]: 100, [bbb.userId]: 400 } }, aaa.userId);

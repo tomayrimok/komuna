@@ -1,4 +1,5 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react"
+import { Avatar, Box, Flex, Icon, Text } from "@chakra-ui/react"
+import { LuCheck } from "react-icons/lu";
 
 interface UserCardProps {
     onClick?: () => void;
@@ -9,9 +10,10 @@ interface UserCardProps {
         phoneNumber: string | null;
     }
     additionalComponent?: React.ReactNode;
+    selected?: boolean;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, onClick }) => {
+const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected, onClick }) => {
 
     return (
         <Box
@@ -21,6 +23,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, onClick 
             cursor={onClick ? "pointer" : "default"}
             _hover={onClick ? { backgroundColor: "gray.100" } : {}}
             onClick={onClick}
+            border={selected ? "1.5px solid {colors.brand.600}" : "1.5px solid transparent"}
         >
             <Flex direction="row" gap="3" alignItems="center">
                 <Avatar.Root size="lg" shape="full">
@@ -36,6 +39,11 @@ const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, onClick 
                     </Text>
                 </Flex>
                 {additionalComponent}
+                {selected && (
+                    <Icon color={"brand.600"} size={"lg"} me={1}>
+                        <LuCheck />
+                    </Icon>
+                )}
             </Flex>
         </Box>
     )

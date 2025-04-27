@@ -8,6 +8,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { type AuthContextValue } from '../context/auth/AuthProvider';
 import { Box, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { WebView } from '../components/WebView';
+import { Toaster } from '../chakra/ui/toaster';
 
 export const Route = createRootRouteWithContext<AuthContextValue>()({
   beforeLoad: ({ context, location }) => {
@@ -53,6 +54,7 @@ const Main = () => {
           <WebView />
         )}
       </VStack>
+      <Toaster />
       {/* <TanStackRouterDevtools /> */}
     </Box>
   );

@@ -41,12 +41,6 @@ const SelectUserDrawer: React.FC<SelectUserDrawerProps> = ({ trigger, onSelect }
                                 })}
                             </Flex>
                         </Drawer.Body>
-                        <Drawer.Footer>
-                            <Drawer.ActionTrigger asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </Drawer.ActionTrigger>
-                            <Button>Save</Button>
-                        </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />
                         </Drawer.CloseTrigger>

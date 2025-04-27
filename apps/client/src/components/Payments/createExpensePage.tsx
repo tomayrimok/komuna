@@ -1,18 +1,14 @@
-import { Badge, Button, CloseButton, Container, Drawer, Field, Flex, Input, Kbd, NumberInput, Portal, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Input, NumberInput, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import SelectUserDrawer from "../General/selectResidentDrawer";
-import SplitDetailsDrawer from "./splitDetailsDrawer";
+import SplitDetailsDrawer from "./SplitDetailsDrawer/splitDetailsDrawer";
 import { User } from "@komuna/types"
+import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
+import { withWrappers } from "../../utilities/withWrappers";
 
 const CreateExpensePage = () => {
-    const [amount, setAmount] = useState(0);
-    const [payedBy, setPayedBy] = useState<User | null>({ firstName: "test", lastName: "test", userId: "test", phoneNumber: "test" });
-    const [splits, setSplits] = useState<{ [userId: string]: number }>({});
 
-    const areSplitsValuesEqual = () => {
-        const values = Object.values(splits);
-        return values.every((value) => value === values[0]);
-    }
+    const { amount, setAmount, areSplitsValuesEqual, payedBy, setPayedBy, description, setDescription } = useExpense();
 
     return (
         <Container>
@@ -20,7 +16,7 @@ const CreateExpensePage = () => {
                 Create Expense Page
             </Text>
 
-            <Input placeholder="Description" />
+            <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
 
             <Flex direction="row" gap="2" alignItems="center">
                 <NumberInput.Root
@@ -40,22 +36,24 @@ const CreateExpensePage = () => {
                 </Text>
                 <SelectUserDrawer
                     onSelect={(userId) => setPayedBy(userId)}
-                    trigger={<Button px={1} py={0} h="unset" variant={"surface"}>
-                        {payedBy?.firstName} {payedBy?.lastName}
-                    </Button>}
+                    trigger={
+                        <Button px={1} py={0} h="unset" variant={"surface"}>
+                            {payedBy?.firstName} {payedBy?.lastName}
+                        </Button>
+                    }
                 />
                 <Text>
                     ומתחלק
                 </Text>
                 <SplitDetailsDrawer
-                    onSelect={(splits) => setSplits(splits)}
+                    amount={amount}
+                    onSelect={(splits) => { }}
                     trigger={<Button px={1} py={0} h="unset" variant={"surface"}>
-                        {areSplitsValuesEqual() ? 'בצורה שווה' : 'בצורה לא שווה'}
+                        {areSplitsValuesEqual ? 'בצורה שווה' : 'בצורה לא שווה'}
                     </Button>}
                 />
             </Flex>
-
         </Container>
     );
 }
-export default CreateExpensePage;
+export default withWrappers(CreateExpensePage, [ExpenseProvider])
