@@ -1,6 +1,7 @@
 import { Box, Card, Container, Flex, For, SkeletonText, Stack } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next";
 import { useApartmentExpenses } from "../../hooks/useApartmentExpenses";
+import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 const Expenses = () => {
 
@@ -38,9 +39,9 @@ const Expenses = () => {
                                                         <Card.Title>{item.expense_description}</Card.Title>
                                                         <Card.Description as="div">
                                                             {item.paidByMe
-                                                                ? t("payments.you-paid", { amount: item.expense_amount })
+                                                                ? t("payments.you-paid", { amount: roundUpToXDigits(item.expense_amount) })
                                                                 : t("payments.paid-by", {
-                                                                    amount: item.expense_amount,
+                                                                    amount: roundUpToXDigits(item.expense_amount),
                                                                     name: `${item.paidByFirstName} ${item.paidByLastName[0]}`,
                                                                 })}
                                                         </Card.Description>
@@ -52,8 +53,8 @@ const Expenses = () => {
                                                         color={item.paidByMe ? "green.600" : "red.600"}
                                                     >
                                                         {item.paidByMe
-                                                            ? t("payments.you-lent", { amount: item.expense_amount - Number(item.splitAmount) })
-                                                            : t("payments.you-borrowed", { amount: item.splitAmount })}
+                                                            ? t("payments.you-lent", { amount: roundUpToXDigits(item.expense_amount - Number(item.splitAmount)) })
+                                                            : t("payments.you-borrowed", { amount: roundUpToXDigits(item.splitAmount) })}
                                                     </Card.Description>
                                                 </Flex>
                                             </Card.Body>

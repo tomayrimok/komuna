@@ -8,7 +8,7 @@ import { withWrappers } from "../../utilities/withWrappers";
 
 const CreateExpensePage = () => {
 
-    const { amount, setAmount, areSplitsValuesEqual, payedBy, setPayedBy, description, setDescription } = useExpense();
+    const { amount, setAmount, areSplitsValuesEqual, payedBy, setPayedBy, description, setDescription, handleSave } = useExpense();
 
     return (
         <Container>
@@ -46,12 +46,18 @@ const CreateExpensePage = () => {
                     ומתחלק
                 </Text>
                 <SplitDetailsDrawer
-                    amount={amount}
-                    onSelect={(splits) => { }}
                     trigger={<Button px={1} py={0} h="unset" variant={"surface"}>
                         {areSplitsValuesEqual ? 'בצורה שווה' : 'בצורה לא שווה'}
                     </Button>}
                 />
+            </Flex>
+            <Flex direction="row" gap="2" alignItems="center">
+                <Button variant="outline" onClick={() => { }}>
+                    ביטול
+                </Button>
+                <Button onClick={handleSave}>
+                    שמירה
+                </Button>
             </Flex>
         </Container>
     );

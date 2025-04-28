@@ -2,6 +2,7 @@ import { Button, Card, For, SkeletonText, Stack } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next";
 import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
 import { useNavigate } from "@tanstack/react-router";
+import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 const BalanceCard = () => {
 
@@ -15,10 +16,10 @@ const BalanceCard = () => {
                 {!isLoading && data ?
                     <Card.Title mb="2">
                         {data.balance < 0 ?
-                            t('payments.debt', { amount: Math.abs(data.balance) }) :
+                            t('payments.debt', { amount: roundUpToXDigits(Math.abs(data.balance)) }) :
                             data.balance === 0 ?
                                 t('payments.balanced') :
-                                t('payments.people-owe-you', { amount: data.balance })
+                                t('payments.people-owe-you', { amount: roundUpToXDigits(data.balance) })
                         }
                     </Card.Title>
                     :
@@ -30,8 +31,8 @@ const BalanceCard = () => {
                             {(item) => (
                                 <Stack key={item.debt_debtId} direction="row" gap="2" alignItems="center">
                                     {item.debtor ?
-                                        t('payments.you-owe-to', { amount: item.debt_amount, name: `${item.userTo_firstName} ${item.userTo_lastName[0]}` }) :
-                                        t('payments.someone-owe-you', { amount: item.debt_amount, name: `${item.userFrom_firstName} ${item.userFrom_lastName[0]}` })
+                                        t('payments.you-owe-to', { amount: roundUpToXDigits(item.debt_amount), name: `${item.userTo_firstName} ${item.userTo_lastName[0]}` }) :
+                                        t('payments.someone-owe-you', { amount: roundUpToXDigits(item.debt_amount), name: `${item.userFrom_firstName} ${item.userFrom_lastName[0]}` })
                                     }
                                 </Stack>
                             )}

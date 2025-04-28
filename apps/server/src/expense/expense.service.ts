@@ -49,6 +49,7 @@ export class ExpenseService {
             ])
             .leftJoin('expense.paidByUser', 'paidByUser')
             .where('expense.apartmentId = :apartmentId', { apartmentId })
+            .orderBy('expense.createdAt', 'DESC')
             .setParameters({ userId })
             .getRawMany();
     }

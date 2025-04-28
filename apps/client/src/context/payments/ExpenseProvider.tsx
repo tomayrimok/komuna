@@ -38,6 +38,7 @@ type ExpenseContextValue = {
     setUsersFixedAmounts: React.Dispatch<React.SetStateAction<{ [userId: string]: number }>>;
     setUsersPercentage: React.Dispatch<React.SetStateAction<{ [userId: string]: number }>>;
     handleSave: () => void;
+    handleSaveSplits: () => void;
     handleCancel: () => void;
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     setPayedBy: React.Dispatch<React.SetStateAction<User>>;
@@ -163,20 +164,12 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
     };
 
 
-    const handleSave = () => {
+    const handleSaveSplits = () => {
         const currentSplitTypeData = splitTypesData[splitType];
         if (!currentSplitTypeData.isValid()) {
             toaster.create({ title: "Error", description: "Please fill all the required fields", meta: { closable: true } }); //todo noam
             return;
         }
-        const splits = splitTypesData[splitType].convertToSplits();
-        createExpense({
-            apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f',
-            splits,
-            amount,
-            description,
-            userId: payedBy.userId
-        })
 
 
         setOpen(false);
@@ -184,6 +177,18 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
 
     const handleCancel = () => {
         setOpen(false);
+    }
+
+    const handleSave = () => {
+        const splits = splitTypesData[splitType].convertToSplits();
+
+        createExpense({
+            apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f',
+            splits,
+            amount,
+            description,
+            userId: payedBy.userId
+        })
     }
 
 
@@ -206,6 +211,7 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
             areSplitsValuesEqual,
             splitTypesDataArray: Object.entries(splitTypesData).map(([key, value]) => ({ ...value, name: key })),
             handleSave,
+            handleSaveSplits,
             handleCancel,
             payedBy,
             setPayedBy,

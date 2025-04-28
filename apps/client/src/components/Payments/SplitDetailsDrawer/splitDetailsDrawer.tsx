@@ -7,8 +7,6 @@ import { useExpense } from "../../../context/payments/ExpenseProvider";
 
 interface SplitDetailsDrawerProps {
     expenseId?: string;
-    onSelect: (splits: { [userId: string]: number }) => void;
-    amount: number;
     trigger?: React.ReactNode;
 }
 
@@ -16,9 +14,9 @@ type UserId = string;
 export type UserSplits = Record<UserId, number>;
 
 //todo noam edit - expense id
-const SplitDetailsDrawer: React.FC<SplitDetailsDrawerProps> = ({ expenseId, trigger, amount, onSelect }) => {
+const SplitDetailsDrawer: React.FC<SplitDetailsDrawerProps> = ({ expenseId, trigger }) => {
 
-    const { open, setOpen, handleCancel, handleSave } = useExpense();
+    const { open, setOpen, handleCancel, handleSaveSplits } = useExpense();
 
     return (
         <Drawer.Root size="full" placement="bottom" open={open} onOpenChange={(e) => setOpen(e.open)}>
@@ -42,7 +40,7 @@ const SplitDetailsDrawer: React.FC<SplitDetailsDrawerProps> = ({ expenseId, trig
                                 <Button variant="outline" onClick={handleCancel}>ביטול</Button>
                                 {/* //todo noam */}
                             </Drawer.ActionTrigger>
-                            <Button onClick={() => handleSave()}>שמירה</Button>
+                            <Button onClick={() => handleSaveSplits()}>שמירה</Button>
                             {/* //todo noam */}
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>

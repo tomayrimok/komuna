@@ -20,7 +20,7 @@ export const fetchApartmentExpenses = async (apartmentId: string, userId: string
         params: {
             apartmentId,
             userId,
-        }
+        },
     });
 
     return { apartmentExpenses: apartmentExpensesResponse.data };

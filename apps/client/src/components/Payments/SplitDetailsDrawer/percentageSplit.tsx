@@ -1,6 +1,7 @@
 import { Flex, NumberInput, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
+import { roundUpToXDigits } from "apps/client/src/utilities/roundUpToXDigits";
 
 interface PercentageSplitProps {
     setUserPercentage: (userId: string, percentage: number) => void;
@@ -31,7 +32,7 @@ const PercentageSplit: React.FC<PercentageSplitProps> = ({ setUserPercentage }) 
                                     max={100}
                                 >
                                     <NumberInput.Control />
-                                    <NumberInput.Input placeholder={(100 / selectedUserIds.size).toFixed(2) + "%"} />
+                                    <NumberInput.Input placeholder={roundUpToXDigits(100 / selectedUserIds.size) + "%"} />
                                 </NumberInput.Root>
                                 <Text fontSize="xl" >
                                     %

@@ -3,8 +3,9 @@ import { useDebtDetails } from "../../hooks/useDebtDetails";
 import { Avatar, Button, Container, Field, Flex, Icon, Input, NumberInput, Text } from "@chakra-ui/react";
 import { LuArrowLeft } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCreatePayment } from "../../hooks/useCreatePayment";
+import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 export const SettleUpDebt = () => {
 
@@ -13,6 +14,12 @@ export const SettleUpDebt = () => {
     const { data: debtDetails, isLoading, isError } = useDebtDetails(debtId);
     const { t } = useTranslation();
     const [value, setValue] = useState<number>();
+
+    useEffect(() => {
+        if (debtDetails) {
+            setValue(debtDetails.debt_amount);
+        }
+    }, [debtDetails]);
 
     return (
         <div>
@@ -42,7 +49,7 @@ export const SettleUpDebt = () => {
 
                             <NumberInput.Root
                                 maxW="200px"
-                                defaultValue={String(debtDetails.debt_amount)}
+                                defaultValue={String(roundUpToXDigits(debtDetails.debt_amount))}
                                 onValueChange={(e) => setValue(Number(e.value))}
                             >
                                 <NumberInput.Control />

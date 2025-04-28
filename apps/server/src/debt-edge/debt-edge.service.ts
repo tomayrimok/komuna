@@ -23,30 +23,32 @@ export class DebtEdgeService {
     async updateDebt(apartmentId: string, fromId: string, toId: string, delta: number) {
         if (fromId === toId || delta === 0) return;
 
+        const roundedDelta = Math.round(delta * 100) / 100;
+
         const direct = await this.debtRepo.findOneBy({ apartmentId, fromId, toId });
         const reverse = await this.debtRepo.findOneBy({ apartmentId, fromId: toId, toId: fromId });
 
         if (reverse) {
-            if (reverse.amount > delta) {
-                reverse.amount -= delta;
+            if (reverse.amount > roundedDelta) {
+                reverse.amount -= roundedDelta;
                 await this.debtRepo.save(reverse);
-            } else if (reverse.amount < delta) {
+            } else if (reverse.amount < roundedDelta) {
                 await this.debtRepo.remove(reverse);
                 const newEdge = this.debtRepo.create({
                     apartmentId,
                     fromId,
                     toId,
-                    amount: delta - reverse.amount,
+                    amount: roundedDelta - reverse.amount,
                 });
                 await this.debtRepo.save(newEdge);
             } else {
                 await this.debtRepo.remove(reverse);
             }
         } else if (direct) {
-            direct.amount += delta;
+            direct.amount += roundedDelta;
             await this.debtRepo.save(direct);
         } else {
-            const newEdge = this.debtRepo.create({ apartmentId, fromId, toId, amount: delta });
+            const newEdge = this.debtRepo.create({ apartmentId, fromId, toId, amount: roundedDelta });
             await this.debtRepo.save(newEdge);
         }
 

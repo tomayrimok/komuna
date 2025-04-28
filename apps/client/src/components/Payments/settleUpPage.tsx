@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
 import { useNavigate } from "@tanstack/react-router";
 import UserCard from "../General/userCard";
+import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 const SettleUpPage = () => {
 
@@ -40,8 +41,8 @@ const SettleUpPage = () => {
                                         additionalComponent={
                                             <Text whiteSpace={"pre-line"} textAlign="end" color={item.debtor ? "red.600" : "green.600"}>
                                                 {item.debtor ?
-                                                    t('payments.you-owe', { amount: item.debt_amount }) :
-                                                    t('payments.owe-you', { amount: item.debt_amount })
+                                                    t('payments.you-owe', { amount: roundUpToXDigits(item.debt_amount) }) :
+                                                    t('payments.owe-you', { amount: roundUpToXDigits(item.debt_amount) })
                                                 }
                                             </Text>
                                         }
