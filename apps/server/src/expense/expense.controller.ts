@@ -13,14 +13,27 @@ export class ExpenseController {
         return await this.expenseService.getApartmentExpenses(apartmentId, userId);
     }
 
-    @Post('create-expense')
-    async createExpense(@Body('apartmentId') apartmentId: string, @Body('splits') splits: any, @Body('amount') amount: number, @Body('description') description: string, @Body('userId') userId: string) {
-        return await this.expenseService.createExpense({
+    @Post('add-edit-expense')
+    async addEditExpense(
+        @Body('expenseId') expenseId: string,
+        @Body('apartmentId') apartmentId: string,
+        @Body('splits') splits: any,
+        @Body('amount') amount: number,
+        @Body('description') description: string,
+        @Body('paidById') paidById: string
+    ) {
+        return await this.expenseService.addEditExpense({
+            expenseId,
             apartmentId,
             splits,
             amount,
-            description
-        }, userId
-        );
+            description,
+            paidById
+        });
+    }
+
+    @Get('expense-details')
+    async getExpenseDetails(@Query('expenseId') expenseId: string) {
+        return await this.expenseService.getExpenseDetails(expenseId);
     }
 }

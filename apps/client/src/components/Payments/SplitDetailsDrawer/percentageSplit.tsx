@@ -1,7 +1,7 @@
 import { Flex, NumberInput, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
-import { roundUpToXDigits } from "apps/client/src/utilities/roundUpToXDigits";
+import { roundUpToXDigits } from "../../../utilities/roundUpToXDigits";
 
 interface PercentageSplitProps {
     setUserPercentage: (userId: string, percentage: number) => void;

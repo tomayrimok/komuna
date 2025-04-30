@@ -7,6 +7,9 @@ import PercentageSplit from '../../components/Payments/SplitDetailsDrawer/percen
 import useExpenseSplits from '../../hooks/useExpenseSplits';
 import { toaster } from '../../chakra/ui/toaster';
 import { useCreateExpense } from '../../hooks/useCreateExpense';
+import { ExpenseDetails } from '../../api/expenseDetails';
+import { useParams } from '@tanstack/react-router';
+import { useExpenseDetails } from '../../hooks/useExpenseDetails';
 
 type SplitTypeData = {
     component: React.ReactNode;
@@ -20,10 +23,11 @@ type SplitTypeDataArray = { name: string } & SplitTypeData;
 
 type ExpenseContextValue = {
     open: boolean;
+    expenseId?: string;
     users: (User | null)[];
-    payedBy: User;
-    amount: number;
-    description: string;
+    // payedBy: User;
+    // amount: number;
+    // description: string;
     splitType: SplitType;
     selectedUserIds: Set<string>;
     usersFixedAmounts: { [userId: string]: number };
@@ -40,26 +44,61 @@ type ExpenseContextValue = {
     handleSave: () => void;
     handleSaveSplits: () => void;
     handleCancel: () => void;
-    setDescription: React.Dispatch<React.SetStateAction<string>>;
-    setPayedBy: React.Dispatch<React.SetStateAction<User>>;
+    setDescription: (description: string) => void;
+    setPaidBy: (user: User) => void;
+    expenseDetails: ExpenseDetails;
 }
 
 export type SplitType = 'equal' | 'number' | 'percentage';
 
 export const ExpenseContext = createContext<ExpenseContextValue | null>(null);
 
-export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ expenseId?: string }>) => {
+export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: string }>) => {
 
-    const { data, isLoading, isError } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
+    const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
     const { mutate: createExpense } = useCreateExpense();
     const [open, setOpen] = useState(false);
     const [splitType, setSplitType] = useState<SplitType>('equal');
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
     const [usersFixedAmounts, setUsersFixedAmounts] = useState<{ [userId: string]: number }>({});
     const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
-    const [amount, setAmount] = useState(0);
-    const [payedBy, setPayedBy] = useState<User>({ firstName: "test", lastName: "test", userId: "test", phoneNumber: "test" });
-    const [description, setDescription] = useState("");
+    // const [amount, setAmount] = useState(0);
+    // const [payedBy, setPayedBy] = useState<User>({ firstName: "test", lastName: "test", userId: "test", phoneNumber: "test" });
+    // const [description, setDescription] = useState("");
+
+    // now make it a big object
+    const [expenseDetails, setExpenseDetails] = useState<ExpenseDetails>({
+        expenseId: '',
+        apartmentId: '',
+        amount: 0,
+        description: '',
+        paidByUser: {} as User,
+        splits: {},
+        paidById: '',
+        createdAt: '',
+    });
+
+    const { expenseId } = useParams({ strict: false });
+    const { data: expenseDetailsData, isLoading: isExpenseDetailsLoading, isError: isExpenseDetailsError } = useExpenseDetails(expenseId || '');
+
+    useEffect(() => {
+        if (!expenseDetailsData) return;
+        setExpenseDetails(expenseDetailsData);
+        const userIds = new Set(Object.keys(expenseDetailsData.splits || {}));
+        setSelectedUserIds(userIds);
+
+        const fixedAmounts: { [userId: string]: number } = {};
+        const percentages: { [userId: string]: number } = {};
+
+        Object.entries(expenseDetailsData?.splits || {}).forEach(([userId, value]) => {
+            fixedAmounts[userId] = value;
+            percentages[userId] = (value / expenseDetailsData.amount) * 100;
+        });
+
+        setUsersFixedAmounts(fixedAmounts);
+        setUsersPercentage(percentages);
+    }, [expenseDetailsData]);
+
 
     const splitTypesData = {
         'equal': {
@@ -79,7 +118,7 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
             convertToSplits: () => {
                 const splits: { [userId: string]: number } = {};
                 selectedUserIds.forEach((userId: any) => {
-                    splits[userId] = amount / selectedUserIds.size;
+                    splits[userId] = expenseDetails ? (expenseDetails.amount / selectedUserIds.size) : 0;
                 });
                 return splits;
             }
@@ -96,7 +135,7 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
             />,
             isValid: () => {
                 const total = Object.values(usersFixedAmounts).reduce((acc, val) => acc + val, 0);
-                return total === amount;
+                return total === (expenseDetails?.amount || 0);
             },
             isEqual: () => {
                 const values = Object.values(usersFixedAmounts);
@@ -134,7 +173,7 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
                 const splits: { [userId: string]: number } = {};
                 const total = Object.values(usersPercentage).reduce((acc, val) => acc + val, 0);
                 Object.keys(usersPercentage).forEach(userId => {
-                    splits[userId] = (usersPercentage[userId] / total) * amount;
+                    splits[userId] = (usersPercentage[userId] / total) * (expenseDetails?.amount || 0);
                 });
                 return splits;
             }
@@ -142,9 +181,9 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
     };
 
     const users = useMemo(() => {
-        if (!data) return [];
-        return data.residents.map(user => user.user);
-    }, [data]);
+        if (!apartmentData) return [];
+        return apartmentData.residents.map(user => user.user);
+    }, [apartmentData]);
 
     const areSplitsValuesEqual = useMemo(() => {
         const currentSplitTypeData = splitTypesData[splitType];
@@ -153,11 +192,11 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
 
 
     useEffect(() => {
-        if (!data) return;
-        data.residents.forEach(user => {
+        if (!apartmentData) return;
+        apartmentData.residents.forEach(user => {
             if (selectedUserIds.has(user.userId) || !expenseId) selectUser(user.userId);
         });
-    }, [data]);
+    }, [apartmentData]);
 
     const selectUser = (userId: string) => {
         setSelectedUserIds(prev => new Set(prev).add(userId));
@@ -181,15 +220,33 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
 
     const handleSave = () => {
         const splits = splitTypesData[splitType].convertToSplits();
-
+        if (!expenseDetails || !apartmentData) return;
         createExpense({
-            apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f',
+            ...expenseDetails,
+            apartmentId: apartmentData.apartmentId,
             splits,
-            amount,
-            description,
-            userId: payedBy.userId
+            // amount,
+            // description,
+            // userId: expenseDetails.payedBy.userId
         })
     }
+
+    const setAmount = (amount: number) => {
+        console.log('amount :', amount);
+        setExpenseDetails(prev => ({ ...prev, amount }));
+    };
+
+    const setDescription = (description: string) => {
+        setExpenseDetails(prev => ({ ...prev, description }));
+    };
+
+    const setPaidBy = (paidByUser: User) => {
+        setExpenseDetails(prev => ({ ...prev, paidByUser, paidById: paidByUser.userId }));
+    };
+
+    const setSplits = (splits: Record<string, number>) => {
+        setExpenseDetails(prev => ({ ...prev, splits }));
+    };
 
 
     return (
@@ -204,7 +261,6 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
             setUsersFixedAmounts,
             setUsersPercentage,
             users,
-            amount,
             setAmount,
             setSelectedUserIds,
             splitTypesData,
@@ -213,10 +269,10 @@ export const ExpenseProvider = ({ children, expenseId }: PropsWithChildren<{ exp
             handleSave,
             handleSaveSplits,
             handleCancel,
-            payedBy,
-            setPayedBy,
-            description,
+            setPaidBy,
             setDescription,
+            expenseId,
+            expenseDetails
         }}>
             {children}
         </ExpenseContext.Provider>

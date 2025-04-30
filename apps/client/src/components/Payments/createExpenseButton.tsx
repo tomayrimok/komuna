@@ -9,7 +9,7 @@ const CreateExpense = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate({ to: '/roommate/payments/create-expense' });
+        navigate({ to: '/roommate/payments/expenses' });
     }
 
     return (

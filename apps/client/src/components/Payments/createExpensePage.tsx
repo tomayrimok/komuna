@@ -5,18 +5,21 @@ import SplitDetailsDrawer from "./SplitDetailsDrawer/splitDetailsDrawer";
 import { User } from "@komuna/types"
 import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
 import { withWrappers } from "../../utilities/withWrappers";
+import { useLocation, useNavigate, useParams, useRouter } from "@tanstack/react-router";
+import { useExpenseDetails } from "../../hooks/useExpenseDetails";
 
 const CreateExpensePage = () => {
 
-    const { amount, setAmount, areSplitsValuesEqual, payedBy, setPayedBy, description, setDescription, handleSave } = useExpense();
+    const { expenseDetails, setAmount, areSplitsValuesEqual, setPaidBy, setDescription, handleSave, expenseId } = useExpense();
+    const router = useRouter();
 
     return (
         <Container>
             <Text>
-                Create Expense Page
+                {expenseId ? "Edit Expense" : "Create Expense"}
             </Text>
 
-            <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Input placeholder="Description" value={expenseDetails.description} onChange={(e) => setDescription(e.target.value)} />
 
             <Flex direction="row" gap="2" alignItems="center">
                 <NumberInput.Root
@@ -24,7 +27,7 @@ const CreateExpensePage = () => {
                     onValueChange={(e) => setAmount(Number(e.value))}
                 >
                     <NumberInput.Control />
-                    <NumberInput.Input placeholder="0.00" />
+                    <NumberInput.Input placeholder="0.00" defaultValue={expenseDetails.amount} />
                 </NumberInput.Root>
                 <Text fontSize="xl" >
                     ₪
@@ -35,10 +38,10 @@ const CreateExpensePage = () => {
                     שולם על ידי
                 </Text>
                 <SelectUserDrawer
-                    onSelect={(userId) => setPayedBy(userId)}
+                    onSelect={(userId) => setPaidBy(userId)}
                     trigger={
                         <Button px={1} py={0} h="unset" variant={"surface"}>
-                            {payedBy?.firstName} {payedBy?.lastName}
+                            {expenseDetails.paidByUser?.firstName} {expenseDetails.paidByUser?.lastName}
                         </Button>
                     }
                 />
@@ -46,13 +49,15 @@ const CreateExpensePage = () => {
                     ומתחלק
                 </Text>
                 <SplitDetailsDrawer
-                    trigger={<Button px={1} py={0} h="unset" variant={"surface"}>
-                        {areSplitsValuesEqual ? 'בצורה שווה' : 'בצורה לא שווה'}
-                    </Button>}
+                    trigger={
+                        <Button px={1} py={0} h="unset" variant={"surface"}>
+                            {areSplitsValuesEqual ? 'בצורה שווה' : 'בצורה לא שווה'}
+                        </Button>
+                    }
                 />
             </Flex>
             <Flex direction="row" gap="2" alignItems="center">
-                <Button variant="outline" onClick={() => { }}>
+                <Button variant="outline" onClick={() => router.history.back()}>
                     ביטול
                 </Button>
                 <Button onClick={handleSave}>
