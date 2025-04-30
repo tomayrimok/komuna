@@ -14,7 +14,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SelectApartmentImport } from './routes/select-apartment'
-import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as RoommateIndexImport } from './routes/roommate/index'
@@ -63,12 +62,6 @@ const LandloardRoute = LandloardImport.update({
 const SelectApartmentRoute = SelectApartmentImport.update({
   id: '/select-apartment',
   path: '/select-apartment',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RegisterRoute = RegisterImport.update({
-  id: '/register',
-  path: '/register',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -194,13 +187,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
     '/select-apartment': {
@@ -413,7 +399,6 @@ const RoommateRouteWithChildren = RoommateRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardLayoutRoute
   '/landloard/apartment-details': typeof LandloardApartmentDetailsRoute
@@ -436,7 +421,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardLayoutRoute
   '/landloard/apartment-details': typeof LandloardApartmentDetailsRoute
@@ -459,7 +443,6 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardRouteWithChildren
   '/landloard/_layout': typeof LandloardLayoutRoute
@@ -487,7 +470,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
-    | '/register'
     | '/select-apartment'
     | '/landloard'
     | '/landloard/apartment-details'
@@ -509,7 +491,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/register'
     | '/select-apartment'
     | '/landloard'
     | '/landloard/apartment-details'
@@ -530,7 +511,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
-    | '/register'
     | '/select-apartment'
     | '/landloard'
     | '/landloard/_layout'
@@ -557,7 +537,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
   SelectApartmentRoute: typeof SelectApartmentRoute
   LandloardRoute: typeof LandloardRouteWithChildren
   OnboardingRoute: typeof OnboardingRouteWithChildren
@@ -567,7 +546,6 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
   SelectApartmentRoute: SelectApartmentRoute,
   LandloardRoute: LandloardRouteWithChildren,
   OnboardingRoute: OnboardingRouteWithChildren,
@@ -586,7 +564,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/login",
-        "/register",
         "/select-apartment",
         "/landloard",
         "/onboarding",
@@ -598,9 +575,6 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
-    },
-    "/register": {
-      "filePath": "register.tsx"
     },
     "/select-apartment": {
       "filePath": "select-apartment.tsx"

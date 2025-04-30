@@ -3,37 +3,30 @@ import { Button, Heading, HStack, Image, Input, Text, VStack } from '@chakra-ui/
 import { useTranslation } from 'react-i18next';
 import { withMask } from 'use-mask-input';
 import { LoginLayout } from './LoginLayout';
-import { useMutation } from '@tanstack/react-query';
-import { toaster } from '../../chakra/ui/toaster';
+import { useRequestVerificationCode } from '../../hooks/query/useRequestVerificationCode';
 
 interface EnterPhoneStepProps {
-  onSendPincodeSuccess: () => void;
+  onSendPincodeSuccess: (phone: string) => void;
 }
 
 export const EnterPhoneStep = ({ onSendPincodeSuccess }: EnterPhoneStepProps) => {
+  const [prefix, setPrefix] = useState('+972');
   const [phone, setPhone] = useState('');
   const { t } = useTranslation();
-  const { mutate, isSuccess, isPending } = useMutation({
-    mutationFn: async () => {
-      await new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-          onSendPincodeSuccess();
-        }, 3000);
-      });
-    },
-    onSuccess: () => {
-      onSendPincodeSuccess();
-    },
-    onError: () => {
-      toaster.create({
-        title: t('error.action_failed'),
-        type: 'error',
-      });
+  const { sendCode, isPending, isSuccess } = useRequestVerificationCode({
+    onSuccess: ({ phoneNumber }) => {
+      onSendPincodeSuccess(phoneNumber);
     },
   });
 
   const isLoading = isPending || isSuccess;
+
+  const onSendCode = () => {
+    const phonePrefix = prefix.replace(/[()]/g, '');
+    const number = phone.replace(/\s+/g, '');
+    const phoneNumber = `${phonePrefix}${number}`.trim();
+    sendCode({ phoneNumber });
+  };
 
   return (
     <LoginLayout
@@ -63,8 +56,8 @@ export const EnterPhoneStep = ({ onSendPincodeSuccess }: EnterPhoneStepProps) =>
           type="tel"
           letterSpacing="widest"
           dir="ltr"
-          placeholder="999 999 9999"
-          ref={withMask('### ### ####')}
+          placeholder="50 9999999"
+          ref={withMask('99 9999999')}
           width="200px"
           onChange={(e) => {
             setPhone(e.target.value);
@@ -78,13 +71,14 @@ export const EnterPhoneStep = ({ onSendPincodeSuccess }: EnterPhoneStepProps) =>
           size="2xl"
           type="tel"
           dir="ltr"
-          value={'(+972)'}
+          onChange={(e) => setPrefix(e.target.value)}
+          value={prefix}
           placeholder="(+972)"
           ref={withMask('(+999)')}
           width="120px"
         />
       </HStack>
-      <Button disabled={!phone} size="xl" fontSize="2xl" fontWeight="bold" loading={isLoading} onClick={() => mutate()}>
+      <Button disabled={!phone} size="xl" fontSize="2xl" fontWeight="bold" loading={isLoading} onClick={onSendCode}>
         {t('login.send_code')}
       </Button>
       <Image src="/meerkats/waving.png" width="20vh" />

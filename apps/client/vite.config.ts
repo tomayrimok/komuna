@@ -8,9 +8,13 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/client',
+
   server: {
     port: 4200,
     host: 'localhost',
+    proxy: {
+      '/api': 'http://localhost:8080',
+    },
   },
   preview: {
     port: 4300,

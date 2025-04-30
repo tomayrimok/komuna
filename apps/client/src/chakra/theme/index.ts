@@ -6,15 +6,14 @@ const config = defineConfig({
     recipes: {
       button: {
         base: {
-          borderRadius: '2xl',
+          borderRadius: 'xl',
           paddingY: '12px',
           paddingX: '30px',
         },
       },
-
       input: {
         base: {
-          borderRadius: '2xl',
+          borderRadius: 'xl',
           background: 'white',
         },
       },
