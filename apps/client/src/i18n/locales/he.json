@@ -27,6 +27,14 @@
         "last_name": "שם משפחה",
         "create_profile": "יצירת פרופיל"
     },
+    "select_apartment": {
+        "no_apartments": {
+            "title": "הפרופיל נוצר בהצלחה!",
+            "description": "{{firstName}}, ברוכים הבאים! אנא בחרו מה ברצונכם לעשות:",
+            "create_new_apartment": "יצירת דירה חדשה",
+            "join_apartment": "הצטרפות לדירה קיימת"
+        }
+    },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
     }

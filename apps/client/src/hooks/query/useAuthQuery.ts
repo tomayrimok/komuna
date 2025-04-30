@@ -16,6 +16,8 @@ const getCurrentUser = async () => {
     throw error;
   }
 };
+
+export const AUTH_QUERY_KEY = 'auth';
 export const useAuthQuery = () => {
   const {
     data: currentUserDetails,
@@ -24,7 +26,7 @@ export const useAuthQuery = () => {
     isSuccess,
     refetch: refetchAuth,
   } = useQuery({
-    queryKey: ['auth'],
+    queryKey: [AUTH_QUERY_KEY],
     queryFn: getCurrentUser,
     retry: false,
     staleTime: 0,

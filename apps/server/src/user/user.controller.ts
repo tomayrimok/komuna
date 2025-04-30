@@ -135,4 +135,15 @@ export class UserController {
       });
     }
   }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('Authentication', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/', // ensure this matches the cookie path
+    });
+    return { message: 'Logged out successfully' };
+  }
 }

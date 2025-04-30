@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { UserResponse, UserRole } from '@komuna/types';
-import { useAuthQuery } from '../../hooks/query/useAuthQuery';
+import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
+import { API } from '../../axios';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -32,17 +33,22 @@ export const defaultAuthContextValues: AuthContextValue = {
 export const AuthContext = createContext<AuthContextValue>(defaultAuthContextValues);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
     apartmentId: null,
     role: null,
   });
 
-  const logout = () => {
+  const logout = async () => {
     // Clear any stored tokens or session info here
+    try {
+      await API.post('/user/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
     setSessionDetails(defaultAuthContextValues.sessionDetails);
-    // setAuthToken()
-    refetchAuth();
+    queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
 
   if (isAuthLoading) return <LoadingApp />;
