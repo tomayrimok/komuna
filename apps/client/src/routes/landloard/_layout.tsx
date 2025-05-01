@@ -5,8 +5,8 @@ import { Outlet, redirect } from '@tanstack/react-router';
 export const Route = createFileRoute('/landloard/_layout')({
   component: () => <Outlet />,
   beforeLoad: ({ context }) => {
-    if (context.auth.role !== UserRole.LANDLORD) {
-      throw redirect({ to: '/' });
+    if (context.sessionDetails.role !== UserRole.LANDLORD) {
+      throw redirect({ to: '/login' });
     }
   },
 });

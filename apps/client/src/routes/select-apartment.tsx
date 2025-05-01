@@ -1,5 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { SelectApartment } from '../pages/SelectApartment';
 
 export const Route = createFileRoute('/select-apartment')({
-  component: () => <div>Select Apartment</div>,
+  beforeLoad: ({ context, location }) => {
+    if (!context.currentUserDetails) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
+  component: () => <SelectApartment />,
 });

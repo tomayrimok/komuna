@@ -3,6 +3,39 @@
         "title": "מצטערים",
         "description": "האתר הזה נתמך רק במכשירים ניידים, אנא פתחו אותו בטלפון על מנת להמשיך."
     },
-    "title": "ברוכים הבאים לKomuna",
-    "button": "בואו נתחיל"
+    "button": "בואו נתחיל",
+    "komuna": "Komuna",
+    "catchphrase": "שלום בית בין שותפים",
+    "welcome": "ברוכים הבאים!",
+    "login": {
+        "title": "התחברות",
+        "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
+        "phone": "מספר טלפון",
+        "send_code": "שלח קוד",
+        "pin_code": {
+            "title": "אימות מספר טלפון",
+            "description": "שלחנו למספר <phone>{{phone}}</phone> קוד לאימות מספר הטלפון שאמור להגיע אליך ב2-5 דקות הקרובות. ",
+            "continue": "המשך",
+            "didnt_get_code": "לא קיבלתי את הקוד, שלח מחדש",
+            "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון ${phone}. אנא בדקו בשנית."
+        }
+    },
+    "create_profile": {
+        "title": "מעולה! כמעט סיימנו...",
+        "description": "חסרים לנו כמה פרטים כדי להציג אותך לכולם.",
+        "first_name": "שם פרטי",
+        "last_name": "שם משפחה",
+        "create_profile": "יצירת פרופיל"
+    },
+    "select_apartment": {
+        "no_apartments": {
+            "title": "הפרופיל נוצר בהצלחה!",
+            "description": "{{firstName}}, ברוכים הבאים! אנא בחרו מה ברצונכם לעשות:",
+            "create_new_apartment": "יצירת דירה חדשה",
+            "join_apartment": "הצטרפות לדירה קיימת"
+        }
+    },
+    "error": {
+        "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
+    }
 }
