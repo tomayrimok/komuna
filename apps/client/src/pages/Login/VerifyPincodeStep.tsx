@@ -1,16 +1,37 @@
+import { times } from 'lodash';
 import { Button, HStack, Image, PinInput, Stack, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { LoginLayout } from './LoginLayout';
 import { BackNavigationBar } from '../../components/BackNavigationBar';
+import { useRequestVerificationCode } from '../../hooks/query/useRequestVerificationCode';
+import { toaster } from '../../chakra/ui/toaster';
+import { useVerifyCode } from '../../hooks/query/useVerifyCode';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 interface VerifyPincodeStepProps {
   goBack: () => void;
+  phoneNumber: string;
+  onPincodeSuccess: (isUser: boolean) => void;
 }
 
-export const VerifyPincodeStep = ({ goBack }: VerifyPincodeStepProps) => {
+export const VerifyPincodeStep = ({ goBack, phoneNumber, onPincodeSuccess }: VerifyPincodeStepProps) => {
   const { t } = useTranslation();
+  const { isRefetching } = useAuth();
   const [pincode, setPincode] = useState(['', '', '', '']);
+  const { sendVerifyCode, isPending: isVerifyPending } = useVerifyCode({
+    onSuccess: (result) => {
+      onPincodeSuccess(result.isUser);
+    },
+  });
+  const { sendCode, isPending: isResendPending } = useRequestVerificationCode({
+    onSuccess: () => {
+      toaster.create({
+        title: t('login.pin_code.resend_successfully', { phone: phoneNumber }),
+        type: 'success',
+      });
+    },
+  });
 
   return (
     <LoginLayout
@@ -33,25 +54,36 @@ export const VerifyPincodeStep = ({ goBack }: VerifyPincodeStepProps) => {
           <Text>
             <Trans
               i18nKey="login.pin_code.description"
-              values={{ phone: '+972509550506' }}
+              values={{ phone: phoneNumber }}
               components={{ phone: <b dir="ltr" /> }}
             />
           </Text>
         </VStack>
-        <PinInput.Root value={pincode} onValueChange={(e) => setPincode(e.value)} size="2xl" variant="outline">
+        <PinInput.Root
+          value={pincode}
+          onValueChange={(e) => setPincode(e.value)}
+          size="2xl"
+          variant="outline"
+          onValueComplete={(details) => sendVerifyCode({ phoneNumber, code: details.valueAsString })}
+        >
           <PinInput.HiddenInput />
           <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
-            <PinInput.Input index={0} background="white" />
-            <PinInput.Input index={1} background="white" />
-            <PinInput.Input index={2} background="white" />
-            <PinInput.Input index={3} background="white" />
+            {times(4, (i) => (
+              <PinInput.Input key={i} index={i} background="white" fontSize="40px" />
+            ))}
           </PinInput.Control>
         </PinInput.Root>
       </VStack>
 
       <HStack dir="ltr"></HStack>
       <VStack paddingBottom={'7'}>
-        <Button size="xl" fontSize="2xl" fontWeight="bold">
+        <Button
+          size="xl"
+          fontSize="2xl"
+          fontWeight="bold"
+          onClick={() => sendVerifyCode({ phoneNumber, code: pincode.join('') })}
+          loading={isVerifyPending || isRefetching}
+        >
           {t('login.pin_code.continue')}
         </Button>
         <Button
@@ -59,8 +91,8 @@ export const VerifyPincodeStep = ({ goBack }: VerifyPincodeStepProps) => {
           color="brand.950"
           fontWeight="bold"
           fontSize="md"
-          //   TODO: Add resend code functionality
-          onClick={() => alert('נשמע לי כמו בעיה שלך')}
+          loading={isResendPending}
+          onClick={() => sendCode({ phoneNumber })}
         >
           {t('login.pin_code.didnt_get_code')}
         </Button>
