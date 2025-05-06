@@ -46,6 +46,7 @@ type ExpenseContextValue = {
     handleCancel: () => void;
     setDescription: (description: string) => void;
     setPaidBy: (user: User) => void;
+    isExpenseDetailsLoading: boolean;
     expenseDetails: ExpenseDetails;
 }
 
@@ -272,6 +273,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             setPaidBy,
             setDescription,
             expenseId,
+            isExpenseDetailsLoading,
             expenseDetails
         }}>
             {children}

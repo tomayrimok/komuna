@@ -1,9 +1,10 @@
-import { Box, Card, Container, Flex, For, IconButton, SkeletonText, Stack } from "@chakra-ui/react"
+import { Box, Card, Container, Flex, For, Icon, IconButton, SkeletonText, Stack } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next";
 import { useApartmentExpenses } from "../../hooks/useApartmentExpenses";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
-import { LuPencil } from "react-icons/lu";
+import { LuArrowLeft, LuChevronLast, LuChevronLeft, LuPencil } from "react-icons/lu";
 import { useNavigate } from "@tanstack/react-router";
+import { useLocaleChange } from "../../hooks/useLocaleChange";
 
 const Expenses = () => {
 
@@ -11,6 +12,7 @@ const Expenses = () => {
 
     const { data, isLoading, isError } = useApartmentExpenses('60514c72-5b94-417f-b4a3-9da2092a267f', '9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     const navigate = useNavigate();
+    const { isRTL } = useLocaleChange();
 
     const dataPerMonth = data?.apartmentExpenses.reduce((acc: { [key: string]: any[] }, item) => {
         const month = new Date(item.expense_createdAt).toLocaleString('default', { month: 'numeric', year: 'numeric' });
@@ -35,10 +37,15 @@ const Expenses = () => {
                             <Stack gap={3}>
                                 <For each={expenses}>
                                     {(item) => (
-                                        <Card.Root width="100%" key={item.expense_expenseId}>
-                                            <Card.Body gap="2" p={4}>
-                                                <Flex gap="2" alignItems="center" justifyContent="space-between">
-                                                    <Flex direction="column">
+                                        <Card.Root
+                                            cursor={"pointer"}
+                                            onClick={() => navigate({ to: `/roommate/payments/expenses/${item.expense_expenseId}` })}
+                                            width="100%"
+                                            key={item.expense_expenseId}
+                                        >
+                                            <Card.Body p={4}>
+                                                <Flex gap="3" alignItems="center" justifyContent="space-between">
+                                                    <Flex direction="column" flexGrow={1}>
                                                         <Card.Title>{item.expense_description}</Card.Title>
                                                         <Card.Description as="div">
                                                             {item.paidByMe
@@ -57,11 +64,15 @@ const Expenses = () => {
                                                     >
                                                         {item.paidByMe
                                                             ? t("payments.you-lent", { amount: roundUpToXDigits(item.expense_amount - Number(item.splitAmount)) })
-                                                            : t("payments.you-borrowed", { amount: roundUpToXDigits(item.splitAmount) })}
+                                                            : t("payments.you-borrowed", { amount: roundUpToXDigits(item.splitAmount) })
+                                                        }
                                                     </Card.Description>
-                                                    <IconButton variant={"surface"} onClick={() => navigate({ to: `/roommate/payments/expenses/${item.expense_expenseId}` })} aria-label="Edit" size="sm" colorScheme="blue">
+                                                    {/* <IconButton variant={"surface"} onClick={() => navigate({ to: `/roommate/payments/expenses/${item.expense_expenseId}` })} aria-label="Edit" size="sm" colorScheme="blue">
                                                         <LuPencil />
-                                                    </IconButton>
+                                                    </IconButton> */}
+                                                    <Icon rotate={isRTL ? "unset" : "180deg"}>
+                                                        <LuChevronLeft />
+                                                    </Icon>
                                                 </Flex>
                                             </Card.Body>
                                         </Card.Root>
@@ -72,7 +83,6 @@ const Expenses = () => {
                     )}
                 </For>
             )}
-
         </Flex>
     )
 }

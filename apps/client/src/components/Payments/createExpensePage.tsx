@@ -10,8 +10,10 @@ import { useExpenseDetails } from "../../hooks/useExpenseDetails";
 
 const CreateExpensePage = () => {
 
-    const { expenseDetails, setAmount, areSplitsValuesEqual, setPaidBy, setDescription, handleSave, expenseId } = useExpense();
+    const { expenseDetails, setAmount, areSplitsValuesEqual, setPaidBy, setDescription, handleSave, expenseId, isExpenseDetailsLoading } = useExpense();
     const router = useRouter();
+
+    if (expenseId && isExpenseDetailsLoading) return <Text>Loading...</Text>
 
     return (
         <Container>
@@ -25,9 +27,10 @@ const CreateExpensePage = () => {
                 <NumberInput.Root
                     maxW="200px"
                     onValueChange={(e) => setAmount(Number(e.value))}
+                    value={String(expenseDetails.amount)}
                 >
                     <NumberInput.Control />
-                    <NumberInput.Input placeholder="0.00" defaultValue={expenseDetails.amount} />
+                    <NumberInput.Input placeholder="0.00" />
                 </NumberInput.Root>
                 <Text fontSize="xl" >
                     ₪

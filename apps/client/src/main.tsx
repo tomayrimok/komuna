@@ -31,7 +31,7 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 
 const Root = () => {
-  const locale = useLocaleChange();
+  const { locale } = useLocaleChange();
   const queryClient = new QueryClient()
 
   return (
