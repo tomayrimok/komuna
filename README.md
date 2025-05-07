@@ -18,6 +18,14 @@ Komuna is a full-stack monorepo application designed for scalability and product
 
 ---
 
+## 🎨 Figma Design
+
+Explore the design prototype for Komuna on Figma:
+
+https://www.figma.com/design/V2BrxtwUVtK9lO7UKkqbLA/Komuna-App?node-id=0-1&p=f
+
+---
+
 ## ✨ Quick Start
 
 ### 📦 Install dependencies
