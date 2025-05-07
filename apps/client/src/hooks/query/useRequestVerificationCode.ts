@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { API } from '../../axios';
 import { LoginDto } from '@komuna/types';
 import { AxiosError } from 'axios';
-import { toaster } from '../../chakra/ui/toaster';
+import { toaster } from '../../chakra/ui/toaster/toaster-store';
 import { t } from 'i18next';
 
 const sendVerificationCode = async (data: LoginDto) => {

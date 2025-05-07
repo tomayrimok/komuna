@@ -8,7 +8,7 @@ import { useLocaleChange } from './hooks/useLocaleChange';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
-import { Toaster } from './chakra/ui/toaster';
+import { Toaster } from './chakra/ui/toaster/Toaster';
 import { WebView } from './components/WebView';
 
 const router = createRouter({

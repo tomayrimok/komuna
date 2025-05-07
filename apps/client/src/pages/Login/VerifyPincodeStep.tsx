@@ -5,7 +5,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { LoginLayout } from './LoginLayout';
 import { BackNavigationBar } from '../../components/BackNavigationBar';
 import { useRequestVerificationCode } from '../../hooks/query/useRequestVerificationCode';
-import { toaster } from '../../chakra/ui/toaster';
+import { toaster } from '../../chakra/ui/toaster/toaster-store';
 import { useVerifyCode } from '../../hooks/query/useVerifyCode';
 import { useAuth } from '../../context/auth/AuthProvider';
 
