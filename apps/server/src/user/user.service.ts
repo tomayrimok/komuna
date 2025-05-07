@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { addMinutes } from 'date-fns';
 import { JwtService } from '@nestjs/jwt';
@@ -8,6 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { generateVerificationCode } from '../utils/generateVerificationCode';
 import { AuthUser } from './auth-user.entity';
 import { UserJwtPayload } from './dto/jwt-user.dto';
+import { isSMSEnabled } from '../utils/isSMSEnabled';
 
 @Injectable()
 export class UserService {
@@ -18,6 +20,7 @@ export class UserService {
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
   ) {}
+  private readonly logger = new Logger(UserService.name);
 
   async updateAuthUserVerificationCode(phoneNumber: string): Promise<string> {
     let user = await this.authUserRepo.findOne({ where: { phoneNumber } });
@@ -92,5 +95,41 @@ export class UserService {
   // Updates user details
   async updateUserDetails(user: Partial<CreateUserDto>) {
     return await this.userRepo.update({ phoneNumber: user.phoneNumber }, user);
+  }
+
+  async sendVerificationSMSToPhone(phoneNumber: string, pincode: string) {
+    if (!isSMSEnabled()) {
+      this.logger.warn('SMS service is not enabled');
+      return;
+    }
+
+    const ALLOWED_PHONE_NUMBERS = process.env.SMS_ALLOWED_NUMBERS?.split(',').map((item) => item.trim());
+
+    if (!ALLOWED_PHONE_NUMBERS.includes(phoneNumber)) {
+      Logger.error(`Phone number ${phoneNumber} is not allowed to send SMS`);
+      throw new Error('Phone number is not allowed to send SMS');
+    }
+
+    try {
+      const auth = btoa(`${process.env.SMS_USERNAME}:${process.env.SMS_PASSWORD}`);
+
+      const result = await axios.post(
+        `http://${process.env.SMS_LOCAL_ADDRESS}/message`,
+        {
+          message: 'הקוד שלך לאימות באפליקציית קומונה הוא: ' + pincode,
+          phoneNumbers: [phoneNumber],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${auth}`,
+          },
+        }
+      );
+      return result.data;
+    } catch (error) {
+      Logger.error('Error sending SMS', error);
+      throw new Error('Failed to send SMS');
+    }
   }
 }
