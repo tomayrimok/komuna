@@ -19,16 +19,26 @@ import { Payment } from '../payment/payment.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
+import { AuthUser } from '../user/auth-user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [User, UserApartment, Apartment, DebtEdge, Expense, ExpenseSplit, Incident, Payment, ShoppingList, ShoppingTemplate, Task],
+      entities: [
+        User,
+        AuthUser,
+        UserApartment,
+        Apartment,
+        DebtEdge,
+        Expense,
+        ExpenseSplit,
+        Incident,
+        Payment,
+        ShoppingList,
+        ShoppingTemplate,
+        Task,
+      ],
       synchronize: true,
     }),
     DebtEdgeModule,
@@ -36,10 +46,9 @@ import { Task } from '../task/task.entity';
     ExpenseModule,
     PaymentModule,
     ApartmentModule,
-    UserApartmentModule
+    UserApartmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
-
 })
-export class AppModule { }
+export class AppModule {}

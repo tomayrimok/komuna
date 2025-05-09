@@ -1,59 +1,66 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { UserRole } from '@komuna/types';
+import { UserResponse, UserRole } from '@komuna/types';
+import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
+import { LoadingApp } from '../../components/LoadingApp';
+import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
+import { API } from '../../axios';
 
-type Auth = {
-  isAuthenticated: boolean;
+type SessionDetails = {
+  apartmentId: string | null;
   role: UserRole | null;
-  user?: {
-    id: string;
-  };
 };
 
 // Define the context value: auth state + login/logout helpers
 export interface AuthContextValue {
-  auth: Auth;
-  login: (role: UserRole) => void;
+  sessionDetails: SessionDetails;
+  isAuthLoading: boolean;
+  isRefetching: boolean;
+  currentUserDetails?: UserResponse | null;
+  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<UserResponse | null, Error>>;
   logout: () => void;
 }
 
 export const defaultAuthContextValues: AuthContextValue = {
-  auth: {
-    isAuthenticated: true,
+  sessionDetails: {
+    apartmentId: null,
     role: null,
   },
-  login: () => null,
+  isAuthLoading: true,
+  isRefetching: false,
   logout: () => null,
 };
 
-export const AuthContext = createContext<AuthContextValue>(
-  defaultAuthContextValues
-);
+export const AuthContext = createContext<AuthContextValue>(defaultAuthContextValues);
 
-// Provider component that wraps your app
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [auth, setAuth] = useState<Auth>({
-    isAuthenticated: true,
+  const queryClient = useQueryClient();
+  const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
+  const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
+    apartmentId: null,
     role: null,
   });
 
-  const login = (role: UserRole) => {
-    // In a real app, you'd verify credentials, fetch tokens, etc.
-    setAuth({ isAuthenticated: true, role, user: { id: 'user-id' } });
-  };
-
-  const logout = () => {
+  const logout = async () => {
     // Clear any stored tokens or session info here
-    setAuth({ isAuthenticated: false, role: null });
+    try {
+      await API.post('/user/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    setSessionDetails(defaultAuthContextValues.sessionDetails);
+    queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
 
+  if (isAuthLoading) return <LoadingApp />;
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider
+      value={{ sessionDetails, isAuthLoading, isRefetching, currentUserDetails, logout, refetchAuth }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to access auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

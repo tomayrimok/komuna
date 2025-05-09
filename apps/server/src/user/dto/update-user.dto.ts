@@ -1,25 +1,16 @@
 import { IsString, IsOptional, IsPhoneNumber } from 'class-validator';
+import { CreateUserDto as BaseCreateUserDto } from '@komuna/types';
+export class CreateUserDto implements BaseCreateUserDto {
+  @IsPhoneNumber(null)
+  phoneNumber: string;
 
-export class UpdateUserDto {
+  @IsString()
+  firstName: string;
 
-    @IsString()
-    userId: string;
+  @IsString()
+  lastName: string;
 
-    @IsPhoneNumber(null)
-    phoneNumber: string;
-
-    @IsString()
-    firstName: string;
-
-    @IsString()
-    lastName: string;
-
-    @IsOptional()
-    @IsString()
-    image?: string;
-
-    @IsOptional()
-    @IsString()
-    verificationCode?: string;
-
+  @IsOptional()
+  @IsString()
+  image?: string;
 }
