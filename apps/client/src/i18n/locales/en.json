@@ -35,6 +35,7 @@
         "owe-you": "Owes you {{amount}}₪",
         "payment-made": "Payment made from {{payer}} to {{receiver}}",
         "amount-prefix": "For the amount of",
-        "create-expense": "Create Expense"
+        "create-expense": "Create Expense",
+        "no-expenses": "No expenses"
     }
 }

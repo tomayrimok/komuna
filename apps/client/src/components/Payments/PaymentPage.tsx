@@ -6,7 +6,13 @@ import CreateExpenseButton from "./createExpenseButton";
 const PaymentPage = () => {
 
     return (
-        <Stack gap="4" direction="row" wrap="wrap" width={"100%"} >
+        <Stack
+            paddingY="44px"
+            paddingX="25px"
+            gap="4"
+            direction="row"
+            wrap="wrap"
+        >
             <BalanceCard />
             <Expenses />
             <CreateExpenseButton />

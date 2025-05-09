@@ -12,15 +12,15 @@ import {
 import { Response } from 'express';
 import { LoginDto, VerifyPhoneNumberDto } from './dto/login.dot';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../decorators/User';
 import { UseAuth } from '../decorators/UseAuth';
 import { UserJwtPayload } from './dto/jwt-user.dto';
 import { isValidPhoneNumber } from 'libphonenumber-js/max';
+import { CreateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
   private readonly logger = new Logger(UserController.name);
 
   @Post('login')
@@ -119,10 +119,16 @@ export class UserController {
   @UseAuth()
   async getCurrentUserProfile(@User() user: UserJwtPayload) {
     try {
+
+      console.log(1);
       if (!user || !user.phoneNumber) {
         return { user: null };
       }
+      console.log(2);
+
       const currentUser = await this.userService.getUserByPhone(user.phoneNumber);
+      console.log(3);
+
       return { user: currentUser };
     } catch (error) {
       this.logger.error('Error in loginOrCreate:', error);
