@@ -7,7 +7,6 @@ import {
   Logger,
   Post,
   Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginDto, VerifyPhoneNumberDto } from './dto/login.dot';
@@ -37,7 +36,8 @@ export class UserController {
           description: 'מספר הטלפון שהוקש איננו תקין. אנא נסו בשנית',
         });
       }
-      await this.userService.updateAuthUserVerificationCode(loginDto.phoneNumber);
+      const code = await this.userService.updateAuthUserVerificationCode(loginDto.phoneNumber);
+      await this.userService.sendVerificationSMSToPhone(loginDto.phoneNumber, code);
       return { success: true };
     } catch (error) {
       this.logger.error('Error in loginOrCreate:', error.stack);
