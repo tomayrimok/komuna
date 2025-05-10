@@ -1,19 +1,28 @@
 // src/hooks/useDebts.ts
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postCreatePayment } from "../api/createPayment";
+import { useNavigate } from "@tanstack/react-router";
+import { toaster } from "../chakra/ui/toaster";
+import { useTranslation } from "react-i18next";
+import { useAuthQuery } from "./query/useAuthQuery";
+import { useAuth } from "../context/auth/AuthProvider";
 
 export const useCreatePayment = () => {
+
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+    const queryClient = useQueryClient();
+    const { currentUserDetails } = useAuth();
+
     return useMutation({
         mutationFn: postCreatePayment,
-        onSuccess: (data) => {
-            // toast.success(data.message || 'Payment created successfully!');
-            // // Invalidate relevant queries to update the UI
-            // queryClient.invalidateQueries({ queryKey: ['debt-details', debtId] }); // Example: Invalidate debt details
-            // queryClient.invalidateQueries({ queryKey: ['debts'] }); // Invalidate list of debts
-            //  setValue(undefined); //removed setValue and changed state to amount
+        onSuccess: (data, variables) => {
+            navigate({ to: '/roommate/payments' });
+            toaster.success({ title: t('payments.settle-up-success') });
+            queryClient.invalidateQueries({ queryKey: ["debtPayments", variables.apartmentId, currentUserDetails?.userId] });
         },
         onError: (error: Error) => {
-            // toast.error(`Failed to create payment: ${error.message}`);
+            toaster.error({ title: t('error.action_failed') });
         },
     });
 };

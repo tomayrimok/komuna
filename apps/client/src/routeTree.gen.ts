@@ -36,8 +36,10 @@ import { Route as RoommatePaymentsCreateExpenseImport } from './routes/roommate/
 import { Route as RoommateIncidentsIncidentIdImport } from './routes/roommate/incidents/$incidentId'
 import { Route as RoommatePaymentsSettleUpIndexImport } from './routes/roommate/payments/settle-up/index'
 import { Route as RoommatePaymentsExpensesIndexImport } from './routes/roommate/payments/expenses/index'
+import { Route as RoommatePaymentsSettleUpSuccessImport } from './routes/roommate/payments/settle-up/success'
 import { Route as RoommatePaymentsSettleUpDebtIdImport } from './routes/roommate/payments/settle-up/$debtId'
 import { Route as RoommatePaymentsExpensesExpenseIdImport } from './routes/roommate/payments/expenses/$expenseId'
+import { Route as RoommatePaymentsSettleUpUserToUserIdImport } from './routes/roommate/payments/settle-up/user/$toUserId'
 
 // Create Virtual Routes
 
@@ -204,6 +206,13 @@ const RoommatePaymentsExpensesIndexRoute =
     getParentRoute: () => RoommateRoute,
   } as any)
 
+const RoommatePaymentsSettleUpSuccessRoute =
+  RoommatePaymentsSettleUpSuccessImport.update({
+    id: '/payments/settle-up/success',
+    path: '/payments/settle-up/success',
+    getParentRoute: () => RoommateRoute,
+  } as any)
+
 const RoommatePaymentsSettleUpDebtIdRoute =
   RoommatePaymentsSettleUpDebtIdImport.update({
     id: '/payments/settle-up/$debtId',
@@ -215,6 +224,13 @@ const RoommatePaymentsExpensesExpenseIdRoute =
   RoommatePaymentsExpensesExpenseIdImport.update({
     id: '/payments/expenses/$expenseId',
     path: '/payments/expenses/$expenseId',
+    getParentRoute: () => RoommateRoute,
+  } as any)
+
+const RoommatePaymentsSettleUpUserToUserIdRoute =
+  RoommatePaymentsSettleUpUserToUserIdImport.update({
+    id: '/payments/settle-up/user/$toUserId',
+    path: '/payments/settle-up/user/$toUserId',
     getParentRoute: () => RoommateRoute,
   } as any)
 
@@ -404,6 +420,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoommatePaymentsSettleUpDebtIdImport
       parentRoute: typeof RoommateImport
     }
+    '/roommate/payments/settle-up/success': {
+      id: '/roommate/payments/settle-up/success'
+      path: '/payments/settle-up/success'
+      fullPath: '/roommate/payments/settle-up/success'
+      preLoaderRoute: typeof RoommatePaymentsSettleUpSuccessImport
+      parentRoute: typeof RoommateImport
+    }
     '/roommate/payments/expenses/': {
       id: '/roommate/payments/expenses/'
       path: '/payments/expenses'
@@ -416,6 +439,13 @@ declare module '@tanstack/react-router' {
       path: '/payments/settle-up'
       fullPath: '/roommate/payments/settle-up'
       preLoaderRoute: typeof RoommatePaymentsSettleUpIndexImport
+      parentRoute: typeof RoommateImport
+    }
+    '/roommate/payments/settle-up/user/$toUserId': {
+      id: '/roommate/payments/settle-up/user/$toUserId'
+      path: '/payments/settle-up/user/$toUserId'
+      fullPath: '/roommate/payments/settle-up/user/$toUserId'
+      preLoaderRoute: typeof RoommatePaymentsSettleUpUserToUserIdImport
       parentRoute: typeof RoommateImport
     }
   }
@@ -473,8 +503,10 @@ interface RoommateRouteChildren {
   RoommatePaymentsIndexRoute: typeof RoommatePaymentsIndexRoute
   RoommatePaymentsExpensesExpenseIdRoute: typeof RoommatePaymentsExpensesExpenseIdRoute
   RoommatePaymentsSettleUpDebtIdRoute: typeof RoommatePaymentsSettleUpDebtIdRoute
+  RoommatePaymentsSettleUpSuccessRoute: typeof RoommatePaymentsSettleUpSuccessRoute
   RoommatePaymentsExpensesIndexRoute: typeof RoommatePaymentsExpensesIndexRoute
   RoommatePaymentsSettleUpIndexRoute: typeof RoommatePaymentsSettleUpIndexRoute
+  RoommatePaymentsSettleUpUserToUserIdRoute: typeof RoommatePaymentsSettleUpUserToUserIdRoute
 }
 
 const RoommateRouteChildren: RoommateRouteChildren = {
@@ -490,8 +522,11 @@ const RoommateRouteChildren: RoommateRouteChildren = {
   RoommatePaymentsExpensesExpenseIdRoute:
     RoommatePaymentsExpensesExpenseIdRoute,
   RoommatePaymentsSettleUpDebtIdRoute: RoommatePaymentsSettleUpDebtIdRoute,
+  RoommatePaymentsSettleUpSuccessRoute: RoommatePaymentsSettleUpSuccessRoute,
   RoommatePaymentsExpensesIndexRoute: RoommatePaymentsExpensesIndexRoute,
   RoommatePaymentsSettleUpIndexRoute: RoommatePaymentsSettleUpIndexRoute,
+  RoommatePaymentsSettleUpUserToUserIdRoute:
+    RoommatePaymentsSettleUpUserToUserIdRoute,
 }
 
 const RoommateRouteWithChildren = RoommateRoute._addFileChildren(
@@ -522,8 +557,10 @@ export interface FileRoutesByFullPath {
   '/roommate/payments': typeof RoommatePaymentsIndexRoute
   '/roommate/payments/expenses/$expenseId': typeof RoommatePaymentsExpensesExpenseIdRoute
   '/roommate/payments/settle-up/$debtId': typeof RoommatePaymentsSettleUpDebtIdRoute
+  '/roommate/payments/settle-up/success': typeof RoommatePaymentsSettleUpSuccessRoute
   '/roommate/payments/expenses': typeof RoommatePaymentsExpensesIndexRoute
   '/roommate/payments/settle-up': typeof RoommatePaymentsSettleUpIndexRoute
+  '/roommate/payments/settle-up/user/$toUserId': typeof RoommatePaymentsSettleUpUserToUserIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -549,8 +586,10 @@ export interface FileRoutesByTo {
   '/roommate/payments': typeof RoommatePaymentsIndexRoute
   '/roommate/payments/expenses/$expenseId': typeof RoommatePaymentsExpensesExpenseIdRoute
   '/roommate/payments/settle-up/$debtId': typeof RoommatePaymentsSettleUpDebtIdRoute
+  '/roommate/payments/settle-up/success': typeof RoommatePaymentsSettleUpSuccessRoute
   '/roommate/payments/expenses': typeof RoommatePaymentsExpensesIndexRoute
   '/roommate/payments/settle-up': typeof RoommatePaymentsSettleUpIndexRoute
+  '/roommate/payments/settle-up/user/$toUserId': typeof RoommatePaymentsSettleUpUserToUserIdRoute
 }
 
 export interface FileRoutesById {
@@ -581,94 +620,102 @@ export interface FileRoutesById {
   '/roommate/payments/': typeof RoommatePaymentsIndexRoute
   '/roommate/payments/expenses/$expenseId': typeof RoommatePaymentsExpensesExpenseIdRoute
   '/roommate/payments/settle-up/$debtId': typeof RoommatePaymentsSettleUpDebtIdRoute
+  '/roommate/payments/settle-up/success': typeof RoommatePaymentsSettleUpSuccessRoute
   '/roommate/payments/expenses/': typeof RoommatePaymentsExpensesIndexRoute
   '/roommate/payments/settle-up/': typeof RoommatePaymentsSettleUpIndexRoute
+  '/roommate/payments/settle-up/user/$toUserId': typeof RoommatePaymentsSettleUpUserToUserIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/login'
-    | '/select-apartment'
-    | '/landloard'
-    | '/landloard/apartment-details'
-    | '/landloard/incidents'
-    | '/landloard/settings'
-    | '/onboarding'
-    | '/onboarding/create-apartment'
-    | '/onboarding/create-profile'
-    | '/onboarding/invite'
-    | '/onboarding/select-role'
-    | '/roommate'
-    | '/roommate/balances'
-    | '/roommate/shopping'
-    | '/roommate/tasks'
-    | '/roommate/'
-    | '/roommate/incidents/$incidentId'
-    | '/roommate/payments/create-expense'
-    | '/roommate/incidents'
-    | '/roommate/payments'
-    | '/roommate/payments/expenses/$expenseId'
-    | '/roommate/payments/settle-up/$debtId'
-    | '/roommate/payments/expenses'
-    | '/roommate/payments/settle-up'
+  | '/'
+  | '/login'
+  | '/select-apartment'
+  | '/landloard'
+  | '/landloard/apartment-details'
+  | '/landloard/incidents'
+  | '/landloard/settings'
+  | '/onboarding'
+  | '/onboarding/create-apartment'
+  | '/onboarding/create-profile'
+  | '/onboarding/invite'
+  | '/onboarding/select-role'
+  | '/roommate'
+  | '/roommate/balances'
+  | '/roommate/shopping'
+  | '/roommate/tasks'
+  | '/roommate/'
+  | '/roommate/incidents/$incidentId'
+  | '/roommate/payments/create-expense'
+  | '/roommate/incidents'
+  | '/roommate/payments'
+  | '/roommate/payments/expenses/$expenseId'
+  | '/roommate/payments/settle-up/$debtId'
+  | '/roommate/payments/settle-up/success'
+  | '/roommate/payments/expenses'
+  | '/roommate/payments/settle-up'
+  | '/roommate/payments/settle-up/user/$toUserId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/login'
-    | '/select-apartment'
-    | '/landloard'
-    | '/landloard/apartment-details'
-    | '/landloard/incidents'
-    | '/landloard/settings'
-    | '/onboarding'
-    | '/onboarding/create-apartment'
-    | '/onboarding/create-profile'
-    | '/onboarding/invite'
-    | '/onboarding/select-role'
-    | '/roommate'
-    | '/roommate/balances'
-    | '/roommate/shopping'
-    | '/roommate/tasks'
-    | '/roommate/incidents/$incidentId'
-    | '/roommate/payments/create-expense'
-    | '/roommate/incidents'
-    | '/roommate/payments'
-    | '/roommate/payments/expenses/$expenseId'
-    | '/roommate/payments/settle-up/$debtId'
-    | '/roommate/payments/expenses'
-    | '/roommate/payments/settle-up'
+  | '/'
+  | '/login'
+  | '/select-apartment'
+  | '/landloard'
+  | '/landloard/apartment-details'
+  | '/landloard/incidents'
+  | '/landloard/settings'
+  | '/onboarding'
+  | '/onboarding/create-apartment'
+  | '/onboarding/create-profile'
+  | '/onboarding/invite'
+  | '/onboarding/select-role'
+  | '/roommate'
+  | '/roommate/balances'
+  | '/roommate/shopping'
+  | '/roommate/tasks'
+  | '/roommate/incidents/$incidentId'
+  | '/roommate/payments/create-expense'
+  | '/roommate/incidents'
+  | '/roommate/payments'
+  | '/roommate/payments/expenses/$expenseId'
+  | '/roommate/payments/settle-up/$debtId'
+  | '/roommate/payments/settle-up/success'
+  | '/roommate/payments/expenses'
+  | '/roommate/payments/settle-up'
+  | '/roommate/payments/settle-up/user/$toUserId'
   id:
-    | '__root__'
-    | '/'
-    | '/login'
-    | '/select-apartment'
-    | '/landloard'
-    | '/landloard/_layout'
-    | '/landloard/apartment-details'
-    | '/landloard/incidents'
-    | '/landloard/settings'
-    | '/onboarding'
-    | '/onboarding/_layout'
-    | '/onboarding/create-apartment'
-    | '/onboarding/create-profile'
-    | '/onboarding/invite'
-    | '/onboarding/select-role'
-    | '/roommate'
-    | '/roommate/_layout'
-    | '/roommate/balances'
-    | '/roommate/shopping'
-    | '/roommate/tasks'
-    | '/roommate/'
-    | '/roommate/incidents/$incidentId'
-    | '/roommate/payments/create-expense'
-    | '/roommate/incidents/'
-    | '/roommate/payments/'
-    | '/roommate/payments/expenses/$expenseId'
-    | '/roommate/payments/settle-up/$debtId'
-    | '/roommate/payments/expenses/'
-    | '/roommate/payments/settle-up/'
+  | '__root__'
+  | '/'
+  | '/login'
+  | '/select-apartment'
+  | '/landloard'
+  | '/landloard/_layout'
+  | '/landloard/apartment-details'
+  | '/landloard/incidents'
+  | '/landloard/settings'
+  | '/onboarding'
+  | '/onboarding/_layout'
+  | '/onboarding/create-apartment'
+  | '/onboarding/create-profile'
+  | '/onboarding/invite'
+  | '/onboarding/select-role'
+  | '/roommate'
+  | '/roommate/_layout'
+  | '/roommate/balances'
+  | '/roommate/shopping'
+  | '/roommate/tasks'
+  | '/roommate/'
+  | '/roommate/incidents/$incidentId'
+  | '/roommate/payments/create-expense'
+  | '/roommate/incidents/'
+  | '/roommate/payments/'
+  | '/roommate/payments/expenses/$expenseId'
+  | '/roommate/payments/settle-up/$debtId'
+  | '/roommate/payments/settle-up/success'
+  | '/roommate/payments/expenses/'
+  | '/roommate/payments/settle-up/'
+  | '/roommate/payments/settle-up/user/$toUserId'
   fileRoutesById: FileRoutesById
 }
 
@@ -786,8 +833,10 @@ export const routeTree = rootRoute
         "/roommate/payments/",
         "/roommate/payments/expenses/$expenseId",
         "/roommate/payments/settle-up/$debtId",
+        "/roommate/payments/settle-up/success",
         "/roommate/payments/expenses/",
-        "/roommate/payments/settle-up/"
+        "/roommate/payments/settle-up/",
+        "/roommate/payments/settle-up/user/$toUserId"
       ]
     },
     "/roommate/_layout": {
@@ -834,12 +883,20 @@ export const routeTree = rootRoute
       "filePath": "roommate/payments/settle-up/$debtId.tsx",
       "parent": "/roommate"
     },
+    "/roommate/payments/settle-up/success": {
+      "filePath": "roommate/payments/settle-up/success.tsx",
+      "parent": "/roommate"
+    },
     "/roommate/payments/expenses/": {
       "filePath": "roommate/payments/expenses/index.tsx",
       "parent": "/roommate"
     },
     "/roommate/payments/settle-up/": {
       "filePath": "roommate/payments/settle-up/index.tsx",
+      "parent": "/roommate"
+    },
+    "/roommate/payments/settle-up/user/$toUserId": {
+      "filePath": "roommate/payments/settle-up/user/$toUserId.tsx",
       "parent": "/roommate"
     }
   }

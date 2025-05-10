@@ -1,13 +1,16 @@
-import { Button, Card, For, SkeletonText, Stack } from "@chakra-ui/react"
-import { useTranslation } from "react-i18next";
-import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
+import { Button, Card, For, SkeletonText, Stack } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/auth/AuthProvider";
+import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 const BalanceCard = () => {
 
     const { t } = useTranslation();
-    const { data, isLoading, isError } = useUserBalanceDetails('60514c72-5b94-417f-b4a3-9da2092a267f', '9ebd215a-8101-4a5a-96c3-04016aabcd1b');
+    const { currentUserDetails } = useAuth();
+
+    const { data, isLoading, isError } = useUserBalanceDetails('60514c72-5b94-417f-b4a3-9da2092a267f', currentUserDetails!.userId);
     const navigate = useNavigate();
 
     return (
@@ -45,13 +48,7 @@ const BalanceCard = () => {
             <Card.Footer justifyContent="flex-end">
                 <Button
                     onClick={() => {
-                        navigate({
-                            to: '/roommate/payments/settle-up',
-                            params: {
-                                userId: '60514c72-5b94-417f-b4a3-9da2092a267f',
-                                debtId: '9ebd215a-8101-4a5a-96c3-04016aabcd1b'
-                            }
-                        })
+                        navigate({ to: '/roommate/payments/settle-up' })
                     }}
                 >
                     {t('payments.settle-up')}

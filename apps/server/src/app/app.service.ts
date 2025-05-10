@@ -30,7 +30,7 @@ export class AppService implements OnModuleInit {
     // const ccc = await this.userService.getUserById('6beae274-68db-488c-a98b-95f3bbf304d6');
     // const apartment = await this.apartmentService.createApartment({ name: 'Herzel 14', code: '1111' });
     // create user-apartment relation
-    // await this.userApartmentService.createUserApartment({ userId: ccc.userId, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', role: UserRole.ROOMMATE });
+    // await this.userApartmentService.createUserApartment({ userId: 'f78062db-c451-4ad6-8ebb-5ef8e9bc9f7d', apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', role: UserRole.ROOMMATE });
     // await this.userApartmentService.createUserApartment({ userId: bbb.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
     // Now bbb payed for batteries
     // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 500, apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f', splits: { [aaa.userId]: 100, [bbb.userId]: 400 } }, aaa.userId);

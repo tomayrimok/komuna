@@ -33,10 +33,11 @@
         "settle-up-title": "עם מי נסגור חשבון?",
         "you-owe": "צריך לשלם\n{{amount}}₪",
         "owe-you": "צריך לקבל\n{{amount}}₪",
-        "payment-made": "התבצע תשלום מ{{payer}} ל{{receiver}}",
-        "amount-prefix": "בסכום של",
+        "payment-title": "בואו נסגור את זה בלחיצה",
+        "payment-made": "התבצע תשלום מ<strong>{{payer}}</strong> ל<strong>{{receiver}}</strong> בסכום של",
         "create-expense": "יצירת הוצאה",
-        "no-expenses": "אין הוצאות"
+        "no-expenses": "אין הוצאות",
+        "settle-up-success": "החוב שולם בהצלחה"
     },
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",

@@ -1,16 +1,18 @@
-import { Box, Card, Container, Flex, For, Icon, IconButton, SkeletonText, Stack, Text } from "@chakra-ui/react"
-import { useTranslation } from "react-i18next";
-import { useApartmentExpenses } from "../../hooks/useApartmentExpenses";
-import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
-import { LuArrowLeft, LuChevronLast, LuChevronLeft, LuPencil } from "react-icons/lu";
+import { Box, Card, Flex, For, Icon, SkeletonText, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { LuChevronLeft } from "react-icons/lu";
+import { useAuth } from "../../context/auth/AuthProvider";
+import { useApartmentExpenses } from "../../hooks/useApartmentExpenses";
 import { useLocaleChange } from "../../hooks/useLocaleChange";
+import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 
 const Expenses = () => {
 
     const { t } = useTranslation();
+    const { currentUserDetails } = useAuth();
 
-    const { data, isLoading, isError } = useApartmentExpenses('60514c72-5b94-417f-b4a3-9da2092a267f', '9ebd215a-8101-4a5a-96c3-04016aabcd1b');
+    const { data, isLoading, isError } = useApartmentExpenses('60514c72-5b94-417f-b4a3-9da2092a267f', currentUserDetails!.userId);
     const navigate = useNavigate();
     const { isRTL } = useLocaleChange();
 
