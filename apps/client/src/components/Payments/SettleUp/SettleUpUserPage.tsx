@@ -9,7 +9,7 @@ import { SettleUpDetails } from "./SettleUpDetails";
 export const SettleUpUser = () => {
 
     const { toUserId } = useParams({ from: '/roommate/payments/settle-up/user/$toUserId' });
-    const { data: apartmentData } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
+    const { data: apartmentData } = useApartment();
     const { currentUserDetails } = useAuth();
     const { t } = useTranslation();
 

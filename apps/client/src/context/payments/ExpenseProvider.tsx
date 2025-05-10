@@ -1,15 +1,16 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect, PropsWithChildren, useMemo } from 'react';
-import { User, UserRole } from '@komuna/types';
+import React, { createContext, useContext, useState, useEffect, PropsWithChildren, useMemo } from 'react';
+import { User } from '@komuna/types';
 import { useApartment } from '../../hooks/useApartment';
 import EqualSplit from '../../components/Payments/SplitDetailsDrawer/equalSplit';
 import NumberSplit from '../../components/Payments/SplitDetailsDrawer/numberSplit';
 import PercentageSplit from '../../components/Payments/SplitDetailsDrawer/percentageSplit';
-import useExpenseSplits from '../../hooks/useExpenseSplits';
 import { toaster } from '../../chakra/ui/toaster';
-import { useCreateExpense } from '../../hooks/useCreateExpense';
+import { useAddEditExpense } from '../../hooks/useAddEditExpense';
 import { ExpenseDetails } from '../../api/expenseDetails';
 import { useParams } from '@tanstack/react-router';
 import { useExpenseDetails } from '../../hooks/useExpenseDetails';
+import { useAuth } from '../auth/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 type SplitTypeData = {
     component: React.ReactNode;
@@ -48,6 +49,10 @@ type ExpenseContextValue = {
     setPaidBy: (user: User) => void;
     isExpenseDetailsLoading: boolean;
     expenseDetails: ExpenseDetails;
+    helperText?: {
+        outOf: string;
+        remaining: string;
+    };
 }
 
 export type SplitType = 'equal' | 'number' | 'percentage';
@@ -56,13 +61,15 @@ export const ExpenseContext = createContext<ExpenseContextValue | null>(null);
 
 export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: string }>) => {
 
-    const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
-    const { mutate: createExpense } = useCreateExpense();
+    const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment();
+    const { mutate: createExpense } = useAddEditExpense();
     const [open, setOpen] = useState(false);
     const [splitType, setSplitType] = useState<SplitType>('equal');
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
     const [usersFixedAmounts, setUsersFixedAmounts] = useState<{ [userId: string]: number }>({});
     const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
+    const { currentUserDetails } = useAuth();
+    const { t } = useTranslation();
     // const [amount, setAmount] = useState(0);
     // const [payedBy, setPayedBy] = useState<User>({ firstName: "test", lastName: "test", userId: "test", phoneNumber: "test" });
     // const [description, setDescription] = useState("");
@@ -73,9 +80,9 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         apartmentId: '',
         amount: 0,
         description: '',
-        paidByUser: {} as User,
+        paidByUser: currentUserDetails || {} as User,
         splits: {},
-        paidById: '',
+        paidById: currentUserDetails?.userId || '',
         createdAt: '',
     });
 
@@ -93,7 +100,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
 
         Object.entries(expenseDetailsData?.splits || {}).forEach(([userId, value]) => {
             fixedAmounts[userId] = value;
-            percentages[userId] = (value / expenseDetailsData.amount) * 100;
+            percentages[userId] = parseFloat(((value / expenseDetailsData.amount) * 100).toFixed(2));
         });
 
         setUsersFixedAmounts(fixedAmounts);
@@ -191,6 +198,17 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         return currentSplitTypeData.isEqual();
     }, [splitTypesData, splitType]);
 
+    const helperText = useMemo(() => {
+        if (splitType === 'number') {
+            const amount = Object.values(usersFixedAmounts).reduce((acc, val) => acc + val, 0);
+            return { outOf: t('payments.expense.out-of', { total: expenseDetails?.amount + "₪", amount: amount + "₪" }), remaining: t('payments.expense.remaining', { amount: (expenseDetails?.amount - amount) + "₪" }) };
+        }
+        if (splitType === 'percentage') {
+            const amount = Object.values(usersPercentage).reduce((acc, val) => acc + val, 0);
+            return { outOf: t('payments.expense.out-of', { total: "100%", amount: amount + "%" }), remaining: t('payments.expense.remaining', { amount: (100 - amount) + "%" }) };
+        }
+    }, [splitTypesData, splitType, usersFixedAmounts, expenseDetails?.amount]);
+
 
     useEffect(() => {
         if (!apartmentData) return;
@@ -207,11 +225,9 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const handleSaveSplits = () => {
         const currentSplitTypeData = splitTypesData[splitType];
         if (!currentSplitTypeData.isValid()) {
-            toaster.create({ title: "Error", description: "Please fill all the required fields", meta: { closable: true } }); //todo noam
+            toaster.error({ title: "Error", description: "Please fill all the required fields", meta: { closable: true } }); //todo noam
             return;
         }
-
-
         setOpen(false);
     }
 
@@ -233,7 +249,6 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     }
 
     const setAmount = (amount: number) => {
-        console.log('amount :', amount);
         setExpenseDetails(prev => ({ ...prev, amount }));
     };
 
@@ -274,7 +289,8 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             setDescription,
             expenseId,
             isExpenseDetailsLoading,
-            expenseDetails
+            expenseDetails,
+            helperText
         }}>
             {children}
         </ExpenseContext.Provider>

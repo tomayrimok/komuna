@@ -11,7 +11,7 @@ interface SelectUserDrawerProps {
 
 const SelectUserDrawer: React.FC<SelectUserDrawerProps> = ({ trigger, onSelect }) => {
 
-    const { data, isLoading, isError } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
+    const { data, isLoading, isError } = useApartment();
     const [open, setOpen] = useState(false)
 
     return (

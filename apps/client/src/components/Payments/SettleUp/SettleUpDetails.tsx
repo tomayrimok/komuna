@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useCreatePayment } from "../../../hooks/useCreatePayment";
 import { roundUpToXDigits } from "../../../utilities/roundUpToXDigits";
+import { useAuth } from "../../../context/auth/AuthProvider";
 
 interface SettleUpDetailsProps {
     fromUser: UserResponse;
@@ -16,6 +17,7 @@ export const SettleUpDetails: React.FC<SettleUpDetailsProps> = ({ debtAmount, fr
     const { mutate: createPayment } = useCreatePayment();
     const { t } = useTranslation();
     const [value, setValue] = useState<number>();
+    const { sessionDetails: { apartmentId } } = useAuth();
 
     useEffect(() => {
         if (debtAmount) {
@@ -71,7 +73,7 @@ export const SettleUpDetails: React.FC<SettleUpDetailsProps> = ({ debtAmount, fr
                     amount: value ?? 0,
                     fromId: fromUser!.userId,
                     toId: toUser!.userId,
-                    apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f',
+                    apartmentId: apartmentId!,
                 })}
             >
                 {t('payments.settle-up')}

@@ -11,9 +11,9 @@ const SettleUpPage = () => {
 
     const { t } = useTranslation();
     const { currentUserDetails } = useAuth();
-    const { data, isLoading, isError } = useUserBalanceDetails('60514c72-5b94-417f-b4a3-9da2092a267f', currentUserDetails!.userId);
+    const { data, isLoading, isError } = useUserBalanceDetails(currentUserDetails!.userId);
     const navigate = useNavigate();
-    const { data: apartmentData } = useApartment('60514c72-5b94-417f-b4a3-9da2092a267f');
+    const { data: apartmentData } = useApartment();
 
     const usersWithoutDebt = apartmentData?.residents.filter((user) => {
         console.log('data?.balanceDetails :', data?.balanceDetails);

@@ -22,7 +22,7 @@
     "payments": {
         "debt": "You have a small debt of {{amount}}₪ 😞",
         "balanced": "Everything is balanced here!",
-        "people-owe-you": "How nice! People owe you {{amount}}₪",
+        "people-owe-you": "How nice! People owe you {{amount}}₪ 🎉",
         "owe-you-to": "{{name}} owes you {{amount}}₪",
         "someone-you-owe": "You owe {{name}} {{amount}}₪",
         "settle-up": "Let's settle up",
@@ -37,6 +37,11 @@
         "amount-prefix": "For the amount of",
         "create-expense": "Create Expense",
         "no-expenses": "No expenses",
-        "settle-up-success": "The debt has been successfully settled"
+        "settle-up-success": "The debt has been successfully settled",
+        "expense": {
+            "out-of": "{{amount}} out of {{total}}",
+            "remaining": "{{amount}} remaining",
+            "expense-saved": "The expense has been successfully saved"
+        }
     }
 }

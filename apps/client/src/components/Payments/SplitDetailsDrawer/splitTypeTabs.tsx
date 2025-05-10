@@ -1,8 +1,4 @@
 import { Tabs } from "@chakra-ui/react";
-import EqualSplit from "./equalSplit";
-import NumberSplit from "./numberSplit";
-import PercentageSplit from "./percentageSplit";
-import useExpenseSplits from "../../../hooks/useExpenseSplits";
 import { SplitType, useExpense } from "../../../context/payments/ExpenseProvider";
 
 const SplitTypeTabs = () => {

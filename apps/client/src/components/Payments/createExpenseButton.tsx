@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { LuPlus } from "react-icons/lu";
 
-const CreateExpense = () => {
+const CreateExpenseButton = () => {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -21,4 +21,4 @@ const CreateExpense = () => {
 
 }
 
-export default CreateExpense
+export default CreateExpenseButton

@@ -30,9 +30,9 @@ export class ExpenseService {
     async createExpense(updateData: DeepPartial<Expense>) {
         const expenseData = this.expenseRepo.create(updateData);
         const expense = await this.expenseRepo.save(expenseData);
-        Object.entries(updateData.splits).forEach(([fromId, amount]) => {
-            this.debtEdgeService.updateDebt(updateData.apartmentId, fromId, updateData.paidById, amount);
-        });
+        for (const [fromId, amount] of Object.entries(updateData.splits)) {
+            await this.debtEdgeService.updateDebt(updateData.apartmentId, fromId, updateData.paidById, amount);
+        }
         return expense;
     }
 
@@ -45,14 +45,16 @@ export class ExpenseService {
         const oldSplits = expense.splits;
         const newSplits = updateData.splits;
         const allUserIds = new Set([...Object.keys(oldSplits), ...Object.keys(newSplits)]);
-        allUserIds.forEach((userId) => {
+
+        for (const userId of allUserIds) {
             const oldAmount = oldSplits[userId] || 0;
             const newAmount = newSplits[userId] || 0;
             const diff = newAmount - oldAmount;
             if (diff !== 0) {
-                this.debtEdgeService.updateDebt(updateData.apartmentId, userId, userId, diff);
+                await this.debtEdgeService.updateDebt(updateData.apartmentId, userId, updateData.paidById, diff);
             }
-        });
+        }
+
         return expense;
     }
 

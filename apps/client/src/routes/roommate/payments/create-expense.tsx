@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import CreateExpensePage from '../../../components/Payments/createExpensePage'
+import ExpenseDetailsPage from '../../../components/Payments/expenseDetailsPage'
 
 export const Route = createFileRoute('/roommate/payments/create-expense')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    return <CreateExpensePage />
+    return <ExpenseDetailsPage />
 }

@@ -1,9 +1,12 @@
 import {
-    Button, Card, CloseButton, Drawer, Flex, Portal
+    Box,
+    Button, Card, CloseButton, Drawer, Flex, Portal,
+    Text
 } from "@chakra-ui/react";
 import React from "react";
 import SplitTypeTabs from "./splitTypeTabs";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
+import { Trans } from "react-i18next";
 
 interface SplitDetailsDrawerProps {
     expenseId?: string;
@@ -16,7 +19,7 @@ export type UserSplits = Record<UserId, number>;
 //todo noam edit - expense id
 const SplitDetailsDrawer: React.FC<SplitDetailsDrawerProps> = ({ expenseId, trigger }) => {
 
-    const { open, setOpen, handleCancel, handleSaveSplits } = useExpense();
+    const { open, setOpen, handleCancel, handleSaveSplits, helperText } = useExpense();
 
     return (
         <Drawer.Root size="full" placement="bottom" open={open} onOpenChange={(e) => setOpen(e.open)}>
@@ -36,6 +39,14 @@ const SplitDetailsDrawer: React.FC<SplitDetailsDrawerProps> = ({ expenseId, trig
                             <SplitTypeTabs />
                         </Drawer.Body>
                         <Drawer.Footer>
+                            <Flex direction="column" alignItems="start" me="auto">
+                                <Text fontSize="lg" textAlign="center">
+                                    <Trans defaults={helperText?.outOf} />
+                                </Text>
+                                <Text fontSize="sm" textAlign="center">
+                                    <Trans defaults={helperText?.remaining} />
+                                </Text>
+                            </Flex>
                             <Drawer.ActionTrigger asChild>
                                 <Button variant="outline" onClick={handleCancel}>ביטול</Button>
                                 {/* //todo noam */}

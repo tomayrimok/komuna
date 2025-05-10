@@ -12,7 +12,7 @@ const Expenses = () => {
     const { t } = useTranslation();
     const { currentUserDetails } = useAuth();
 
-    const { data, isLoading, isError } = useApartmentExpenses('60514c72-5b94-417f-b4a3-9da2092a267f', currentUserDetails!.userId);
+    const { data, isLoading, isError } = useApartmentExpenses(currentUserDetails!.userId);
     const navigate = useNavigate();
     const { isRTL } = useLocaleChange();
 

@@ -22,7 +22,7 @@
     "payments": {
         "debt": "יש לך חוב קטן של {{amount}}₪ 😞",
         "balanced": "הכל מאוזן פה!",
-        "people-owe-you": "איזה כיף! אנשים חייבים לך {{amount}}₪",
+        "people-owe-you": "איזה כיף! אנשים חייבים לך {{amount}}₪ 🎉",
         "someone-owe-you": "מגיע לך {{amount}}₪ מ{{name}}",
         "you-owe-to": "קיים חוב בסך {{amount}}₪ ל{{name}}",
         "settle-up": "בואו נסגור חשבון",
@@ -31,13 +31,18 @@
         "you-lent": "שילמת {{amount}}₪\nעל אחרים",
         "you-borrowed": "שילמו בשבילך\n{{amount}}₪",
         "settle-up-title": "עם מי נסגור חשבון?",
-        "you-owe": "צריך לשלם\n{{amount}}₪",
-        "owe-you": "צריך לקבל\n{{amount}}₪",
+        "you-owe": "יש צורך לשלם\n{{amount}}₪",
+        "owe-you": "מגיע לך\n{{amount}}₪",
         "payment-title": "בואו נסגור את זה בלחיצה",
         "payment-made": "התבצע תשלום מ<strong>{{payer}}</strong> ל<strong>{{receiver}}</strong> בסכום של",
         "create-expense": "יצירת הוצאה",
         "no-expenses": "אין הוצאות",
-        "settle-up-success": "החוב שולם בהצלחה"
+        "settle-up-success": "החוב שולם בהצלחה",
+        "expense": {
+            "out-of": "{{amount}} מתוך {{total}}",
+            "remaining": "נשארו {{amount}}",
+            "expense-saved": "ההוצאה נשמרה בהצלחה"
+        }
     },
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",

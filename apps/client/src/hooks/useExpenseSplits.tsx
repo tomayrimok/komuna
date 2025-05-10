@@ -5,7 +5,7 @@ import { useExpense } from "../context/payments/ExpenseProvider";
 
 const useExpenseSplits = () => {
 
-    const { users, amount, selectedUserIds, usersFixedAmounts, usersPercentage, setSelectedUserIds, setUsersPercentage, setUsersFixedAmounts } = useExpense();
+    const { users, expenseDetails: { amount }, selectedUserIds, usersFixedAmounts, usersPercentage, setSelectedUserIds, setUsersPercentage, setUsersFixedAmounts } = useExpense();
 
     const splitTypes = {
         'equal': {

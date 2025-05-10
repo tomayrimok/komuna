@@ -14,8 +14,8 @@ const PaymentPage = () => {
             wrap="wrap"
         >
             <BalanceCard />
-            <Expenses />
             <CreateExpenseButton />
+            <Expenses />
         </Stack>
     )
 }
