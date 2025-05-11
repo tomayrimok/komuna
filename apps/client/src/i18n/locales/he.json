@@ -44,6 +44,7 @@
         "no-debt": "אין חוב",
         "no-debts": "לא קיימים חובות",
         "expense": {
+            "all-expenses": "כל ההוצאות",
             "no-expenses": "אין הוצאות",
             "create-expense": "הוספת הוצאה חדשה",
             "out-of": "{{amount}} מתוך {{total}}",
