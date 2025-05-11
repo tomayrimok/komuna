@@ -19,6 +19,7 @@ export class AppService implements OnModuleInit {
   ) { }
 
   onModuleInit() {
+    return null;
   }
 
 }
