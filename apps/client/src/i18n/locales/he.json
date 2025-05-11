@@ -94,6 +94,26 @@
             "join_apartment": "הצטרפות לדירה קיימת"
         }
     },
+    "roommate": {
+        "homepage": {
+            "title": "ברוכים הבאים, <b>{{firstName}}!</b>",
+            "last_updates": "עדכונים אחרונים",
+            "leftbar": {
+                "profile_settings": "הגדרות פרופיל",
+                "apartment_settings": "הגדרות דירה",
+                "notifications_settings": "ניהול התראות ואירועים",
+                "app_settings": "הגדרות אפליקציה",
+                "logout": "התנתקות"
+            },
+            "navigation": {
+                "tasks": "משימות",
+                "payments": "תשלומים",
+                "home": "בית",
+                "shopping": "קניות",
+                "incidents": "תקלות"
+            }
+        }
+    },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
     }

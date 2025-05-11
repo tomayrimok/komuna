@@ -1,3 +1,7 @@
+import '@silk-hq/components/layered-styles';
+import '@silk-hq/components/unlayered-styles';
+import './i18n/';
+
 import { Box, ChakraProvider, LocaleProvider, useBreakpointValue } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
