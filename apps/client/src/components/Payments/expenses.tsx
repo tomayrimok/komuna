@@ -31,7 +31,7 @@ const Expenses = () => {
             {data && (
                 !data.apartmentExpenses.length ?
                     <Text fontSize="l" fontWeight="bold" mb={2}>
-                        {t("payments.no-expenses")}
+                        {t("payments.expense.no-expenses")}
                     </Text>
                     :
                     <For each={Object.entries(dataPerMonth)} fallback={<SkeletonText noOfLines={1} width="50%" mb="2" />}>

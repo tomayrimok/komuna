@@ -15,8 +15,8 @@ const SettleUpPage = () => {
     const navigate = useNavigate();
     const { data: apartmentData } = useApartment();
 
+
     const usersWithoutDebt = apartmentData?.residents.filter((user) => {
-        console.log('data?.balanceDetails :', data?.balanceDetails);
         return user.userId !== currentUserDetails?.userId && data?.balanceDetails.every((debt) => {
             return debt.debt_fromId !== user.userId && debt.debt_toId !== user.userId;
         });
@@ -33,8 +33,7 @@ const SettleUpPage = () => {
                     {!isLoading && data ?
                         !data.balanceDetails.length ?
                             <Text fontSize="lg" fontWeight="bold" mt="4">
-                                {/* {t('payments.settle-up-no-debt')} */}
-                                לא קיימים חובות
+                                {t('payments.no-debts')}
                             </Text>
                             :
                             <Flex direction="column" gap="3">
@@ -81,9 +80,7 @@ const SettleUpPage = () => {
                         <br />
                         <hr />
                         <Text fontSize="lg" fontWeight="bold" mt="4">
-                            משתמשים ללא חוב
-                            {/* {t('payments.settle-up-no-debt')} */}
-                            {/* //todo noam */}
+                            {t('other-options')}
                         </Text>
                         <Stack gap={2} mt="2">
                             {usersWithoutDebt.map((user) => (
@@ -95,9 +92,7 @@ const SettleUpPage = () => {
                                     }}
                                     additionalComponent={
                                         <Text whiteSpace={"pre-line"} textAlign="end" color={"gray.600"}>
-                                            {/* {t('payments.settle-up-no-debt')} */}
-                                            ללא חוב
-                                            {/* //todo noam */}
+                                            {t('payments.no-debt')}
                                         </Text>
                                     }
                                 />

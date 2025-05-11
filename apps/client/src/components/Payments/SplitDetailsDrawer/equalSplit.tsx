@@ -2,6 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
 import { User } from "@komuna/types";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
+import { useTranslation } from "react-i18next";
 
 interface EqualSplitProps {
     toggleSelectUser: (userId: string) => void;
@@ -10,13 +11,13 @@ interface EqualSplitProps {
 const EqualSplit: React.FC<EqualSplitProps> = ({ toggleSelectUser }) => {
 
     const { users, selectedUserIds } = useExpense();
+    const { t } = useTranslation();
 
     return (
         <>
             <Text fontSize="lg" mb={6} textAlign="center">
-                בחירת השותפים שהשתתפו בהוצאה, וחלוקה שווה ביניהם
+                {t('payments.expense.split-equal-split-title')}
             </Text>
-            {/* //todo noam */}
             <Flex direction="column" gap={2} mt={2}>
                 {users.map(user => user && (
                     <UserCard

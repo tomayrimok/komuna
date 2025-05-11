@@ -14,6 +14,7 @@ import { withWrappers } from "../../utilities/withWrappers";
 import { useRouter } from "@tanstack/react-router";
 import SelectUserDrawer from "../General/selectResidentDrawer";
 import SplitDetailsDrawer from "./SplitDetailsDrawer/splitDetailsDrawer";
+import { useTranslation } from "react-i18next";
 
 const ExpenseDetailsPage = () => {
     const {
@@ -28,6 +29,7 @@ const ExpenseDetailsPage = () => {
     } = useExpense();
 
     const router = useRouter();
+    const { t } = useTranslation();
 
     if (expenseId && isExpenseDetailsLoading) return <Text>Loading...</Text>;
 
@@ -35,22 +37,26 @@ const ExpenseDetailsPage = () => {
         <Container maxW="lg" py={8}>
             <Stack gap={6}>
                 <Heading size="lg" textAlign="center">
-                    {expenseId ? "עריכת הוצאה" : "יצירת הוצאה חדשה"}
+                    {expenseId ? t("payments.expense.edit-expense") : t("payments.expense.create-expense")}
                 </Heading>
 
                 <Box p={4} borderWidth={1} borderRadius="xl" boxShadow="sm" bg="white">
                     <Stack gap={4}>
                         <Box>
-                            <Text mb={1} fontWeight="medium">תיאור ההוצאה</Text>
+                            <Text mb={1} fontWeight="medium">
+                                {t("payments.expense.expense-description")}
+                            </Text>
                             <Input
-                                placeholder="Description"
+                                placeholder={t("payments.expense.expense-description")}
                                 value={expenseDetails.description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </Box>
 
                         <Box>
-                            <Text mb={1} fontWeight="medium">סכום ההוצאה</Text>
+                            <Text mb={1} fontWeight="medium">
+                                {t("payments.expense.expense-amount")}
+                            </Text>
                             <Flex alignItems="center" gap={2}>
                                 <NumberInput.Root
                                     maxW="200px"
@@ -68,7 +74,9 @@ const ExpenseDetailsPage = () => {
 
                         <hr />
                         <Flex alignItems="center" gap={2} flexWrap="wrap">
-                            <Text>שולם על ידי</Text>
+                            <Text>
+                                {t("payments.expense.paid-by")}
+                            </Text>
                             <SelectUserDrawer
                                 onSelect={setPaidBy}
                                 trigger={
@@ -77,11 +85,13 @@ const ExpenseDetailsPage = () => {
                                     </Button>
                                 }
                             />
-                            <Text>ומתחלק</Text>
+                            <Text>
+                                {t("payments.expense.and-splits")}
+                            </Text>
                             <SplitDetailsDrawer
                                 trigger={
                                     <Button size="sm" px={1} py={0} h="unset" variant={"surface"}>
-                                        {areSplitsValuesEqual ? "בצורה שווה" : "בצורה לא שווה"}
+                                        {areSplitsValuesEqual ? t("payments.expense.equally") : t("payments.expense.unequally")}
                                     </Button>
                                 }
                             />
@@ -91,10 +101,10 @@ const ExpenseDetailsPage = () => {
 
                 <Flex justifyContent="space-between" gap={3}>
                     <Button variant="outline" onClick={() => router.history.back()}>
-                        ביטול
+                        {t("cancel")}
                     </Button>
                     <Button colorScheme="blue" onClick={handleSave}>
-                        שמירה
+                        {t("save")}
                     </Button>
                     {/* {expenseId &&
                         <Button colorScheme="red" variant="ghost" onClick={handleDelete}>

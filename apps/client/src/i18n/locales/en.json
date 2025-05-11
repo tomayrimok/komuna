@@ -5,6 +5,11 @@
     },
     "title": "Welcome to Komuna",
     "button": "Start Exploring",
+    "save": "Save",
+    "cancel": "Cancel",
+    "other-options": "Other Options",
+    "select-roommates": "Select Roommates",
+    "select-roommate": "Select Roommate",
     "months": {
         "1": "January",
         "2": "February",
@@ -35,13 +40,26 @@
         "owe-you": "Owes you {{amount}}₪",
         "payment-made": "Let's settle the payment with a shake, from {{payer}} to {{receiver}}",
         "amount-prefix": "For the amount of",
-        "create-expense": "Create Expense",
-        "no-expenses": "No expenses",
         "settle-up-success": "The debt has been successfully settled",
+        "no-debts": "No debts",
+        "no-debt": "No debt",
         "expense": {
+            "create-expense": "Create Expense",
+            "no-expenses": "No expenses",
             "out-of": "{{amount}} out of {{total}}",
             "remaining": "{{amount}} remaining",
-            "expense-saved": "The expense has been successfully saved"
+            "expense-saved": "The expense has been successfully saved",
+            "split-equal-split-title": "Select the roommates who participated in the expense, and divide it equally among them",
+            "split-by-amount-title": "For each roommate, you can enter the amount they need to pay",
+            "split-by-percentage-title": "For each roommate, you can enter the percentage of the expense they need to pay",
+            "split-options": "Split Options",
+            "edit-expense": "Edit Expense",
+            "expense-description": "Expense Description",
+            "expense-amount": "Expense Amount",
+            "paid-by": "Paid by",
+            "and-splits": "and splits",
+            "equally": "equally",
+            "unequally": "unequally"
         }
     }
 }

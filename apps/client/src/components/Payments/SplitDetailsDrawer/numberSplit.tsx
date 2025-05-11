@@ -1,6 +1,7 @@
 import { Flex, NumberInput, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
+import { useTranslation } from "react-i18next";
 
 interface NumberSplitProps {
     setUserFixedAmount: (userId: string, amount: number) => void;
@@ -9,13 +10,13 @@ interface NumberSplitProps {
 const NumberSplit: React.FC<NumberSplitProps> = ({ setUserFixedAmount }) => {
 
     const { users, usersFixedAmounts } = useExpense();
+    const { t } = useTranslation();
 
     return (
         <>
             <Text fontSize="lg" mb={6} textAlign="center">
-                עבור כל שותף, הכנס את הסכום אותו עליו לשלם
+                {t('payments.expense.split-by-amount-title')}
             </Text>
-            {/* //todo noam */}
             <Flex direction="column" gap={2} mt={2}>
                 {users.map(user => user && (
                     <UserCard

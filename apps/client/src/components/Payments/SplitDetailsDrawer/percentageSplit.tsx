@@ -2,6 +2,7 @@ import { Flex, NumberInput, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
 import { roundUpToXDigits } from "../../../utilities/roundUpToXDigits";
+import { useTranslation } from "react-i18next";
 
 interface PercentageSplitProps {
     setUserPercentage: (userId: string, percentage: number) => void;
@@ -10,13 +11,13 @@ interface PercentageSplitProps {
 const PercentageSplit: React.FC<PercentageSplitProps> = ({ setUserPercentage }) => {
 
     const { users, usersPercentage, selectedUserIds } = useExpense();
+    const { t } = useTranslation();
 
     return (
         <>
             <Text fontSize="lg" mb={6} textAlign="center">
-                עבור כל שותף, הכנס את האחוז אותו עליו לשלם
+                {t('payments.expense.split-by-percentage-title')}
             </Text>
-            {/* //todo noam */}
             <Flex direction="column" gap={2} mt={2}>
                 {users.map(user => user && (
                     <UserCard

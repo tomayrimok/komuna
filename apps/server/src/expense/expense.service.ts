@@ -16,7 +16,7 @@ export class ExpenseService {
     // This method creates a new expense and updates the debts of the users involved in the expense.
     // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
     // and update the debts of the other members in the group.
-    async addEditExpense(createDto: DeepPartial<Expense>) { //todo noam add dto validation
+    async addEditExpense(createDto: DeepPartial<Expense>) { //todo noam! add dto validation
         const { expenseId, apartmentId, description, amount, splits, paidById } = createDto;
         const data = { apartmentId, description, amount, paidById, splits }
 

@@ -15,7 +15,7 @@ const CreateExpenseButton = () => {
     return (
         <Button onClick={handleClick}>
             <LuPlus size={20} />
-            {t('payments.create-expense')}
+            {t('payments.expense.create-expense')}
         </Button>
     )
 
