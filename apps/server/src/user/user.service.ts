@@ -58,7 +58,7 @@ export class UserService {
   async getUserByPhone(phoneNumber: string): Promise<User | null> {
     const user = await this.userRepo.findOneBy({ phoneNumber });
     if (!user) {
-      Logger.error(`User with phone number ${phoneNumber} not found`);
+      this.logger.error(`User with phone number ${phoneNumber} not found`);
       return null;
     }
     return user;
@@ -106,7 +106,7 @@ export class UserService {
     const ALLOWED_PHONE_NUMBERS = process.env.SMS_ALLOWED_NUMBERS?.split(',').map((item) => item.trim());
 
     if (!ALLOWED_PHONE_NUMBERS.includes(phoneNumber)) {
-      Logger.error(`Phone number ${phoneNumber} is not allowed to send SMS`);
+      this.logger.error(`Phone number ${phoneNumber} is not allowed to send SMS`);
       throw new Error('Phone number is not allowed to send SMS');
     }
 
@@ -128,7 +128,7 @@ export class UserService {
       );
       return result.data;
     } catch (error) {
-      Logger.error('Error sending SMS', error);
+      this.logger.error('Error sending SMS', error);
       throw new Error('Failed to send SMS');
     }
   }
