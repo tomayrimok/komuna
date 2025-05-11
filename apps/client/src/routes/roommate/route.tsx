@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import { UserRole } from '@komuna/types';
 import { createFileRoute } from '@tanstack/react-router';
-import { Outlet, redirect } from '@tanstack/react-router';
+import { Outlet } from '@tanstack/react-router';
 import BottomNav from '../../components/RoommateBottomNav/RoommateBottomNav';
 
 export const Route = createFileRoute('/roommate')({
