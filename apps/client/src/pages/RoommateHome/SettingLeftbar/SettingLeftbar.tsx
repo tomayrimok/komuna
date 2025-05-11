@@ -32,27 +32,27 @@ export const SettingLeftbar = () => {
           <VStack align="stretch" gap="4">
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconUserCog />
-              {t('roommate_homepage.leftbar.profile_settings')}
+              {t('roommate.homepage.leftbar.profile_settings')}
             </Button>
 
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconHomeCog />
-              {t('roommate_homepage.leftbar.apartment_settings')}
+              {t('roommate.homepage.leftbar.apartment_settings')}
             </Button>
 
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconBellCog />
-              {t('roommate_homepage.leftbar.notifications_settings')}
+              {t('roommate.homepage.leftbar.notifications_settings')}
             </Button>
 
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconSettings />
-              {t('roommate_homepage.leftbar.app_settings')}
+              {t('roommate.homepage.leftbar.app_settings')}
             </Button>
           </VStack>
           <Button justifyContent="start" variant="ghost" size="lg" onClick={logout}>
             <IconLogout />
-            {t('roommate_homepage.leftbar.logout')}
+            {t('roommate.homepage.leftbar.logout')}
           </Button>
         </Stack>
       </Stack>

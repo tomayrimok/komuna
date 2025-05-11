@@ -44,7 +44,7 @@ export const RoommateHome = () => {
           </Avatar.Root>
           <Text color="brand.900" fontSize="xl">
             <Trans
-              i18nKey="roommate_homepage.title"
+              i18nKey="roommate.homepage.title"
               values={{ firstName: currentUserDetails?.firstName }}
               components={{ b: <b /> }}
             />
