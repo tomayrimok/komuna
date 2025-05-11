@@ -17,7 +17,7 @@ export class ExpenseController {
     async addEditExpense(
         @Body('expenseId') expenseId: string,
         @Body('apartmentId') apartmentId: string,
-        @Body('splits') splits: any,
+        @Body('splits') splits: { [userId: string]: number },
         @Body('amount') amount: number,
         @Body('description') description: string,
         @Body('paidById') paidById: string
