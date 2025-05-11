@@ -1,4 +1,7 @@
 import './i18n/';
+import '@silk-hq/components/unlayered-styles';
+import '@silk-hq/components/layered-styles';
+
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box, ChakraProvider, LocaleProvider, useBreakpointValue } from '@chakra-ui/react';
