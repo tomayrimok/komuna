@@ -1,4 +1,3 @@
-// src/hooks/useDebts.ts
 import { useQuery } from "@tanstack/react-query";
 import { fetchDebtDetails } from "../api/debtDetails";
 

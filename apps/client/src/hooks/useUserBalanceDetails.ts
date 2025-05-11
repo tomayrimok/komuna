@@ -1,4 +1,3 @@
-// src/hooks/useDebts.ts
 import { useQuery } from "@tanstack/react-query";
 import { fetchDebtPayments } from "../api/userBalanceDetails";
 import { useAuth } from "../context/auth/AuthProvider";
@@ -10,7 +9,7 @@ export const useUserBalanceDetails = (userId: string) => {
     return useQuery({
         queryKey: ["debtPayments", apartmentId, userId],
         queryFn: () => fetchDebtPayments(apartmentId!, userId),
-        staleTime: 1000 * 60 * 5, // 5 דקות
+        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 };

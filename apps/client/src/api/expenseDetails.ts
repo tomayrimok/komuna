@@ -1,4 +1,3 @@
-//fetchExpenseDetails
 import axios from "axios";
 
 export type ExpenseDetails = {

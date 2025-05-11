@@ -1,4 +1,3 @@
-// src/api/debts.ts
 import axios from "axios";
 
 export const postCreatePayment = async (data: { apartmentId: string, fromId: string, toId: string, amount: number }) => {

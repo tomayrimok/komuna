@@ -1,4 +1,3 @@
-// src/api/debts.ts
 import { User, UserRole } from "@komuna/types";
 import axios from "axios";
 

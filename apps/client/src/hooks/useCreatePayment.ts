@@ -1,4 +1,3 @@
-// src/hooks/useDebts.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postCreatePayment } from "../api/createPayment";
 import { useNavigate } from "@tanstack/react-router";

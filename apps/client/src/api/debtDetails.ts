@@ -1,4 +1,3 @@
-// src/api/debts.ts
 import axios from "axios";
 
 export type DebtDetails = {

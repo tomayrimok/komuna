@@ -1,4 +1,3 @@
-// src/hooks/useDebts.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postAddEditExpense } from "../api/postAddEditExpense";
 import { useNavigate } from "@tanstack/react-router";
