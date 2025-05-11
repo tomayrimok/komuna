@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SelectApartmentImport } from './routes/select-apartment'
 import { Route as LoginImport } from './routes/login'
+import { Route as CreateApartmentImport } from './routes/create-apartment'
 import { Route as IndexImport } from './routes/index'
 import { Route as RoommateIndexImport } from './routes/roommate/index'
 import { Route as RoommateTasksImport } from './routes/roommate/tasks'
@@ -68,6 +69,12 @@ const SelectApartmentRoute = SelectApartmentImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CreateApartmentRoute = CreateApartmentImport.update({
+  id: '/create-apartment',
+  path: '/create-apartment',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -180,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/create-apartment': {
+      id: '/create-apartment'
+      path: '/create-apartment'
+      fullPath: '/create-apartment'
+      preLoaderRoute: typeof CreateApartmentImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -398,6 +412,7 @@ const RoommateRouteWithChildren = RoommateRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/create-apartment': typeof CreateApartmentRoute
   '/login': typeof LoginRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardLayoutRoute
@@ -420,6 +435,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/create-apartment': typeof CreateApartmentRoute
   '/login': typeof LoginRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardLayoutRoute
@@ -442,6 +458,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/create-apartment': typeof CreateApartmentRoute
   '/login': typeof LoginRoute
   '/select-apartment': typeof SelectApartmentRoute
   '/landloard': typeof LandloardRouteWithChildren
@@ -469,6 +486,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/create-apartment'
     | '/login'
     | '/select-apartment'
     | '/landloard'
@@ -490,6 +508,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/create-apartment'
     | '/login'
     | '/select-apartment'
     | '/landloard'
@@ -510,6 +529,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/create-apartment'
     | '/login'
     | '/select-apartment'
     | '/landloard'
@@ -536,6 +556,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CreateApartmentRoute: typeof CreateApartmentRoute
   LoginRoute: typeof LoginRoute
   SelectApartmentRoute: typeof SelectApartmentRoute
   LandloardRoute: typeof LandloardRouteWithChildren
@@ -545,6 +566,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CreateApartmentRoute: CreateApartmentRoute,
   LoginRoute: LoginRoute,
   SelectApartmentRoute: SelectApartmentRoute,
   LandloardRoute: LandloardRouteWithChildren,
@@ -563,6 +585,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/create-apartment",
         "/login",
         "/select-apartment",
         "/landloard",
@@ -572,6 +595,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/create-apartment": {
+      "filePath": "create-apartment.tsx"
     },
     "/login": {
       "filePath": "login.tsx"

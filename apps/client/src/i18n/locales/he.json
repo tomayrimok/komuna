@@ -35,6 +35,68 @@
             "join_apartment": "הצטרפות לדירה קיימת"
         }
     },
+    "create_apartment": {
+        "apartment_info": {
+            "title": "יצירת דירה חדשה",
+            "description": "כמה הגדרות קטנות - וסיימנו 😊",
+            "apartment_name": "איך לקרוא לדירה?",
+            "apartment_address": "כתובת הדירה",
+            "city": "עיר",
+            "who_am_i": {
+                "title": "אני...",
+                "leaser": "בעל דירה",
+                "renter": "שוכר את הדירה"
+            }
+        },
+        "apartment_settings": {
+            "title": "הגדרות הדירה",
+            "contract_end_date": "תאריך סיום החוזה",
+            "file_upload": "העלאת מסמך החוזה",
+            "contract_document_upload": "העלאת קובץ",
+            "rent_price": "מחיר שכר הדירה הכולל",
+            "accounts_location": {
+                "title": "מיקום החשבונות",
+                "electricity": "חשמל",
+                "water": "מים",
+                "gas": "גז",
+                "suplier_name": "שם הספק..."
+            }
+        },
+        "renter_settings": {
+            "title": "הגדרות השוכר",
+            "renter_rent_price": "מחיר שכר הדירה שלי",
+            "renter_payment_ways": {
+                "title": "אופן התשלום החודשי",
+                "renter_pays": "אני משלם על עצמי",
+                "paying_for_renter": "מישהו אחר משלם עליי"
+            },
+            "house_maintenance_fee": "מחיר חודשי ועד הבית",
+            "renter_house_maintenance_payment_ways": {
+                "title": "אופן התשלום החודשי",
+                "renter_pays": "אני משלם את ועד הבית",
+                "renters_paying_equally": "מתחלקים שווה בשווה",
+                "paying_for_renter": "מישהו אחר משלם את וועד הבית"
+            }
+        },
+        "share_aparetment": {
+            "title": "הדירה נוצרה בהצלחה! 🎉",
+            "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה.\nזהו קוד ההזמנה של הדירה:",
+            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
+            "close_btn": "מעבר לאפליקציה"
+        },
+        "continue_btn": "המשך",
+        "done_btn": "סיום",
+        "skip_btn": "דלג"
+    },
+    "join_existing_apartment": {
+        "title": "התחברות לדירה קיימת",
+        "description": "בקשו מחברכם שיצר את הדירה שישתף עמכם את קוד הדירה, על מנת להתחבר אליה.",
+        "join_btn": "התחבר לדירה"
+    },
+    "choose_apartment": {
+        "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
+        "create_new_apartment": "יצירת דירה חדשה"
+    },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
     }
