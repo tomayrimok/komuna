@@ -28,7 +28,6 @@ const SettleUpPage = () => {
                 <Card.Title mb="2">
                     {t('payments.settle-up-title')}
                 </Card.Title>
-                <br />
                 <Card.Description as={"div"}>
                     {!isLoading && data ?
                         !data.balanceDetails.length ?
@@ -36,7 +35,7 @@ const SettleUpPage = () => {
                                 {t('payments.no-debts')}
                             </Text>
                             :
-                            <Flex direction="column" gap="3">
+                            <Flex direction="column" gap="3" mt="4">
                                 <For each={data.balanceDetails}>
                                     {(item) => (
                                         <UserCard
