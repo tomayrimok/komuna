@@ -26,9 +26,6 @@ type ExpenseContextValue = {
     open: boolean;
     expenseId?: string;
     users: (User | null)[];
-    // payedBy: User;
-    // amount: number;
-    // description: string;
     splitType: SplitType;
     selectedUserIds: Set<string>;
     usersFixedAmounts: { [userId: string]: number };
@@ -70,11 +67,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
     const { currentUserDetails } = useAuth();
     const { t } = useTranslation();
-    // const [amount, setAmount] = useState(0);
-    // const [payedBy, setPayedBy] = useState<User>({ firstName: "test", lastName: "test", userId: "test", phoneNumber: "test" });
-    // const [description, setDescription] = useState("");
 
-    // now make it a big object
     const [expenseDetails, setExpenseDetails] = useState<ExpenseDetails>({
         expenseId: '',
         apartmentId: '',
@@ -241,10 +234,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         createExpense({
             ...expenseDetails,
             apartmentId: apartmentData.apartmentId,
-            splits,
-            // amount,
-            // description,
-            // userId: expenseDetails.payedBy.userId
+            splits
         })
     }
 
