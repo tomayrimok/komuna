@@ -57,10 +57,8 @@ export class UserService {
   }
 
   async getUserByPhone(phoneNumber: string): Promise<User | null> {
-    console.log(2.1);
 
     const user = await this.userRepo.findOneBy({ phoneNumber });
-    console.log(2.2);
 
     if (!user) {
       this.logger.error(`User with phone number ${phoneNumber} not found`);

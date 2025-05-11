@@ -120,14 +120,11 @@ export class UserController {
   async getCurrentUserProfile(@User() user: UserJwtPayload) {
     try {
 
-      console.log(1);
       if (!user || !user.phoneNumber) {
         return { user: null };
       }
-      console.log(2);
 
       const currentUser = await this.userService.getUserByPhone(user.phoneNumber);
-      console.log(3);
 
       return { user: currentUser };
     } catch (error) {

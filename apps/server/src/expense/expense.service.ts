@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Expense } from './expense.entity';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
+import { AddEditExpenseDto } from './add-edit-expense.dto';
 
 @Injectable()
 export class ExpenseService {
@@ -16,9 +17,15 @@ export class ExpenseService {
     // This method creates a new expense and updates the debts of the users involved in the expense.
     // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
     // and update the debts of the other members in the group.
-    async addEditExpense(createDto: DeepPartial<Expense>) { //todo noam! add dto validation
-        const { expenseId, apartmentId, description, amount, splits, paidById } = createDto;
+    async addEditExpense(expense: AddEditExpenseDto) {
+        const { expenseId, apartmentId, description, amount, splits, paidById } = expense;
         const data = { apartmentId, description, amount, paidById, splits }
+
+        if (!description || !amount || !splits || !paidById) {
+            throw new BadRequestException('Missing required fields', {
+                description: 'חסרים שדות חובה',
+            });
+        }
 
         if (!expenseId) {
             return await this.createExpense(data);
@@ -27,7 +34,7 @@ export class ExpenseService {
         }
     }
 
-    async createExpense(updateData: DeepPartial<Expense>) {
+    async createExpense(updateData: AddEditExpenseDto) {
         const expenseData = this.expenseRepo.create(updateData);
         const expense = await this.expenseRepo.save(expenseData);
         for (const [fromId, amount] of Object.entries(updateData.splits)) {
@@ -36,7 +43,7 @@ export class ExpenseService {
         return expense;
     }
 
-    async updateExpense(expenseId: string, updateData: DeepPartial<Expense>) {
+    async updateExpense(expenseId: string, updateData: AddEditExpenseDto) {
         const expense = await this.expenseRepo.findOne({ where: { expenseId } });
         if (!expense) {
             throw new Error('Expense not found');

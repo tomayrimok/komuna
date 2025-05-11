@@ -20,8 +20,8 @@ export const useCreatePayment = () => {
             toaster.success({ title: t('payments.settle-up-success') });
             queryClient.invalidateQueries({ queryKey: ["debtPayments", variables.apartmentId, currentUserDetails?.userId] });
         },
-        onError: (error: Error) => {
-            toaster.error({ title: t('error.action_failed') });
+        onError: (error: any) => {
+            toaster.error({ title: error?.response.data.error || t('error.action_failed'), });
         },
     });
 };
