@@ -16,7 +16,7 @@ const SettleUpPage = () => {
     const { data: apartmentData } = useApartment();
 
 
-    const usersWithoutDebt = apartmentData?.residents.filter((user) => {
+    const usersWithoutDebt = apartmentData?.residents?.filter((user) => {
         return user.userId !== currentUserDetails?.userId && data?.balanceDetails.every((debt) => {
             return debt.debt_fromId !== user.userId && debt.debt_toId !== user.userId;
         });
