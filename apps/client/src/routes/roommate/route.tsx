@@ -7,6 +7,7 @@ import BottomNav from '../../components/RoommateBottomNav/RoommateBottomNav';
 export const Route = createFileRoute('/roommate')({
   component: () => <RoomateLayout />,
   beforeLoad: ({ context }) => {
+    // TODO: Return this when the roles/apartments selection is implemented
     // if (context.sessionDetails.role !== UserRole.ROOMMATE) {
     //   throw redirect({ to: '/login' });
     // }
