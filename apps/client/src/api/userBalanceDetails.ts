@@ -1,25 +1,8 @@
+import { BalanceDetailsResponse } from "@komuna/types";
 import axios from "axios";
 
-export type BalanceDetails = {
-    debt_amount: number;
-    debt_debtId: string;
-    debtor: boolean;
-    debt_fromId: string;
-    debt_toId: string;
-    userFrom_firstName: string;
-    userFrom_lastName: string;
-    userTo_firstName: string;
-    userTo_lastName: string;
-    userFrom_phoneNumber: string;
-    userTo_phoneNumber: string;
-    userTo_image: string;
-    userFrom_image: string;
-    debt_updatedAt: string;
-};
-
-
-export const fetchDebtPayments = async (apartmentId: string, userId: string): Promise<{ balanceDetails: BalanceDetails[]; balance: number }> => {
-    const userBalanceDetailsRequest = axios.get("/api/debt-edge/user-balance-details", {
+export const fetchDebtPayments = async (apartmentId: string, userId: string) => {
+    const userBalanceDetailsRequest = axios.get<BalanceDetailsResponse>("/api/debt-edge/user-balance-details", {
         params: {
             apartmentId,
             userId,

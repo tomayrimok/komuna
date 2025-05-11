@@ -1,5 +1,5 @@
 import { Avatar, Box, Flex, Icon, Text } from "@chakra-ui/react"
-import { LuCheck } from "react-icons/lu";
+import { IconCheck } from '@tabler/icons-react';
 
 interface UserCardProps {
     onClick?: () => void;
@@ -41,7 +41,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected
                 {additionalComponent}
                 {selected && (
                     <Icon color={"brand.600"} size={"lg"} me={1}>
-                        <LuCheck />
+                        <IconCheck />
                     </Icon>
                 )}
             </Flex>

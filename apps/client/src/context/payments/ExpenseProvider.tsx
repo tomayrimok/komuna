@@ -1,12 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, PropsWithChildren, useMemo } from 'react';
-import { User } from '@komuna/types';
+import { ExpenseDetailsResponse, User } from '@komuna/types';
 import { useApartment } from '../../hooks/useApartment';
 import EqualSplit from '../../components/Payments/SplitDetailsDrawer/equalSplit';
 import NumberSplit from '../../components/Payments/SplitDetailsDrawer/numberSplit';
 import PercentageSplit from '../../components/Payments/SplitDetailsDrawer/percentageSplit';
 import { toaster } from '../../chakra/ui/toaster';
 import { useAddEditExpense } from '../../hooks/useAddEditExpense';
-import { ExpenseDetails } from '../../api/expenseDetails';
 import { useParams } from '@tanstack/react-router';
 import { useExpenseDetails } from '../../hooks/useExpenseDetails';
 import { useAuth } from '../auth/AuthProvider';
@@ -45,7 +44,7 @@ type ExpenseContextValue = {
     setDescription: (description: string) => void;
     setPaidBy: (user: User) => void;
     isExpenseDetailsLoading: boolean;
-    expenseDetails: ExpenseDetails;
+    expenseDetails: ExpenseDetailsResponse;
     helperText?: {
         outOf: string;
         remaining: string;
@@ -68,7 +67,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const { currentUserDetails } = useAuth();
     const { t } = useTranslation();
 
-    const [expenseDetails, setExpenseDetails] = useState<ExpenseDetails>({
+    const [expenseDetails, setExpenseDetails] = useState<ExpenseDetailsResponse>({
         expenseId: '',
         apartmentId: '',
         amount: 0,

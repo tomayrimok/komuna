@@ -19,6 +19,7 @@ export class PaymentService {
         const payment = this.paymentRepo.create({ apartmentId, fromId, toId, amount });
         await this.paymentRepo.save(payment);
         await this.debtEdgeService.updateDebt(apartmentId, fromId, toId, -amount);
+        return payment;
     }
 
 }

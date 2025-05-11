@@ -50,10 +50,10 @@ const AppEntry = () => {
 };
 
 const Root = () => {
-  const locale = useLocaleChange();
+  const { locale } = useLocaleChange();
   return (
     <QueryClientProvider client={queryClient}>
-      <LocaleProvider locale={locale.locale}>
+      <LocaleProvider locale={locale}>
         <ChakraProvider value={theme}>
           <ColorModeProvider>
             <AppEntry />

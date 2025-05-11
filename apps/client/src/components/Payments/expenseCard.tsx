@@ -1,13 +1,13 @@
 import { Card, Flex, Icon } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LuChevronLeft } from "react-icons/lu";
-import { ApartmentExpense } from "../../api/apartmentExpenses";
+import { IconChevronLeft } from "@tabler/icons-react";
 import { useLocaleChange } from "../../hooks/useLocaleChange";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
+import { ApartmentExpenseResponse } from "@komuna/types";
 
 interface ExpenseCardProps {
-    item: ApartmentExpense;
+    item: ApartmentExpenseResponse;
 }
 
 const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
@@ -49,8 +49,8 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
                         }
                     </Card.Description>
 
-                    <Icon rotate={isRTL ? "unset" : "180deg"}>
-                        <LuChevronLeft />
+                    <Icon rotate={isRTL ? "unset" : "180deg"} color={"gray.500"} size={"md"}>
+                        <IconChevronLeft />
                     </Icon>
                 </Flex>
             </Card.Body>

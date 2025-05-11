@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
-import { AddEditExpenseDto } from './add-edit-expense.dto';
 import { Expense } from './expense.entity';
+import { AddEditExpenseDto } from 'libs/types/src/dto/expense/add-edit-expense.dto';
 
 @Injectable()
 export class ExpenseService {
