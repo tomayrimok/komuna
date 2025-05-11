@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { Expense } from './expense.entity';
-import { AddEditExpenseDto } from 'libs/types/src/dto/expense/add-edit-expense.dto';
+import { AddEditExpenseDto } from '@komuna/types'
 
 @Injectable()
 export class ExpenseService {
