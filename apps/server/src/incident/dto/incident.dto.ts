@@ -6,7 +6,7 @@ import {
     IsOptional,
     IsDateString,
   } from 'class-validator';
-import { IncidentStatus, IncidentUrgency } from "../../enums";
+import { IncidentStatus, IncidentUrgency } from "@komuna/types";
 
 export class CreateIncidentDto {
     @IsUUID()

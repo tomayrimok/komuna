@@ -44,4 +44,13 @@ export class Incident {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column('json')
+  comments: {
+    commentId: string;
+    message: string;
+    userId: string;
+    createAt: string;
+    image: string;
+  }[]; //TODO image should be optional?
 }
