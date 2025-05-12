@@ -115,7 +115,6 @@ export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
             </VStack>
           </Field.Root>
         ))}
-
       </Stack>
     </>
   );
