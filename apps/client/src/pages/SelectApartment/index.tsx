@@ -29,7 +29,10 @@ export const SelectApartment = () => {
         </VStack>
         <VStack gap="5">
           <Image src="/detailed_icons/create_apartment.png" maxW="200px" />
-          <Button size="xl" fontSize="2xl" fontWeight="bold"
+          <Button
+            size="xl"
+            fontSize="2xl"
+            fontWeight="bold"
             onClick={() => { navigate({ to: '/create-apartment' }); }}>
             {t('select_apartment.no_apartments.create_new_apartment')}
           </Button>
