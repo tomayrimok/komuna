@@ -23,12 +23,12 @@ export class ShoppingList {
     itemId: string;
     name: string;
     isPurchased: boolean;
-    image: string;
-    category: string;
+    image?: string;
+    category?: string;
     isUrgent: boolean;
     amount: number;
     creatorId: string;
-    assignedTo: string;
+    assignedTo?: string;
   }[]; //todo move to separate entity? assignedTo is a userId
 
   @UpdateDateColumn()

@@ -4,6 +4,7 @@ import { ShoppingList } from './shopping-list.entity';
 import { Repository } from 'typeorm';
 import { ShoppingListContextType, ShoppingListItemDto } from '@komuna/types';
 import { uniqueId } from 'lodash';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ShoppingListService {
@@ -24,8 +25,9 @@ export class ShoppingListService {
     async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: ShoppingListItemDto): Promise<ShoppingListItemDto[]> {
 
         const itemDataWithId = {
-            itemId: uniqueId(),
+            itemId: randomUUID(),
             ...itemData,
+            creatorId: userId
         }
 
         const shoppingList = await this.shoppingListRepository.findOne({ where: { contextType, contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId } });
