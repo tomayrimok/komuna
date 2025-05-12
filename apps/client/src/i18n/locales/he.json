@@ -59,7 +59,7 @@
                 "electricity": "חשמל",
                 "water": "מים",
                 "gas": "גז",
-                "suplier_name": "שם הספק..."
+                "supplier_name": "שם הספק..."
             }
         },
         "renter_settings": {
@@ -78,7 +78,7 @@
                 "paying_for_renter": "מישהו אחר משלם את וועד הבית"
             }
         },
-        "share_aparetment": {
+        "share_apartment": {
             "title": "הדירה נוצרה בהצלחה! 🎉",
             "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה.\nזהו קוד ההזמנה של הדירה:",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
