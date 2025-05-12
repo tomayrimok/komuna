@@ -1,26 +1,18 @@
-import { Box, HStack, VStack } from "@chakra-ui/react";
-import type { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
+import { Box, VStack } from "@chakra-ui/react"
 import { BackNavigationBar } from "../../components/BackNavigationBar";
-import { LogoutButton } from "../../components/LogoutButton";
 
-type Buttons = "back" | "logout";
-interface ApartmentLayoutProps extends PropsWithChildren<{}> {
-  button?: Buttons;
-  onButtonClick?: () => void;
+interface ApartmentLayoutProps extends PropsWithChildren {
+  navigate?: boolean
+  goBack?: () => void;
 }
 
-export const ApartmentLayout = ({ children, button = "logout", onButtonClick }: ApartmentLayoutProps) => {
+export const ApartmentLayout = ({ navigate = true, goBack, children }: ApartmentLayoutProps) => {
   return (
-    <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column" gap="0">
-      {button === "back" ? (
-        <BackNavigationBar onGoBack={onButtonClick} />
-      ) : (
-        <HStack justifyContent="end" paddingX="2" paddingY="1">
-          <LogoutButton />
-        </HStack>
-      )}
+    <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column">
+      {navigate ? <BackNavigationBar onGoBack={goBack} /> : null}
       <VStack
-        marginTop="10px"
+        marginTop={navigate ? "0px" : "80px"}
         paddingY="44px"
         paddingX="25px"
         backgroundColor="brand.10"
@@ -32,7 +24,7 @@ export const ApartmentLayout = ({ children, button = "logout", onButtonClick }: 
       >
         {children}
       </VStack>
-    </Box>
+    </Box >
   );
 };
 

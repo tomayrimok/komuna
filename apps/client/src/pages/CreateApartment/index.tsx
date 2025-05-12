@@ -3,8 +3,9 @@ import { useState, type FC } from 'react';
 import { ApartmentInfo } from './ApartmentInfo';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentSettings } from './ApartmentSettings';
-import RenterSettings from './RenterSettings';
-import { ApartmentInfoDto, UserRoleName } from '@komuna/types';
+import ApartmentLayout from './ApartmentLayout';
+import { Button, HStack } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -44,6 +45,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
 export const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   /**
    * Goes back one page, unless on the first page, in which case it navigates to the select apartment page.
@@ -57,9 +59,28 @@ export const CreateApartment = () => {
   };
 
   return (
-    <ApartmentLayout button="back" onButtonClick={() => goPageBack(page)}>
+    <ApartmentLayout
+      // navigate={false}
+      goBack={() => goPageBack(page)}>
       <CreateApartmentForm page={page} />
-    </ApartmentLayout>
+      <HStack gap="30px">
+        <Button
+          size="xl"
+          fontSize="2xl"
+          fontWeight="bold"
+          backgroundColor="transparent"
+        >
+          {t('create_apartment.skip_btn')}
+        </Button>
+        <Button
+          size="xl"
+          fontSize="2xl"
+          fontWeight="bold"
+        >
+          {t('create_apartment.continue_btn')}
+        </Button>
+      </HStack>
+    </ApartmentLayout >
   );
 };
 
