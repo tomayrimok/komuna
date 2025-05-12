@@ -1,22 +1,20 @@
+import { useNavigate } from '@tanstack/react-router';
+import { useState, type FC } from 'react';
 import { ApartmentInfo } from './ApartmentInfo';
-import { Apartment } from '../../../../server/src/apartment/apartment.entity';
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useAuth } from '../../context/auth/AuthProvider';
+import ApartmentLayout from './ApartmentLayout';
 import ApartmentSettings from './ApartmentSettings';
 import RenterSettings from './RenterSettings';
 
 enum CreateApartmentPages {
-  ApartmentInfo,
-  ApartmentSettings,
-  RenterSettings,
+  ApartmentInfo = 1,
+  ApartmentSettings = 2,
+  RenterSettings = 3,
 }
 
-export const CreateApartment = () => {
-  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
-
-  const navigate = useNavigate();
-
+interface CreateApartmentFormProps {
+  page: CreateApartmentPages;
+}
+const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
       return (
@@ -37,7 +35,30 @@ export const CreateApartment = () => {
   }
 };
 
-export default CreateApartment;
+/**
+ * Wraps the CreateApartmentForm in a layout with a back button.
+ */
+export const CreateApartment = () => {
+  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
+  const navigate = useNavigate();
+
+  /**
+   * Goes back one page, unless on the first page, in which case it navigates to the select apartment page.
+   */
+  const goPageBack = (currentPage: CreateApartmentPages) => {
+    if (currentPage === CreateApartmentPages.ApartmentInfo) {
+      navigate({ to: '/select-apartment' });
+    } else {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  return (
+    <ApartmentLayout button="back" onButtonClick={() => goPageBack(page)}>
+      <CreateApartmentForm page={page} />
+    </ApartmentLayout>
+  );
+};
 
 // export const CreateApartment = () => {
 //   const { refetchAuth, currentUserDetails } = useAuth();
