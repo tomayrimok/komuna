@@ -95,7 +95,9 @@
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
-        "create_new_apartment": "יצירת דירה חדשה"
+        "create_new_apartment": "יצירת דירה חדשה",
+        "leaser": "בעל דירה",
+        "renter": "דייר"
     },
     "roommate": {
         "homepage": {

@@ -22,7 +22,6 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
     case CreateApartmentPages.ApartmentInfo:
       return (
         <ApartmentInfo />
-        // <
       );
     case CreateApartmentPages.ApartmentSettings:
       return (
@@ -66,7 +65,6 @@ const CreateApartment = () => {
 
   return (
     <ApartmentLayout
-      // navigate={false}
       goBack={() => goPageBack(page)}>
       <CreateApartmentForm page={page} />
       <HStack gap="30px">
