@@ -1,5 +1,5 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import CreateApartment from '../pages/CreateApartment';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { CreateApartment } from '../pages/CreateApartment';
 
 export const Route = createFileRoute('/create-apartment')({
   beforeLoad: ({ context }) => {
@@ -9,4 +9,3 @@ export const Route = createFileRoute('/create-apartment')({
   },
   component: () => <CreateApartment />,
 });
-

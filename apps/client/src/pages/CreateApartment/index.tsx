@@ -1,69 +1,29 @@
 import { ApartmentInfo } from './ApartmentInfo';
-import { Apartment } from '../../../../server/src/apartment/apartment.entity';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useAuth } from '../../context/auth/AuthProvider';
-import ApartmentSettings from './ApartmentSettings';
+import { FC, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import RenterSettings from './RenterSettings';
-import { ApartmentInfoDto, UserRoleName } from '@komuna/types';
+import { ApartmentSettings } from './ApartmentSettings';
+import ApartmentLayout from './ApartmentLayout';
 
 enum CreateApartmentPages {
-  ApartmentInfo,
-  ApartmentSettings,
-  RenterSettings,
+  ApartmentInfo = 1,
+  ApartmentSettings = 2,
+  RenterSettings = 3,
 }
 
-export const CreateApartment = () => {
-  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
+interface CreateApartmentFormProps {
+  page: CreateApartmentPages;
+}
 
-  const [apartmentInfo, setApartmentInfo] = useState<ApartmentInfoDto>({
-    name: '',
-    address: '',
-    city: '',
-    role: UserRoleName.Renter
-  });
-
-  // const [profileDetatils, setProfileDetails] = useState<CreateUserDto>({
-  //   firstName: '',
-  //   lastName: '',
-  //   image: '/meerkats/waving.png',
-  //   phoneNumber,
-  // });
-
-  // const [profileDetatils, setProfileDetails] = useState<CreateUserDto>({
-  //   firstName: '',
-  //   lastName: '',
-  //   image: '/meerkats/waving.png',
-  //   phoneNumber,
-  // });
-
-  const navigate = useNavigate();
-
-  const goBack = useCallback(() => {
-    setPage((oldPage) => {
-      if (oldPage > 0) {
-        return oldPage - 1;
-      } else {
-        navigate({ to: '/select-apartment' });
-        return oldPage;
-      }
-    });
-  }, [setPage]);
-
-
-
+const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
       return (
-        <ApartmentInfo
-          goBack={goBack}
-        />
+        <ApartmentInfo />
       );
     case CreateApartmentPages.ApartmentSettings:
       return (
-        <ApartmentSettings
-        // goBack={() => setPage(CreateApartmentPages.ApartmentInfo))}
-        />
+        <ApartmentSettings />
       );
     case CreateApartmentPages.RenterSettings:
       return (
@@ -74,4 +34,39 @@ export const CreateApartment = () => {
   }
 };
 
-export default CreateApartment;
+export default CreateApartmentForm;
+
+/**
+ * Wraps the CreateApartmentForm in a layout with a back button.
+ */
+export const CreateApartment = () => {
+  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
+
+  // const [apartmentInfo, setApartmentInfo] = useState<ApartmentInfoDto>({
+  //   name: '',
+  //   address: '',
+  //   city: '',
+  //   role: UserRoleName.Renter
+  // });
+
+  const navigate = useNavigate();
+
+  /**
+   * Goes back one page, unless on the first page, in which case it navigates to the select apartment page.
+   */
+  const goPageBack = (currentPage: CreateApartmentPages) => {
+    if (currentPage === CreateApartmentPages.ApartmentInfo) {
+      navigate({ to: '/select-apartment' });
+    } else {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  return (
+    <ApartmentLayout goBack={() => goPageBack(page)}>
+      <CreateApartmentForm page={page} />
+    </ApartmentLayout>
+  );
+};
+
+

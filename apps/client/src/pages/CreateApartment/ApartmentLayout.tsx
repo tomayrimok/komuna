@@ -1,10 +1,9 @@
-import { Box, HStack, Image, Stack, VStack } from "@chakra-ui/react"
-import { ReactNode } from "@tanstack/react-router"
+import { Box, VStack } from "@chakra-ui/react"
 import { BackNavigationBar } from "../../components/BackNavigationBar";
+import { PropsWithChildren } from "react";
 
-interface ApartmentLayoutProps {
+interface ApartmentLayoutProps extends PropsWithChildren {
   goBack: () => void;
-  children: ReactNode;
 }
 
 export const ApartmentLayout = ({ goBack, children }: ApartmentLayoutProps) => {
@@ -26,6 +25,6 @@ export const ApartmentLayout = ({ goBack, children }: ApartmentLayoutProps) => {
       </VStack>
     </Box>
   );
-}
+};
 
 export default ApartmentLayout;

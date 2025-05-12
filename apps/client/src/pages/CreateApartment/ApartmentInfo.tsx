@@ -1,14 +1,13 @@
 import { Button, Field, HStack, Image, Input, Stack, Text, VStack, RadioCard } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import ApartmentLayout from "./ApartmentLayout";
 import { UserRoleName } from "@komuna/types";
 import { useMemo } from "react";
 
 interface ApartmentInfoProps {
-  goBack: () => void;
+
 }
 
-export const ApartmentInfo = ({ goBack }: ApartmentInfoProps) => {
+export const ApartmentInfo = ({ }: ApartmentInfoProps) => {
   const { t } = useTranslation();
 
   const fields = useMemo(() => [
@@ -23,7 +22,7 @@ export const ApartmentInfo = ({ goBack }: ApartmentInfoProps) => {
   ], [t]);
 
   return (
-    <ApartmentLayout goBack={goBack}>
+    <>
       <VStack width="100%" paddingX="3" gap="10">
         <VStack>
           <Text fontSize="2xl" fontWeight="bold">
@@ -82,7 +81,7 @@ export const ApartmentInfo = ({ goBack }: ApartmentInfoProps) => {
       >
         {t('create_profile.create_profile')}
       </Button>
-    </ApartmentLayout >
+    </>
   );
 }
 
