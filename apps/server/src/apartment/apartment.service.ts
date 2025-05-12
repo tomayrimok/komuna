@@ -5,10 +5,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ApartmentService {
-  constructor(
-    @InjectRepository(Apartment)
-    private readonly apartmentRepo: Repository<Apartment>
-  ) {}
+    constructor(
+        @InjectRepository(Apartment)
+        private readonly apartmentRepo: Repository<Apartment>,
+    ) { }
 
   async createApartment(apartment: Partial<Apartment>) {
     return await this.apartmentRepo.save(apartment);

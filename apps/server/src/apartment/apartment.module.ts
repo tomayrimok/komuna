@@ -10,6 +10,5 @@ import { Apartment } from './apartment.entity';
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],
-  exports: [ApartmentService],
 })
 export class ApartmentModule { }
