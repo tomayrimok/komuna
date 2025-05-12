@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import ApartmentLayout from "./ApartmentLayout"
-import ApartmentTitle from "./ApartmentTitle";
+import ApartmentLayout from "../CreateApartment/ApartmentLayout"
+import ApartmentTitle from "../CreateApartment/ApartmentTitle";
 import { Button, PinInput, Spacer } from "@chakra-ui/react";
 import { useState } from "react";
 import { times } from "lodash";
@@ -14,7 +14,7 @@ const JoinApartment = () => {
 
   return (
     <ApartmentLayout
-      goBack={() => { navigate({ to: '/select-apartment' }); }}
+      goBack={() => { navigate({ to: '/new-apartment' }); }}
     >
       <ApartmentTitle
         title={t("join_existing_apartment.title")}

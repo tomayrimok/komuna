@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { Login } from '../pages/Login';
 import { z } from 'zod';
 
-const fallback = '/select-apartment' as const;
+const fallback = '/new-apartment' as const;
 
 export const Route = createFileRoute('/login')({
   validateSearch: z.object({

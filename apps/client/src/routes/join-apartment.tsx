@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import JoinApartment from '../pages/CreateApartment/JoinApartment';
+import JoinApartment from '../pages/JoinApartment/JoinApartment';
 
 export const Route = createFileRoute('/join-apartment')({
   beforeLoad: ({ context }) => {
