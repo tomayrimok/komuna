@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useState, type FC } from 'react';
 import { ApartmentInfo } from './ApartmentInfo';
 import ApartmentLayout from './ApartmentLayout';
-import ApartmentSettings from './ApartmentSettings';
+import { ApartmentSettings } from './ApartmentSettings';
 import RenterSettings from './RenterSettings';
 import { ApartmentInfoDto, UserRoleName } from '@komuna/types';
 
