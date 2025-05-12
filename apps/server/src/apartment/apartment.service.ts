@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ApartmentService {
-
     constructor(
         @InjectRepository(Apartment)
         private readonly apartmentRepo: Repository<Apartment>,
