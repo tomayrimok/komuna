@@ -17,7 +17,7 @@
             "description": "שלחנו למספר <phone>{{phone}}</phone> קוד לאימות מספר הטלפון שאמור להגיע אליך ב2-5 דקות הקרובות. ",
             "continue": "המשך",
             "didnt_get_code": "לא קיבלתי את הקוד, שלח מחדש",
-            "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון ${phone}. אנא בדקו בשנית."
+            "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון {{phone}}. אנא בדקו בשנית."
         }
     },
     "create_profile": {
@@ -96,6 +96,26 @@
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
         "create_new_apartment": "יצירת דירה חדשה"
+    },
+    "roommate": {
+        "homepage": {
+            "title": "ברוכים הבאים, <b>{{firstName}}!</b>",
+            "last_updates": "עדכונים אחרונים",
+            "leftbar": {
+                "profile_settings": "הגדרות פרופיל",
+                "apartment_settings": "הגדרות דירה",
+                "notifications_settings": "ניהול התראות ואירועים",
+                "app_settings": "הגדרות אפליקציה",
+                "logout": "התנתקות"
+            },
+            "navigation": {
+                "tasks": "משימות",
+                "payments": "תשלומים",
+                "home": "בית",
+                "shopping": "קניות",
+                "incidents": "תקלות"
+            }
+        }
     },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."

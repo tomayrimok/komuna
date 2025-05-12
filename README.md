@@ -18,6 +18,14 @@ Komuna is a full-stack monorepo application designed for scalability and product
 
 ---
 
+## 🎨 Figma Design
+
+Explore the design prototype for Komuna on Figma:
+
+https://www.figma.com/design/V2BrxtwUVtK9lO7UKkqbLA/Komuna-App?node-id=0-1&p=f
+
+---
+
 ## ✨ Quick Start
 
 ### 📦 Install dependencies
@@ -35,10 +43,25 @@ npx nx serve server
 ### 🌐 Start the frontend (React + Vite)
 
 ```bash
-npx nx serve client
+npx nx dev client
 ```
 
 Open your browser at [http://localhost:4200](http://localhost:4200) (or configured port).
+
+### 🌐 Enable SMS verification (ANDROID ONLY)
+
+1. Download APK here: https://github.com/capcom6/android-sms-gateway/releases/download/v1.35.0/app-release.apk
+2. Open the app, enable `local server` and click on the "OFFLINE" button to change it to online.
+3. Create `.env.local` file inside `/apps/server/` with the following parameters:
+    ```
+    SMS_ENABLED=true
+    SMS_LOCAL_ADDRESS=<yourip>:8080
+    SMS_USERNAME=<yourusername>
+    SMS_PASSWORD=<yourpassword>
+    SMS_ALLOWED_NUMBERS=phone1,phone2,phone3..
+    ```
+
+If the sms is not enabled, all the verification codes will be `6666` by default.
 
 ---
 
