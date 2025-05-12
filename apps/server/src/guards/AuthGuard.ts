@@ -4,14 +4,14 @@ import { Request } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) { }
 
   // canActivate will be executed whenever a protected route is hit
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
 
-    // TODO: REmove this timeout, it's just for testing
-    await new Promise((resolve) => setTimeout(resolve, 4000));
+    // // TODO: REmove this timeout, it's just for testing
+    // await new Promise((resolve) => setTimeout(resolve, 4000));
 
     // Extract token from cookies (Authentication is the cookie name, change as needed)
     const token = this.extractTokenFromCookie(request);

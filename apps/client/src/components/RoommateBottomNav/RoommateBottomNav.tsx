@@ -37,23 +37,26 @@ const NavItem = ({ icon: Icon, label, route }: { icon: typeof IconHeadphones; la
 const RoommateBottomNav = () => {
   const { t } = useTranslation();
   return (
-    <Box background="white" pos="fixed" bottom="0" w="100%" h="97px" zIndex="1" dir="rtl" boxShadow="2xl">
-      <Flex justify="space-around" align="center" h="100%" position="relative" zIndex="1">
-        <NavItem icon={IconListCheck} label={t('roommate.homepage.navigation.tasks')} route="/roommate/tasks" />
-        <NavItem icon={IconCoins} label={t('roommate.homepage.navigation.payments')} route="/roommate/payments" />
-        <NavItem icon={IconHome} label={t('roommate.homepage.navigation.home')} route="/roommate" />
-        <NavItem
-          icon={IconShoppingCart}
-          label={t('roommate.homepage.navigation.shopping')}
-          route="/roommate/shopping"
-        />
-        <NavItem
-          icon={IconMessageCircleExclamation}
-          label={t('roommate.homepage.navigation.incidents')}
-          route="/roommate/incidents"
-        />
-      </Flex>
-    </Box>
+    <>
+      <Box h={"97px"} />
+      <Box background="white" pos="fixed" bottom="0" w="100%" h="97px" zIndex="1" dir="rtl" boxShadow="2xl">
+        <Flex justify="space-around" align="center" h="100%" position="relative" zIndex="1">
+          <NavItem icon={IconListCheck} label={t('roommate.homepage.navigation.tasks')} route="/roommate/tasks" />
+          <NavItem icon={IconCoins} label={t('roommate.homepage.navigation.payments')} route="/roommate/payments" />
+          <NavItem icon={IconHome} label={t('roommate.homepage.navigation.home')} route="/roommate" />
+          <NavItem
+            icon={IconShoppingCart}
+            label={t('roommate.homepage.navigation.shopping')}
+            route="/roommate/shopping"
+          />
+          <NavItem
+            icon={IconMessageCircleExclamation}
+            label={t('roommate.homepage.navigation.incidents')}
+            route="/roommate/incidents"
+          />
+        </Flex>
+      </Box>
+    </>
   );
 };
 

@@ -18,7 +18,7 @@ export class ShoppingList {
   @Column()
   contextId: string;
 
-  @Column('json')
+  @Column('json', { default: [] })
   items: {
     itemId: string;
     name: string;
