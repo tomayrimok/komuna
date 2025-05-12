@@ -26,23 +26,15 @@ export const SelectApartment = () => {
             {t('select_apartment.no_apartments.join_apartment')}
           </Button>
         </VStack>
-        <VStack gap="12">
-          <VStack gap="4">
-            <Image src="/detailed_icons/join_apartment.png" maxW="200px" />
-            <Button size="xl" fontSize="2xl" fontWeight="bold">
-              {t('select_apartment.no_apartments.join_apartment')}
-            </Button>
-          </VStack>
-          <VStack gap="5">
-            <Image src="/detailed_icons/create_apartment.png" maxW="200px" />
-            <Button
-              size="xl"
-              fontSize="2xl"
-              fontWeight="bold"
-              onClick={() => { navigate({ to: '/create-apartment' }); }}>
-              {t('select_apartment.no_apartments.create_new_apartment')}
-            </Button>
-          </VStack>
+        <VStack gap="5">
+          <Image src="/detailed_icons/create_apartment.png" maxW="200px" />
+          <Button
+            size="xl"
+            fontSize="2xl"
+            fontWeight="bold"
+            onClick={() => { navigate({ to: '/create-apartment' }); }}>
+            {t('select_apartment.no_apartments.create_new_apartment')}
+          </Button>
         </VStack>
       </VStack>
     </ApartmentLayout>
