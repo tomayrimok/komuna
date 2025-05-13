@@ -55,6 +55,7 @@ export class Apartment {
 
     /** בעל הבית */
     @Column({ nullable: true })
+    // TODO change to landLordId?!
     managerId?: string;
 
     /** Apartment Settings */
@@ -69,11 +70,11 @@ export class Apartment {
 
     /** Renter Settings */
     /** The user id of who pays the house committee, or NULL if it's split equally */
-    @ManyToOne(() => User, (u) => u.payableHouseCommitteeRents, { nullable: true, cascade: true })
+    @ManyToOne(() => User, (u) => u.userId, { nullable: true, cascade: true })
     @JoinColumn({ name: 'houseCommitteePayerUserId' })
     houseCommitteePayerUser?: User;
 
-    @OneToMany(() => UserApartment, ua => ua.apartmentId, { cascade: true })
+    @OneToMany(() => UserApartment, ua => ua.apartment, { cascade: true })
     residents: UserApartment[];
 
     @OneToMany(() => Task, task => task.apartmentId)
