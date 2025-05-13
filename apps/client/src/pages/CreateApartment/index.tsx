@@ -10,7 +10,7 @@ export const NewApartment = () => {
   const navigate = useNavigate();
 
   return (
-    <ApartmentLayout goBack={() => { }}>
+    <ApartmentLayout>
       <VStack>
         <Text fontSize="2xl" fontWeight="bold">
           {t('select_apartment.no_apartments.title')}
