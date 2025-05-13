@@ -53,7 +53,7 @@ class RenterSettingsDto {
 
   @IsNumber()
   @IsOptional()
-  houseCommitteeRent: number;
+  houseCommitteeRent?: number;
 
   @IsString()
   @IsOptional()
