@@ -18,9 +18,12 @@ export class UserApartment {
   @PrimaryColumn()
   userId: string;
 
+  /** Renter Settings */
+  /** Rent of the current user out of the total rent of the apartment */
   @Column('float', { nullable: true })
   rent?: number;
 
+  /** Apartment Info */
   @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
 
@@ -32,6 +35,8 @@ export class UserApartment {
   @JoinColumn({ name: 'userId' })
   user: User;
 
+  /** Renter Settings */
+  /** The user id of who pays the rent, or NULL if it's paid by current user */
   @ManyToOne(() => User, (u) => u.payableRents, { nullable: true })
   @JoinColumn({ name: 'payableBy' })
   payableByUser: User;
