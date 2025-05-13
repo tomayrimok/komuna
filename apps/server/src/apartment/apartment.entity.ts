@@ -9,10 +9,10 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { User } from '../user/user.entity';
 
 export type BillsDetails = {
-    electricity: string;
-    water: string;
-    internet: string;
-    gas: string;
+    electricity?: string;
+    water?: string;
+    internet?: string;
+    gas?: string;
 };
 
 @Entity()
