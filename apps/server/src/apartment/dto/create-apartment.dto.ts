@@ -58,7 +58,7 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
 
   @IsNumber()
   @IsOptional()
-  houseCommitteeRent: number;
+  houseCommitteeRent?: number;
 
   @IsString()
   @IsOptional()
