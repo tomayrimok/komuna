@@ -7,7 +7,7 @@ import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { UserRole } from '@komuna/types';
-import { generateVerificationCode } from '../utils/generateVerificationCode';
+import { generateApartmentCode } from '../utils/generateVerificationCode';
 
 @Controller('apartment')
 export class ApartmentController {
