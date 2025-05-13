@@ -14,6 +14,9 @@ export class CreateIncidentDto {
 
     @IsUUID()
     userId: string;
+
+    @IsUUID()
+    apartmentId: string;
     
     @IsString()
     incidentName: string;
