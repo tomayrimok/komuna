@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Task } from '../task/task.entity';
 import { Expense } from '../expense/expense.entity';
@@ -6,7 +6,14 @@ import { Payment } from '../payment/payment.entity';
 import { Incident } from '../incident/incident.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';import { User } from '../user/user.entity';
+
+export type BillsDetails = {
+    electricity: string;
+    water: string;
+    internet: string;
+    gas: string;
+};
 
 @Entity()
 export class Apartment {
@@ -15,6 +22,7 @@ export class Apartment {
   apartmentId: string;
 
   @ApiProperty({ description: 'Name of the apartment' })
+    /** Apartment Info */
   @Column()
   name: string;
 
@@ -23,28 +31,56 @@ export class Apartment {
   image?: string;
 
   @ApiProperty({ description: 'Unique code for the apartment' })
+    /** The code to join the apartment. NULL in case the apartment doesn't allow new residents */
   @Column({ unique: true })
   code: string;
 
   @ApiProperty({ description: 'Apartment address', required: false })
+    /** Apartment Info */
   @Column({ nullable: true })
   address?: string;
 
   @ApiProperty({ description: 'City where the apartment is located', required: false })
+    /** Apartment Info */
   @Column({ nullable: true })
   city?: string;
 
+    /** Apartment Settings */
+    @Column({ type: 'date', nullable: true })
+    contractEndDate?: Date;
+
+    /** contract file UserRole */
+    @Column({ nullable: true })
+    contractUrl?: string;
+
+    /** Apartment Settings */
+    @Column({ type: 'float', nullable: true })
+    rent?: number;
+
+
+    /** בעל הבית */
   @ApiProperty({ description: 'ID of the apartment manager', required: false })
   @Column({ nullable: true })
   managerId?: string;
 
-  @ApiProperty({ description: 'Apartment contract details', required: false })
+  @ApiProperty({ description: 'Apartment contract details', required: false })  
   @Column({ nullable: true })
-  contract?: string;
+    contract?: string;
 
-  @ApiProperty({ description: 'Bills payment details', required: false })
-  @Column({ nullable: true })
-  billsDetails?: string;
+    @ApiProperty({ description: 'Bills payment details', required: false })
+    @Column({ nullable: true })
+    billsDetails?: string;
+
+    /** Renter Settings */
+    /** מחיר חושי ועד בית */
+    @Column({ type: 'float', nullable: true })
+    houseCommitteeRent: number;
+
+    /** Renter Settings */
+    /** The user id of who pays the house committee, or NULL if it's split equally */
+    @ManyToOne(() => User, (u) => u.payableHouseCommitteeRents, { nullable: true })
+    @JoinColumn({ name: 'houseCommitteePayer' })
+    houseCommitteePayerUser?: User;
 
   @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
   @OneToMany(() => UserApartment, (ua) => ua.apartment)

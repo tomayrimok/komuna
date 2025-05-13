@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Expense } from '../expense/expense.entity';
+import { Apartment } from '../apartment/apartment.entity';
 import { DebtEdge } from '../debt-edge/debt-edge.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -33,6 +34,10 @@ export class User {
   @ApiProperty({ type: () => [UserApartment], description: "User's payable rents" })
   @OneToMany(() => UserApartment, (ua) => ua.payableByUser)
   payableRents: UserApartment[];
+
+  /** House committee rents that this user pays */
+  @OneToMany(() => Apartment, (a) => a.houseCommitteePayerUser)
+  payableHouseCommitteeRents: Apartment[];
 
   @ApiProperty({ type: () => [Expense], description: "User's expenses" })
   @OneToMany(() => Expense, (e) => e.paidByUser)
