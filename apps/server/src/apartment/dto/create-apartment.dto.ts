@@ -1,5 +1,5 @@
-import { ApartmentInfoDto as BaseApartmentInfoDto } from "@komuna/types";
-import { IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ApartmentInfoDto as BaseApartmentInfoDto, type UserRole } from "@komuna/types";
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { BillsDetailsDto } from "./bills-details.dto";
 
 
@@ -17,14 +17,15 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
   city?: string;
 
   @IsEnum(["renter", "leaser"])
-  role: BaseApartmentInfoDto["role"];
+  //@ts-expect-error -- This needs to be fixed by changing ApartmentInfoDto#role type to use UserRole
+  role: UserRole;
 }
 
 /** Second form */
 class ApartmentSettingsDto {
-  @IsString()
   @IsOptional()
-  contractEndDate?: string;
+  @IsDate() // TODO: Maybe IsString() with transform to Date
+  contractEndDate?: Date;
 
   @IsString()
   @IsOptional()
@@ -33,7 +34,7 @@ class ApartmentSettingsDto {
 
   @IsString()
   @IsOptional()
-  totalRent?: number;
+  rent?: number;
 
   @IsString()
   @IsOptional()
@@ -45,7 +46,7 @@ class ApartmentSettingsDto {
 class RenterSettingsDto {
   @IsNumber()
   @IsOptional()
-  myRent?: number;
+  rent?: number;
 
   @IsString()
   @IsOptional()
@@ -54,6 +55,10 @@ class RenterSettingsDto {
   @IsNumber()
   @IsOptional()
   houseCommitteeRent: number;
+
+  @IsString()
+  @IsOptional()
+  houseCommitteePayerUserId?: string;
 }
 
 export class CreateApartmentDto {
