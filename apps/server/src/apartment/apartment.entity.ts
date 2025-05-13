@@ -56,6 +56,7 @@ export class Apartment {
     /** בעל הבית */
   @ApiProperty({ description: 'ID of the apartment manager', required: false })
   @Column({ nullable: true })
+    // TODO change to landLordId?!
   managerId?: string;
 
   @ApiProperty({ description: 'Apartment contract details', required: false })  
@@ -73,12 +74,12 @@ export class Apartment {
 
     /** Renter Settings */
     /** The user id of who pays the house committee, or NULL if it's split equally */
-    @ManyToOne(() => User, (u) => u.payableHouseCommitteeRents, { nullable: true, cascade: true })
+    @ManyToOne(() => User, (u) => u.userId, { nullable: true, cascade: true })
     @JoinColumn({ name: 'houseCommitteePayerUserId' })
     houseCommitteePayerUser?: User;
 
     @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
-    @OneToMany(() => UserApartment, ua => ua.apartmentId, { cascade: true })
+    @OneToMany(() => UserApartment, ua => ua.apartment, { cascade: true })
     residents: UserApartment[];
 
   @ApiProperty({ type: () => [Task], description: 'Apartment tasks' })
