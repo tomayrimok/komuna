@@ -21,4 +21,8 @@ export class ApartmentService {
     async getApartment(apartmentId: string) {
         return await this.apartmentRepo.findOneBy({ apartmentId });
     }
+
+    getApartmentByCode(code: string) {
+        return this.apartmentRepo.findOneBy({ code });
+    }
 }
