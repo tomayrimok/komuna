@@ -15,8 +15,10 @@ export const Route = createFileRoute('/roommate')({
 
 const RoomateLayout = () => {
   return (
-    <Box flex="1" display="flex" flexDirection="column" gap="0">
-      <Outlet />
+    <Box flex="1" display="flex" flexDirection="column" gap="0" height="100%">
+      <Box overflowY="auto" flex="1" display="flex" flexDirection="column" gap="0" height="100%">
+        <Outlet />
+      </Box>
       <BottomNav />
     </Box>
   );
