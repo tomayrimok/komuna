@@ -78,13 +78,13 @@ export class Apartment {
 
     /** Renter Settings */
     /** The user id of who pays the house committee, or NULL if it's split equally */
-    @ManyToOne(() => User, (u) => u.payableHouseCommitteeRents, { nullable: true })
-    @JoinColumn({ name: 'houseCommitteePayer' })
+    @ManyToOne(() => User, (u) => u.payableHouseCommitteeRents, { nullable: true, cascade: true })
+    @JoinColumn({ name: 'houseCommitteePayerUserId' })
     houseCommitteePayerUser?: User;
 
-  @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
-  @OneToMany(() => UserApartment, (ua) => ua.apartment)
-  residents: UserApartment[];
+    @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
+    @OneToMany(() => UserApartment, ua => ua.apartmentId, { cascade: true })
+    residents: UserApartment[];
 
   @ApiProperty({ type: () => [Task], description: 'Apartment tasks' })
   @OneToMany(() => Task, (task) => task.apartmentId)
