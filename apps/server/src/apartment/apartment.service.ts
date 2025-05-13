@@ -18,14 +18,11 @@ export class ApartmentService {
     return await this.apartmentRepo.update({ apartmentId }, apartment);
   }
 
-  async getApartmentWithResidents(apartmentId: string) {
-    return await this.apartmentRepo.findOne({
-      where: { apartmentId },
-      relations: {
-        residents: {
-          user: true,
-        },
-      },
-    });
-  }
+    async getApartment(apartmentId: string) {
+        return await this.apartmentRepo.findOneBy({ apartmentId });
+    }
+
+    getApartmentByCode(code: string) {
+        return this.apartmentRepo.findOneBy({ code });
+    }
 }

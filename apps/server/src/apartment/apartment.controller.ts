@@ -45,9 +45,29 @@ export class ApartmentController {
     return generatedCode;
   }
 
-  @Get()
-    async getApartmentUsers(@Query('apartmentId') apartmentId: string) {
-        return await this.apartmentService.getApartmentWithResidents(apartmentId);
+  @Post("join/:code")
+  @UseAuth()
+  async joinApartment(@Param('code') code: string, @GetUser() user: User) {
+    const apartment = await this.apartmentService.getApartmentByCode(code);
+    if (!apartment) {
+      console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
+      throw new NotFoundException();
     }
+
+    const userApartment = new UserApartment();
+    userApartment.userId = user.userId;
+    userApartment.rent = apartment.rent;
+    userApartment.role = UserRole.LANDLORD;
+
+    if (apartment.residents.some(resident => resident.userId === user.userId)) {
+      console.error(`User ${user.userId} already exists in apartment with code ${code}`);
+      throw new ConflictException();
+    }
+
+    apartment.residents.push(userApartment);
+    await this.apartmentService.updateApartment(apartment.apartmentId, apartment);
+
+    return true;
+  }
 
 }
