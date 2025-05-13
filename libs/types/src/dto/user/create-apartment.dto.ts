@@ -1,9 +1,4 @@
-export enum UserRoleName {
-  Renter = 'renter',
-  Leaser = 'leaser',
-}
-
-type UserRole = UserRoleName.Renter | UserRoleName.Leaser;
+import { UserRole } from '../../enums';
 
 export class ApartmentInfoDto {
   name: string;

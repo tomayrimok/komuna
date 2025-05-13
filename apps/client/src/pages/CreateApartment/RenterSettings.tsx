@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { UserRoleName } from "@komuna/types";
+import { UserRole } from "@komuna/types";
 import ApartmentTitle from "./ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
 
@@ -42,7 +42,7 @@ export const RenterSettings = ({ }: RenterSettingsProps) => {
 
   return (
     <>
-      <Stack width="100%" gap="6">
+      <Stack width="100%" gap="5">
         <ApartmentTitle
           title={t('create_apartment.renter_settings.title')}
         />
@@ -68,9 +68,9 @@ export const RenterSettings = ({ }: RenterSettingsProps) => {
             <RadioCard.Root
               orientation="horizontal"
               variant="subtle"
-              defaultValue={UserRoleName.Renter}
+              defaultValue={UserRole.ROOMMATE}
             >
-              <RadioCard.Label fontWeight="bold" fontSize="md" marginBottom="10px">
+              <RadioCard.Label fontWeight="bold" fontSize="md">
                 {field.optionTitle}
               </RadioCard.Label>
               {field.options.map((option) => (

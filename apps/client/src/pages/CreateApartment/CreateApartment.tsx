@@ -7,7 +7,7 @@ import ShareApartmentCode from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
-import { UserRoleName } from '@komuna/types';
+import { UserRole } from '@komuna/types';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -49,34 +49,18 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
  */
 const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
-  const [role, setRole] = useState<UserRoleName>(UserRoleName.Leaser);
+  const [role, setRole] = useState<UserRole>(UserRole.LANDLORD);
 
   const [showSkipBtn, showContinueBtn] = useMemo(() => [
     page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
     page !== CreateApartmentPages.ShareApartmentCode
   ], [page, role]);
 
-  // const rolePages = useMemo(() => {[
-  //   role === UserRoleName.Renter && ,
-  //   role === UserRoleName.Leaser && ,
-  // ], [role, pages]);
-
-  const doneBtnText = useMemo(() => {
-    return true;
-  }, [page, role]);
-
   const handleOnClick = () => {
-    if (role === UserRoleName.Leaser && page < CreateApartmentPages.ApartmentSettings
-      || role === UserRoleName.Renter && page <= CreateApartmentPages.RenterSettings) setPage((p) => p + 1);
-    if (role === UserRoleName.Leaser && page === CreateApartmentPages.ApartmentSettings) setPage(CreateApartmentPages.ShareApartmentCode);
+    if (role === UserRole.LANDLORD && page < CreateApartmentPages.ApartmentSettings
+      || role === UserRole.ROOMMATE && page <= CreateApartmentPages.RenterSettings) setPage((p) => p + 1);
+    if (role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) setPage(CreateApartmentPages.ShareApartmentCode);
   }
-
-  // const [apartmentInfo, setApartmentInfo] = useState<ApartmentInfoDto>({
-  //   name: '',
-  //   address: '',
-  //   city: '',
-  //   role: UserRoleName.Renter
-  // });
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -88,8 +72,6 @@ const CreateApartment = () => {
     if (currentPage === CreateApartmentPages.ApartmentInfo) {
       navigate({ to: '/new-apartment' });
     } else {
-      // if (role === UserRoleName.Leaser && page === ) setPage((prevPage) => prevPage - 1);
-      // else 
       setPage((prevPage) => prevPage - 1);
     }
   };
@@ -114,7 +96,9 @@ const CreateApartment = () => {
           fontWeight="bold"
           onClick={handleOnClick}
         >
-          {t('create_apartment.continue_btn')}
+          {role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings
+            || role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings ?
+            t('create_apartment.done_btn') : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>
     </ApartmentLayout >
