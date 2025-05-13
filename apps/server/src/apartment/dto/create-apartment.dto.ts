@@ -1,4 +1,4 @@
-import { ApartmentInfoDto as BaseApartmentInfoDto, type UserRole } from "@komuna/types";
+import { ApartmentInfoDto as BaseApartmentInfoDto, UserRole } from "@komuna/types";
 import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { BillsDetailsDto } from "./bills-details.dto";
 
@@ -16,8 +16,7 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
   @IsOptional()
   city?: string;
 
-  @IsEnum(["renter", "leaser"])
-  //@ts-expect-error -- This needs to be fixed by changing ApartmentInfoDto#role type to use UserRole
+  @IsEnum(UserRole)
   role: UserRole;
 }
 
