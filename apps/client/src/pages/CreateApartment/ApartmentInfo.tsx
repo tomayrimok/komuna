@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { Field, HStack, Image, Input, Stack, RadioCard } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import ApartmentLayout from "./ApartmentLayout";
-import { UserRoleName } from "@komuna/types";
+import { UserRole } from "@komuna/types";
 import ApartmentTitle from "./ApartmentTitle";
 
 interface ApartmentInfoProps {
@@ -19,8 +18,8 @@ export const ApartmentInfo = ({ goBack }: ApartmentInfoProps) => {
   ], [t]);
 
   const roles = useMemo(() => [
-    { value: UserRoleName.Renter, title: t("create_apartment.apartment_info.who_am_i.renter"), image: "/detailed_icons/renter.png" },
-    { value: UserRoleName.Leaser, title: t("create_apartment.apartment_info.who_am_i.leaser"), image: "/detailed_icons/leaser.png" },
+    { value: UserRole.ROOMMATE, title: t("create_apartment.apartment_info.who_am_i.renter"), image: "/detailed_icons/renter.png" },
+    { value: UserRole.LANDLORD, title: t("create_apartment.apartment_info.who_am_i.leaser"), image: "/detailed_icons/leaser.png" },
   ], [t]);
 
   return (
@@ -49,7 +48,7 @@ export const ApartmentInfo = ({ goBack }: ApartmentInfoProps) => {
           orientation="vertical"
           align="center"
           maxW="400px"
-          defaultValue={UserRoleName.Renter}
+          defaultValue={UserRole.ROOMMATE}
         >
           <RadioCard.Label fontWeight="bold" fontSize="md">
             {t("create_apartment.apartment_info.who_am_i.title")}
