@@ -30,7 +30,7 @@ export class ApartmentController {
     userApartment.rent = createApartmentData.renterSettings.rent;
     userApartment.role = createApartmentData.apartmentInfo.role;
 
-    const generatedCode = generateVerificationCode(ApartmentController.CODE_LENGTH);
+    const generatedCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
     apartment.address = createApartmentData.apartmentInfo.address;
