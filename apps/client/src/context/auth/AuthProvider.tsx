@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
-    apartmentId: null,
+    apartmentId: '60514c72-5b94-417f-b4a3-9da2092a267f',
     role: null,
   });
 
