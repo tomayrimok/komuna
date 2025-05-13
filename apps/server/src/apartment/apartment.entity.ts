@@ -8,7 +8,7 @@ import { ShoppingTemplate } from '../shopping-template/shopping-template.entity'
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ApiProperty } from '@nestjs/swagger';import { User } from '../user/user.entity';
 
-export type BillsDetails = {
+export interface BillsDetails {
     electricity?: string;
     water?: string;
     internet?: string;
