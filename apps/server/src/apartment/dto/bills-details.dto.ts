@@ -4,17 +4,17 @@ import type { BillsDetails } from "../apartment.entity";
 export class BillsDetailsDto implements BillsDetails {
   @IsString()
   @IsOptional()
-  electricity: string;
+  electricity?: string;
 
   @IsString()
   @IsOptional()
-  water: string;
+  water?: string;
 
   @IsString()
   @IsOptional()
-  internet: string;
+  internet?: string;
 
   @IsString()
   @IsOptional()
-  gas: string;
+  gas?: string;
 }
