@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { SelectApartment } from '../pages/SelectApartment';
+import { NewApartment } from '../pages/CreateApartment';
 
-export const Route = createFileRoute('/select-apartment')({
+export const Route = createFileRoute('/new-apartment')({
   beforeLoad: ({ context, location }) => {
     if (!context.currentUserDetails) {
       throw redirect({
@@ -12,5 +12,5 @@ export const Route = createFileRoute('/select-apartment')({
       });
     }
   },
-  component: () => <SelectApartment />,
+  component: () => <NewApartment />,
 });

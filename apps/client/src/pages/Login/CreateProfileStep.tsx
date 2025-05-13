@@ -25,7 +25,7 @@ interface CreateProfileStepProps {
 
 export const CreateProfileStep = ({ phoneNumber, onUserCreatedSuccessfully }: CreateProfileStepProps) => {
   const { t } = useTranslation();
-  const [profileDetatils, setProfileDetails] = useState<CreateUserDto>({
+  const [profileDetails, setProfileDetails] = useState<CreateUserDto>({
     firstName: '',
     lastName: '',
     image: '/meerkats/waving.png',
@@ -69,8 +69,8 @@ export const CreateProfileStep = ({ phoneNumber, onUserCreatedSuccessfully }: Cr
                   borderColor="brand.950"
                   backgroundColor="brand.50"
                 >
-                  <Avatar.Fallback name={profileDetatils.firstName} />
-                  <Avatar.Image src={profileDetatils.image} />
+                  <Avatar.Fallback name={profileDetails.firstName} />
+                  <Avatar.Image src={profileDetails.image} />
                 </Avatar.Root>
                 <IconButton
                   variant="solid"
@@ -133,8 +133,8 @@ export const CreateProfileStep = ({ phoneNumber, onUserCreatedSuccessfully }: Cr
         fontWeight="bold"
         marginBottom="12"
         loading={isPending}
-        disabled={!profileDetatils.firstName || !profileDetatils.lastName}
-        onClick={() => triggerCreateProfile(profileDetatils)}
+        disabled={!profileDetails.firstName || !profileDetails.lastName}
+        onClick={() => triggerCreateProfile(profileDetails)}
       >
         {t('create_profile.create_profile')}
       </Button>

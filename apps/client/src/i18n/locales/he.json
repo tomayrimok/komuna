@@ -17,7 +17,7 @@
             "description": "שלחנו למספר <phone>{{phone}}</phone> קוד לאימות מספר הטלפון שאמור להגיע אליך ב2-5 דקות הקרובות. ",
             "continue": "המשך",
             "didnt_get_code": "לא קיבלתי את הקוד, שלח מחדש",
-            "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון ${phone}. אנא בדקו בשנית."
+            "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון {{phone}}. אנא בדקו בשנית."
         }
     },
     "create_profile": {
@@ -59,7 +59,7 @@
                 "electricity": "חשמל",
                 "water": "מים",
                 "gas": "גז",
-                "suplier_name": "שם הספק..."
+                "supplier_name": "שם הספק..."
             }
         },
         "renter_settings": {
@@ -78,7 +78,7 @@
                 "paying_for_renter": "מישהו אחר משלם את וועד הבית"
             }
         },
-        "share_aparetment": {
+        "share_apartment": {
             "title": "הדירה נוצרה בהצלחה! 🎉",
             "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה.\nזהו קוד ההזמנה של הדירה:",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
@@ -95,7 +95,29 @@
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
-        "create_new_apartment": "יצירת דירה חדשה"
+        "create_new_apartment": "יצירת דירה חדשה",
+        "leaser": "בעל דירה",
+        "renter": "דייר"
+    },
+    "roommate": {
+        "homepage": {
+            "title": "ברוכים הבאים, <b>{{firstName}}!</b>",
+            "last_updates": "עדכונים אחרונים",
+            "leftbar": {
+                "profile_settings": "הגדרות פרופיל",
+                "apartment_settings": "הגדרות דירה",
+                "notifications_settings": "ניהול התראות ואירועים",
+                "app_settings": "הגדרות אפליקציה",
+                "logout": "התנתקות"
+            },
+            "navigation": {
+                "tasks": "משימות",
+                "payments": "תשלומים",
+                "home": "בית",
+                "shopping": "קניות",
+                "incidents": "תקלות"
+            }
+        }
     },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."

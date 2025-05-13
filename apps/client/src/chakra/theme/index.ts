@@ -10,6 +10,13 @@ const config = defineConfig({
           paddingY: '12px',
           paddingX: '30px',
         },
+        variants: {
+          variant: {
+            ghost: {
+              color: 'brand.900',
+            },
+          },
+        },
       },
       input: {
         base: {

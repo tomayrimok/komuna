@@ -60,6 +60,8 @@ export const VerifyPincodeStep = ({ goBack, phoneNumber, onPincodeSuccess }: Ver
           </Text>
         </VStack>
         <PinInput.Root
+          otp
+          autoFocus
           value={pincode}
           onValueChange={(e) => setPincode(e.value)}
           size="2xl"

@@ -1,17 +1,17 @@
+import { PropsWithChildren } from "react";
 import { Box, VStack } from "@chakra-ui/react"
 import { BackNavigationBar } from "../../components/BackNavigationBar";
-import { PropsWithChildren } from "react";
 
 interface ApartmentLayoutProps extends PropsWithChildren {
-  goBack: () => void;
+  goBack?: false | (() => void);
 }
 
 export const ApartmentLayout = ({ goBack, children }: ApartmentLayoutProps) => {
   return (
     <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column">
-      <BackNavigationBar onGoBack={goBack} />
+      {goBack ? <BackNavigationBar onGoBack={goBack} /> : null}
       <VStack
-        marginTop="10px"
+        marginTop={goBack ? "0px" : "80px"}
         paddingY="44px"
         paddingX="25px"
         backgroundColor="brand.10"
@@ -23,7 +23,7 @@ export const ApartmentLayout = ({ goBack, children }: ApartmentLayoutProps) => {
       >
         {children}
       </VStack>
-    </Box>
+    </Box >
   );
 };
 
