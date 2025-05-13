@@ -18,13 +18,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  /* TODO Merge with master and set properties:
-   *   app.useGlobalPipes(new ValidationPipe({
-   *     whitelist: true,
-   *     forbidNonWhitelisted: true,
-   *     transform: true,
-   *   }));
-   */
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }));
   const port = process.env.PORT || 8080;
   app.use(cookieParser());
   // Set up swagger
