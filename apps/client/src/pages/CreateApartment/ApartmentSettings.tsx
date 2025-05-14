@@ -3,18 +3,11 @@ import { Field, HStack, Input, Stack, VStack, Text, InputGroup, Button, useFileU
 import { useTranslation } from "react-i18next";
 import ApartmentTitle from "./ApartmentTitle";
 import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from "@tabler/icons-react";
-import { BillsDetails, CreateApartmentDto } from "@komuna/types";
+import { BillsDetails } from "@komuna/types";
 import { withMask } from "use-mask-input";
+import type { CommonApartmentProps } from "./create-apartment.types";
 
-interface ApartmentSettingsProps {
-  aptDetails: CreateApartmentDto;
-  updateField: (
-    field: string,
-    value: unknown
-  ) => void;
-}
-
-export const ApartmentSettings = ({ aptDetails, updateField }: ApartmentSettingsProps) => {
+export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentProps<"apartmentSettings">) => {
   const { t } = useTranslation();
 
   const billFields = useMemo(() => [

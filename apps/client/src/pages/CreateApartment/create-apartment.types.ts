@@ -1,11 +1,16 @@
-import type { CreateApartmentDto } from "@komuna/types";
+import type { CreateApartmentDto } from '@komuna/types';
 
-export interface CommonApartmentProps<T extends keyof CreateApartmentDto> {
+export type UpdateFieldFn<
+  PageKey extends keyof CreateApartmentDto,
+  FieldKey extends keyof CreateApartmentDto[PageKey]
+> = (field: FieldKey, value: unknown) => void;
+
+export type UpdateFieldOfPageFn = <PageKey extends keyof CreateApartmentDto>(
+  page: PageKey
+) => UpdateFieldFn<PageKey, keyof CreateApartmentDto[PageKey]>;
+
+export interface CommonApartmentProps<PageKey extends keyof CreateApartmentDto> {
   aptDetails: CreateApartmentDto;
-  updateField: UpdateFieldFn<T>;
+  updateField: UpdateFieldFn<PageKey, keyof CreateApartmentDto[PageKey]>;
 }
 
-export type UpdateFieldFn<T extends keyof CreateApartmentDto> = (
-  field: keyof CreateApartmentDto[T],
-  value: unknown
-) => void;

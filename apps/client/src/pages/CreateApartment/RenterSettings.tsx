@@ -1,24 +1,18 @@
 import { useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { CreateApartmentDto, RenterSettingsDto, UserRole } from "@komuna/types";
+import { RenterSettingsDto } from "@komuna/types";
 import ApartmentTitle from "./ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
+import type { CommonApartmentProps } from "./create-apartment.types";
 
 enum RenterPaymentWays {
   Renter = "renter",
   Equally = "equally",
   Else = "else",
 }
-interface RenterSettingsProps {
-  aptDetails: CreateApartmentDto;
-  updateField: (
-    field: string,
-    value: unknown
-  ) => void;
-}
 
-export const RenterSettings = ({ aptDetails, updateField }: RenterSettingsProps) => {
+export const RenterSettings = ({ aptDetails, updateField }: CommonApartmentProps<"renterSettings">) => {
   const { t } = useTranslation();
 
   const fields = useMemo(() => [
@@ -43,7 +37,7 @@ export const RenterSettings = ({ aptDetails, updateField }: RenterSettingsProps)
         { value: RenterPaymentWays.Else, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.paying_for_renter"), input: true, },
       ],
     },
-  ], [t]);
+  ] as const, [t]);
 
 
   return (
@@ -92,7 +86,7 @@ export const RenterSettings = ({ aptDetails, updateField }: RenterSettingsProps)
                       <RadioCard.ItemText>
                         {option.title}
                       </RadioCard.ItemText>
-                      {option.input ?
+                      {"input" in option && option.input ?
                         <Input
                           // onChange={(e) => option.onChange(e.target.value)}
                           backgroundColor="white"
