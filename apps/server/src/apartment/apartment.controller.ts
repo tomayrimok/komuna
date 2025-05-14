@@ -6,7 +6,7 @@ import { User } from '../user/user.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
-import { UserRole } from '@komuna/types';
+import { UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
 
 //TODO move to common types
@@ -23,7 +23,7 @@ export class ApartmentController {
 
   @Post()
   @UseAuth()
-  async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User) {
+  async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User): Promise<CreateApartmentHttpResponse> {
     const houseCommitteePayerUser = new User();
     houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Equally
       ? null
