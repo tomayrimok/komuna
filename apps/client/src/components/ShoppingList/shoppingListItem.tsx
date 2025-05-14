@@ -62,13 +62,10 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                             display="flex"
                             justifyContent="flex-end"
                             alignItems="center"
-                            // pr={6}
                             borderRadius="lg"
                             zIndex={0}
                             bg={showRedBg ? "red.500" : "transparent"}
-
                         >
-                            {/* <Box as={IconTrash} color="white" w={6} h={6} /> */}
                             <Container
                                 m={0}
                                 width={`${DELETE_BUTTON_WIDTH}px`}
@@ -82,7 +79,6 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                             </Container>
                         </Box>
 
-                        {/* Swipable card */}
                         <motion.div
                             drag="x"
                             dragDirectionLock

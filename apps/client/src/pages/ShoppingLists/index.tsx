@@ -1,14 +1,14 @@
 import { Tabs } from "@chakra-ui/react";
-import { useApartmentShoppingList } from "../../hooks/query/useApartmentShoppingList";
 import { usePersonalShoppingList } from "../../hooks/query/usePersonalShoppingList";
 import { IconHome, IconUser } from "@tabler/icons-react";
-import { ShoppingListPage } from "./ShoppingListPage";
 import { ShoppingListContextType } from "@komuna/types";
+import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
+import ShoppingListPage from "./ShoppingListPage";
 
 const CurrentShoppingLists = () => {
 
-  const { apartmentShoppingList, isApartmentShoppingListLoading } = useApartmentShoppingList();
-  const { personalShoppingList, isPersonalShoppingListLoading } = usePersonalShoppingList();
+  // const { apartmentShoppingList, isApartmentShoppingListLoading } = useApartmentShoppingList();
+  // const { personalShoppingList, isPersonalShoppingListLoading } = usePersonalShoppingList();
 
   return (
     <div>
@@ -24,16 +24,18 @@ const CurrentShoppingLists = () => {
           </Tabs.Trigger>
           <Tabs.Indicator rounded="l2" />
         </Tabs.List>
-        {!isApartmentShoppingListLoading &&
-          <Tabs.Content value="apartment">
-            <ShoppingListPage contextType={ShoppingListContextType.APARTMENT} data={apartmentShoppingList} />
-          </Tabs.Content>
-        }
-        {!isPersonalShoppingListLoading &&
-          <Tabs.Content value="personal">
-            <ShoppingListPage contextType={ShoppingListContextType.USER} data={personalShoppingList} />
-          </Tabs.Content>
-        }
+        <Tabs.Content value="apartment">
+          <ShoppingListProvider contextType={ShoppingListContextType.APARTMENT}>
+            <ShoppingListPage />
+          </ShoppingListProvider>
+        </Tabs.Content>
+
+        <Tabs.Content value="personal">
+          <ShoppingListProvider contextType={ShoppingListContextType.USER}>
+            <ShoppingListPage />
+          </ShoppingListProvider>
+        </Tabs.Content>
+
       </Tabs.Root>
     </div>
   );

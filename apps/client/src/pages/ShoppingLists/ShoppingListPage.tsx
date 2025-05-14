@@ -13,31 +13,48 @@ import {
     // DrawerCloseButton,
     Card,
     IconButton,
+    Loader,
     // NumberInputField,
     // useBoolean
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { IconStar, IconStarFilled, IconPlus } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconPlus, IconChevronUp } from "@tabler/icons-react";
 import { ShoppingList, ShoppingListContextType, ShoppingListItemDto } from "@komuna/types";
 import { API } from "../../axios";
 import { toaster } from "../../chakra/ui/toaster";
 import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem";
+import { useShoppingListQuery } from "../../hooks/query/useShoppingListQuery";
+import { ShoppingListProvider, useShoppingList } from "../../context/auth/ShoppingListProvider";
+
+const NEW_ITEM_DEFAULT = {
+    itemId: "",
+    name: "",
+    amount: 1,
+    isUrgent: false,
+    isPurchased: false,
+    createdAt: new Date(),
+};
 
 
-interface ShoppingListPageProps {
-    contextType?: ShoppingListContextType;
-    data: ShoppingList;
-}
+const ShoppingListPage: React.FC = () => {
 
-export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType, data }) => {
-    const [isDrawerOpen, setDrawerOpen] = useState(false);
-    const [items, setItems] = useState(data?.items || []);
-    const [editingItem, setEditingItem] = useState<ShoppingListItemDto | null>(null);
-    const [newItem, setNewItem] = useState<Partial<ShoppingListItemDto> | null>(null);
     const addFormRef = useRef<HTMLDivElement>(null);
-
-    // Track which item is currently being swiped to prevent multiple swipes
-    const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
+    const {
+        items,
+        newItem,
+        setNewItem,
+        editingItem,
+        setEditingItem,
+        setDrawerOpen,
+        isDrawerOpen,
+        handleAddItem,
+        handleDeleteItem,
+        handleEditItem,
+        openEditDrawer,
+        updateItem,
+        setActiveSwipe,
+        isShoppingListLoading
+    } = useShoppingList();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -49,74 +66,6 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [newItem]);
-
-    const updateItem = async (itemId: string, itemData: Partial<ShoppingListItemDto>) => {
-        setItems((prevItems) =>
-            prevItems.map((item) => (item.itemId === itemId ? { ...item, ...itemData } : item))
-        );
-        try {
-            await API.post("/shopping-list/update-item", {
-                itemId,
-                itemData,
-                contextType,
-            });
-        } catch (error) {
-            toaster.error({
-                title: "Error",
-                description: "Failed to update item",
-            });
-        }
-    };
-
-    const handleAddItem = async () => {
-        if (newItem?.name?.trim()) {
-            try {
-                const response = await API.post("/shopping-list/add-item", {
-                    itemData: newItem,
-                    contextType,
-                });
-                setItems(response.data);
-                setNewItem(null);
-            } catch (error) {
-                toaster.error({
-                    title: "Error",
-                    description: "Failed to add item",
-                });
-            }
-        } else {
-            setNewItem(null);
-        }
-    };
-
-    const handleDeleteItem = async (itemId: string) => {
-        try {
-            await API.post("/shopping-list/delete-item", { itemId, contextType });
-            setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
-            setActiveSwipe(null);
-        } catch (error) {
-            toaster.error({
-                title: "Error",
-                description: "Failed to delete item",
-            });
-        }
-    };
-
-    const handleEditItem = () => {
-        if (editingItem) {
-            updateItem(editingItem.itemId, {
-                name: editingItem.name,
-                amount: editingItem.amount,
-                isUrgent: editingItem.isUrgent
-            });
-            setEditingItem(null);
-            setDrawerOpen(false);
-        }
-    };
-
-    const openEditDrawer = (item: ShoppingListItemDto) => {
-        setEditingItem({ ...item });
-        setDrawerOpen(true)
-    };
 
     const sortedItems = [...items].sort((a, b) => {
         // sort by isPurchased and then by createdAt
@@ -142,6 +91,7 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
         // return a.name.localeCompare(b.name);
     });
 
+
     return (
         <Container maxW="md" py={4}>
             <Flex justify="space-between" align="center" mb={4}>
@@ -149,28 +99,11 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                 <IconButton
                     aria-label="Add Item"
                     colorScheme="blue"
-                    onClick={() => {
-                        setNewItem({
-                            itemId: "",
-                            name: "",
-                            amount: 1,
-                            isUrgent: false,
-                            isPurchased: false,
-                            createdAt: new Date(),
-                        });
-                    }}
+                    onClick={() => setNewItem(NEW_ITEM_DEFAULT)}
                 >
                     <IconPlus />
                 </IconButton>
             </Flex>
-
-            {sortedItems.map((item) => {
-
-
-                return (
-                    <ShoppingListItem key={item.itemId} item={item} openEditDrawer={openEditDrawer} updateItem={updateItem} setActiveSwipe={setActiveSwipe} />
-                );
-            })}
 
             {newItem && (
                 <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
@@ -187,6 +120,13 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                         <Flex justify="space-between" align="center">
                             <Flex align="center" gap={2}>
                                 <Text fontSize="sm">Quantity:</Text>
+                                {/* <IconButton>
+                                    <IconChevronUp
+                                        onClick={() => setNewItem({ ...newItem, amount: (newItem.amount || 1) + 1 })}
+                                        size="sm"
+                                        color="gray.500"
+                                    />
+                                </IconButton> */}
                                 {/* <NumberInput
                                     value={newItem.amount || 1}
                                     min={1}
@@ -230,6 +170,20 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                     </Box>
                 </Card.Root>
             )}
+
+            {sortedItems.map((item) => {
+                return (
+                    <ShoppingListItem
+                        key={item.itemId}
+                        item={item}
+                        openEditDrawer={openEditDrawer}
+                        updateItem={updateItem}
+                        setActiveSwipe={setActiveSwipe}
+                    />
+                );
+            })}
+
+
 
             {/* Edit Item Drawer */}
             <Drawer.Root
@@ -309,7 +263,7 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                 </DrawerContent>
             </Drawer.Root>
 
-            {items.length === 0 && !newItem && (
+            {isShoppingListLoading ?
                 <Flex
                     direction="column"
                     align="center"
@@ -317,10 +271,25 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                     h="200px"
                     color="gray.500"
                 >
-                    <Text mb={3}>Your shopping list is empty</Text>
-                    <Text fontSize="sm">Tap the + button to add items</Text>
+                    <Loader />
                 </Flex>
-            )}
+                :
+                items.length === 0 && !newItem ? (
+                    <Flex
+                        direction="column"
+                        align="center"
+                        justify="center"
+                        h="200px"
+                        color="gray.500"
+                    >
+                        <Text mb={3}>Your shopping list is empty</Text>
+                        <Text fontSize="sm">Tap the + button to add items</Text>
+                    </Flex>
+                )
+                    : null
+            }
         </Container>
     );
 };
+
+export default ShoppingListPage;
