@@ -3,18 +3,24 @@ import { Field, HStack, Input, Stack, VStack, Text, InputGroup, Button, useFileU
 import { useTranslation } from "react-i18next";
 import ApartmentTitle from "./ApartmentTitle";
 import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from "@tabler/icons-react";
+import { BillsDetails, CreateApartmentDto } from "@komuna/types";
+import { withMask } from "use-mask-input";
 
 interface ApartmentSettingsProps {
-
+  aptDetails: CreateApartmentDto;
+  updateField: (
+    field: string,
+    value: unknown
+  ) => void;
 }
 
-export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
+export const ApartmentSettings = ({ aptDetails, updateField }: ApartmentSettingsProps) => {
   const { t } = useTranslation();
 
   const billFields = useMemo(() => [
-    { title: t("create_apartment.apartment_settings.accounts_location.electricity"), onChange: (value: string) => { }, Icon: IconBulb, },
-    { title: t("create_apartment.apartment_settings.accounts_location.water"), onChange: (value: string) => { }, Icon: IconDroplet, },
-    { title: t("create_apartment.apartment_settings.accounts_location.gas"), onChange: (value: string) => { }, Icon: IconFlame, },
+    { key: "electricity", title: t("create_apartment.apartment_settings.accounts_location.electricity"), Icon: IconBulb, },
+    { key: "water", title: t("create_apartment.apartment_settings.accounts_location.water"), Icon: IconDroplet, },
+    { key: "gas", title: t("create_apartment.apartment_settings.accounts_location.gas"), Icon: IconFlame, },
   ], [t]);
 
 
@@ -24,7 +30,7 @@ export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
-          // onSetProfileKey('image', reader.result as string);
+          updateField('image', reader.result as string);
         };
         reader.readAsDataURL(file.files[0]);
       }
@@ -42,9 +48,17 @@ export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
             {t('create_apartment.apartment_settings.contract_end_date')}
           </Field.Label>
           <Input
-            // w="80%"
-            // onChange={(e) => field.onChange(e.target.value)}
-            // name="firstName"
+            value={
+              aptDetails.apartmentSettings.contractEndDate
+                ? typeof aptDetails.apartmentSettings.contractEndDate === "string"
+                  ? aptDetails.apartmentSettings.contractEndDate
+                  : `${aptDetails.apartmentSettings.contractEndDate.getDate()}/${aptDetails.apartmentSettings.contractEndDate.getMonth() + 1}/${aptDetails.apartmentSettings.contractEndDate.getFullYear()}`
+                : ""
+            }
+            placeholder="dd/mm/yyyy"
+            ref={withMask("99/99/9999")}
+            direction="ltr"
+            onChange={(e) => updateField("contractEndDate", e.target.value)}
             backgroundColor="white"
             size="xl"
             fontSize="xl"
@@ -81,8 +95,8 @@ export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
             </Field.Label>
             <InputGroup endElement={<IconCurrencyShekel />}>
               <Input
-                // onChange={(e) => field.onChange(e.target.value)}
-                // name="firstName"
+                value={aptDetails.apartmentSettings.rent}
+                onChange={(e) => updateField("rent", e.target.value)}
                 backgroundColor="white"
                 size="xl"
                 fontSize="xl"
@@ -103,13 +117,16 @@ export const ApartmentSettings = ({ }: ApartmentSettingsProps) => {
                   {field.title}
                 </Field.Label>
                 <Input
+                  value={aptDetails.apartmentSettings.billsDetails?.[field.key as keyof BillsDetails] || ""}
+                  onChange={(e) => updateField("billsDetails", {
+                    ...aptDetails.apartmentSettings.billsDetails,
+                    [field.key]: e.target.value,
+                  })}
+                  placeholder={t('create_apartment.apartment_settings.accounts_location.supplier_name')}
                   w="90%"
-                  onChange={(e) => field.onChange(e.target.value)}
-                  // name="firstName"
                   backgroundColor="white"
                   size="xl"
                   fontSize="xl"
-                  placeholder={t('create_apartment.apartment_settings.accounts_location.supplier_name')}
                 />
               </HStack>
             </VStack>

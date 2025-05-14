@@ -7,7 +7,7 @@ import ShareApartmentCode from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
-import { UserRole } from '@komuna/types';
+import { CreateApartmentDto, UserRole } from '@komuna/types';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -18,26 +18,58 @@ enum CreateApartmentPages {
 
 interface CreateApartmentFormProps {
   page: CreateApartmentPages;
+  aptDetails: CreateApartmentDto;
+  setPageState: (page: keyof CreateApartmentDto) => (
+    field: string,
+    value: unknown
+  ) => void;
 }
 
-const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
+const newAptDetails: CreateApartmentDto = {
+  apartmentInfo: {
+    name: "",
+    address: "",
+    city: "",
+    role: UserRole.ROOMMATE,
+  },
+  apartmentSettings: {
+    contractEndDate: undefined,
+    contractUrl: "",
+    rent: undefined,
+    billsDetails: {
+      electricity: "",
+      water: "",
+      internet: "",
+      gas: "",
+    },
+  },
+  renterSettings: {
+    rent: undefined,
+    payableByUserId: "",
+    houseCommitteeRent: undefined,
+    houseCommitteePayerUserId: "",
+  },
+}
+
+const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
-      return (
-        <ApartmentInfo />
-      );
+      return <ApartmentInfo
+        aptDetails={aptDetails}
+        updateField={setPageState("apartmentInfo")}
+      />;
     case CreateApartmentPages.ApartmentSettings:
-      return (
-        <ApartmentSettings />
-      );
+      return <ApartmentSettings
+        aptDetails={aptDetails}
+        updateField={setPageState("apartmentSettings")}
+      />;
     case CreateApartmentPages.RenterSettings:
-      return (
-        <RenterSettings />
-      );
+      return <RenterSettings
+        aptDetails={aptDetails}
+        updateField={setPageState("renterSettings")}
+      />;
     case CreateApartmentPages.ShareApartmentCode:
-      return (
-        <ShareApartmentCode />
-      );
+      return <ShareApartmentCode />;
     default:
       return null;
   }
@@ -45,21 +77,34 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page }) => {
 
 
 /**
- * Wraps the CreateApartmentForm in a layout with a back button.
- */
+* Wraps the CreateApartmentForm in a layout with a back button.
+*/
 const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
-  const [role, setRole] = useState<UserRole>(UserRole.LANDLORD);
+  const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(newAptDetails);
+
+  const updateField = (page: keyof CreateApartmentDto) => (
+    field: string,
+    value: unknown
+  ) => {
+    setsAptDetails((currState) => ({
+      ...currState,
+      [page]: {
+        ...(currState[page]),
+        [field]: value,
+      },
+    }));
+  };
 
   const [showSkipBtn, showContinueBtn] = useMemo(() => [
     page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
     page !== CreateApartmentPages.ShareApartmentCode
-  ], [page, role]);
+  ], [page]);
 
   const handleOnClick = () => {
-    if (role === UserRole.LANDLORD && page < CreateApartmentPages.ApartmentSettings
-      || role === UserRole.ROOMMATE && page <= CreateApartmentPages.RenterSettings) setPage((p) => p + 1);
-    if (role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) setPage(CreateApartmentPages.ShareApartmentCode);
+    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page < CreateApartmentPages.ApartmentSettings
+      || aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page <= CreateApartmentPages.RenterSettings) setPage((p) => p + 1);
+    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) setPage(CreateApartmentPages.ShareApartmentCode);
   }
 
   const navigate = useNavigate();
@@ -79,7 +124,11 @@ const CreateApartment = () => {
   return (
     <ApartmentLayout
       goBack={page !== CreateApartmentPages.ShareApartmentCode && (() => goPageBack(page))}>
-      <CreateApartmentForm page={page} />
+      <CreateApartmentForm
+        page={page}
+        aptDetails={aptDetails}
+        setPageState={updateField}
+      />
       <HStack gap="30px">
         {showSkipBtn && <Button
           size="xl"
@@ -96,8 +145,8 @@ const CreateApartment = () => {
           fontWeight="bold"
           onClick={handleOnClick}
         >
-          {role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings
-            || role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings ?
+          {aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings
+            || aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings ?
             t('create_apartment.done_btn') : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>

@@ -1,5 +1,5 @@
-import { IsOptional, IsString } from "class-validator";
-import type { BillsDetails } from "../apartment.entity";
+import { BillsDetails } from '@komuna/types';
+import { IsOptional, IsString } from 'class-validator';
 
 export class BillsDetailsDto implements BillsDetails {
   @IsString()
