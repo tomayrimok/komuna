@@ -172,9 +172,10 @@ const CreateApartment = () => {
           fontWeight="bold"
           onClick={handleOnClick}
         >
-          {aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings
-            || aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings ?
-            t('create_apartment.done_btn') : t('create_apartment.continue_btn')}
+          {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
+            (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
+            ? t('create_apartment.done_btn')
+            : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>
     </ApartmentLayout >
