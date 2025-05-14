@@ -8,6 +8,7 @@ import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
+import { JoinApartmentDto } from './dto/join-apartment.dto';
 
 @Controller('apartment')
 export class ApartmentController {
@@ -64,8 +65,8 @@ export class ApartmentController {
 
   @Post("join/:code")
   @UseAuth()
-  async joinApartment(@Param('code') code: string, @GetUser() user: User) {
-    const apartment = await this.apartmentService.getApartmentByCode(code);
+  async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) { // TODO check validation
+    const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
     if (!apartment) {
       console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
       throw new NotFoundException();
