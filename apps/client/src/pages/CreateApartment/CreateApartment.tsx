@@ -127,7 +127,10 @@ const CreateApartment = () => {
   })
 
   const handleOnClick = () => {//TODO check
-    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) {
+    if (
+      (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
+      (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
+    ) {
       createApartmentMutation.mutate();
       return;
     }
