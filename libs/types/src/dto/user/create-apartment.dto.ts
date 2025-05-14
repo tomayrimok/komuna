@@ -38,3 +38,5 @@ export class CreateApartmentDto {
 
   renterSettings: RenterSettingsDto;
 }
+
+export type CreateApartmentHttpResponse = string | number;

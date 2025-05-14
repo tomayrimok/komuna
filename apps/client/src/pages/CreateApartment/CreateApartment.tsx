@@ -7,7 +7,7 @@ import ShareApartmentCode from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
-import { CreateApartmentDto, UserRole } from '@komuna/types';
+import { CreateApartmentDto, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
@@ -104,7 +104,7 @@ const CreateApartment = () => {
     page !== CreateApartmentPages.ShareApartmentCode
   ], [page]);
 
-  const createApartmentMutation = useMutation({ //TODO move into hooks folder, and create interfaces
+  const createApartmentMutation = useMutation<CreateApartmentHttpResponse>({ //TODO move into hooks folder, and create interfaces
     mutationKey: ['createApartment'],
     mutationFn: async () => {
       const res = await axios.post('/api/apartment', aptDetails);

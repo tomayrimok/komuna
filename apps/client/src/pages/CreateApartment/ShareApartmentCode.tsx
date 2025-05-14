@@ -1,20 +1,32 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutationState } from '@tanstack/react-query';
+import { MutationState, useMutationState } from '@tanstack/react-query';
 import { ApartmentTitle } from './ApartmentTitle';
 import { Button, Clipboard, HStack, Spacer, Text } from '@chakra-ui/react';
+import { CreateApartmentHttpResponse } from '@komuna/types';
 
 const ShareApartmentCode: FC = () => {
   const { t } = useTranslation();
 
-  const [mutationState] = useMutationState({
+  const [mutationState] = useMutationState<MutationState<CreateApartmentHttpResponse>>({
     filters: {
       mutationKey: ['createApartment'],
     }
   });
 
-  const shareCode = (typeof mutationState?.data !== "object" ? mutationState.data : "6666") as string;
-  // TODO better type check
+  const getCode = (): string => {
+    if (mutationState?.status === "success") {
+      if (typeof mutationState?.data === "string") {
+        return mutationState.data;
+      }
+      else if (typeof mutationState?.data === "number") {
+        return mutationState.data.toString();
+      }
+    }
+    return "6666";
+  }
+
+  const code = getCode();
 
   return (
     <>
@@ -22,7 +34,7 @@ const ShareApartmentCode: FC = () => {
         title={t("create_apartment.share_apartment.title")}
         description={t("create_apartment.share_apartment.description")} />
       <HStack>
-        <Clipboard.Root value={shareCode}>
+        <Clipboard.Root value={code}>
           <Clipboard.Trigger asChild>
             <Button position='fixed' margin="-40px" backgroundColor="transparent">
               <Clipboard.Indicator fontSize="2xl" />
@@ -33,7 +45,7 @@ const ShareApartmentCode: FC = () => {
         <Text fontSize="7xl"
           fontWeight='bold'
           letterSpacing="widest">
-          {shareCode}
+          {code}
         </Text>
       </HStack >
       <Spacer />
