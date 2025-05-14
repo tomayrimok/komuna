@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Field, HStack, Image, Input, Stack, RadioCard } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { ApartmentInfoDto, UserRole } from "@komuna/types";
-import ApartmentTitle from "./ApartmentTitle";
+import { ApartmentTitle } from "./ApartmentTitle";
 import type { CommonApartmentProps } from "./create-apartment.types";
 
 

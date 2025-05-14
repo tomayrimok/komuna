@@ -6,7 +6,7 @@ interface ApartmentTitleProps {
   description?: string;
 }
 
-const ApartmentTitle: FC<ApartmentTitleProps> = ({ title, description }) => {
+export const ApartmentTitle: FC<ApartmentTitleProps> = ({ title, description }) => {
   return (
     <VStack>
       <Text fontSize="2xl" fontWeight="bold" >
@@ -22,5 +22,3 @@ const ApartmentTitle: FC<ApartmentTitleProps> = ({ title, description }) => {
     </VStack>
   );
 }
-
-export default ApartmentTitle;

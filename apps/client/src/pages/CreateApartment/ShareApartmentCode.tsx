@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutationState } from '@tanstack/react-query';
-import ApartmentTitle from './ApartmentTitle';
+import { ApartmentTitle } from './ApartmentTitle';
 import { Button, Clipboard, HStack, Spacer, Text } from '@chakra-ui/react';
 
 const ShareApartmentCode: FC = () => {

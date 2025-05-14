@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { RenterSettingsDto } from "@komuna/types";
-import ApartmentTitle from "./ApartmentTitle";
+import { ApartmentTitle } from "./ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
 import type { CommonApartmentProps } from "./create-apartment.types";
 
