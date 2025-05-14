@@ -4,8 +4,6 @@ import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { UserService } from '../user/user.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
-import { ApartmentService } from '../apartment/apartment.service';
-import { UserApartmentService } from '../user-apartment/user-apartment.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -14,12 +12,12 @@ export class AppService implements OnModuleInit {
     private readonly paymentService: PaymentService,
     private readonly expenseService: ExpenseService,
     private readonly userService: UserService,
-    private readonly apartmentService: ApartmentService,
-    private readonly userApartmentService: UserApartmentService
+    // private readonly apartmentService: ApartmentService,
+    // private readonly userApartmentService: UserApartmentService
   ) {}
 
   onModuleInit() {
-    console.log('AppService initialized');
+    // console.log('AppService initialized');
     this.testDebtEdgeService();
   }
 

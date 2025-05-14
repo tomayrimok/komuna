@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Expense } from '../expense/expense.entity';
+import { Apartment } from '../apartment/apartment.entity';
 
 @Entity()
 export class User {
@@ -24,6 +25,10 @@ export class User {
 
   @OneToMany(() => UserApartment, (ua) => ua.payableByUser)
   payableRents: UserApartment[];
+
+  /** House committee rents that this user pays */
+  @OneToMany(() => Apartment, (a) => a.houseCommitteePayerUser)
+  payableHouseCommitteeRents: Apartment[];
 
   @OneToMany(() => Expense, (e) => e.paidBy)
   expenses: Expense[];
