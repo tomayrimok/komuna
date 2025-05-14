@@ -110,8 +110,7 @@ const CreateApartment = () => {
       const res = await axios.post('/api/apartment', aptDetails);
       return res.data
     },
-    onSuccess: (data) => {
-      console.log('data: ', data); //TODO check
+    onSuccess: () => {
       setPage(CreateApartmentPages.ShareApartmentCode);
     },
     onError: () => {
