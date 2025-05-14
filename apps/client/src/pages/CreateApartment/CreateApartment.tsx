@@ -110,6 +110,7 @@ const CreateApartment = () => {
   ], [page]);
 
   const createApartmentMutation = useMutation({ //TODO move into hooks folder, and create interfaces
+    mutationKey: ['createApartment'],
     mutationFn: async () => {
       const res = await axios.post('/api/apartment', aptDetails);
       return res.data
