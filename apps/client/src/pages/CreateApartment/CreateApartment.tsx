@@ -11,6 +11,7 @@ import { CreateApartmentDto, UserRole } from '@komuna/types';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
+import type { UpdateFieldOfPageFn } from './create-apartment.types';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -23,10 +24,7 @@ enum CreateApartmentPages {
 interface CreateApartmentFormProps {
   page: CreateApartmentPages;
   aptDetails: CreateApartmentDto;
-  setPageState: (page: keyof CreateApartmentDto) => (
-    field: string,
-    value: unknown
-  ) => void;
+  setPageState: UpdateFieldOfPageFn;
 }
 
 const INITIAL_APT_DETAILS: CreateApartmentDto = {
@@ -91,10 +89,7 @@ const CreateApartment = () => {
 
   const incPage = () => { setPage(p => p + 1); }
 
-  const updateField = (page: keyof CreateApartmentDto) => (
-    field: string,
-    value: unknown
-  ) => {
+  const updateFieldOfPage: UpdateFieldOfPageFn = (page) => (field, value) => {
     setsAptDetails((currState) => ({
       ...currState,
       [page]: {
@@ -158,7 +153,7 @@ const CreateApartment = () => {
       <CreateApartmentForm
         page={page}
         aptDetails={aptDetails}
-        setPageState={updateField}
+        setPageState={updateFieldOfPage}
       />
       <HStack gap="30px">
         {showSkipBtn && <Button
