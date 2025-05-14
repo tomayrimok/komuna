@@ -11,9 +11,9 @@ import { generateApartmentCode } from '../utils/generateVerificationCode';
 
 //TODO move to common types
 enum RenterPaymentWays {
-  Renter = "renter",
-  Equally = "equally",
-  Else = "else",
+  Renter = 'renter',
+  Equally = 'equally',
+  Else = 'else',
 }
 
 @Controller('apartment')
@@ -24,12 +24,12 @@ export class ApartmentController {
   @Post()
   @UseAuth()
   async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User) {
-    const houseCommitteePayerUser = new User();
-    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Equally
-      ? null
-      : createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Renter ?
-        user.userId
-        : createApartmentData.renterSettings.houseCommitteePayerUserId;
+    // const houseCommitteePayerUser = new User();
+    // houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Equally
+    //   ? null
+    //   : createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Renter ?
+    //     user.userId
+    //     : createApartmentData.renterSettings.houseCommitteePayerUserId || null;
 
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;
@@ -46,14 +46,14 @@ export class ApartmentController {
     apartment.contractUrl = createApartmentData.apartmentSettings.contractUrl;
     apartment.rent = createApartmentData.apartmentSettings.rent;
     apartment.houseCommitteeRent = createApartmentData.renterSettings.houseCommitteeRent;
-    apartment.houseCommitteePayerUser = houseCommitteePayerUser;
+    // apartment.houseCommitteePayerUser = houseCommitteePayerUser;
     apartment.residents = [userApartment];
     apartment.code = generatedCode;
 
     userApartment.apartment = apartment;
 
-    await this.apartmentService.createApartment(apartment);
-    return generatedCode;
+    const newApartment = await this.apartmentService.createApartment(apartment);
+    return { generatedCode, apartment: newApartment };
   }
 
   @Post('join/:code')

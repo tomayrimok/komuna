@@ -33,10 +33,17 @@ export const Login = () => {
 
   useEffect(() => {
     if (currentUserDetails) {
-      navigate({
-        to: search.redirect ?? '/new-apartment',
-        replace: true,
-      });
+      if (!currentUserDetails.apartments.length) {
+        navigate({
+          to: search.redirect ?? '/new-apartment',
+          replace: true,
+        });
+      } else {
+        navigate({
+          to: search.redirect ?? '/roommate',
+          replace: true,
+        });
+      }
     }
   }, [currentUserDetails, navigate, search.redirect]);
 
