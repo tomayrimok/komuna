@@ -1,16 +1,10 @@
 import { useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { RenterSettingsDto } from "@komuna/types";
+import { RenterSettingsDto, RENTER_PAYMENT_WAYS } from "@komuna/types";
 import { ApartmentTitle } from "./ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
 import type { CommonApartmentProps } from "./create-apartment.types";
-
-enum RenterPaymentWays {
-  Renter = "renter",
-  Equally = "equally",
-  Else = "else",
-}
 
 export const RenterSettings = ({ aptDetails, updateField }: CommonApartmentProps<"renterSettings">) => {
   const { t } = useTranslation();
@@ -22,8 +16,8 @@ export const RenterSettings = ({ aptDetails, updateField }: CommonApartmentProps
       optionTitle: t("create_apartment.renter_settings.renter_payment_ways.title"),
       optionsKey: "payableByUserId",
       options: [
-        { value: RenterPaymentWays.Renter, title: t("create_apartment.renter_settings.renter_payment_ways.renter_pays"), },
-        { value: RenterPaymentWays.Else, title: t("create_apartment.renter_settings.renter_payment_ways.paying_for_renter"), input: true, },
+        { value: RENTER_PAYMENT_WAYS.RENTER, title: t("create_apartment.renter_settings.renter_payment_ways.renter_pays"), },
+        { value: RENTER_PAYMENT_WAYS.ELSE, title: t("create_apartment.renter_settings.renter_payment_ways.paying_for_renter"), input: true, },
       ],
     },
     {
@@ -32,9 +26,9 @@ export const RenterSettings = ({ aptDetails, updateField }: CommonApartmentProps
       optionTitle: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.title"),
       optionsKey: "houseCommitteePayerUserId",
       options: [
-        { value: RenterPaymentWays.Renter, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.renter_pays"), },
-        { value: RenterPaymentWays.Equally, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.renters_paying_equally"), },
-        { value: RenterPaymentWays.Else, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.paying_for_renter"), input: true, },
+        { value: RENTER_PAYMENT_WAYS.RENTER, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.renter_pays"), },
+        { value: RENTER_PAYMENT_WAYS.EQUALLY, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.renters_paying_equally"), },
+        { value: RENTER_PAYMENT_WAYS.ELSE, title: t("create_apartment.renter_settings.renter_house_maintenance_payment_ways.paying_for_renter"), input: true, },
       ],
     },
   ] as const, [t]);

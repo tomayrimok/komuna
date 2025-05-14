@@ -6,15 +6,8 @@ import { User } from '../user/user.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
-import { UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
-
-//TODO move to common types
-enum RenterPaymentWays {
-  Renter = "renter",
-  Equally = "equally",
-  Else = "else",
-}
 
 @Controller('apartment')
 export class ApartmentController {
@@ -25,9 +18,9 @@ export class ApartmentController {
   @UseAuth()
   async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User): Promise<CreateApartmentHttpResponse> {
     const houseCommitteePayerUser = new User();
-    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Equally
+    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RENTER_PAYMENT_WAYS.EQUALLY
       ? null
-      : createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Renter ?
+      : createApartmentData.renterSettings.houseCommitteePayerUserId === RENTER_PAYMENT_WAYS.RENTER ?
         user.userId
         : createApartmentData.renterSettings.houseCommitteePayerUserId || null;
 
