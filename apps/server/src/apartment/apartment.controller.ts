@@ -29,7 +29,7 @@ export class ApartmentController {
       ? null
       : createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Renter ?
         user.userId
-        : createApartmentData.renterSettings.houseCommitteePayerUserId;
+        : createApartmentData.renterSettings.houseCommitteePayerUserId || null;
 
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;
