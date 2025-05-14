@@ -47,8 +47,7 @@ export const RenterSettings = ({ aptDetails, updateField }: RenterSettingsProps)
 
 
   return (
-    <>
-      <Stack width="100%" gap="5">
+    <Stack width="100%" gap="5">
         <ApartmentTitle
           title={t('create_apartment.renter_settings.title')}
         />
@@ -107,7 +106,6 @@ export const RenterSettings = ({ aptDetails, updateField }: RenterSettingsProps)
           </>
         ))}
       </Stack >
-    </>
   );
 }
 
