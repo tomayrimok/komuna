@@ -27,8 +27,7 @@ export const ApartmentInfo = ({ aptDetails, updateField }: ApartmentInfoProps) =
   ], [t]);
 
   return (
-    <>
-      <Stack width="100%" gap="6">
+    <Stack width="100%" gap="6">
         <ApartmentTitle
           title={t('create_apartment.apartment_info.title')}
           description={t('create_apartment.apartment_info.description')}
@@ -76,7 +75,6 @@ export const ApartmentInfo = ({ aptDetails, updateField }: ApartmentInfoProps) =
           </HStack>
         </RadioCard.Root>
       </Stack >
-    </>
   );
 }
 
