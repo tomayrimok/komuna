@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Card, HStack, Text, VStack } from '@chakra-ui/reac
 import { Trans } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { SettingLeftbar } from './SettingLeftbar/SettingLeftbar';
+import { useIsRTL } from '../../hooks/useIsRTL';
 
 const TempFakeCard = () => (
   <Card.Root variant="elevated">
@@ -25,10 +26,19 @@ const TempFakeCard = () => (
 
 export const RoommateHome = () => {
   const { currentUserDetails } = useAuth();
+  const { isRTL } = useIsRTL();
 
+  const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
   return (
     <Box flex="1" display="flex" flexDirection="column" gap="0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="344" height="112" viewBox="0 0 344 112" fill="none">
+      <svg
+        style={{ transform: svgTransform }}
+        xmlns="http://www.w3.org/2000/svg"
+        width="344"
+        height="112"
+        viewBox="0 0 344 112"
+        fill="none"
+      >
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"

@@ -3,14 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { IconBellCog, IconHomeCog, IconLogout, IconMenu2, IconSettings, IconUserCog } from '@tabler/icons-react';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { Sidebar } from '../../../components/Sidebar/Sidebar';
+import { LanguegeSelector } from '../../../components/LanguegeSelector';
+import { useIsRTL } from '../../../hooks/useIsRTL';
 
 export const SettingLeftbar = () => {
   const { currentUserDetails, logout } = useAuth();
+  const { dir } = useIsRTL();
   const { t } = useTranslation();
 
   return (
     <Sidebar trigger={<IconMenu2 />}>
-      <Stack dir="rtl" padding="6" gap="7">
+      <Stack dir={dir} padding="6" gap="7">
         <HStack justifyContent="space-between">
           <HStack gap="4">
             <Avatar.Root size="lg" shape="full" border="2px solid" borderColor="brand.900">
@@ -50,10 +53,13 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.app_settings')}
             </Button>
           </VStack>
-          <Button justifyContent="start" variant="ghost" size="lg" onClick={logout}>
-            <IconLogout />
-            {t('roommate.homepage.leftbar.logout')}
-          </Button>
+          <Stack gap="4" alignItems="start">
+            <LanguegeSelector />
+            <Button justifyContent="start" variant="ghost" size="lg" onClick={logout}>
+              <IconLogout />
+              {t('roommate.homepage.leftbar.logout')}
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Sidebar>
