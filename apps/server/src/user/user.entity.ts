@@ -21,7 +21,7 @@ export class User {
   @Column({ nullable: true })
   image?: string;
 
-  @OneToMany(() => UserApartment, (ua) => ua.userId)
+  @OneToMany(() => UserApartment, (ua) => ua.user)
   apartments: UserApartment[];
 
   @OneToMany(() => UserApartment, (ua) => ua.payableByUser)
