@@ -3,7 +3,10 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 export const Route = createFileRoute('/')({
   beforeLoad: async ({ context }) => {
     if (context.currentUserDetails) {
-      throw redirect({ to: '/select-apartment' });
+      if (context.currentUserDetails.apartments.length) {
+        throw redirect({ to: '/roommate' });
+      }
+      throw redirect({ to: '/new-apartment' });
     } else {
       throw redirect({ to: '/login' });
     }

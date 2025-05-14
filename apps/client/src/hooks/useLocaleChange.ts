@@ -23,5 +23,5 @@ export const useLocaleChange = () => {
     };
   }, []);
 
-  return locale;
+  return { locale, isRTL: locale === 'he-IL' || locale === 'he' };
 };

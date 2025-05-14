@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
-import { ExpenseSplit } from '../expense-split/expense-split.entity';
 
 @Entity()
 export class Expense {
@@ -16,11 +15,15 @@ export class Expense {
     @Column('float')
     amount: number;
 
-    @OneToMany(() => ExpenseSplit, s => s.expense)
-    splits: ExpenseSplit[];
+    @Column()
+    paidById: string;
+
+    @Column('json', { nullable: true })
+    splits: { [userId: string]: number };
 
     @ManyToOne(() => User, (user) => user.expenses)
-    paidBy: string;
+    @JoinColumn({ name: "paidById" })
+    paidByUser: User;
 
     @CreateDateColumn()
     createdAt: Date;

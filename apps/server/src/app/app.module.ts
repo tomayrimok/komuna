@@ -20,11 +20,18 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
+import { ShoppingListModule } from '../shopping-list/shopping-list.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      // host: 'localhost',
+      // port: 5432,
+      // username: 'root',
+      // password: 'root',
+      // database: 'test',
       url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
       type: 'postgres',
+      logging: true,
       entities: [
         User,
         AuthUser,
@@ -47,8 +54,9 @@ import { AuthUser } from '../user/auth-user.entity';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
+    ShoppingListModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
