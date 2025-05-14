@@ -1,8 +1,62 @@
 {
     "web": {
         "title": "Sorry",
-        "description": "This website is only supported on mobile devices. Please open it on your phone to continue."
+        "description": "This site is supported only on mobile devices. Please open it on your phone to continue."
     },
-    "title": "Welcome to Komuna",
-    "button": "Start Exploring"
+    "button": "Let's get started",
+    "komuna": "Komuna",
+    "catchphrase": "Peace at home between roommates",
+    "welcome": "Welcome!",
+    "login": {
+        "title": "Login",
+        "description": "Enter your phone number here and we will send you a verification code.",
+        "phone": "Phone number",
+        "send_code": "Send code",
+        "pin_code": {
+            "title": "Phone Number Verification",
+            "description": "We sent a code to the number <phone>{{phone}}</phone> to verify your phone number. It should arrive within 2–5 minutes.",
+            "continue": "Continue",
+            "didnt_get_code": "I didn't get the code, resend",
+            "resend_successfully": "We resent the code to phone number {{phone}}. Please check again."
+        }
+    },
+    "create_profile": {
+        "title": "Great! Almost done...",
+        "description": "We need a few more details to introduce you to everyone.",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "create_profile": "Create profile"
+    },
+    "select_apartment": {
+        "no_apartments": {
+            "title": "Profile created successfully!",
+            "description": "{{firstName}}, welcome! Please choose what you’d like to do:",
+            "create_new_apartment": "Create a new apartment",
+            "join_apartment": "Join an existing apartment"
+        }
+    },
+    "roommate": {
+        "homepage": {
+            "title": "Welcome, <b>{{firstName}}!</b>",
+            "last_updates": "Latest updates",
+            "leftbar": {
+                "profile_settings": "Profile settings",
+                "apartment_settings": "Apartment settings",
+                "notifications_settings": "Notification & event settings",
+                "app_settings": "App settings",
+                "logout": "Log out",
+                "change_languege": "Change language"
+            },
+            "navigation": {
+                "tasks": "Tasks",
+                "payments": "Payments",
+                "home": "Home",
+                "shopping": "Shopping",
+                "incidents": "Incidents"
+            }
+        }
+    },
+    "error": {
+        "action_failed": "Action failed. Please try again."
+    }
 }
