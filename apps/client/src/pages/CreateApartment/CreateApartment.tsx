@@ -116,7 +116,7 @@ const CreateApartment = () => {
     },
     onSuccess: (data) => {
       console.log('data: ', data); //TODO check
-      incPage();
+      setPage(CreateApartmentPages.ShareApartmentCode);
     },
     onError: () => {
       toaster.create({
