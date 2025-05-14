@@ -30,7 +30,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: ApartmentSettings
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
-          updateField('image', reader.result as string);
+          updateField('contractUrl', reader.result as string);
         };
         reader.readAsDataURL(file.files[0]);
       }

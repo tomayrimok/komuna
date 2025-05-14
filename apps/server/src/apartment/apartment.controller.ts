@@ -9,6 +9,13 @@ import { User as GetUser } from '../decorators/User';
 import { UserRole } from '@komuna/types';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
 
+//TODO move to common types
+enum RenterPaymentWays {
+  Renter = "renter",
+  Equally = "equally",
+  Else = "else",
+}
+
 @Controller('apartment')
 export class ApartmentController {
   constructor(private readonly apartmentService: ApartmentService) { }
@@ -18,7 +25,11 @@ export class ApartmentController {
   @UseAuth()
   async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User) {
     const houseCommitteePayerUser = new User();
-    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId;
+    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Equally
+      ? null
+      : createApartmentData.renterSettings.houseCommitteePayerUserId === RenterPaymentWays.Renter ?
+        user.userId
+        : createApartmentData.renterSettings.houseCommitteePayerUserId;
 
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;

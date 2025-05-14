@@ -74,7 +74,7 @@ export class Apartment {
 
     /** Renter Settings */
     /** The user id of who pays the house committee, or NULL if it's split equally */
-    @ManyToOne(() => User, (u) => u.userId, { nullable: true, cascade: true })
+    @ManyToOne(() => User, (u) => u.userId, { nullable: true })
     @JoinColumn({ name: 'houseCommitteePayerUserId' })
     houseCommitteePayerUser?: User;
 
