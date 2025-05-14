@@ -29,7 +29,7 @@ interface CreateApartmentFormProps {
   ) => void;
 }
 
-const newAptDetails: CreateApartmentDto = {
+const INITIAL_APT_DETAILS: CreateApartmentDto = {
   apartmentInfo: {
     name: "",
     address: "",
@@ -87,7 +87,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
 */
 const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
-  const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(newAptDetails);
+  const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
 
   const incPage = () => { setPage(p => p + 1); }
 
