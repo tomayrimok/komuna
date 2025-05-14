@@ -10,7 +10,11 @@ export const Route = createFileRoute('/login')({
   }),
   beforeLoad: ({ context, search }) => {
     if (context.currentUserDetails) {
-      throw redirect({ to: search.redirect || fallback });
+      if (!context.currentUserDetails.apartments.length) {
+        throw redirect({ to: search.redirect || '/roommate' });
+      } else {
+        throw redirect({ to: search.redirect || fallback });
+      }
     }
   },
   component: () => <Login />,
