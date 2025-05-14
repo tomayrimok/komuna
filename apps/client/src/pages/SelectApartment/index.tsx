@@ -1,8 +1,8 @@
-import { Button, Image, Spacer, Stack, Text, VStack } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from '@tanstack/react-router';
-import ApartmentLayout from '../CreateApartment/ApartmentLayout';
+import { Button, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import { UserRole } from '@komuna/types';
+import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import ApartmentLayout from '../CreateApartment/ApartmentLayout';
 
 const apartments = [
   { address: 'ישראל אהרוני 10', role: UserRole.ROOMMATE },
