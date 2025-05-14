@@ -18,17 +18,18 @@ export class ShoppingList {
   @Column()
   contextId: string;
 
-  @Column('json')
+  @Column('json', { default: [] })
   items: {
     itemId: string;
     name: string;
     isPurchased: boolean;
-    image: string;
-    category: string;
+    image?: string;
+    category?: string;
     isUrgent: boolean;
     amount: number;
     creatorId: string;
-    assignedTo: string;
+    assignedTo?: string;
+    createdAt: Date;
   }[]; //todo move to separate entity? assignedTo is a userId
 
   @UpdateDateColumn()
