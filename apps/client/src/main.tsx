@@ -1,19 +1,19 @@
-import './i18n/';
-import '@silk-hq/components/unlayered-styles';
 import '@silk-hq/components/layered-styles';
+import '@silk-hq/components/unlayered-styles';
+import './i18n/';
 
-import * as ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box, ChakraProvider, LocaleProvider, useBreakpointValue } from '@chakra-ui/react';
 import { Global, css } from '@emotion/react';
-import { ColorModeProvider } from './chakra/ui/color-mode';
-import theme from './chakra/theme';
-import { useLocaleChange } from './hooks/useLocaleChange';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { routeTree } from './routeTree.gen';
-import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
+import * as ReactDOM from 'react-dom/client';
+import theme from './chakra/theme';
+import { ColorModeProvider } from './chakra/ui/color-mode';
 import { Toaster } from './chakra/ui/toaster';
 import { WebView } from './components/WebView';
+import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
+import { routeTree } from './routeTree.gen';
+import { useLocaleChange } from './hooks/useLocaleChange';
 
 const router = createRouter({
   routeTree,
@@ -62,7 +62,7 @@ const AppEntry = () => {
 };
 
 const Root = () => {
-  const locale = useLocaleChange();
+  const { locale } = useLocaleChange();
   return (
     <QueryClientProvider client={queryClient}>
       <LocaleProvider locale={locale}>

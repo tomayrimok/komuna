@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "../user/user.entity";
 
 @Entity()
 export class DebtEdge {
@@ -19,4 +20,12 @@ export class DebtEdge {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @ManyToOne(() => User, (user) => user.debts)
+    @JoinColumn({ name: "fromId" })
+    fromUser: User;
+
+    @ManyToOne(() => User, (user) => user.credits)
+    @JoinColumn({ name: "toId" })
+    toUser: User;
 }
