@@ -18,5 +18,5 @@ export enum ShoppingListContextType {
 export enum RENTER_PAYMENT_WAYS {
   RENTER = "RENTER",
   EQUALLY = "EQUALLY",
-  ELSE = "ELSE",
+  ELSE = "ELSE", // TODO this must be a user id! Might need to change the whole type of this field
 }
