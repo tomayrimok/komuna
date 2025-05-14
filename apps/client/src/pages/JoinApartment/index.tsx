@@ -27,7 +27,7 @@ const JoinApartment = () => {
     },
     onError: () => {
       toaster.create({
-        title: t('join_existing_apartment.error'),
+        title: t('error.action_failed'),
         type: 'error',
       });
     },
