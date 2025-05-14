@@ -102,9 +102,13 @@ const CreateApartment = () => {
   ], [page]);
 
   const handleOnClick = () => {
-    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page < CreateApartmentPages.ApartmentSettings
-      || aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page <= CreateApartmentPages.RenterSettings) setPage((p) => p + 1);
-    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) setPage(CreateApartmentPages.ShareApartmentCode);
+    if (
+      (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page < CreateApartmentPages.ApartmentSettings) ||
+      (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page <= CreateApartmentPages.RenterSettings)
+    )
+      setPage((p) => p + 1);
+    if (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings)
+      setPage(CreateApartmentPages.ShareApartmentCode);
   }
 
   const navigate = useNavigate();
