@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { BillsDetails } from '@komuna/types';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Task } from '../task/task.entity';
 import { Expense } from '../expense/expense.entity';
@@ -6,58 +7,87 @@ import { Payment } from '../payment/payment.entity';
 import { Incident } from '../incident/incident.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
-
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Apartment {
-    @PrimaryGeneratedColumn('uuid')
-    apartmentId: string;
+  @PrimaryGeneratedColumn('uuid')
+  apartmentId: string;
 
-    @Column()
-    name: string;
+  /** Apartment Info */
+  @Column()
+  name: string;
 
-    @Column({ nullable: true })
-    image?: string;
+  @Column({ nullable: true })
+  image?: string;
 
-    @Column({ unique: true })
-    code: string;
+  /** The code to join the apartment. NULL in case the apartment doesn't allow new residents */
+  @Column({ unique: true })
+  code: string;
 
-    @Column({ nullable: true })
-    address?: string;
+  /** Apartment Info */
+  @Column({ nullable: true })
+  address?: string;
 
-    @Column({ nullable: true })
-    city?: string;
+  /** Apartment Info */
+  @Column({ nullable: true })
+  city?: string;
 
-    @Column({ nullable: true })
-    managerId?: string;
+  /** Apartment Settings */
+  @Column({ type: 'date', nullable: true })
+  contractEndDate?: Date;
 
-    @Column({ nullable: true })
-    contract?: string;
+  /** Apartment Settings */
+  /** contract file UserRole */
+  @Column({ nullable: true })
+  contractUrl?: string;
 
-    @Column({ nullable: true })
-    billsDetails?: string;
+  /** Apartment Settings */
+  @Column({ type: 'float', nullable: true })
+  rent?: number;
 
-    @OneToMany(() => UserApartment, ua => ua.apartment)
-    residents: UserApartment[];
+  /** בעל הבית */
+  @Column({ nullable: true })
+  // TODO change to landLordId?!
+  managerId?: string;
 
-    @OneToMany(() => Task, task => task.apartmentId)
-    tasks: Task[];
+  /** Apartment Settings */
+  /** Bills' locations */
+  @Column({ type: 'json', nullable: true })
+  billsDetails?: BillsDetails;
 
-    @OneToMany(() => Expense, e => e.apartmentId)
-    expenses: Expense[];
+  /** Renter Settings */
+  /** מחיר חושי ועד בית */
+  @Column({ type: 'float', nullable: true })
+  houseCommitteeRent: number;
 
-    @OneToMany(() => Payment, p => p.apartmentId)
-    payments: Payment[];
+  /** Renter Settings */
+  /** The user id of who pays the house committee, or NULL if it's split equally */
+  @ManyToOne(() => User, (u) => u.userId, { nullable: true, cascade: true })
+  @JoinColumn({ name: 'houseCommitteePayerUserId' })
+  houseCommitteePayerUser?: User;
 
-    @OneToMany(() => Incident, i => i.apartmentId)
-    incidents: Incident[];
+  @OneToMany(() => UserApartment, (ua) => ua.apartment, { cascade: true })
+  residents: UserApartment[];
 
-    @OneToMany(() => ShoppingTemplate, st => st.apartmentId)
-    shoppingTemplates: ShoppingTemplate[];
+  @OneToMany(() => Task, (task) => task.apartmentId)
+  tasks: Task[];
 
-    @OneToMany(() => ShoppingList, sl => sl.contextId)
-    shoppingLists: ShoppingList[];
+  @OneToMany(() => Expense, (e) => e.apartmentId)
+  expenses: Expense[];
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @OneToMany(() => Payment, (p) => p.apartmentId)
+  payments: Payment[];
+
+  @OneToMany(() => Incident, (i) => i.apartmentId)
+  incidents: Incident[];
+
+  @OneToMany(() => ShoppingTemplate, (st) => st.apartmentId)
+  shoppingTemplates: ShoppingTemplate[];
+
+  @OneToMany(() => ShoppingList, (sl) => sl.contextId)
+  shoppingLists: ShoppingList[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

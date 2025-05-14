@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { generateVerificationCode } from '../utils/generateVerificationCode';
+import { generateLoginCode } from '../utils/generateVerificationCode';
 import { AuthUser } from './auth-user.entity';
 import { UserJwtPayload } from './dto/jwt-user.dto';
 import { CreateUserDto } from './dto/update-user.dto';
@@ -19,7 +19,7 @@ export class UserService {
     @InjectRepository(AuthUser)
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
-  ) { }
+  ) {}
 
   private readonly logger = new Logger(UserService.name);
 
@@ -29,7 +29,7 @@ export class UserService {
       user = this.authUserRepo.create({ phoneNumber });
     }
 
-    const verificationCode = generateVerificationCode();
+    const verificationCode = generateLoginCode();
     user.verificationCode = verificationCode;
     user.verificationCodeExpiresAt = addMinutes(new Date(), 5);
 
@@ -57,7 +57,6 @@ export class UserService {
   }
 
   async getUserByPhone(phoneNumber: string): Promise<User | null> {
-
     const user = await this.userRepo.findOneBy({ phoneNumber });
 
     if (!user) {
