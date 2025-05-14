@@ -12,13 +12,17 @@ export const ApartmentTitle: FC<ApartmentTitleProps> = ({ title, description }) 
       <Text fontSize="2xl" fontWeight="bold" >
         {title}
       </Text>
-      {description ?
-        <Text
-          fontSize="lg"
-          textAlign="center"
-          paddingX="10px">
-          {description}
-        </Text> : null}
+      {description
+        ? (
+          <Text
+            fontSize="lg"
+            textAlign="center"
+            paddingX="10px">
+            {description}
+          </Text>
+        )
+        : null
+      }
     </VStack>
   );
 }
