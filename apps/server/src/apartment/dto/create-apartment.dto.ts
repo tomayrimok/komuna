@@ -1,10 +1,11 @@
 import {
   ApartmentInfoDto as BaseApartmentInfoDto,
   ApartmentSettingsDto as BaseApartmentSettingsDto,
-  RenterSettingsDto as BaseRenterSettingsDto,
   CreateApartmentDto as BaseCreateApartmentDto,
+  RenterSettingsDto as BaseRenterSettingsDto,
   UserRole,
 } from '@komuna/types';
+import { Transform, Type } from 'class-transformer';
 import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { BillsDetailsDto } from './bills-details.dto';
 
@@ -29,6 +30,13 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
 class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   @IsOptional()
   @IsDate() // TODO: Maybe IsString() with transform to Date
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      const [day, month, year] = value.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    return value;
+  })
   contractEndDate?: Date;
 
   @IsString()
@@ -36,19 +44,21 @@ class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   // TODO: depends on how we upload a file
   contractUrl?: string;
 
-  @IsString()
+  @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsOptional()
   rent?: number;
 
-  @IsString()
   @IsOptional()
   @ValidateNested() // TODO check that this validates
+  @Type(() => BillsDetailsDto)
   billsDetails?: BillsDetailsDto;
 }
 
 /** Third form */
 class RenterSettingsDto implements BaseRenterSettingsDto {
   @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsOptional()
   rent?: number;
 
@@ -57,6 +67,7 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
   payableByUserId?: string;
 
   @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsOptional()
   houseCommitteeRent?: number;
 
@@ -67,11 +78,14 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
 
 export class CreateApartmentDto implements BaseCreateApartmentDto {
   @ValidateNested()
+  @Type(() => ApartmentInfoDto)
   apartmentInfo: ApartmentInfoDto;
 
   @ValidateNested()
+  @Type(() => ApartmentSettingsDto)
   apartmentSettings: ApartmentSettingsDto;
 
   @ValidateNested()
+  @Type(() => RenterSettingsDto)
   renterSettings: RenterSettingsDto;
 }
