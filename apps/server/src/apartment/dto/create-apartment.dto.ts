@@ -3,6 +3,7 @@ import {
   ApartmentSettingsDto as BaseApartmentSettingsDto,
   CreateApartmentDto as BaseCreateApartmentDto,
   RenterSettingsDto as BaseRenterSettingsDto,
+  RENTER_PAYMENT_WAYS,
   UserRole,
 } from '@komuna/types';
 import { Transform, Type } from 'class-transformer';
@@ -71,9 +72,9 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
   @IsOptional()
   houseCommitteeRent?: number;
 
-  @IsString()
+  @IsEnum(RENTER_PAYMENT_WAYS) // TODO check this passes correctly
   @IsOptional()
-  houseCommitteePayerUserId?: string;
+  houseCommitteePayerUserId?: RENTER_PAYMENT_WAYS;
 }
 
 export class CreateApartmentDto implements BaseCreateApartmentDto {
