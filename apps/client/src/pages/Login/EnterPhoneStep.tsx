@@ -48,7 +48,7 @@ export const EnterPhoneStep = ({ onSendPincodeSuccess }: EnterPhoneStepProps) =>
         <Text>{t('login.description')}</Text>
       </VStack>
 
-      <HStack>
+      <HStack dir="rtl">
         <Input
           backgroundColor="white"
           size="2xl"

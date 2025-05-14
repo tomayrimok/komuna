@@ -1,66 +1,62 @@
 {
     "web": {
         "title": "Sorry",
-        "description": "This website is only supported on mobile devices. Please open it on your phone to continue."
+        "description": "This site is supported only on mobile devices. Please open it on your phone to continue."
     },
-    "title": "Welcome to Komuna",
-    "button": "Start Exploring",
-    "save": "Save",
-    "cancel": "Cancel",
-    "other-options": "Other Options",
-    "select-roommates": "Select Roommates",
-    "select-roommate": "Select Roommate",
-    "months": {
-        "1": "January",
-        "2": "February",
-        "3": "March",
-        "4": "April",
-        "5": "May",
-        "6": "June",
-        "7": "July",
-        "8": "August",
-        "9": "September",
-        "10": "October",
-        "11": "November",
-        "12": "December"
-    },
-    "payments": {
-        "debt": "You have a small debt of {{amount}}₪ 😞",
-        "balanced": "Everything is balanced here!",
-        "people-owe-you": "How nice! People owe you {{amount}}₪ 🎉",
-        "owe-you-to": "{{name}} owes you {{amount}}₪",
-        "someone-you-owe": "You owe {{name}} {{amount}}₪",
-        "settle-up": "Let's settle up",
-        "paid-by": "{{name}} paid {{amount}}₪",
-        "you-paid": "You paid {{amount}}₪",
-        "you-lent": "You lent\n{{amount}}₪",
-        "you-borrowed": "You borrowed\n{{amount}}₪",
-        "settle-up-title": "Who should we settle up with?",
-        "you-owe": "You owe {{amount}}₪",
-        "owe-you": "Owes you {{amount}}₪",
-        "payment-made": "Let's settle the payment with a shake, from {{payer}} to {{receiver}}",
-        "amount-prefix": "For the amount of",
-        "settle-up-success": "The debt has been successfully settled",
-        "no-debts": "No debts",
-        "no-debt": "No debt",
-        "expense": {
-            "all-expenses": "All Expenses",
-            "create-expense": "Create Expense",
-            "no-expenses": "No expenses",
-            "out-of": "{{amount}} out of {{total}}",
-            "remaining": "{{amount}} remaining",
-            "expense-saved": "The expense has been successfully saved",
-            "split-equal-split-title": "Select the roommates who participated in the expense, and divide it equally among them",
-            "split-by-amount-title": "For each roommate, you can enter the amount they need to pay",
-            "split-by-percentage-title": "For each roommate, you can enter the percentage of the expense they need to pay",
-            "split-options": "Split Options",
-            "edit-expense": "Edit Expense",
-            "expense-description": "Expense Description",
-            "expense-amount": "Expense Amount",
-            "paid-by": "Paid by",
-            "and-splits": "and splits",
-            "equally": "equally",
-            "unequally": "unequally"
+    "button": "Let's get started",
+    "komuna": "Komuna",
+    "catchphrase": "Peace at home between roommates",
+    "welcome": "Welcome!",
+    "login": {
+        "title": "Login",
+        "description": "Enter your phone number here and we will send you a verification code.",
+        "phone": "Phone number",
+        "send_code": "Send code",
+        "pin_code": {
+            "title": "Phone Number Verification",
+            "description": "We sent a code to the number <phone>{{phone}}</phone> to verify your phone number. It should arrive within 2–5 minutes.",
+            "continue": "Continue",
+            "didnt_get_code": "I didn't get the code, resend",
+            "resend_successfully": "We resent the code to phone number {{phone}}. Please check again."
         }
+    },
+    "create_profile": {
+        "title": "Great! Almost done...",
+        "description": "We need a few more details to introduce you to everyone.",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "create_profile": "Create profile"
+    },
+    "select_apartment": {
+        "no_apartments": {
+            "title": "Profile created successfully!",
+            "description": "{{firstName}}, welcome! Please choose what you’d like to do:",
+            "create_new_apartment": "Create a new apartment",
+            "join_apartment": "Join an existing apartment"
+        }
+    },
+    "roommate": {
+        "homepage": {
+            "title": "Welcome, <b>{{firstName}}!</b>",
+            "last_updates": "Latest updates",
+            "leftbar": {
+                "profile_settings": "Profile settings",
+                "apartment_settings": "Apartment settings",
+                "notifications_settings": "Notification & event settings",
+                "app_settings": "App settings",
+                "logout": "Log out",
+                "change_languege": "Change language"
+            },
+            "navigation": {
+                "tasks": "Tasks",
+                "payments": "Payments",
+                "home": "Home",
+                "shopping": "Shopping",
+                "incidents": "Incidents"
+            }
+        }
+    },
+    "error": {
+        "action_failed": "Action failed. Please try again."
     }
 }
