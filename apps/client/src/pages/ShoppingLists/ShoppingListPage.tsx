@@ -14,11 +14,12 @@ import {
     Card,
     IconButton,
     Loader,
+    Icon,
     // NumberInputField,
     // useBoolean
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { IconStar, IconStarFilled, IconPlus, IconChevronUp } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconPlus, IconChevronUp, IconShoppingCart } from "@tabler/icons-react";
 import { ShoppingList, ShoppingListContextType, ShoppingListItemDto } from "@komuna/types";
 import { API } from "../../axios";
 import { toaster } from "../../chakra/ui/toaster";
@@ -93,7 +94,7 @@ const ShoppingListPage: React.FC = () => {
 
 
     return (
-        <Container maxW="md" py={4}>
+        <Flex p={8} flexDirection={"column"} py={4} h="100%">
             <Flex justify="space-between" align="center" mb={4}>
                 <Text fontSize="xl" fontWeight="bold">Shopping List</Text>
                 <IconButton
@@ -108,7 +109,7 @@ const ShoppingListPage: React.FC = () => {
             {newItem && (
                 <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
                     <Box p={3}>
-                        <Text fontSize="sm" fontWeight="medium" mb={2}>New Item</Text>
+                        {/* <Text fontSize="sm" fontWeight="medium" mb={2}>New Item</Text> */}
                         <Input
                             placeholder="Item name"
                             value={newItem.name || ""}
@@ -279,16 +280,19 @@ const ShoppingListPage: React.FC = () => {
                         direction="column"
                         align="center"
                         justify="center"
-                        h="200px"
                         color="gray.500"
+                        flexGrow={1}
                     >
+                        <Icon width={16} height={16} mb={3}>
+                            <IconShoppingCart />
+                        </Icon>
                         <Text mb={3}>Your shopping list is empty</Text>
-                        <Text fontSize="sm">Tap the + button to add items</Text>
+                        {/* <Text fontSize="sm">Tap the + button to add items</Text> */}
                     </Flex>
                 )
                     : null
             }
-        </Container>
+        </Flex >
     );
 };
 

@@ -47,7 +47,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                 <motion.div
                     key={item.itemId}
                     layout
-                    initial={{ opacity: 1, height: "auto", marginBottom: 12 }}
+                    initial={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
