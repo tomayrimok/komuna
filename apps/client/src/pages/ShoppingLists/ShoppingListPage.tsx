@@ -1,10 +1,28 @@
-import { Box, Input, IconButton, Flex, Text, Checkbox, Icon, Card, Container } from "@chakra-ui/react";
+import {
+    Box,
+    Input,
+    Flex,
+    Text,
+    Container,
+    Button,
+    Drawer,
+    DrawerBody,
+    DrawerHeader,
+    // DrawerOverlay,
+    DrawerContent,
+    // DrawerCloseButton,
+    Card,
+    IconButton,
+    // NumberInputField,
+    // useBoolean
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { IconStar, IconStarFilled, IconChevronDown, IconChevronUp, IconPlus } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconPlus } from "@tabler/icons-react";
 import { ShoppingList, ShoppingListContextType, ShoppingListItemDto } from "@komuna/types";
 import { API } from "../../axios";
 import { toaster } from "../../chakra/ui/toaster";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem";
+
 
 interface ShoppingListPageProps {
     contextType?: ShoppingListContextType;
@@ -12,13 +30,18 @@ interface ShoppingListPageProps {
 }
 
 export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType, data }) => {
-    const addBoxRef = useRef<HTMLDivElement>(null);
-    const [items, setItems] = useState(data?.items);
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    const [items, setItems] = useState(data?.items || []);
+    const [editingItem, setEditingItem] = useState<ShoppingListItemDto | null>(null);
     const [newItem, setNewItem] = useState<Partial<ShoppingListItemDto> | null>(null);
+    const addFormRef = useRef<HTMLDivElement>(null);
+
+    // Track which item is currently being swiped to prevent multiple swipes
+    const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (addBoxRef.current && !addBoxRef.current.contains(event.target as Node)) {
+            if (addFormRef.current && !addFormRef.current.contains(event.target as Node) && newItem) {
                 handleAddItem();
             }
         }
@@ -36,21 +59,14 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                 itemId,
                 itemData,
                 contextType,
-            })
+            });
         } catch (error) {
             toaster.error({
                 title: "Error",
                 description: "Failed to update item",
             });
         }
-    }
-
-    const updateNewItem = async (itemData: Partial<ShoppingListItemDto>) => {
-        setNewItem((prevItem => ({
-            ...prevItem,
-            ...itemData
-        })))
-    }
+    };
 
     const handleAddItem = async () => {
         if (newItem?.name?.trim()) {
@@ -59,7 +75,7 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                     itemData: newItem,
                     contextType,
                 });
-                setItems((prevItems) => response.data);
+                setItems(response.data);
                 setNewItem(null);
             } catch (error) {
                 toaster.error({
@@ -67,6 +83,8 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
                     description: "Failed to add item",
                 });
             }
+        } else {
+            setNewItem(null);
         }
     };
 
@@ -74,6 +92,7 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
         try {
             await API.post("/shopping-list/delete-item", { itemId, contextType });
             setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
+            setActiveSwipe(null);
         } catch (error) {
             toaster.error({
                 title: "Error",
@@ -82,169 +101,226 @@ export const ShoppingListPage: React.FC<ShoppingListPageProps> = ({ contextType,
         }
     };
 
+    const handleEditItem = () => {
+        if (editingItem) {
+            updateItem(editingItem.itemId, {
+                name: editingItem.name,
+                amount: editingItem.amount,
+                isUrgent: editingItem.isUrgent
+            });
+            setEditingItem(null);
+            setDrawerOpen(false);
+        }
+    };
+
+    const openEditDrawer = (item: ShoppingListItemDto) => {
+        setEditingItem({ ...item });
+        setDrawerOpen(true)
+    };
+
+    const sortedItems = [...items].sort((a, b) => {
+        // sort by isPurchased and then by createdAt
+
+        if (a.isPurchased !== b.isPurchased) {
+            return a.isPurchased ? 1 : -1;
+        }
+        if (a.createdAt > b.createdAt) {
+            return -1;
+        }
+        return 1
+
+
+        // // Sort by purchased status first
+        // if (a.isPurchased !== b.isPurchased) {
+        //     return a.isPurchased ? 1 : -1;
+        // }
+        // // Then by urgency
+        // if (a.isUrgent !== b.isUrgent) {
+        //     return a.isUrgent ? -1 : 1;
+        // }
+        // // Then alphabetically
+        // return a.name.localeCompare(b.name);
+    });
 
     return (
-        <Container>
+        <Container maxW="md" py={4}>
+            <Flex justify="space-between" align="center" mb={4}>
+                <Text fontSize="xl" fontWeight="bold">Shopping List</Text>
+                <IconButton
+                    aria-label="Add Item"
+                    colorScheme="blue"
+                    onClick={() => {
+                        setNewItem({
+                            itemId: "",
+                            name: "",
+                            amount: 1,
+                            isUrgent: false,
+                            isPurchased: false,
+                            createdAt: new Date(),
+                        });
+                    }}
+                >
+                    <IconPlus />
+                </IconButton>
+            </Flex>
 
-            {items?.map((item) => {
-                const x = useMotionValue(0);
-                // const background = useTransform(x, [-100, 0, 100], ["red", "white", "white"]);
+            {sortedItems.map((item) => {
+
 
                 return (
-
-                    <Box key={item.itemId} position="relative" overflow="hidden" mb="4" borderRadius="lg">
-                        {/* Red background revealed on right swipe */}
-                        <Box
-                            position="absolute"
-                            top="0"
-                            bottom="0"
-                            left="0"
-                            right="0"
-                            bg="red.500"
-                            display="flex"
-                            justifyContent="flex-end"
-                            alignItems="center"
-                            pr={4}
-                            borderRadius="lg"
-                            zIndex={0}
-                        >
-                            <Text
-                                color="white"
-                                fontWeight="bold"
-                                cursor="pointer"
-                                onClick={() => handleDeleteItem(item.itemId)}
-                            >
-                                Delete
-                            </Text>
-                        </Box>
-
-                        {/* Foreground swipable card */}
-                        <motion.div
-                            drag="x"
-                            variants={
-                                {
-                                    initial: { x: 0 },
-                                    drag: { x: 0 },
-                                    exit: { x: 100 },
-                                }
-                            }
-                            dragConstraints={{ left: 0, right: 100 }}
-                            dragElastic={0}
-                            style={{ x, zIndex: 1 }}
-                            onDrag={(e, info) => {
-                                // Prevent dragging to the left
-                                // if (info.point.x < info.offset.x) {
-                                //     x.set(0);
-                                // }
-                            }}
-                            onDragEnd={(event, info) => {
-                                console.log('info :', info);
-                                // Snap back if not far enough
-                                console.log('info.offset.x :', info.offset.x);
-                                if (info.offset.x < 100) {
-                                    x.set(0);
-                                }
-
-
-                            }}
-                        >
-                            <Card.Root borderWidth="1px" borderRadius="lg" bg="white">
-                                <Card.Body p={2}>
-                                    <Flex justify="space-between" align="center">
-                                        <Flex align="center" gap={2}>
-                                            <Checkbox.Root
-                                                checked={item.isPurchased}
-                                                variant="outline"
-                                                onChange={() =>
-                                                    updateItem(item.itemId, { isPurchased: !item.isPurchased })
-                                                }
-                                            >
-                                                <Checkbox.HiddenInput />
-                                                <Checkbox.Control />
-                                                <Checkbox.Label />
-                                            </Checkbox.Root>
-                                            <Text fontWeight="bold">{item.name}</Text>
-                                        </Flex>
-                                        <Icon onClick={() => updateItem(item.itemId, { isUrgent: !item.isUrgent })}>
-                                            {item.isUrgent ? <IconStarFilled /> : <IconStar />}
-                                        </Icon>
-                                    </Flex>
-                                    <Text mt={2}>Amount: {item.amount}</Text>
-                                </Card.Body>
-                            </Card.Root>
-                        </motion.div>
-                    </Box>
+                    <ShoppingListItem key={item.itemId} item={item} openEditDrawer={openEditDrawer} updateItem={updateItem} setActiveSwipe={setActiveSwipe} />
                 );
             })}
 
             {newItem && (
-                <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addBoxRef}>
-                    <Card.Body p={2}>
-                        <Flex justify="space-between" align="center">
-                            <Input
-                                placeholder="Item name"
-                                value={newItem.name}
-                                onChange={(e) => updateNewItem({ name: e.target.value })}
-                                maxW="200px"
-                            />
+                <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
+                    <Box p={3}>
+                        <Text fontSize="sm" fontWeight="medium" mb={2}>New Item</Text>
+                        <Input
+                            placeholder="Item name"
+                            value={newItem.name || ""}
+                            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                            mb={3}
+                            autoFocus
+                        />
 
-                            <Icon onClick={() => updateNewItem({ isUrgent: !newItem.isUrgent })}>
-                                {newItem.isUrgent ? <IconStarFilled /> : <IconStar />}
-                            </Icon>
+                        <Flex justify="space-between" align="center">
+                            <Flex align="center" gap={2}>
+                                <Text fontSize="sm">Quantity:</Text>
+                                {/* <NumberInput
+                                    value={newItem.amount || 1}
+                                    min={1}
+                                    max={99}
+                                    size="sm"
+                                    w="80px"
+                                    onChange={(valueAsString, valueAsNumber) =>
+                                        setNewItem({ ...newItem, amount: valueAsNumber })
+                                    }
+                                >
+                                    <NumberInputField />
+                                    <Box display="flex" flexDirection="column" position="absolute" right="0" top="0" height="100%" width="20px">
+                                        <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderTopRightRadius="md"
+                                            onClick={() => setNewItem({ ...newItem, amount: (newItem.amount || 1) + 1 })}>+</Button>
+                                        <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderBottomRightRadius="md"
+                                            onClick={() => setNewItem({ ...newItem, amount: Math.max(1, (newItem.amount || 1) - 1) })}>-</Button>
+                                    </Box>
+                                </NumberInput> */}
+                            </Flex>
+
+                            <Flex gap={2}>
+                                <IconButton
+                                    aria-label={newItem.isUrgent ? "Remove urgent" : "Mark urgent"}
+                                    variant="ghost"
+                                    color={newItem.isUrgent ? "orange" : "gray"}
+                                    onClick={() => setNewItem({ ...newItem, isUrgent: !newItem.isUrgent })}
+                                    size="sm"
+                                >
+                                    {newItem.isUrgent ? <IconStarFilled /> : <IconStar />}
+                                </IconButton>
+                                <Button
+                                    colorScheme="blue"
+                                    size="sm"
+                                    onClick={handleAddItem}
+                                    disabled={!newItem.name?.trim()}
+                                >
+                                    Add
+                                </Button>
+                            </Flex>
                         </Flex>
-                        <p>Amount: {newItem.amount}</p>
-                    </Card.Body>
+                    </Box>
                 </Card.Root>
             )}
 
-            <IconButton
-                aria-label="Add Item"
-
-                onClick={() => {
-                    setNewItem({
-                        itemId: "",
-                        name: "",
-                        amount: 1,
-                        isUrgent: false,
-                        isPurchased: false,
-                    });
-                }}
+            {/* Edit Item Drawer */}
+            <Drawer.Root
+                open={isDrawerOpen}
+                placement="bottom"
+            // onClose={() => {
+            //     setDrawerOpen.off();
+            //     setEditingItem(null);
+            // }}
             >
-                <IconPlus />
-            </IconButton>
+                {/* <DrawerOverlay /> */}
+                <DrawerContent borderTopRadius="lg">
+                    <Drawer.CloseTrigger />
+                    <DrawerHeader>Edit Item</DrawerHeader>
+                    <DrawerBody pb={6}>
+                        {editingItem && (
+                            <Box>
+                                <Input
+                                    placeholder="Item name"
+                                    value={editingItem.name}
+                                    onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+                                    mb={4}
+                                />
 
-            {/* <Box p="4" borderWidth="1px" borderRadius="lg" mb="4" ref={addBoxRef}>
-                <Text mb="2" fontWeight="bold">Add New Item</Text>
-                <Flex align="center" gap="2">
-                    <Input
-                        placeholder="Item name"
-                        value={newItemName}
-                        onChange={(e) => setNewItemName(e.target.value)}
-                        maxW="200px"
-                    />
+                                <Flex justify="space-between" align="center" mb={4}>
+                                    <Text>Quantity:</Text>
+                                    {/* <NumberInput
+                                        value={editingItem.amount}
+                                        min={1}
+                                        max={99}
+                                        w="100px"
+                                        onChange={(valueAsString, valueAsNumber) =>
+                                            setEditingItem({ ...editingItem, amount: valueAsNumber })
+                                        }
+                                    >
+                                        <NumberInputField />
+                                        <Box display="flex" flexDirection="column" position="absolute" right="0" top="0" height="100%" width="20px">
+                                            <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderTopRightRadius="md"
+                                                onClick={() => setEditingItem({ ...editingItem, amount: editingItem.amount + 1 })}>+</Button>
+                                            <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderBottomRightRadius="md"
+                                                onClick={() => setEditingItem({ ...editingItem, amount: Math.max(1, editingItem.amount - 1) })}>-</Button>
+                                        </Box>
+                                    </NumberInput> */}
+                                </Flex>
 
-                    <Icon onClick={() => setIsUrgent((prev) => !prev)}>
-                        {isUrgent ? <IconStarFilled /> : <IconStar />}
-                    </Icon>
-                    <Flex direction="column" align="center">
-                        <IconButton
-                            aria-label="Increase quantity"
-                            size="2xs"
-                            onClick={() => setNewItemQuantity((q) => q + 1)}
-                        >
-                            <IconChevronUp />
-                        </IconButton>
-                        <Text>{newItemQuantity}</Text>
-                        <IconButton
-                            aria-label="Decrease quantity"
-                            size="2xs"
-                            onClick={() => setNewItemQuantity((q) => Math.max(1, q - 1))}
-                        >
-                            <IconChevronDown />
-                        </IconButton>
-                    </Flex>
+                                <Flex justify="space-between" align="center" mb={6}>
+                                    <Text>Urgent:</Text>
+                                    {/* <Checkbox
+                                        isChecked={editingItem.isUrgent}
+                                        onChange={() => setEditingItem({ ...editingItem, isUrgent: !editingItem.isUrgent })}
+                                        size="lg"
+                                    /> */}
+                                </Flex>
+
+                                <Flex justify="space-between">
+                                    <Button
+                                        variant="outline"
+                                        colorScheme="red"
+                                        onClick={() => {
+                                            handleDeleteItem(editingItem.itemId);
+                                            setDrawerOpen(false)
+                                        }}
+                                    >
+                                        Delete
+                                    </Button>
+                                    <Button
+                                        colorScheme="blue"
+                                        onClick={handleEditItem}
+                                        disabled={!editingItem.name.trim()}
+                                    >
+                                        Save
+                                    </Button>
+                                </Flex>
+                            </Box>
+                        )}
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer.Root>
+
+            {items.length === 0 && !newItem && (
+                <Flex
+                    direction="column"
+                    align="center"
+                    justify="center"
+                    h="200px"
+                    color="gray.500"
+                >
+                    <Text mb={3}>Your shopping list is empty</Text>
+                    <Text fontSize="sm">Tap the + button to add items</Text>
                 </Flex>
-            </Box> */}
+            )}
         </Container>
     );
 };

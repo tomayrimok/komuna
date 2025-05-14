@@ -25,9 +25,9 @@ export class ShoppingListService {
     async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: ShoppingListItemDto): Promise<ShoppingListItemDto[]> {
 
         const itemDataWithId = {
-            itemId: randomUUID(),
             ...itemData,
-            creatorId: userId
+            creatorId: userId,
+            itemId: randomUUID(),
         }
 
         const shoppingList = await this.shoppingListRepository.findOne({ where: { contextType, contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId } });
@@ -38,7 +38,7 @@ export class ShoppingListService {
                 items: [itemDataWithId],
             });
             await this.shoppingListRepository.save(newShoppingList);
-            return [];
+            return [itemDataWithId];
         }
 
         shoppingList.items.push(itemDataWithId);

@@ -29,6 +29,7 @@ export class ShoppingList {
     amount: number;
     creatorId: string;
     assignedTo?: string;
+    createdAt: Date;
   }[]; //todo move to separate entity? assignedTo is a userId
 
   @UpdateDateColumn()

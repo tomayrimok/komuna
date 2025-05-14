@@ -8,4 +8,5 @@ export class ShoppingListItemDto {
     amount: number;
     creatorId?: string;
     assignedTo?: string;
+    createdAt: Date;
 }
