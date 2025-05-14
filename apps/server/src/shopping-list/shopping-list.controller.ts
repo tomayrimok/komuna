@@ -26,31 +26,31 @@ export class ShoppingListController {
     @Post('add-item')
     @UseAuth()
     async addItemToApartmentShoppingList(@User() user: UserJwtPayload, @Body('itemData') itemData: ShoppingListItemDto, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemData);
+        return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId || '2590f444-b3ea-4b75-b458-91aa56f276da', user.userId, itemData);
     }
 
     @Post('remove-item')
     @UseAuth()
     async addItemToPersonalShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.removeItemFromShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId);
+        return this.shoppingListService.removeItemFromShoppingList(contextType, user.apartmentId || '2590f444-b3ea-4b75-b458-91aa56f276da', user.userId, itemId);
     }
 
     @Post('update-item')
     @UseAuth()
     async updateItemInApartmentShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('itemData') itemData: Partial<ShoppingListItemDto>, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId, itemData);
+        return this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId || '2590f444-b3ea-4b75-b458-91aa56f276da', user.userId, itemId, itemData);
     }
 
     @Post('clear')
     @UseAuth()
     async clearShoppingList(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.clearShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId);
+        return this.shoppingListService.clearShoppingList(contextType, user.apartmentId || '2590f444-b3ea-4b75-b458-91aa56f276da', user.userId);
     }
 
     @Post('mark-all-as-purchased')
     @UseAuth()
     async markAllAsPurchased(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.markAllItemsAsPurchased(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId);
+        return this.shoppingListService.markAllItemsAsPurchased(contextType, user.apartmentId || '2590f444-b3ea-4b75-b458-91aa56f276da', user.userId);
     }
 
 }
