@@ -17,17 +17,15 @@ export class ApartmentController {
   @Post()
   @UseAuth()
   async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User): Promise<CreateApartmentHttpResponse> {
-    const houseCommitteePayerUser = new User();
-    houseCommitteePayerUser.userId = createApartmentData.renterSettings.houseCommitteePayerUserId === RENTER_PAYMENT_WAYS.EQUALLY
-      ? null
-      : createApartmentData.renterSettings.houseCommitteePayerUserId === RENTER_PAYMENT_WAYS.RENTER ?
-        user.userId
-        : createApartmentData.renterSettings.houseCommitteePayerUserId || null;
-
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;
     userApartment.rent = createApartmentData.renterSettings.rent;
     userApartment.role = createApartmentData.apartmentInfo.role;
+
+    const houseCommitteePayerUser = this.createHouseCommitteePayerUser(
+      createApartmentData,
+      user
+    );
 
     const generatedCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const apartment = new Apartment();
@@ -47,6 +45,21 @@ export class ApartmentController {
 
     await this.apartmentService.createApartment(apartment);
     return generatedCode;
+  }
+
+  private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {
+    const paymentWay = createApartmentData.renterSettings.houseCommitteePayerUserId;
+    const user = new User();
+
+    if (paymentWay === RENTER_PAYMENT_WAYS.EQUALLY) {
+      return null;
+    } else if (paymentWay === RENTER_PAYMENT_WAYS.RENTER) {
+      user.userId = renter.userId;
+    } else {
+      user.userId = null; // TODO: get user id of payer!
+    }
+
+    return user;
   }
 
   @Post("join/:code")
