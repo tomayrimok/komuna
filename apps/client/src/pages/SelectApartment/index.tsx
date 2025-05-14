@@ -14,7 +14,7 @@ export const SelectApartment = () => {
   const navigate = useNavigate();
 
   return (
-    <ApartmentLayout goBack={() => { }}>
+    <ApartmentLayout>
       <Text textAlign='center' fontSize="2xl" fontWeight="bold" >
         {t('choose_apartment.title')}
       </Text>
