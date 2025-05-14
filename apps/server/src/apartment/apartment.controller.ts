@@ -1,13 +1,13 @@
-import { Body, ConflictException, Controller, NotFoundException, Param, Post, Get, Query } from '@nestjs/common';
-import { ApartmentService } from './apartment.service';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
-import { Apartment } from './apartment.entity';
-import { User } from '../user/user.entity';
-import { UserApartment } from '../user-apartment/user-apartment.entity';
+import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { Body, ConflictException, Controller, NotFoundException, Param, Post } from '@nestjs/common';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
-import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { UserApartment } from '../user-apartment/user-apartment.entity';
+import { User } from '../user/user.entity';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
+import { Apartment } from './apartment.entity';
+import { ApartmentService } from './apartment.service';
+import { CreateApartmentDto } from './dto/create-apartment.dto';
 import { JoinApartmentDto } from './dto/join-apartment.dto';
 
 @Controller('apartment')
