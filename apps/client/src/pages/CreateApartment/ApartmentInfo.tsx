@@ -1,25 +1,19 @@
 import { useMemo } from "react";
 import { Field, HStack, Image, Input, Stack, RadioCard } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { ApartmentInfoDto, CreateApartmentDto, UserRole } from "@komuna/types";
+import { ApartmentInfoDto, UserRole } from "@komuna/types";
 import ApartmentTitle from "./ApartmentTitle";
+import type { CommonApartmentProps } from "./create-apartment.types";
 
-interface ApartmentInfoProps {
-  aptDetails: CreateApartmentDto;
-  updateField: (
-    field: string,
-    value: unknown
-  ) => void;
-}
 
-export const ApartmentInfo = ({ aptDetails, updateField }: ApartmentInfoProps) => {
+export const ApartmentInfo = ({ aptDetails, updateField }: CommonApartmentProps<"apartmentInfo">) => {
   const { t } = useTranslation();
 
   const fields = useMemo(() => [
     { key: "name", title: t("create_apartment.apartment_info.apartment_name"), required: true, },
     { key: "address", title: t("create_apartment.apartment_info.apartment_address"), required: false, },
     { key: "city", title: t("create_apartment.apartment_info.city"), required: false, },
-  ], [t]);
+  ] as const, [t]);
 
   const roles = useMemo(() => [
     { value: UserRole.ROOMMATE, title: t("create_apartment.apartment_info.who_am_i.renter"), image: "/detailed_icons/renter.png" },
