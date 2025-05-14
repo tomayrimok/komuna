@@ -10,9 +10,9 @@ const apartments = [
 ];
 
 export const SelectApartment = () => {
-
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   return (
     <ApartmentLayout goBack={() => { }}>
       <Text textAlign='center' fontSize="2xl" fontWeight="bold" >

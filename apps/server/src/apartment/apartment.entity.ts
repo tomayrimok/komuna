@@ -7,13 +7,7 @@ import { Incident } from '../incident/incident.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { User } from '../user/user.entity';
-
-export interface BillsDetails {
-    electricity?: string;
-    water?: string;
-    internet?: string;
-    gas?: string;
-};
+import { BillsDetails } from '@komuna/types';
 
 @Entity()
 export class Apartment {

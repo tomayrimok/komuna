@@ -1,7 +1,12 @@
-import { ApartmentInfoDto as BaseApartmentInfoDto, UserRole } from "@komuna/types";
-import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { BillsDetailsDto } from "./bills-details.dto";
-
+import {
+  ApartmentInfoDto as BaseApartmentInfoDto,
+  ApartmentSettingsDto as BaseApartmentSettingsDto,
+  RenterSettingsDto as BaseRenterSettingsDto,
+  CreateApartmentDto as BaseCreateApartmentDto,
+  UserRole,
+} from '@komuna/types';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { BillsDetailsDto } from './bills-details.dto';
 
 /** First form */
 class ApartmentInfoDto implements BaseApartmentInfoDto {
@@ -21,7 +26,7 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
 }
 
 /** Second form */
-class ApartmentSettingsDto {
+class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   @IsOptional()
   @IsDate() // TODO: Maybe IsString() with transform to Date
   contractEndDate?: Date;
@@ -42,7 +47,7 @@ class ApartmentSettingsDto {
 }
 
 /** Third form */
-class RenterSettingsDto {
+class RenterSettingsDto implements BaseRenterSettingsDto {
   @IsNumber()
   @IsOptional()
   rent?: number;
@@ -60,7 +65,7 @@ class RenterSettingsDto {
   houseCommitteePayerUserId?: string;
 }
 
-export class CreateApartmentDto {
+export class CreateApartmentDto implements BaseCreateApartmentDto {
   @ValidateNested()
   apartmentInfo: ApartmentInfoDto;
 
