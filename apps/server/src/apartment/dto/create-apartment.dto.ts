@@ -30,8 +30,8 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
 /** Second form */
 class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   @IsOptional()
-  @IsDate() // TODO: Maybe IsString() with transform to Date
-  @Transform(({ value }) => {
+  @IsDate()
+  @Transform(({ value }) => { // The client sends a string in the format 'dd/mm/yyyy'
     if (typeof value === 'string') {
       const [day, month, year] = value.split('/').map(Number);
       return new Date(year, month - 1, day);
@@ -42,7 +42,6 @@ class ApartmentSettingsDto implements BaseApartmentSettingsDto {
 
   @IsString()
   @IsOptional()
-  // TODO: depends on how we upload a file
   contractUrl?: string;
 
   @IsNumber()
