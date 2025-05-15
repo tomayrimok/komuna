@@ -1,12 +1,8 @@
 import {
-    BadRequestException,
     Body,
     Controller,
-    Get,
-    InternalServerErrorException,
     Logger,
     Post,
-    Res,
 } from '@nestjs/common';
 import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto } from './dto/incident.dto';
 import { IncidentService } from './incident.service';
@@ -20,16 +16,16 @@ export class IncidentController {
 
     @Post('create')
     async createIncident(@Body() newIncident: CreateIncidentDto) {
-      return('') // TODO implement Logic
+      return(newIncident) // TODO implement Logic
     }
 
     @Post('update')
     async updateIncident(@Body() setIncident: UpdateIncidentStatusDto) {
-      return('') // TODO implement Logic
+      return(setIncident) // TODO implement Logic
     }
 
     @Post('comment')
     async newComment(@Body() addComment: AddCommentDto) {
-      return('') // TODO implement Logic
+      return(addComment) // TODO implement Logic
     }
 }
