@@ -1,4 +1,4 @@
-import { IncidentStatus } from '@komuna/types';
+import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -24,8 +24,8 @@ export class Incident {
   @Column('json')
   images: string[];
 
-  @Column('int')
-  urgencyLevel: number;
+  @Column({ type: 'enum', enum: IncidentUrgency })
+  urgencyLevel: IncidentUrgency;
 
   @Column()
   reporterId: string;
@@ -44,4 +44,13 @@ export class Incident {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column('json')
+  comments: {
+    commentId: string;
+    message: string;
+    userId: string;
+    createAt: string;
+    images: string;
+  }[]; //TODO image should be optional?
 }

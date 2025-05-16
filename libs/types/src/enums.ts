@@ -9,6 +9,13 @@ export enum IncidentStatus {
   SOLVED = 'SOLVED',
 }
 
+export enum IncidentUrgency {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  EXTREME = 'EXTREME'
+}
+
 export enum ShoppingListContextType {
   APARTMENT = 'APARTMENT',
   USER = 'USER',
