@@ -7,6 +7,7 @@ import {
     IsDateString,
   } from 'class-validator';
 import { IncidentStatus, IncidentUrgency } from "../../enums";
+import { Optional } from '@nestjs/common';
 
 export class CreateIncidentDto {
     @IsUUID()
@@ -39,6 +40,9 @@ export class CreateIncidentDto {
     
     @IsBoolean()
     includingImages: boolean;
+
+    @IsBoolean()
+    ownerSeen: boolean;
 }
 
 export class UpdateIncidentStatusDto {
@@ -65,6 +69,7 @@ export class AddCommentDto {
     @IsDateString()
     addedOn: string;
 
-    @IsBoolean()
-    includingImages: boolean;
+    @Optional()
+    @IsString()
+    images: string;
 }
