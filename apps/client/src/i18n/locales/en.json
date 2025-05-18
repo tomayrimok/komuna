@@ -95,6 +95,7 @@
         "no-debts": "No debts",
         "no-debt": "No debt",
         "expense": {
+            "select-paid-by": "Select who paid for the expense:",
             "all-expenses": "All Expenses",
             "create-expense": "Create Expense",
             "no-expenses": "No expenses",

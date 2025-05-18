@@ -15,14 +15,8 @@ const PaymentPage = () => {
             wrap="wrap"
         >
             <BalanceCard />
-            <Box divideY={"1px"} width={"full"}>
-                <Box p={6}>
-                    <CreateExpenseButton />
-                    <Expenses />
-                </Box>
-
-            </Box>
-
+            <CreateExpenseButton />
+            <Expenses />
         </Stack>
     )
 }

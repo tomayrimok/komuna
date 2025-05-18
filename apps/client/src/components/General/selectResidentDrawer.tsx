@@ -1,4 +1,4 @@
-import { Button, Card, CloseButton, Drawer, Flex, Portal } from "@chakra-ui/react"
+import { Button, Card, CloseButton, ConditionalValue, Drawer, Flex, Portal } from "@chakra-ui/react"
 import React, { useState } from "react";
 import { useApartment } from "../../hooks/useApartment";
 import UserCard from "./userCard";
@@ -6,18 +6,20 @@ import { User } from "@komuna/types";
 import { useTranslation } from "react-i18next";
 
 interface SelectUserDrawerProps {
+    title?: string;
     onSelect: (user: User) => void;
     trigger?: React.ReactNode;
+    size: ConditionalValue<"sm" | "md" | "lg" | "xl" | "xs" | "full" | undefined>
 }
 
-const SelectUserDrawer: React.FC<SelectUserDrawerProps> = ({ trigger, onSelect }) => {
+const SelectUserDrawer: React.FC<SelectUserDrawerProps> = ({ trigger, size, title, onSelect }) => {
 
     const { data, isLoading, isError } = useApartment();
     const [open, setOpen] = useState(false)
     const { t } = useTranslation();
 
     return (
-        <Drawer.Root size={'full'} placement={"bottom"} open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <Drawer.Root size={size || 'full'} placement={"bottom"} open={open} onOpenChange={(e) => setOpen(e.open)}>
             <Drawer.Trigger asChild>
                 {trigger ? trigger : <Button variant="outline">
                     {t("select-roommate")}
@@ -29,11 +31,11 @@ const SelectUserDrawer: React.FC<SelectUserDrawerProps> = ({ trigger, onSelect }
                     <Drawer.Content>
                         <Drawer.Header>
                             <Drawer.Title>
-                                {t("select-roommate")}
+                                {title || t("select-roommate")}
                             </Drawer.Title>
                         </Drawer.Header>
-                        <Drawer.Body>
-                            <Flex direction="column" gap="3">
+                        <Drawer.Body maxH={"50vh"}>
+                            <Flex direction="column" gap="3" pb={4}>
                                 {data && data.residents.map((user) => {
                                     if (!user.user) return null;
                                     return <UserCard

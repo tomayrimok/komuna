@@ -78,6 +78,8 @@ const ExpenseDetailsPage = () => {
                                 {t("payments.expense.paid-by")}
                             </Text>
                             <SelectUserDrawer
+                                size={"lg"}
+                                title={t("payments.expense.select-paid-by")}
                                 onSelect={setPaidBy}
                                 trigger={
                                     <Button size="sm" px={1} py={0} h="unset" variant={"surface"}>
