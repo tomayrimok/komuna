@@ -1,13 +1,15 @@
-import { Box, Card, Checkbox, Container, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Card, Checkbox, Container, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
 import { ShoppingListItemDto } from "@komuna/types";
 import { motion, PanInfo, useMotionValue, useTransform, animate, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { IconStar, IconStarFilled, IconPlus, IconTrash, IconEdit } from "@tabler/icons-react";
+import { ShoppingListItemQuantity } from "./shoppingListItemQuantity";
+import { useShoppingList } from "../../context/auth/ShoppingListProvider";
+import { ShoppingListItemIsUrgent } from "./shoppingListItemIsUrgent";
 
 interface ShoppingListItemProps {
     item: ShoppingListItemDto;
     openEditDrawer: (item: ShoppingListItemDto) => void;
-    setActiveSwipe: (itemId: string) => void;
     updateItem: (itemId: string, updates: Partial<ShoppingListItemDto>) => void;
 }
 
@@ -16,7 +18,7 @@ const DELETE_BUTTON_WIDTH = 80;
 const SWIPE_THRESHOLD = 20;
 
 
-export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEditDrawer, setActiveSwipe, updateItem }) => {
+export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEditDrawer, updateItem }) => {
 
 
     const x = useMotionValue(0);
@@ -24,6 +26,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
     const itemRef = useRef<HTMLDivElement>(null);
     const [showRedBg, setShowRedBg] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
+    const { handleAmountChange, handleDeleteItem, setActiveSwipe } = useShoppingList();
 
     useMotionValueEvent(x, "change", (latest) => {
         setShowRedBg(latest > 0);
@@ -33,6 +36,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
         hasTriggeredDelete.current = true;
         setIsDeleted(true);
         animate(x, itemRef.current?.clientWidth || 0);
+        handleDeleteItem(item.itemId)
     }
 
     const handleDragEnd = (info: PanInfo) => {
@@ -40,6 +44,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
         else if (info.offset.x > DELETE_THRESHOLD && !hasTriggeredDelete.current) onDelete();
         else animate(x, 0);
     }
+
 
     return (
         <AnimatePresence>
@@ -122,20 +127,33 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                                                 <Checkbox.Control />
                                             </Checkbox.Root>
 
-                                            <Box>
-                                                <Text
+                                            <Flex w="full">
+                                                <Flex
+                                                    flexGrow={1}
                                                     fontWeight={item.isUrgent ? "bold" : "medium"}
                                                     textDecoration={item.isPurchased ? "line-through" : "none"}
                                                     fontSize="md"
                                                 >
                                                     {item.name}
-                                                </Text>
-                                                {item.amount > 1 && (
+                                                </Flex>
+                                                {/* {item.amount > 1 && (
                                                     <Text fontSize="sm" color="gray.600">
                                                         Qty: {item.amount}
                                                     </Text>
-                                                )}
-                                            </Box>
+                                                )} */}
+                                                <ShoppingListItemQuantity
+                                                    handleChange={(amount) => {
+                                                        handleAmountChange(item.itemId, amount);
+                                                    }}
+                                                    amount={item.amount}
+                                                />
+                                                <ShoppingListItemIsUrgent
+                                                    handleChange={(isUrgent) => {
+                                                        updateItem(item.itemId, { isUrgent });
+                                                    }}
+                                                    isUrgent={item.isUrgent}
+                                                />
+                                            </Flex>
                                         </Flex>
                                         <Flex gap={2}>
                                             {/* <IconButton

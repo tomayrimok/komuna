@@ -26,6 +26,8 @@ import { toaster } from "../../chakra/ui/toaster";
 import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem";
 import { useShoppingListQuery } from "../../hooks/query/useShoppingListQuery";
 import { ShoppingListProvider, useShoppingList } from "../../context/auth/ShoppingListProvider";
+import { ShoppingListItemQuantity } from "../../components/ShoppingList/shoppingListItemQuantity";
+import { ShoppingListItemIsUrgent } from "../../components/ShoppingList/shoppingListItemIsUrgent";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -54,7 +56,7 @@ const ShoppingListPage: React.FC = () => {
         openEditDrawer,
         updateItem,
         setActiveSwipe,
-        isShoppingListLoading
+        isShoppingListLoading,
     } = useShoppingList();
 
     useEffect(() => {
@@ -68,29 +70,31 @@ const ShoppingListPage: React.FC = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [newItem]);
 
-    const sortedItems = [...items].sort((a, b) => {
-        // sort by isPurchased and then by createdAt
+    // const sortedItems = [...items].sort((a, b) => {
+    // sort by isPurchased and then by createdAt
 
-        if (a.isPurchased !== b.isPurchased) {
-            return a.isPurchased ? 1 : -1;
-        }
-        if (a.createdAt > b.createdAt) {
-            return -1;
-        }
-        return 1
+    // return (a.isPurchased ? 1 : 0) - (b.isPurchased ? 1 : 0);
+
+    // if (a.isPurchased !== b.isPurchased) {
+    //     return a.isPurchased ? 1 : -1;
+    // }
+    // if (a.createdAt > b.createdAt) {
+    //     return -1;
+    // }
+    // return 1
 
 
-        // // Sort by purchased status first
-        // if (a.isPurchased !== b.isPurchased) {
-        //     return a.isPurchased ? 1 : -1;
-        // }
-        // // Then by urgency
-        // if (a.isUrgent !== b.isUrgent) {
-        //     return a.isUrgent ? -1 : 1;
-        // }
-        // // Then alphabetically
-        // return a.name.localeCompare(b.name);
-    });
+    // // Sort by purchased status first
+    // if (a.isPurchased !== b.isPurchased) {
+    //     return a.isPurchased ? 1 : -1;
+    // }
+    // // Then by urgency
+    // if (a.isUrgent !== b.isUrgent) {
+    //     return a.isUrgent ? -1 : 1;
+    // }
+    // // Then alphabetically
+    // return a.name.localeCompare(b.name);
+    // });
 
 
     return (
@@ -120,7 +124,6 @@ const ShoppingListPage: React.FC = () => {
 
                         <Flex justify="space-between" align="center">
                             <Flex align="center" gap={2}>
-                                <Text fontSize="sm">Quantity:</Text>
                                 {/* <IconButton>
                                     <IconChevronUp
                                         onClick={() => setNewItem({ ...newItem, amount: (newItem.amount || 1) + 1 })}
@@ -128,36 +131,27 @@ const ShoppingListPage: React.FC = () => {
                                         color="gray.500"
                                     />
                                 </IconButton> */}
-                                {/* <NumberInput
-                                    value={newItem.amount || 1}
-                                    min={1}
-                                    max={99}
-                                    size="sm"
-                                    w="80px"
-                                    onChange={(valueAsString, valueAsNumber) =>
-                                        setNewItem({ ...newItem, amount: valueAsNumber })
-                                    }
-                                >
-                                    <NumberInputField />
-                                    <Box display="flex" flexDirection="column" position="absolute" right="0" top="0" height="100%" width="20px">
-                                        <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderTopRightRadius="md"
-                                            onClick={() => setNewItem({ ...newItem, amount: (newItem.amount || 1) + 1 })}>+</Button>
-                                        <Button size="xs" height="50%" fontSize="xs" p={0} borderRadius="0" borderBottomRightRadius="md"
-                                            onClick={() => setNewItem({ ...newItem, amount: Math.max(1, (newItem.amount || 1) - 1) })}>-</Button>
-                                    </Box>
-                                </NumberInput> */}
+                                <ShoppingListItemQuantity
+                                    handleChange={(amount) => {
+                                        setNewItem({ ...newItem, amount });
+                                    }}
+                                    amount={newItem.amount}
+                                />
+                                {/* <IconButton>
+                                    <IconChevronDown
+                                        onClick={() => setNewItem({ ...newItem, amount: Math.max(1, (newItem.amount || 1) - 1) })}
+                                        size="sm"
+                                        color="gray.500"
+                                    />
+                                </IconButton> */}
                             </Flex>
 
                             <Flex gap={2}>
-                                <IconButton
-                                    aria-label={newItem.isUrgent ? "Remove urgent" : "Mark urgent"}
-                                    variant="ghost"
-                                    color={newItem.isUrgent ? "orange" : "gray"}
-                                    onClick={() => setNewItem({ ...newItem, isUrgent: !newItem.isUrgent })}
-                                    size="sm"
-                                >
-                                    {newItem.isUrgent ? <IconStarFilled /> : <IconStar />}
-                                </IconButton>
+                                <ShoppingListItemIsUrgent handleChange={(isUrgent) => {
+                                    setNewItem({ ...newItem, isUrgent });
+                                }}
+                                    isUrgent={newItem.isUrgent}
+                                />
                                 <Button
                                     colorScheme="blue"
                                     size="sm"
@@ -172,14 +166,13 @@ const ShoppingListPage: React.FC = () => {
                 </Card.Root>
             )}
 
-            {sortedItems.map((item) => {
+            {items.map((item) => {
                 return (
                     <ShoppingListItem
                         key={item.itemId}
                         item={item}
                         openEditDrawer={openEditDrawer}
                         updateItem={updateItem}
-                        setActiveSwipe={setActiveSwipe}
                     />
                 );
             })}

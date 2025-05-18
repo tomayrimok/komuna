@@ -29,7 +29,7 @@ export class ShoppingListController {
         return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemData);
     }
 
-    @Post('remove-item')
+    @Post('delete-item')
     @UseAuth()
     async addItemToPersonalShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('contextType') contextType: ShoppingListContextType) {
         return this.shoppingListService.removeItemFromShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId);

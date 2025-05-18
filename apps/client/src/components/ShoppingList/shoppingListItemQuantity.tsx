@@ -1,24 +1,37 @@
-import { Box, IconButton } from "@chakra-ui/react";
-import { IconChevronUp } from "@tabler/icons-react";
-import { useShoppingList } from "../../context/auth/ShoppingListProvider";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 
 interface ShoppingListItemQuantityProps {
-    itemId: string;
+    handleChange: (amount: number) => void;
+    amount?: number;
 }
 
-export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> = ({ itemId }) => {
+export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> = ({ amount = 1, handleChange }) => {
 
-    const { setNewItem, newItem } = useShoppingList();
 
     return (
-        <Box>
-            <IconButton>
-                <IconChevronUp
-                    onClick={() => setNewItem({ ...newItem, amount: (newItem?.amount || 1) + 1 })}
-                    size="sm"
-                    color="gray.500"
-                />
+        <Flex alignItems={"center"} >
+            <IconButton
+                variant={"subtle"}
+                size={"2xs"}
+                color={"gray.500"}
+                onClick={() => handleChange(amount + 1)}
+            >
+                <IconChevronUp />
             </IconButton>
-        </Box>
+
+            <Text mx={1}>
+                {amount}
+            </Text>
+
+            <IconButton
+                variant={"subtle"}
+                size={"2xs"}
+                color={"gray.500"}
+                onClick={() => handleChange(amount - 1)}
+            >
+                <IconChevronDown />
+            </IconButton>
+        </Flex>
     );
 }

@@ -24,6 +24,8 @@ export interface ShoppingListContextValue {
     setActiveSwipe: React.Dispatch<React.SetStateAction<string | null>>;
     updateItem: (itemId: string, itemData: Partial<ShoppingListItemDto>) => Promise<void>;
     isShoppingListLoading: boolean;
+    handleAmountChange: (itemId: string, amount: number) => void;
+    activeSwipe: string | null;
 }
 
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
@@ -120,6 +122,20 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         setDrawerOpen(true)
     };
 
+    const handleAmountChange = (itemId: string, amount: number) => {
+        setItems((prevItems) =>
+            prevItems.map((item) => (item.itemId === itemId ? { ...item, amount } : item))
+        );
+        updateItem(itemId, { amount });
+    };
+
+    const updateOrder = async () => {
+        await API.post("/shopping-list/change-order", {
+            itemIds: items.map(item => item.itemId),
+            contextType
+        });
+    }
+
     return (
         <ShoppingListContext.Provider
             value={{
@@ -140,7 +156,9 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
                 setActiveSwipe,
                 updateItem,
                 newItem,
-                isShoppingListLoading
+                isShoppingListLoading,
+                handleAmountChange,
+                activeSwipe
             }}
         >
             {children}
