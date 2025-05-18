@@ -117,7 +117,8 @@
                 "apartment_settings": "הגדרות דירה",
                 "notifications_settings": "ניהול התראות ואירועים",
                 "app_settings": "הגדרות אפליקציה",
-                "logout": "התנתקות"
+                "logout": "התנתקות",
+                "change_languege": "שנה שפה"
             },
             "navigation": {
                 "tasks": "משימות",
