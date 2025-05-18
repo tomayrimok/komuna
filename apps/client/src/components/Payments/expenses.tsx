@@ -32,10 +32,10 @@ const Expenses = () => {
                             const [monthNum, year] = month.split("/");
                             return (
                                 <Box key={month} mb={6}>
-                                    <Box fontSize="l" mb={2} color="gray.600">
+                                    <Box fontWeight={"bold"} fontSize="l" mb={2} color="gray.600">
                                         {t(`months.${monthNum}` as any)} {year}
                                     </Box>
-                                    <Stack gap={3}>
+                                    <Stack gap={2}>
                                         <For each={expenses}>
                                             {(item) => <ExpenseCard key={item.expense_expenseId} item={item} />}
                                         </For>

@@ -13,7 +13,7 @@ const CreateExpenseButton = () => {
     }
 
     return (
-        <Button onClick={handleClick}>
+        <Button onClick={handleClick} position={"fixed"} bottom={10} right={10} >
             <IconPlus size={20} />
             {t('payments.expense.create-expense')}
         </Button>

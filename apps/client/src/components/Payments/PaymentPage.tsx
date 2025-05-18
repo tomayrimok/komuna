@@ -10,23 +10,14 @@ const PaymentPage = () => {
 
     return (
         <Stack
-            paddingY="44px"
-            paddingX="25px"
             gap="4"
             direction="row"
             wrap="wrap"
         >
+            <BalanceCard />
             <Box divideY={"1px"} width={"full"}>
-                <Box pb={6}>
-                    <BalanceCard />
-                </Box>
-                <Box pt={6}>
-                    <Flex width={"full"} justifyContent={"space-between"} alignItems={"baseline"} mb={2}>
-                        <Text fontSize="xl" fontWeight="bold">
-                            {t('payments.expense.all-expenses')}
-                        </Text>
-                        <CreateExpenseButton />
-                    </Flex>
+                <Box p={6}>
+                    <CreateExpenseButton />
                     <Expenses />
                 </Box>
 
