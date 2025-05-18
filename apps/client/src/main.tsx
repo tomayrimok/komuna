@@ -1,7 +1,11 @@
 import './i18n/';
+import '@silk-hq/components/unlayered-styles';
+import '@silk-hq/components/layered-styles';
+
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box, ChakraProvider, LocaleProvider, useBreakpointValue } from '@chakra-ui/react';
+import { Global, css } from '@emotion/react';
 import { ColorModeProvider } from './chakra/ui/color-mode';
 import theme from './chakra/theme';
 import { useLocaleChange } from './hooks/useLocaleChange';
@@ -36,7 +40,15 @@ const RouterWrapper = () => {
 const AppEntry = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <Box minH="100dvh" minW="100dvw" w="100%" display="flex" bg={isMobile ? 'none' : 'gray.100'} flexDirection="column">
+    <Box
+      height="100dvh"
+      width="100dvw"
+      w="100%"
+      display="flex"
+      overflow="hidden"
+      bg={isMobile ? 'none' : 'gray.100'}
+      flexDirection="column"
+    >
       {isMobile ? (
         <AuthProvider>
           <RouterWrapper />
@@ -56,6 +68,13 @@ const Root = () => {
       <LocaleProvider locale={locale}>
         <ChakraProvider value={theme}>
           <ColorModeProvider>
+            <Global
+              styles={css`
+                html {
+                  dir: ${locale === 'he' ? 'rtl' : 'ltr'};
+                }
+              `}
+            />
             <AppEntry />
           </ColorModeProvider>
         </ChakraProvider>
