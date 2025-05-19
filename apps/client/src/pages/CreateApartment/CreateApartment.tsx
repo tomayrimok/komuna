@@ -25,6 +25,7 @@ interface CreateApartmentFormProps {
   page: CreateApartmentPages;
   aptDetails: CreateApartmentDto;
   setPageState: UpdateFieldOfPageFn;
+  isEdit: boolean;
 }
 
 const INITIAL_APT_DETAILS: CreateApartmentDto = {
@@ -53,7 +54,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
   },
 }
 
-const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState }) => {
+const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState, isEdit }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
       return <ApartmentInfo
@@ -69,6 +70,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
       return <RenterSettings
         aptDetails={aptDetails}
         updateField={setPageState("renterSettings")}
+        isEdit={isEdit}
       />;
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
@@ -80,11 +82,14 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
 };
 
 
+interface CreateApartmentProps {
+  isEdit?: boolean;
+}
 /**
 * Wraps the CreateApartmentForm in a layout with a back button.
 */
-const CreateApartment = () => {
-  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
+const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
+  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.RenterSettings);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
 
   const incPage = () => { setPage(p => p + 1); }
@@ -148,11 +153,13 @@ const CreateApartment = () => {
 
   return (
     <ApartmentLayout
-      goBack={page !== CreateApartmentPages.ShareApartmentCode && (() => goPageBack(page))}>
+      goBack={page !== CreateApartmentPages.ShareApartmentCode && (() => goPageBack(page))}
+    >
       <CreateApartmentForm
         page={page}
         aptDetails={aptDetails}
         setPageState={updateFieldOfPage}
+        isEdit={isEdit || false}
       />
       <HStack gap="30px">
         {showSkipBtn && <Button
@@ -176,7 +183,7 @@ const CreateApartment = () => {
             : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>
-    </ApartmentLayout >
+    </ApartmentLayout>
   );
 };
 
