@@ -116,6 +116,8 @@
         }
     },
     "error": {
-        "action_failed": "Action failed. Please try again."
+        "error": "An error occurred",
+        "action_failed": "Action failed. Please try again.",
+        "incorrect_values": "Incorrect values. Please check and try again."
     }
 }

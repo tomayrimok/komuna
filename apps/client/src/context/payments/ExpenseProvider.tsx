@@ -217,7 +217,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const handleSaveSplits = () => {
         const currentSplitTypeData = splitTypesData[splitType];
         if (!currentSplitTypeData.isValid()) {
-            toaster.error({ title: "Error", description: "Please fill all the required fields", meta: { closable: true } }); //todo noam!
+            toaster.error({ title: t("error.error"), description: t("error.incorrect_values"), meta: { closable: true } });
             return;
         }
         setOpen(false);
