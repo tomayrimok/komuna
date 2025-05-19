@@ -122,7 +122,7 @@ export class UserController {
       if (!user || !user.phoneNumber) {
         return { user: null };
       }
-      const currentUser = await this.userService.getUserByPhone(user.phoneNumber);
+      const currentUser = await this.userService.getUserProfile(user.phoneNumber);
       return { user: currentUser };
     } catch (error) {
       this.logger.error('Error in loginOrCreate:', error);

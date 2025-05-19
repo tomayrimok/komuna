@@ -34,7 +34,12 @@ export const Login = () => {
   useEffect(() => {
     if (currentUserDetails) {
       navigate({
-        to: search.redirect ?? '/new-apartment',
+        to: search.redirect ?? (
+          (currentUserDetails.apartments
+            && currentUserDetails.apartments.length > 0)
+            ? '/select-apartment'
+            : '/new-apartment'
+        ),
         replace: true,
       });
     }

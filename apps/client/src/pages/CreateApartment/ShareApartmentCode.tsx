@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MutationState, useMutationState } from '@tanstack/react-query';
-import { ApartmentTitle } from './ApartmentTitle';
+import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { Button, Clipboard, HStack, Spacer, Text } from '@chakra-ui/react';
 import { CreateApartmentHttpResponse } from '@komuna/types';
+import { useNavigate } from '@tanstack/react-router';
 
 const ShareApartmentCode: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [mutationState] = useMutationState<MutationState<CreateApartmentHttpResponse>>({
     filters: {
@@ -52,7 +54,9 @@ const ShareApartmentCode: FC = () => {
       <Button
         size="xl"
         fontSize="2xl"
-        fontWeight="bold">
+        fontWeight="bold"
+        onClick={() => navigate({ to: '/roommate' })}
+      >
         {t('create_apartment.share_apartment.close_btn')}
       </Button>
     </>

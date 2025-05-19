@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { RenterSettingsDto, RENTER_PAYMENT_WAYS } from "@komuna/types";
-import { ApartmentTitle } from "./ApartmentTitle";
+import { ApartmentTitle } from "../NewApartment/ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
 import type { CommonApartmentProps } from "./create-apartment.types";
 
@@ -36,64 +36,64 @@ export const RenterSettings = ({ aptDetails, updateField }: CommonApartmentProps
 
   return (
     <Stack width="100%" gap="5">
-        <ApartmentTitle
-          title={t('create_apartment.renter_settings.title')}
-        />
-        {fields.map((field) => (
-          <>
-            <Field.Root>
-              <HStack justify="space-between">
-                <Field.Label fontWeight="bold" fontSize="md" w="70%">
-                  {field.title}
-                </Field.Label>
-                <InputGroup endElement={<IconCurrencyShekel />}>
-                  <Input
-                    value={aptDetails.renterSettings[field.key as keyof RenterSettingsDto]}
-                    onChange={(e) => updateField(field.key, e.target.value)}
-                    backgroundColor="white"
-                    size="xl"
-                    fontSize="xl"
-                  />
-                </InputGroup>
-              </HStack>
-            </Field.Root>
+      <ApartmentTitle
+        title={t('create_apartment.renter_settings.title')}
+      />
+      {fields.map((field) => (
+        <Stack key={field.key}>
+          <Field.Root>
+            <HStack justify="space-between">
+              <Field.Label fontWeight="bold" fontSize="md" w="70%">
+                {field.title}
+              </Field.Label>
+              <InputGroup endElement={<IconCurrencyShekel />}>
+                <Input
+                  value={aptDetails.renterSettings[field.key as keyof RenterSettingsDto]}
+                  onChange={(e) => updateField(field.key, e.target.value)}
+                  backgroundColor="white"
+                  size="xl"
+                  fontSize="xl"
+                />
+              </InputGroup>
+            </HStack>
+          </Field.Root>
 
-            <RadioCard.Root
-              orientation="horizontal"
-              variant="subtle"
-              defaultValue={field.options[0].value}
-              onValueChange={({ value }) => updateField(field.optionsKey, value)}
-            >
-              <RadioCard.Label fontWeight="bold" fontSize="md">
-                {field.optionTitle}
-              </RadioCard.Label>
-              {field.options.map((option) => (
-                <RadioCard.Item
-                  key={option.value}
-                  value={option.value}
-                  backgroundColor="transparent"
-                >
-                  <RadioCard.ItemHiddenInput />
-                  <RadioCard.ItemControl backgroundColor="transparent">
-                    <RadioCard.ItemIndicator />
-                    <VStack align="left">
-                      <RadioCard.ItemText>
-                        {option.title}
-                      </RadioCard.ItemText>
-                      {"input" in option && option.input ?
-                        <Input
-                          // onChange={(e) => option.onChange(e.target.value)}
-                          backgroundColor="white"
-                          w="150%"
-                        /> : null}
-                    </VStack>
-                  </RadioCard.ItemControl>
-                </RadioCard.Item>
-              ))}
-            </RadioCard.Root >
-          </>
-        ))}
-      </Stack >
+          <RadioCard.Root
+            orientation="horizontal"
+            variant="subtle"
+            defaultValue={field.options[0].value}
+            onValueChange={({ value }) => updateField(field.optionsKey, value)}
+          >
+            <RadioCard.Label fontWeight="bold" fontSize="md">
+              {field.optionTitle}
+            </RadioCard.Label>
+            {field.options.map((option) => (
+              <RadioCard.Item
+                key={option.value}
+                value={option.value}
+                backgroundColor="transparent"
+              >
+                <RadioCard.ItemHiddenInput />
+                <RadioCard.ItemControl backgroundColor="transparent">
+                  <RadioCard.ItemIndicator />
+                  <VStack align="left">
+                    <RadioCard.ItemText>
+                      {option.title}
+                    </RadioCard.ItemText>
+                    {"input" in option && option.input ?
+                      <Input
+                        // onChange={(e) => option.onChange(e.target.value)}
+                        backgroundColor="white"
+                        w="150%"
+                      /> : null}
+                  </VStack>
+                </RadioCard.ItemControl>
+              </RadioCard.Item>
+            ))}
+          </RadioCard.Root >
+        </Stack>
+      ))}
+    </Stack >
   );
 }
 
