@@ -37,7 +37,7 @@ export class Apartment {
     @Column({ nullable: true })
     billsDetails?: string;
 
-    @OneToMany(() => UserApartment, ua => ua.apartment)
+    @OneToMany(() => UserApartment, ua => ua.apartmentId)
     residents: UserApartment[];
 
     @OneToMany(() => Task, task => task.apartmentId)

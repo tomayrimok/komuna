@@ -19,25 +19,7 @@ export class ApartmentService {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
     }
 
-    async getApartmentWithResidents(apartmentId: string) {
-        return await this.apartmentRepo
-            .createQueryBuilder('apartment')
-            .leftJoinAndSelect('apartment.residents', 'resident')
-            .leftJoinAndSelect('resident.user', 'user')
-            .where('apartment.apartmentId = :apartmentId', { apartmentId })
-            .select([
-                'apartment.apartmentId',
-                'apartment.name',
-                'resident.userId',
-                'resident.rent',
-                'resident.role',
-                'user.userId',
-                'user.firstName',
-                'user.lastName',
-                'user.image',
-                'user.phoneNumber',
-            ])
-            .getOne();
+    async getApartment(apartmentId: string) {
+        return await this.apartmentRepo.findOneBy({ apartmentId });
     }
-
 }

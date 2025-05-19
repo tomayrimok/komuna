@@ -23,32 +23,30 @@ export class DebtEdgeService {
     async updateDebt(apartmentId: string, fromId: string, toId: string, delta: number) {
         if (fromId === toId || delta === 0) return;
 
-        const roundedDelta = Math.round(delta * 100) / 100;
-
         const direct = await this.debtRepo.findOneBy({ apartmentId, fromId, toId });
         const reverse = await this.debtRepo.findOneBy({ apartmentId, fromId: toId, toId: fromId });
 
         if (reverse) {
-            if (reverse.amount > roundedDelta) {
-                reverse.amount -= roundedDelta;
+            if (reverse.amount > delta) {
+                reverse.amount -= delta;
                 await this.debtRepo.save(reverse);
-            } else if (reverse.amount < roundedDelta) {
+            } else if (reverse.amount < delta) {
                 await this.debtRepo.remove(reverse);
                 const newEdge = this.debtRepo.create({
                     apartmentId,
                     fromId,
                     toId,
-                    amount: roundedDelta - reverse.amount,
+                    amount: delta - reverse.amount,
                 });
                 await this.debtRepo.save(newEdge);
             } else {
                 await this.debtRepo.remove(reverse);
             }
         } else if (direct) {
-            direct.amount += roundedDelta;
+            direct.amount += delta;
             await this.debtRepo.save(direct);
         } else {
-            const newEdge = this.debtRepo.create({ apartmentId, fromId, toId, amount: roundedDelta });
+            const newEdge = this.debtRepo.create({ apartmentId, fromId, toId, amount: delta });
             await this.debtRepo.save(newEdge);
         }
 
@@ -103,68 +101,6 @@ export class DebtEdgeService {
             if (debtor.amount === 0) i++;
             if (creditor.amount === 0) j++;
         }
-    }
-
-    getUserBalance(apartmentId: string, userId: string) {
-        return this.debtRepo
-            .createQueryBuilder('debt')
-            .select('SUM(CASE WHEN debt.fromId = :userId THEN -debt.amount ELSE debt.amount END)', 'balance')
-            .where('debt.apartmentId = :apartmentId', { apartmentId })
-            .andWhere('(debt.fromId = :userId OR debt.toId = :userId)', { userId })
-            .setParameters({ userId, apartmentId })
-            .getRawOne()
-            .then((result) => result.balance || 0);
-    }
-
-    getUserBalanceDetails(apartmentId: string, userId: string) {
-        return this.debtRepo
-            .createQueryBuilder('debt')
-            .select([
-                'debt.debtId',
-                'debt.fromId',
-                'debt.toId',
-                'debt.amount',
-                'debt.updatedAt',
-                'userFrom.firstName',
-                'userFrom.lastName',
-                'userTo.firstName',
-                'userTo.lastName',
-                'userFrom.image',
-                'userTo.image',
-                'userFrom.phoneNumber',
-                'userTo.phoneNumber',
-                'CASE WHEN debt.fromId = :userId THEN true ELSE false END AS debtor',
-            ])
-            .leftJoin('debt.fromUser', 'userFrom')
-            .leftJoin('debt.toUser', 'userTo')
-            .where('debt.apartmentId = :apartmentId', { apartmentId })
-            .andWhere('(debt.fromId = :userId OR debt.toId = :userId)', { userId })
-            .setParameters({ userId, apartmentId })
-            .getRawMany();
-    }
-
-    getDebtDetails(debtId: string) {
-        return this.debtRepo
-            .createQueryBuilder('debt')
-            .select([
-                'debt.debtId',
-                'debt.apartmentId',
-                'debt.fromId',
-                'debt.toId',
-                'debt.amount',
-                'userFrom.firstName',
-                'userFrom.lastName',
-                'userTo.firstName',
-                'userTo.lastName',
-                'userFrom.phoneNumber',
-                'userTo.phoneNumber',
-                'userFrom.image',
-                'userTo.image',
-            ])
-            .leftJoin('debt.fromUser', 'userFrom')
-            .leftJoin('debt.toUser', 'userTo')
-            .where('debt.debtId = :debtId', { debtId })
-            .getRawOne();
     }
 }
 

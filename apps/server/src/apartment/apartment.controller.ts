@@ -1,14 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApartmentService } from './apartment.service';
+import { Controller } from '@nestjs/common';
 
 @Controller('apartment')
-export class ApartmentController {
-    constructor(
-        private readonly apartmentService: ApartmentService,
-    ) { }
-
-    @Get()
-    async getApartmentUsers(@Query('apartmentId') apartmentId: string) {
-        return await this.apartmentService.getApartmentWithResidents(apartmentId);
-    }
-}
+export class ApartmentController {}
