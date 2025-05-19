@@ -38,7 +38,7 @@ export class ShoppingListController {
     @Post('update-item')
     @UseAuth()
     async updateItemInApartmentShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('itemData') itemData: Partial<ShoppingListItemDto>, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId, itemData);
+        return await this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId, itemData);
     }
 
     @Post('clear')
@@ -51,6 +51,12 @@ export class ShoppingListController {
     @UseAuth()
     async markAllAsPurchased(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
         return this.shoppingListService.markAllItemsAsPurchased(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId);
+    }
+
+    @Post('change-order')
+    @UseAuth()
+    async changeOrder(@User() user: UserJwtPayload, @Body('itemIds') itemIds: string[], @Body('contextType') contextType: ShoppingListContextType) {
+        return this.shoppingListService.changeOrder(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemIds);
     }
 
 }

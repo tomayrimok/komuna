@@ -26,6 +26,8 @@ export interface ShoppingListContextValue {
     isShoppingListLoading: boolean;
     handleAmountChange: (itemId: string, amount: number) => void;
     activeSwipe: string | null;
+    updateOrder: (items: ShoppingListItemDto[]) => Promise<void>;
+    togglePurchased: (itemId: string) => Promise<void>;
 }
 
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
@@ -59,7 +61,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
             prevItems.map((item) => (item.itemId === itemId ? { ...item, ...itemData } : item))
         );
         try {
-            await API.post("/shopping-list/update-item", {
+            await API.post<ShoppingList>("/shopping-list/update-item", {
                 itemId,
                 itemData,
                 contextType,
@@ -75,11 +77,11 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     const handleAddItem = async () => {
         if (newItem?.name?.trim()) {
             try {
-                const response = await API.post("/shopping-list/add-item", {
+                const { data } = await API.post<ShoppingList>("/shopping-list/add-item", {
                     itemData: newItem,
                     contextType,
                 });
-                setItems(response.data);
+                setItems(data.items);
                 setNewItem(null);
             } catch (error) {
                 toaster.error({
@@ -94,8 +96,8 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const handleDeleteItem = async (itemId: string) => {
         try {
-            await API.post("/shopping-list/delete-item", { itemId, contextType });
-            setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
+            await API.post<ShoppingList>("/shopping-list/delete-item", { itemId, contextType });
+            setItems(prevItems => prevItems.filter(item => item.itemId !== itemId));
             setActiveSwipe(null);
         } catch (error) {
             toaster.error({
@@ -129,12 +131,33 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         updateItem(itemId, { amount });
     };
 
-    const updateOrder = async () => {
-        await API.post("/shopping-list/change-order", {
-            itemIds: items.map(item => item.itemId),
+    const updateOrder = async (orderedItems?: ShoppingListItemDto[]) => {
+        if (orderedItems) setItems(orderedItems);
+        await API.post<ShoppingList>("/shopping-list/change-order", {
+            itemIds: (orderedItems || items).map(item => item.itemId),
             contextType
         });
     }
+
+
+    const togglePurchased = async (itemId: string) => {
+        const item = items.find(item => item.itemId === itemId);
+        if (!item) return;
+
+        const updatedIsPurchased = !item.isPurchased;
+
+        await updateItem(itemId, { isPurchased: updatedIsPurchased });
+        setItems((prevItems) =>
+            [...prevItems].sort((a, b) => {
+                if (a.isPurchased && !b.isPurchased) return 1;
+                if (!a.isPurchased && b.isPurchased) return -1;
+                return 0;
+            })
+        );
+        setTimeout(() => {
+            updateOrder()
+        }, 0);
+    };
 
     return (
         <ShoppingListContext.Provider
@@ -158,7 +181,9 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
                 newItem,
                 isShoppingListLoading,
                 handleAmountChange,
-                activeSwipe
+                activeSwipe,
+                updateOrder,
+                togglePurchased
             }}
         >
             {children}

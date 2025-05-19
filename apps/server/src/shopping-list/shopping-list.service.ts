@@ -22,7 +22,7 @@ export class ShoppingListService {
         return this.shoppingListRepository.findOne({ where: { contextType: ShoppingListContextType.USER, contextId: userId } });
     }
 
-    async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: ShoppingListItemDto): Promise<ShoppingListItemDto[]> {
+    async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: ShoppingListItemDto): Promise<ShoppingList> {
 
         const itemDataWithId = {
             ...itemData,
@@ -37,14 +37,11 @@ export class ShoppingListService {
                 contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId,
                 items: [itemDataWithId],
             });
-            await this.shoppingListRepository.save(newShoppingList);
-            return [itemDataWithId];
+            return await this.shoppingListRepository.save(newShoppingList);
         }
 
-        shoppingList.items.push(itemDataWithId);
-        await this.shoppingListRepository.save(shoppingList);
-
-        return shoppingList.items;
+        shoppingList.items.unshift(itemDataWithId);
+        return await this.shoppingListRepository.save(shoppingList);
     }
 
     async removeItemFromShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemId: string): Promise<ShoppingList> {
@@ -54,7 +51,7 @@ export class ShoppingListService {
         }
 
         shoppingList.items = shoppingList.items.filter(item => item.itemId !== itemId);
-        return this.shoppingListRepository.save(shoppingList);
+        return await this.shoppingListRepository.save(shoppingList);
     }
 
     async updateItemInShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemId: string, itemData: Partial<ShoppingListItemDto>): Promise<ShoppingList> {
@@ -69,7 +66,7 @@ export class ShoppingListService {
         }
 
         shoppingList.items[itemIndex] = { ...shoppingList.items[itemIndex], ...itemData };
-        return this.shoppingListRepository.save(shoppingList);
+        return await this.shoppingListRepository.save(shoppingList);
     }
 
     async clearShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string): Promise<ShoppingList> {
@@ -79,7 +76,7 @@ export class ShoppingListService {
         }
 
         shoppingList.items = [];
-        return this.shoppingListRepository.save(shoppingList);
+        return await this.shoppingListRepository.save(shoppingList);
     }
 
     async markAllItemsAsPurchased(contextType: ShoppingListContextType, apartmentId: string, userId: string): Promise<ShoppingList> {
@@ -89,6 +86,18 @@ export class ShoppingListService {
         }
 
         shoppingList.items.forEach(item => item.isPurchased = true);
+        return await this.shoppingListRepository.save(shoppingList);
+    }
+
+    async changeOrder(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemIds: string[]): Promise<ShoppingList> {
+        const shoppingList = await this.shoppingListRepository.findOne({ where: { contextType, contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId } });
+        if (!shoppingList) {
+            throw new Error('Shopping list not found');
+        }
+
+        const itemsMap = new Map(shoppingList.items.map(item => [item.itemId, item]));
+        shoppingList.items = itemIds.map(itemId => itemsMap.get(itemId)).filter(item => item !== undefined);
+
         return this.shoppingListRepository.save(shoppingList);
     }
 

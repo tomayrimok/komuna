@@ -7,6 +7,6 @@ export class ShoppingListItemDto {
     isUrgent: boolean;
     amount: number;
     creatorId?: string;
-    assignedTo?: string;
+    // assignedTo?: string;
     createdAt: Date;
 }
