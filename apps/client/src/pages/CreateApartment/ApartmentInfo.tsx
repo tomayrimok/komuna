@@ -27,7 +27,7 @@ export const ApartmentInfo = ({ aptDetails, updateField }: CommonApartmentProps<
           description={t('create_apartment.apartment_info.description')}
         />
         {fields.map((field) => (
-          <Field.Root required={field.required}>
+          <Field.Root key={field.key} required={field.required}>
             <Field.Label fontWeight="bold" fontSize="md">
               {field.title}
             </Field.Label>
