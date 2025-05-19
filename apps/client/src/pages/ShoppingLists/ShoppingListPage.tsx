@@ -28,6 +28,7 @@ import { useShoppingListQuery } from "../../hooks/query/useShoppingListQuery";
 import { ShoppingListProvider, useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListItemQuantity } from "../../components/ShoppingList/shoppingListItemQuantity";
 import { ShoppingListItemIsUrgent } from "../../components/ShoppingList/shoppingListItemIsUrgent";
+import { Reorder } from "framer-motion";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -45,6 +46,7 @@ const ShoppingListPage: React.FC = () => {
     const {
         items,
         newItem,
+        setItems,
         setNewItem,
         editingItem,
         setEditingItem,
@@ -166,16 +168,29 @@ const ShoppingListPage: React.FC = () => {
                 </Card.Root>
             )}
 
-            {items.map((item) => {
-                return (
-                    <ShoppingListItem
-                        key={item.itemId}
-                        item={item}
-                        openEditDrawer={openEditDrawer}
-                        updateItem={updateItem}
-                    />
-                );
-            })}
+            <Reorder.Group
+                axis="y"
+                values={items}
+                onReorder={setItems}
+
+            >
+
+                {items.map((item) => {
+                    return (
+                        <Reorder.Item
+                            key={item.itemId}
+                            value={item}
+                        >
+                            <ShoppingListItem
+                                key={item.itemId}
+                                item={item}
+                                openEditDrawer={openEditDrawer}
+                                updateItem={updateItem}
+                            />
+                        </Reorder.Item>
+                    );
+                })}
+            </Reorder.Group>
 
 
 
