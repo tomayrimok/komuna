@@ -5,6 +5,9 @@ import {
   Column,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -45,12 +48,34 @@ export class Incident {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column('json')
-  comments: {
-    commentId: string;
-    message: string;
-    userId: string;
-    createAt: string;
-    images: string;
-  }[]; //TODO image should be optional?
+  @OneToMany(() => Comment, (comment) => comment.incident, {
+    cascade: true,
+    eager:   false
+  })
+  comments: Comment[];
+}
+
+@Entity()
+export class Comment {
+  @PrimaryGeneratedColumn('uuid')
+  commentId: string;
+
+  @Column()
+  message: string;
+
+  @Column()
+  userId: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Column()
+  incidentId: string;
+
+  @Column('text', { array: true, nullable: true })
+  images?: string[];     // optional array of image URLs
+
+  @ManyToOne(() => Incident, i => i.comments)
+  @JoinColumn({ name: 'incidentId' })
+  incident: Incident;
 }

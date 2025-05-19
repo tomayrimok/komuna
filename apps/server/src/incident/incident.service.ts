@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Incident } from './incident.entity';
+import { Incident, Comment } from './incident.entity';
 import { Repository } from 'typeorm';
 import { AddCommentDto, CreateIncidentDto, UpdateIncidentStatusDto } from '@komuna/types';
 
@@ -8,7 +8,10 @@ import { AddCommentDto, CreateIncidentDto, UpdateIncidentStatusDto } from '@komu
 export class IncidentService {
   constructor(
     @InjectRepository(Incident)
-    private readonly incidentRepo: Repository<Incident>
+    private readonly incidentRepo: Repository<Incident>,
+
+    @InjectRepository(Comment)
+    private readonly commentRepo: Repository<Comment>,
   ) {}
 
   async createIncident(incidentDto: CreateIncidentDto): Promise<Incident> {
@@ -25,19 +28,23 @@ export class IncidentService {
     return this.incidentRepo.save(incident);
   }
 
-  async addComment(commentDto: AddCommentDto) {
-    const incident = await this.incidentRepo.findOneBy({ incidentId: commentDto.incidentId });
-    const comments = incident.comments ?? [];
-    const nextId = (comments.length + 1).toString();
-    comments.push({
-      commentId: nextId,
-      message: commentDto.comment,
-      userId: commentDto.userId,
-      createAt: commentDto.addedOn,
-      images: commentDto.images,
+  async addComment(commentDto: AddCommentDto): Promise<Comment> {
+    const incident = await this.incidentRepo.findOneBy({
+      incidentId: commentDto.incidentId,
     });
-    incident.comments = comments;
-    return await this.incidentRepo.save(incident);
+    if (!incident) {
+      throw new NotFoundException(`Incident with id ${commentDto.incidentId} not found`);
+    }
+
+    const comment = this.commentRepo.create({
+      incidentId: commentDto.incidentId,
+      userId: commentDto.userId,
+      message: commentDto.message,
+      images: commentDto.images, // optional
+    });
+
+    // 3. Save it — commentId & createdAt come back populated
+    return this.commentRepo.save(comment);
   }
 
   async getByApartment(apartmentId: string): Promise<Incident[]> {

@@ -7,11 +7,9 @@ import {
     IsDateString,
   } from 'class-validator';
 import { IncidentStatus, IncidentUrgency } from "../../enums";
-import { Optional } from '@nestjs/common';
+
 
 export class CreateIncidentDto {
-    @IsUUID()
-    incidentId: string;
 
     @IsUUID()
     userId: string;
@@ -64,12 +62,9 @@ export class AddCommentDto {
     userId: string;
 
     @IsString()
-    comment: string;
+    message: string;
 
-    @IsDateString()
-    addedOn: string;
-
-    @Optional()
-    @IsString()
-    images: string;
+    @IsOptional()
+    @IsString({ each: true })
+    images?: string[];
 }
