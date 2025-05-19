@@ -1,3 +1,4 @@
+import { UserResponse } from "./dto";
 import { UserRole } from "./enums";
 
 export type User = {
@@ -43,19 +44,13 @@ export type PaymentResponse = {
 }
 
 export type DebtDetailsResponse = {
-    debt_apartmentId: string;
-    debt_amount: number;
-    debt_debtId: string;
-    debt_fromId: string;
-    debt_toId: string;
-    userFrom_firstName: string;
-    userFrom_lastName: string;
-    userTo_firstName: string;
-    userTo_lastName: string;
-    userFrom_phoneNumber: string;
-    userTo_phoneNumber: string;
-    userTo_image: string;
-    userFrom_image: string;
+    apartmentId: string;
+    amount: number;
+    debtId: string;
+    fromId: string;
+    toId: string;
+    fromUser: UserResponse;
+    toUser: UserResponse;
 }
 
 export type ExpenseDetailsResponse = {
@@ -78,18 +73,12 @@ export type ExpenseDetailsResponse = {
 };
 
 export type BalanceDetailsResponse = {
-    debt_amount: number;
-    debt_debtId: string;
+    amount: number;
+    debtId: string;
     debtor: boolean;
-    debt_fromId: string;
-    debt_toId: string;
-    userFrom_firstName: string;
-    userFrom_lastName: string;
-    userTo_firstName: string;
-    userTo_lastName: string;
-    userFrom_phoneNumber: string;
-    userTo_phoneNumber: string;
-    userTo_image: string;
-    userFrom_image: string;
-    debt_updatedAt: string;
+    fromId: string;
+    toId: string;
+    fromUser: UserResponse
+    toUser: UserResponse;
+    updatedAt: string;
 };
