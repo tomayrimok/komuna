@@ -18,7 +18,7 @@ const SettleUpPage = () => {
 
     const usersWithoutDebt = apartmentData?.residents?.filter((user) => {
         return user.userId !== currentUserDetails?.userId && data?.balanceDetails.every((debt) => {
-            return debt.debt_fromId !== user.userId && debt.debt_toId !== user.userId;
+            return debt.fromId !== user.userId && debt.toId !== user.userId;
         });
     });
 
@@ -39,31 +39,18 @@ const SettleUpPage = () => {
                                 <For each={data.balanceDetails}>
                                     {(item) => (
                                         <UserCard
-                                            key={item.debt_debtId}
-                                            user={item.debtor ?
-                                                {
-                                                    firstName: item.userTo_firstName,
-                                                    lastName: item.userTo_lastName,
-                                                    image: item.userTo_image,
-                                                    phoneNumber: item.userTo_phoneNumber
-                                                } :
-                                                {
-                                                    firstName: item.userFrom_firstName,
-                                                    lastName: item.userFrom_lastName,
-                                                    image: item.userFrom_image,
-                                                    phoneNumber: item.userFrom_phoneNumber
-                                                }
-                                            }
+                                            key={item.debtId}
+                                            user={item.debtor ? item.toUser : item.fromUser}
                                             additionalComponent={
                                                 <Text whiteSpace={"pre-line"} textAlign="end" color={item.debtor ? "red.600" : "green.600"}>
                                                     {item.debtor ?
-                                                        t('payments.you-owe', { amount: roundUpToXDigits(item.debt_amount) }) :
-                                                        t('payments.owe-you', { amount: roundUpToXDigits(item.debt_amount) })
+                                                        t('payments.you-owe', { amount: roundUpToXDigits(item.amount) }) :
+                                                        t('payments.owe-you', { amount: roundUpToXDigits(item.amount) })
                                                     }
                                                 </Text>
                                             }
                                             onClick={() => {
-                                                navigate({ to: '/roommate/payments/settle-up/' + item.debt_debtId })
+                                                navigate({ to: '/roommate/payments/settle-up/' + item.debtId })
                                             }}
 
                                         />

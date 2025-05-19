@@ -18,7 +18,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected
     return (
         <Box
             p={2}
-            shadow="md"
+            shadow="sm"
             borderRadius={"md"}
             cursor={onClick ? "pointer" : "default"}
             _hover={onClick ? { backgroundColor: "gray.100" } : {}}

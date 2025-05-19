@@ -18,6 +18,7 @@ export const useAddEditExpense = () => {
             navigate({ to: '/roommate/payments' });
             toaster.success({ title: t('payments.expense.expense-saved') });
             queryClient.invalidateQueries({ queryKey: ["apartmentExpenses", variables.apartmentId, currentUserDetails?.userId] });
+            queryClient.invalidateQueries({ queryKey: ["userBalanceDetails", variables.apartmentId, currentUserDetails?.userId] });
         },
         onError: (error: any) => {
             toaster.error({ title: error?.response.data.error || t('error.action_failed'), });
