@@ -28,7 +28,8 @@ export class ApartmentController {
       user
     );
 
-    const generatedCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+    const landlordCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+    const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
     apartment.address = createApartmentData.apartmentInfo.address;
@@ -40,12 +41,13 @@ export class ApartmentController {
     apartment.houseCommitteeRent = createApartmentData.renterSettings.houseCommitteeRent;
     apartment.houseCommitteePayerUser = houseCommitteePayerUser;
     apartment.residents = [userApartment];
-    apartment.code = generatedCode;
+    apartment.landlordCode = landlordCode;
+    apartment.roommateCode = roommateCode;
 
     userApartment.apartment = apartment;
 
     await this.apartmentService.createApartment(apartment);
-    return generatedCode;
+    return { landlordCode, roommateCode };
   }
 
   private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {
