@@ -1,4 +1,4 @@
-import { Box, Flex, For, SkeletonText, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, For, Icon, Image, SkeletonText, Stack, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/auth/AuthProvider";
 import { useApartmentExpenses } from "../../hooks/useApartmentExpenses";
@@ -23,9 +23,17 @@ const Expenses = () => {
             {isLoading && <SkeletonText noOfLines={1} width="50%" mb="2" />}
             {data && (
                 !data.apartmentExpenses.length ? (
-                    <Text fontSize="l" fontWeight="bold" mb={2}>
-                        {t("payments.expense.no-expenses")}
-                    </Text>
+                    <Flex
+                        flexDirection="column"
+                        alignItems="center"
+                        justifyContent="center"
+                        mt="15vh"
+                    >
+                        <Image src="/meerkats/campfire.png" width="50vw" />
+                        <Text fontSize="xl" fontWeight="bold" mb={2}>
+                            {t("payments.expense.no-expenses")}
+                        </Text>
+                    </Flex>
                 ) : (
                     <For each={Object.entries(dataPerMonth)} fallback={<SkeletonText noOfLines={1} width="50%" mb="2" />}>
                         {([month, expenses]) => {
