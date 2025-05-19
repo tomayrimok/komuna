@@ -75,7 +75,7 @@ export class IncidentService {
     return comments;
   }
 
-  async getByApartment(apartmentId: string): Promise<Incident[]> {
+  async getIncidentsByApartment(apartmentId: string): Promise<Incident[]> {
     try {
       return await this.incidentRepo.find({
         where: { apartmentId },
