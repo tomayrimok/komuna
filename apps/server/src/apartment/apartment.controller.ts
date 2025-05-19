@@ -74,20 +74,39 @@ export class ApartmentController {
       throw new NotFoundException();
     }
 
+    const isLandlord = apartment.landlordCode === code;
+    const role = isLandlord ? UserRole.LANDLORD : UserRole.ROOMMATE;
+
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;
-    userApartment.rent = apartment.rent;
-    userApartment.role = UserRole.LANDLORD;
+    userApartment.role = role;
 
-    if (apartment.residents.some(resident => resident.userId === user.userId)) {
-      console.error(`User ${user.userId} already exists in apartment with code ${code}`);
-      throw new ConflictException();
+    if (isLandlord) {
+      this.addLandlordToApartment(apartment, userApartment);
+    } else {
+      this.addRoommateToApartment(apartment, userApartment);
     }
 
-    apartment.residents.push(userApartment);
     await this.apartmentService.updateApartment(apartment.apartmentId, apartment);
 
     return true;
   }
 
+  addRoommateToApartment(apartment: Apartment, userApartment: UserApartment) {
+    if (apartment.residents.some(resident => resident.userId === userApartment.userId)) {
+      console.error(`User ${userApartment.userId} already exists in apartment with code ${apartment.roommateCode}`);
+      throw new ConflictException();
+    }
+    apartment.residents.push(userApartment);
+  }
+
+  addLandlordToApartment(apartment: Apartment, userApartment: UserApartment) {
+    //@ts-expect-error // TODO: FIX entity!
+    if (apartment.landlord !== null) {
+      console.error(`User ${userApartment.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`);
+      throw new ConflictException();
+    }
+    //@ts-expect-error // TODO: FIX entity!
+    apartment.landlord = userApartment;
+  }
 }

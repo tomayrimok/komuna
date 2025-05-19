@@ -23,6 +23,6 @@ export class ApartmentService {
     }
 
     getApartmentByCode(code: string) {
-        return this.apartmentRepo.findOneBy({ code });
+        return this.apartmentRepo.findOneBy([{ landlordCode: code }, { roommateCode: code }]);
     }
 }
