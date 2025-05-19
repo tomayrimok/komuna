@@ -102,7 +102,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
           {t('create_apartment.apartment_settings.accounts_location.title')}
         </Text>
         {billFields.map((field) => (
-          <Field.Root>
+          <Field.Root key={field.key}>
             <VStack align="stretch">
               <HStack justify="space-between">
                 <Field.Label w="90px" fontWeight="bold" fontSize="md">
