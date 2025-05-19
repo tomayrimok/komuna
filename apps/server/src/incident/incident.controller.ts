@@ -30,7 +30,7 @@ export class IncidentController {
       }
     }
 
-    @Post('create')
+    @Post('create') // TODO redirect to the new incident - /create/id=?incidentId
     async createIncident(@Body() newIncident: CreateIncidentDto) {
       return this.incidentService.createIncident(newIncident)
     }

@@ -1,6 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Incident, Comment } from './incident.entity';
+import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
 import { AddCommentDto, CreateIncidentDto, UpdateIncidentStatusDto } from '@komuna/types';
 
@@ -12,11 +13,25 @@ export class IncidentService {
 
     @InjectRepository(Comment)
     private readonly commentRepo: Repository<Comment>,
+
+    private readonly userApartmentService: UserApartmentService,
   ) {}
 
   async createIncident(incidentDto: CreateIncidentDto): Promise<Incident> {
-    const incident = this.incidentRepo.create(incidentDto);
-    return await this.incidentRepo.save(incident);
+    // Check if user is a resident of the apartment
+    const membershipCount = await this.userApartmentService.countMembership(
+      incidentDto.apartmentId,
+      incidentDto.userId,
+    )
+    if (membershipCount === 0) {
+      throw new ForbiddenException(`User ${incidentDto.userId} is not a resident of apartment ${incidentDto.apartmentId}`);
+    }
+
+    const toSave = this.incidentRepo.create({
+      ...incidentDto,
+      reporterId: incidentDto.userId,
+    });
+    return this.incidentRepo.save(toSave);
   }
 
   async updateIncidentStatus(incidentDto: UpdateIncidentStatusDto) {
@@ -43,8 +58,21 @@ export class IncidentService {
       images: commentDto.images, // optional
     });
 
-    // 3. Save it — commentId & createdAt come back populated
     return this.commentRepo.save(comment);
+  }
+
+  async getComments(incidentId: string, numOfComments=10): Promise<Comment[]> {
+    if (typeof numOfComments !== 'number') {
+      numOfComments = 10;
+    }
+
+    const comments = await this.commentRepo.find({
+      where: { incidentId },
+      order: { createdAt: 'DESC' },
+      take: numOfComments,
+    });
+
+    return comments;
   }
 
   async getByApartment(apartmentId: string): Promise<Incident[]> {

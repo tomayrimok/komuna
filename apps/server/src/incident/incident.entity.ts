@@ -16,7 +16,7 @@ export class Incident {
   incidentId: string;
 
   @Column()
-  apartmentId: string; //todo longer name?
+  apartmentId: string;
 
   @Column()
   title: string;
@@ -73,7 +73,7 @@ export class Comment {
   incidentId: string;
 
   @Column('text', { array: true, nullable: true })
-  images?: string[];     // optional array of image URLs
+  images?: string[];
 
   @ManyToOne(() => Incident, i => i.comments)
   @JoinColumn({ name: 'incidentId' })
