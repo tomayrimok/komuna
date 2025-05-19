@@ -6,7 +6,7 @@ import { ApartmentSettings } from './ApartmentSettings';
 import ShareApartmentCode from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
-import RenterSettings from './RenterSettings';
+import { RenterSettings } from './RenterSettings';
 import { CreateApartmentDto, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';

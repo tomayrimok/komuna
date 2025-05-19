@@ -114,5 +114,3 @@ export const RenterSettings = ({ aptDetails, updateField, isEdit }: (CommonApart
         </>
     );
 }
-
-export default RenterSettings;
