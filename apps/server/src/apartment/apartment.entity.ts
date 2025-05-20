@@ -21,9 +21,13 @@ export class Apartment {
     @Column({ nullable: true })
     image?: string;
 
-    /** The code to join the apartment. NULL in case the apartment doesn't allow new residents */
-    @Column({ unique: true })
-    code: string;
+    /** The code to join the apartment as a landlord. NULL in case the apartment doesn't allow new residents */
+    @Column({ unique: true, nullable: true })
+    landlordCode: string;
+
+    /** The code to join the apartment as a roommate. Can be NULL when the apartment already has a landlord */
+    @Column({ unique: true, nullable: true })
+    roommateCode: string;
 
     /** Apartment Info */
     @Column({ nullable: true })

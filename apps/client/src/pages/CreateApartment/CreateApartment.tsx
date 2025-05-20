@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, HStack } from '@chakra-ui/react';
 import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
-import ShareApartmentCode from './ShareApartmentCode';
+import { ShareApartmentCode } from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
