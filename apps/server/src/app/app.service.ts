@@ -16,10 +16,9 @@ export class AppService implements OnModuleInit {
     private readonly userService: UserService,
     private readonly apartmentService: ApartmentService,
     private readonly userApartmentService: UserApartmentService
-  ) { }
+  ) {}
 
   onModuleInit() {
     return null;
   }
-
 }

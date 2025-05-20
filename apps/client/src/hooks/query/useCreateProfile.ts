@@ -1,17 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import { API } from '../../axios';
-import { CreateUserDto, UserResponse } from '@komuna/types';
+import { ApiTypes, API } from '@komuna/types';
 import { type AxiosError } from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
 import { t } from 'i18next';
 
-interface CreateUserResponse {
-  user: UserResponse;
-}
-
-const createProfile = async (body: CreateUserDto) => {
+const createProfile = async (body: ApiTypes.CreateUserDto) => {
   try {
-    const { data } = await API.post<CreateUserResponse>('/user', body);
+    const { data } = await API.userControllerCreateUser({ body });
+    if (!data) throw new Error('No data returned from API');
     return data;
   } catch (error) {
     console.error('Error verifing code:', { error, body });
@@ -20,7 +16,7 @@ const createProfile = async (body: CreateUserDto) => {
 };
 
 interface UseCreateProfileMutationReturn {
-  triggerCreateProfile: (data: CreateUserDto) => void;
+  triggerCreateProfile: (data: ApiTypes.CreateUserDto) => void;
   isPending: boolean;
   isSuccess: boolean;
 }
@@ -29,14 +25,14 @@ export const useCreateProfile = ({
   onSuccess,
   onError,
 }: {
-  onSuccess?: (result: CreateUserResponse, variables: CreateUserDto) => void;
+  onSuccess?: (result: ApiTypes.UserResponseDto, variables: ApiTypes.CreateUserDto) => void;
   onError?: (message: string) => void;
 }): UseCreateProfileMutationReturn => {
   const {
     isSuccess,
     isPending,
     mutate: triggerCreateProfile,
-  } = useMutation<CreateUserResponse, { error: string }, CreateUserDto>({
+  } = useMutation<ApiTypes.UserResponseDto, { error: string }, ApiTypes.CreateUserDto>({
     mutationFn: (body) => createProfile(body),
     onSuccess: (result, variables) => onSuccess?.(result, variables),
     onError: (error) => {
