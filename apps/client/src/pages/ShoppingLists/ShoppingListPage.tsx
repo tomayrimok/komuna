@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Card,
+    Drawer,
     Flex,
     Icon,
     IconButton,
@@ -16,6 +17,9 @@ import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem
 import { ShoppingListItemIsUrgent } from "../../components/ShoppingList/shoppingListItemIsUrgent";
 import { ShoppingListItemQuantity } from "../../components/ShoppingList/shoppingListItemQuantity";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
+import { ShoppingListContextType } from "@komuna/types";
+import { useNavigate } from "@tanstack/react-router";
+import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -37,6 +41,7 @@ const ShoppingListPage: React.FC = () => {
         handleAddItem,
         openEditDrawer,
         isShoppingListLoading,
+        contextType
     } = useShoppingList();
 
     useEffect(() => {
@@ -63,6 +68,10 @@ const ShoppingListPage: React.FC = () => {
                     <IconPlus />
                 </IconButton>
             </Flex>
+
+            {contextType === ShoppingListContextType.APARTMENT && (
+                <ShoppingListPurchaseDrawer />
+            )}
 
             {newItem && (
                 <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
@@ -110,7 +119,6 @@ const ShoppingListPage: React.FC = () => {
                 values={items}
                 onReorder={updateOrder}
             >
-
                 {items.map((item) => {
                     return (
                         <Reorder.Item
@@ -126,7 +134,6 @@ const ShoppingListPage: React.FC = () => {
                     );
                 })}
             </Reorder.Group>
-
 
             {isShoppingListLoading ?
                 <Flex

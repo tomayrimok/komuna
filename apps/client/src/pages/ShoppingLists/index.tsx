@@ -3,7 +3,7 @@ import { usePersonalShoppingList } from "../../hooks/query/usePersonalShoppingLi
 import { IconHome, IconUser } from "@tabler/icons-react";
 import { ShoppingListContextType } from "@komuna/types";
 import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
-import ShoppingListPage from "./ShoppingListPage";
+import ShoppingListPage from "./shoppingListPage";
 
 const CurrentShoppingLists = () => {
 

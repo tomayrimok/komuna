@@ -14,6 +14,7 @@ import { routeTree } from './routeTree.gen';
 import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
 import { Toaster } from './chakra/ui/toaster';
 import { WebView } from './components/WebView';
+import { PurchaseProvider } from './context/auth/PurchaseProvider';
 
 const router = createRouter({
   routeTree,
@@ -51,8 +52,10 @@ const AppEntry = () => {
     >
       {isMobile ? (
         <AuthProvider>
-          <RouterWrapper />
-          <Toaster />
+          <PurchaseProvider>
+            <RouterWrapper />
+            <Toaster />
+          </PurchaseProvider>
         </AuthProvider>
       ) : (
         <WebView />

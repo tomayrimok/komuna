@@ -28,6 +28,8 @@ export interface ShoppingListContextValue {
     activeSwipe: string | null;
     updateOrder: (items: ShoppingListItemDto[]) => Promise<void>;
     togglePurchased: (itemId: string) => Promise<void>;
+    contextType: ShoppingListContextType;
+
 }
 
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
@@ -40,7 +42,6 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const { shoppingList, isShoppingListLoading } = useShoppingListQuery(contextType);
 
-
     const [isEditDrawerOpen, setEditDrawerOpen] = useState(false);
 
     const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -48,6 +49,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     const [editingItem, setEditingItem] = useState<ShoppingListItemDto | null>(null);
     const [newItem, setNewItem] = useState<Partial<ShoppingListItemDto> | null>(null);
     const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
+    const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemDto[]>([]);
 
     useEffect(() => {
         if (shoppingList) {
@@ -139,7 +141,6 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         });
     }
 
-
     const togglePurchased = async (itemId: string) => {
         const item = items.find(item => item.itemId === itemId);
         if (!item) return;
@@ -183,7 +184,8 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
                 handleAmountChange,
                 activeSwipe,
                 updateOrder,
-                togglePurchased
+                togglePurchased,
+                contextType,
             }}
         >
             {children}
