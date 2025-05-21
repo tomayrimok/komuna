@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { UserResponse, UserRole } from '@komuna/types';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { UserRole, API, ApiTypes } from '@komuna/types';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
-import { API } from '../../axios';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -15,8 +14,8 @@ export interface AuthContextValue {
   sessionDetails: SessionDetails;
   isAuthLoading: boolean;
   isRefetching: boolean;
-  currentUserDetails?: UserResponse | null;
-  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<UserResponse | null, Error>>;
+  currentUserDetails?: ApiTypes.User | null;
+  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
 }
 
@@ -43,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     // Clear any stored tokens or session info here
     try {
-      await API.post('/user/logout');
+      await API.userControllerLogout();
     } catch (error) {
       console.error('Logout error:', error);
     }
