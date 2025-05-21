@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import ApartmentLayout from '../CreateApartment/ApartmentLayout';
-import { ApartmentTitle } from '../CreateApartment/ApartmentTitle';
+import ApartmentLayout from '../NewApartment/ApartmentLayout';
+import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { Button, PinInput, Spacer } from '@chakra-ui/react';
 import { useState } from 'react';
 import { times } from 'lodash';

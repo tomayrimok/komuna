@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { UserResponse, UserRole } from '@komuna/types';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { Apartment, UserResponse, UserRole } from '@komuna/types';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
@@ -10,21 +10,24 @@ type SessionDetails = {
   role: UserRole | null;
 };
 
+type CurrentUserDetails = UserResponse & { currApartment?: Apartment };
+
 // Define the context value: auth state + login/logout helpers
 export interface AuthContextValue {
   sessionDetails: SessionDetails;
+  setSessionDetails: React.Dispatch<React.SetStateAction<SessionDetails>>;
   isAuthLoading: boolean;
   isRefetching: boolean;
-  currentUserDetails?: UserResponse | null;
+  currentUserDetails?: CurrentUserDetails | null;
   refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<UserResponse | null, Error>>;
   logout: () => void;
 }
-
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
     apartmentId: null,
     role: null,
   },
+  setSessionDetails: () => { },
   isAuthLoading: true,
   isRefetching: false,
   logout: () => null,
@@ -54,12 +57,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (isAuthLoading) return <LoadingApp />;
   return (
     <AuthContext.Provider
-      value={{ sessionDetails, isAuthLoading, isRefetching, currentUserDetails, logout, refetchAuth }}
+      value={{
+        sessionDetails,
+        setSessionDetails,
+        isAuthLoading,
+        isRefetching,
+        currentUserDetails,
+        logout,
+        refetchAuth,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Field, HStack, Input, Stack, VStack, Text, InputGroup, Button, useFileUpload, FileUpload } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { ApartmentTitle } from "./ApartmentTitle";
+import { ApartmentTitle } from "../NewApartment/ApartmentTitle";
 import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from "@tabler/icons-react";
 import { BillsDetails } from "@komuna/types";
 import { withMask } from "use-mask-input";
