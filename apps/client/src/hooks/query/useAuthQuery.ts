@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { API } from '../../axios';
-import { UserResponse } from '@komuna/types';
+import { API } from '@komuna/types';
 import { AxiosError } from 'axios';
 
 const getCurrentUser = async () => {
   try {
-    const { data } = await API.get<{ user: UserResponse | null }>('/user');
+    const { data } = await API.userControllerGetCurrentUserProfile();
     return data?.user;
   } catch (error) {
     // check if error status code is 401

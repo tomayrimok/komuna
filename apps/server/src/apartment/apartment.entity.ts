@@ -6,58 +6,75 @@ import { Payment } from '../payment/payment.entity';
 import { Incident } from '../incident/incident.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
-
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Apartment {
-    @PrimaryGeneratedColumn('uuid')
-    apartmentId: string;
+  @ApiProperty({ description: 'Unique identifier for the apartment' })
+  @PrimaryGeneratedColumn('uuid')
+  apartmentId: string;
 
-    @Column()
-    name: string;
+  @ApiProperty({ description: 'Name of the apartment' })
+  @Column()
+  name: string;
 
-    @Column({ nullable: true })
-    image?: string;
+  @ApiProperty({ description: 'URL to apartment image', required: false })
+  @Column({ nullable: true })
+  image?: string;
 
-    @Column({ unique: true })
-    code: string;
+  @ApiProperty({ description: 'Unique code for the apartment' })
+  @Column({ unique: true })
+  code: string;
 
-    @Column({ nullable: true })
-    address?: string;
+  @ApiProperty({ description: 'Apartment address', required: false })
+  @Column({ nullable: true })
+  address?: string;
 
-    @Column({ nullable: true })
-    city?: string;
+  @ApiProperty({ description: 'City where the apartment is located', required: false })
+  @Column({ nullable: true })
+  city?: string;
 
-    @Column({ nullable: true })
-    managerId?: string;
+  @ApiProperty({ description: 'ID of the apartment manager', required: false })
+  @Column({ nullable: true })
+  managerId?: string;
 
-    @Column({ nullable: true })
-    contract?: string;
+  @ApiProperty({ description: 'Apartment contract details', required: false })
+  @Column({ nullable: true })
+  contract?: string;
 
-    @Column({ nullable: true })
-    billsDetails?: string;
+  @ApiProperty({ description: 'Bills payment details', required: false })
+  @Column({ nullable: true })
+  billsDetails?: string;
 
-    @OneToMany(() => UserApartment, ua => ua.apartment)
-    residents: UserApartment[];
+  @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
+  @OneToMany(() => UserApartment, (ua) => ua.apartment)
+  residents: UserApartment[];
 
-    @OneToMany(() => Task, task => task.apartmentId)
-    tasks: Task[];
+  @ApiProperty({ type: () => [Task], description: 'Apartment tasks' })
+  @OneToMany(() => Task, (task) => task.apartmentId)
+  tasks: Task[];
 
-    @OneToMany(() => Expense, e => e.apartmentId)
-    expenses: Expense[];
+  @ApiProperty({ type: () => [Expense], description: 'Apartment expenses' })
+  @OneToMany(() => Expense, (e) => e.apartmentId)
+  expenses: Expense[];
 
-    @OneToMany(() => Payment, p => p.apartmentId)
-    payments: Payment[];
+  @ApiProperty({ type: () => [Payment], description: 'Apartment payments' })
+  @OneToMany(() => Payment, (p) => p.apartmentId)
+  payments: Payment[];
 
-    @OneToMany(() => Incident, i => i.apartmentId)
-    incidents: Incident[];
+  @ApiProperty({ type: () => [Incident], description: 'Apartment incidents' })
+  @OneToMany(() => Incident, (i) => i.apartmentId)
+  incidents: Incident[];
 
-    @OneToMany(() => ShoppingTemplate, st => st.apartmentId)
-    shoppingTemplates: ShoppingTemplate[];
+  @ApiProperty({ type: () => [ShoppingTemplate], description: 'Apartment shopping templates' })
+  @OneToMany(() => ShoppingTemplate, (st) => st.apartmentId)
+  shoppingTemplates: ShoppingTemplate[];
 
-    @OneToMany(() => ShoppingList, sl => sl.contextId)
-    shoppingLists: ShoppingList[];
+  @ApiProperty({ type: () => [ShoppingList], description: 'Apartment shopping lists' })
+  @OneToMany(() => ShoppingList, (sl) => sl.contextId)
+  shoppingLists: ShoppingList[];
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @ApiProperty({ description: 'Date when the apartment was created' })
+  @CreateDateColumn()
+  createdAt: Date;
 }

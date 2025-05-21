@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
-import { API } from '../../axios';
-import { VerifyPhoneNumberDto } from '@komuna/types';
+// import { API } from '../../axios';
+// import { VerifyPhoneNumberDto } from '@komuna/types';
+
+import { ApiTypes, API } from '@komuna/types';
+
 import { type AxiosError } from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
 import { t } from 'i18next';
 
-interface VerifyCodeResponse {
-  isUser: boolean;
-}
-
-const verifyCode = async (body: VerifyPhoneNumberDto) => {
+const verifyCode = async (body: ApiTypes.VerifyPhoneNumberDto) => {
   try {
-    const { data } = await API.post<VerifyCodeResponse>('/user/verify', body);
+    const { data } = await API.userControllerVerify({ body });
+    if (!data) throw new Error('No data returned from API');
     return data;
   } catch (error) {
     console.error('Error verifing code:', { error, body });
@@ -20,7 +20,7 @@ const verifyCode = async (body: VerifyPhoneNumberDto) => {
 };
 
 interface UseSendVerificationCodeMutationReturn {
-  sendVerifyCode: (data: VerifyPhoneNumberDto) => void;
+  sendVerifyCode: (data: ApiTypes.VerifyPhoneNumberDto) => void;
   isPending: boolean;
   isSuccess: boolean;
 }
@@ -29,14 +29,14 @@ export const useVerifyCode = ({
   onSuccess,
   onError,
 }: {
-  onSuccess?: (result: VerifyCodeResponse, variables: VerifyPhoneNumberDto) => void;
+  onSuccess?: (result: ApiTypes.UserCreatedResponseDto, variables: ApiTypes.VerifyPhoneNumberDto) => void;
   onError?: (message: string) => void;
 }): UseSendVerificationCodeMutationReturn => {
   const {
     isSuccess,
     isPending,
     mutate: sendVerifyCode,
-  } = useMutation<VerifyCodeResponse, { error: string }, VerifyPhoneNumberDto>({
+  } = useMutation<ApiTypes.UserCreatedResponseDto, { error: string }, ApiTypes.VerifyPhoneNumberDto>({
     mutationFn: (body) => verifyCode(body),
     onSuccess: (result, variables) => onSuccess?.(result, variables),
     onError: (error) => {

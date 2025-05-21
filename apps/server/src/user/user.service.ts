@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { generateVerificationCode } from '../utils/generateVerificationCode';
 import { AuthUser } from './auth-user.entity';
 import { UserJwtPayload } from './dto/jwt-user.dto';
-import { CreateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { isSMSEnabled } from '../utils/isSMSEnabled';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class UserService {
     @InjectRepository(AuthUser)
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
-  ) { }
+  ) {}
 
   private readonly logger = new Logger(UserService.name);
 
@@ -57,8 +57,10 @@ export class UserService {
   }
 
   async getUserByPhone(phoneNumber: string): Promise<User | null> {
-
-    const user = await this.userRepo.findOneBy({ phoneNumber });
+    const user = await this.userRepo.findOne({
+      where: { phoneNumber },
+      relations: ['apartments', 'apartments.apartment'],
+    });
 
     if (!user) {
       this.logger.error(`User with phone number ${phoneNumber} not found`);

@@ -1,10 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
 
   // canActivate will be executed whenever a protected route is hit
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -19,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       // Verify the token (you can also add a secret here or get from config)
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload: UserJwtPayload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
 
