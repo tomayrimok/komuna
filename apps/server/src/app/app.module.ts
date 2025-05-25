@@ -14,12 +14,15 @@ import { Apartment } from '../apartment/apartment.entity';
 import { DebtEdge } from '../debt-edge/debt-edge.entity';
 import { Expense } from '../expense/expense.entity';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
-import { Incident } from '../incident/incident.entity';
+import { Incident, Comment } from '../incident/incident.entity';
 import { Payment } from '../payment/payment.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
+import { TaskModule } from '../task/task.module';
+import { IncidentModule } from '../incident/incident.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -38,6 +41,7 @@ import { AuthUser } from '../user/auth-user.entity';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        Comment,
       ],
       synchronize: true,
     }),
@@ -47,6 +51,8 @@ import { AuthUser } from '../user/auth-user.entity';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
+    TaskModule,
+    IncidentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
