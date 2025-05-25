@@ -5,12 +5,18 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserApartmentService {
-    constructor(
-        @InjectRepository(UserApartment)
-        private readonly userApartmentRepo: Repository<UserApartment>,
-    ) { }
+  constructor(
+    @InjectRepository(UserApartment)
+    private readonly userApartmentRepo: Repository<UserApartment>
+  ) {}
 
-    async createUserApartment(userApartment: Partial<UserApartment>) {
-        return await this.userApartmentRepo.save(userApartment);
-    }
+  async createUserApartment(userApartment: Partial<UserApartment>) {
+    return await this.userApartmentRepo.save(userApartment);
+  }
+
+  async countMembership(apartmentId: string, userId: string): Promise<number> {
+    return this.userApartmentRepo.count({
+      where: { apartmentId, userId },
+    });
+  }
 }
