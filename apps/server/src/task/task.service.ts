@@ -23,6 +23,10 @@ export class TaskService {
         return await this.taskRepo.findOneBy({ taskId });
     }
 
+    async setTaskCompletion(taskId: string, isCompleted:boolean) {
+        return await this.taskRepo.update({ taskId }, { isCompleted });
+    }
+
     async getTasksByApartmentId(apartmentId: string) {
         return await this.taskRepo.find({
             where: { apartmentId },
