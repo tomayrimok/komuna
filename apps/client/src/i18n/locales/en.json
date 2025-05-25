@@ -58,5 +58,13 @@
     },
     "error": {
         "action_failed": "Action failed. Please try again."
+    },
+    "task": {
+        "title": "Tasks",
+        "task_list": "Your Tasks:",
+        "tasks": {
+            "name": "Task's Name: ",
+            "due_date": "Due To: "
+        }
     }
 }

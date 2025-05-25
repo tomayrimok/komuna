@@ -1,53 +1,60 @@
-import { Avatar, Box, Button, Card, HStack, Text, VStack } from '@chakra-ui/react';
-import { SettingLeftbar } from '../RoommateHome/SettingLeftbar/SettingLeftbar';
+import { Box, Button, HStack, Text, VStack, Image } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
-import { Trans } from 'react-i18next';
+import { LogoutButton } from '../../components/LogoutButton';
+import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+
 import { useIsRTL } from '../../hooks/useIsRTL';
 
 
 
 export function TasksHome() {
     const { currentUserDetails } = useAuth();
-    const { isRTL } = useIsRTL();
-    const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
+    const { t } = useTranslation();
+    const navigate = useNavigate();
+
 
     return (
-        <Box flex="1" display="flex" flexDirection="column" gap="0">
-            <svg
-                style={{ transform: svgTransform }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="344"
-                height="112"
-                viewBox="0 0 344 112"
-                fill="none"
-            >
-                <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M205.163 -272.612C262.522 -266.189 262.518 -184.969 300.989 -144.497C334.919 -108.802 399.843 -100.847 412.494 -54.4955C426.964 -1.48369 413.284 64.2426 367.058 97.5591C322.545 129.641 261.119 98.8149 205.163 94.9355C156.44 91.5577 106.138 102.159 65.5248 76.6543C16.3321 45.7611 -3.03585 0.954487 1 -54.4955C4.97741 -109.143 41.6582 -130.604 83.3944 -168.862C124.165 -206.235 148.592 -278.946 205.163 -272.612Z"
-                    fill="#F9C154"
-                />
-            </svg>
-            <HStack width="100%" padding="5" position="absolute" top="0" right="0" justifyContent="space-between">
-                <HStack>
-                    <Avatar.Root size="lg" shape="full" border="2px solid" borderColor="brand.900">
-                        <Avatar.Image src={currentUserDetails?.image} />
-                        <Avatar.Fallback name="Nue Camp" />
-                    </Avatar.Root>
-                    <Text color="brand.900" fontSize="xl">
-                        <Trans
-                            i18nKey="roommate.homepage.title"
-                            values={{ firstName: currentUserDetails?.firstName }}
-                            components={{ b: <b /> }}
-                        />
-                    </Text>
-                </HStack>
-                <SettingLeftbar />
+        <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column" gap="0">
+            <HStack justifyContent="end" paddingX="2" paddingY="1">
+                <LogoutButton />
             </HStack>
-
-            <VStack padding="5" gap="10">
-
+            <VStack
+                paddingY="44px"
+                paddingX="25px"
+                backgroundColor="brand.10"
+                flex="1"
+                gap="16"
+                borderRadius="88px"
+                borderBottomEndRadius="none"
+                borderBottomStartRadius="none"
+            >
+                <Text color="brand.900" fontSize="xl" fontWeight="bold">Your Tasks</Text>
+                <Task />
             </VStack>
+        </Box>
+    );
+}
+
+export const Task = () => {
+    const { currentUserDetails } = useAuth();
+
+
+    return (
+        <Box
+            id='task'
+            outline="3px ridge"
+            borderRadius="2rem"
+            outlineColor="brand.800"
+            width="90%"
+            backgroundColor="brand.500"
+            display="flex"
+            flexDirection="column"
+            height="30vh"
+        >
+            <HStack>
+                <Text>ASDJKB</Text>
+            </HStack>
         </Box>
     );
 }
