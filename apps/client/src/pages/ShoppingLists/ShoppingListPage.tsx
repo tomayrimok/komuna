@@ -20,6 +20,7 @@ import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListContextType } from "@komuna/types";
 import { useNavigate } from "@tanstack/react-router";
 import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
+import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppingListItemDetailsDrawer";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -73,7 +74,7 @@ const ShoppingListPage: React.FC = () => {
                 <ShoppingListPurchaseDrawer />
             )}
 
-            {newItem && (
+            {/* {newItem && (
                 <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
                     <Box p={3}>
                         <Input
@@ -112,7 +113,7 @@ const ShoppingListPage: React.FC = () => {
                         </Flex>
                     </Box>
                 </Card.Root>
-            )}
+            )} */}
 
             <Reorder.Group
                 axis="y"
@@ -134,6 +135,8 @@ const ShoppingListPage: React.FC = () => {
                     );
                 })}
             </Reorder.Group>
+
+            <ShoppingListItemDetailsDrawer />
 
             {isShoppingListLoading ?
                 <Flex

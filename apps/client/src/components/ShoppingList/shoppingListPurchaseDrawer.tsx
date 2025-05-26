@@ -35,6 +35,7 @@ const ShoppingListPurchaseDrawer = () => {
                             <VStack>
                                 {filteredResults.map((item) => (
                                     <SelectionCard
+                                        key={item.itemId}
                                         title={item.name}
                                         description={item.category}
                                         selected={purchaseItems.has(item)}
