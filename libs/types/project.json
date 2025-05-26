@@ -7,13 +7,27 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/types",
         "tsConfig": "libs/types/tsconfig.lib.json",
         "packageJson": "libs/types/package.json",
         "main": "libs/types/src/index.ts",
-        "assets": ["libs/types/*.md"]
+        "assets": [
+          "libs/types/*.md"
+        ]
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-ts"
+        ],
+        "cwd": ".",
+        "parallel": false
       }
     }
   }
