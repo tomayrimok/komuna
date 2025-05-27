@@ -61,59 +61,14 @@ const ShoppingListPage: React.FC = () => {
         <Flex p={8} flexDirection={"column"} py={4} h="100%">
             <Flex justify="space-between" align="center" mb={4}>
                 <Text fontSize="xl" fontWeight="bold">Shopping List</Text>
-                <IconButton
-                    aria-label="Add Item"
-                    colorScheme="blue"
-                    onClick={() => setNewItem(NEW_ITEM_DEFAULT)}
-                >
-                    <IconPlus />
-                </IconButton>
+                <ShoppingListItemDetailsDrawer />
             </Flex>
 
+            {/* 
             {contextType === ShoppingListContextType.APARTMENT && (
                 <ShoppingListPurchaseDrawer />
-            )}
-
-            {/* {newItem && (
-                <Card.Root borderWidth="1px" borderRadius="lg" mb="4" ref={addFormRef} boxShadow="md">
-                    <Box p={3}>
-                        <Input
-                            placeholder="Item name"
-                            value={newItem.name || ""}
-                            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                            mb={3}
-                            autoFocus
-                        />
-
-                        <Flex justify="space-between" align="center">
-                            <Flex align="center" gap={2}>
-                                <ShoppingListItemQuantity
-                                    handleChange={(amount) => {
-                                        setNewItem({ ...newItem, amount });
-                                    }}
-                                    amount={newItem.amount}
-                                />
-                            </Flex>
-
-                            <Flex gap={2}>
-                                <ShoppingListItemIsUrgent handleChange={(isUrgent) => {
-                                    setNewItem({ ...newItem, isUrgent });
-                                }}
-                                    isUrgent={newItem.isUrgent}
-                                />
-                                <Button
-                                    colorScheme="blue"
-                                    size="sm"
-                                    onClick={handleAddItem}
-                                    disabled={!newItem.name?.trim()}
-                                >
-                                    Add
-                                </Button>
-                            </Flex>
-                        </Flex>
-                    </Box>
-                </Card.Root>
             )} */}
+
 
             <Reorder.Group
                 axis="y"
@@ -136,7 +91,6 @@ const ShoppingListPage: React.FC = () => {
                 })}
             </Reorder.Group>
 
-            <ShoppingListItemDetailsDrawer />
 
             {isShoppingListLoading ?
                 <Flex

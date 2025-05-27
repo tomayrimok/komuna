@@ -12,10 +12,7 @@ const ShoppingListItemDetailsDrawer = () => {
         <Drawer.Root placement={"bottom"}>
             <Drawer.Trigger asChild>
                 <IconButton
-                    aria-label="Add item"
-                    variant="ghost"
-                    color="gray"
-                    size="2xs"
+                    aria-label="Add Item"
                 >
                     <IconPlus />
                 </IconButton>

@@ -3,7 +3,7 @@ import { usePersonalShoppingList } from "../../hooks/query/usePersonalShoppingLi
 import { IconHome, IconUser } from "@tabler/icons-react";
 import { ShoppingListContextType } from "@komuna/types";
 import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
-import ShoppingListPage from "./shoppingListPage";
+import ShoppingListPage from "./ShoppingListPage";
 
 const CurrentShoppingLists = () => {
 
@@ -12,8 +12,8 @@ const CurrentShoppingLists = () => {
 
   return (
     // <div>
-    <Tabs.Root defaultValue="apartment" variant="plain" h="100dvh" display={"flex"} flexDirection="column">
-      <Tabs.List bg="bg.muted" rounded="l3" p="1">
+    <Tabs.Root defaultValue="apartment" h="100dvh" display={"flex"} flexDirection="column">
+      <Tabs.List>
         <Tabs.Trigger value="apartment">
           <IconHome />
           Apartment
@@ -22,7 +22,7 @@ const CurrentShoppingLists = () => {
           <IconUser />
           Personal
         </Tabs.Trigger>
-        <Tabs.Indicator rounded="l2" />
+        {/* <Tabs.Indicator /> */}
       </Tabs.List>
       <Tabs.Content value="apartment" flexGrow={1}>
         <ShoppingListProvider contextType={ShoppingListContextType.APARTMENT}>
