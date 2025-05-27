@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { IconChevronLeft, IconMoneybag } from "@tabler/icons-react";
 import { useLocaleChange } from "../../hooks/useLocaleChange";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
-import { ApartmentExpenseResponse } from "@komuna/types";
 import { format, parseISO } from "date-fns";
+import { ApartmentExpenseResponse } from "libs/types/src/types";
 
 interface ExpenseCardProps {
     item: ApartmentExpenseResponse;

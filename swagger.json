@@ -313,7 +313,7 @@
     },
     "/api/apartment": {
       "get": {
-        "operationId": "ApartmentController_getApartmentUsers",
+        "operationId": "ApartmentController_getApartmentWithResidents",
         "parameters": [
           {
             "name": "apartmentId",

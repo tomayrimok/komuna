@@ -22,7 +22,7 @@ const Expenses = () => {
         <Flex gap="2" direction="column" width="100%" p={6} pb={11}>
             {isLoading && <SkeletonText noOfLines={1} width="50%" mb="2" />}
             {data && (
-                !data.apartmentExpenses.length ? (
+                !data.apartmentExpenses?.length ? (
                     <Flex
                         flexDirection="column"
                         alignItems="center"

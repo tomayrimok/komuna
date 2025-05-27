@@ -1,23 +1,17 @@
-import { UserResponse } from "./dto";
-import { UserRole } from "./enums";
+import { User, UserApartment } from "./generated";
 
-export type User = {
-    userId: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    image?: string;
-}
+// export type User = {
+//     userId: string;
+//     firstName: string;
+//     lastName: string;
+//     phoneNumber: string;
+//     image?: string;
+// }
 
 export type ApartmentResponse = {
     apartmentId: string;
     name: string;
-    residents: {
-        userId: string;
-        rent: number | null;
-        role: UserRole;
-        user: User | null;
-    }[];
+    residents: UserApartment[];
 }
 
 export type ApartmentExpenseResponse = {
@@ -49,8 +43,8 @@ export type DebtDetailsResponse = {
     debtId: string;
     fromId: string;
     toId: string;
-    fromUser: UserResponse;
-    toUser: UserResponse;
+    fromUser: User;
+    toUser: User;
 }
 
 export type ExpenseDetailsResponse = {
@@ -78,7 +72,7 @@ export type BalanceDetailsResponse = {
     debtor: boolean;
     fromId: string;
     toId: string;
-    fromUser: UserResponse
-    toUser: UserResponse;
+    fromUser: User;
+    toUser: User;
     updatedAt: string;
 };

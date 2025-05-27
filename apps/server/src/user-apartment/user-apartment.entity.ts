@@ -9,6 +9,7 @@ import {
 import { UserRole } from '@komuna/types';
 import { Apartment } from '../apartment/apartment.entity';
 import { User } from '../user/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class UserApartment {

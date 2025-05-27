@@ -56,7 +56,7 @@ const BalanceCard = () => {
                     }
                 </>
                 :
-                <SkeletonText noOfLines={2} width="50%" mb="2" />
+                <SkeletonText noOfLines={2} width="50%" m="auto" mb="2" />
             }
             {/* <Box as={"div"}>
                 {!isLoading && data ?

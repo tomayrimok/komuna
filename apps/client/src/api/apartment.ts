@@ -1,10 +1,8 @@
-import { ApartmentResponse, User, UserRole } from "@komuna/types";
-import axios from "axios";
-
+import { API, ApiTypes } from "@komuna/types";
 
 export const fetchApartment = async (apartmentId: string) => {
-    const response = await axios.get<ApartmentResponse>("/api/apartment/", {
-        params: {
+    const response = await API.apartmentControllerGetApartmentWithResidents({
+        query: {
             apartmentId
         }
     });

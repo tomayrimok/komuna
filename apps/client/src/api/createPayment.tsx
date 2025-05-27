@@ -1,7 +1,9 @@
-import { PaymentResponse } from "@komuna/types";
+import { API } from "@komuna/types";
 import axios from "axios";
 
 export const postCreatePayment = async (data: { apartmentId: string, fromId: string, toId: string, amount: number }) => {
-    const response = await axios.post<PaymentResponse>("/api/payment/create-payment", data);
+    const response = await API.paymentControllerCreatePayment({
+        query: data
+    });
     return response.data;
 };

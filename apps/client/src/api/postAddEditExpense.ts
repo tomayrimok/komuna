@@ -1,8 +1,6 @@
-import axios from "axios";
-import { AddEditExpenseDto } from "@komuna/types";
+import { API, ApiTypes } from "@komuna/types";
 
-
-export const postAddEditExpense = async (data: AddEditExpenseDto) => {
-    const response = await axios.post("/api/expense/add-edit-expense", data);
+export const postAddEditExpense = async (data: ApiTypes.AddEditExpenseDto) => {
+    const response = await API.expenseControllerAddEditExpense({ body: data });
     return response.data;
 };

@@ -1,14 +1,14 @@
 import { Button, Field, Flex, Image, NumberInput, Text } from "@chakra-ui/react";
-import { UserResponse } from "@komuna/types";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useCreatePayment } from "../../../hooks/useCreatePayment";
 import { roundUpToXDigits } from "../../../utilities/roundUpToXDigits";
 import { useAuth } from "../../../context/auth/AuthProvider";
+import { User } from "libs/types/src/generated/types.gen";
 
 interface SettleUpDetailsProps {
-    fromUser: UserResponse;
-    toUser: UserResponse;
+    fromUser: User;
+    toUser: User;
     debtAmount?: number;
 }
 

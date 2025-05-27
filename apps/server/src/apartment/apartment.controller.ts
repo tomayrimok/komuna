@@ -8,7 +8,7 @@ export class ApartmentController {
     ) { }
 
     @Get()
-    async getApartmentUsers(@Query('apartmentId') apartmentId: string) {
+    async getApartmentWithResidents(@Query('apartmentId') apartmentId: string) {
         return await this.apartmentService.getApartmentWithResidents(apartmentId);
     }
 }

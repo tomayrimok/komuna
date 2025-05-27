@@ -1,6 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
 import UserCard from "../../General/userCard";
-import { User } from "@komuna/types";
 import { useExpense } from "../../../context/payments/ExpenseProvider";
 import { useTranslation } from "react-i18next";
 

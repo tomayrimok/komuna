@@ -15,7 +15,7 @@ import {
   expenseControllerAddEditExpense,
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
-  apartmentControllerGetApartmentUsers,
+  apartmentControllerGetApartmentWithResidents,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -34,7 +34,7 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  ApartmentControllerGetApartmentWithResidentsData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -436,16 +436,16 @@ export const paymentControllerCreatePaymentMutation = (
   return mutationOptions;
 };
 
-export const apartmentControllerGetApartmentUsersQueryKey = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
-) => createQueryKey('apartmentControllerGetApartmentUsers', options);
+export const apartmentControllerGetApartmentWithResidentsQueryKey = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
+) => createQueryKey('apartmentControllerGetApartmentWithResidents', options);
 
-export const apartmentControllerGetApartmentUsersOptions = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
+export const apartmentControllerGetApartmentWithResidentsOptions = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await apartmentControllerGetApartmentUsers({
+      const { data } = await apartmentControllerGetApartmentWithResidents({
         ...options,
         ...queryKey[0],
         signal,
@@ -453,6 +453,6 @@ export const apartmentControllerGetApartmentUsersOptions = (
       });
       return data;
     },
-    queryKey: apartmentControllerGetApartmentUsersQueryKey(options),
+    queryKey: apartmentControllerGetApartmentWithResidentsQueryKey(options),
   });
 };

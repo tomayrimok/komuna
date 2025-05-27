@@ -18,9 +18,10 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  ApartmentControllerGetApartmentWithResidentsData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
+import { ApartmentExpenseResponse, ApartmentResponse, BalanceDetailsResponse, DebtDetailsResponse, ExpenseDetailsResponse } from '../types';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = ClientOptions<
   TData,
@@ -51,7 +52,7 @@ export const appControllerGetData = <ThrowOnError extends boolean = false>(
 export const debtEdgeControllerGetUserBalanceDetails = <ThrowOnError extends boolean = false>(
   options: Options<DebtEdgeControllerGetUserBalanceDetailsData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<BalanceDetailsResponse[], unknown, ThrowOnError>({
     url: '/api/debt-edge/user-balance-details',
     ...options,
   });
@@ -60,7 +61,7 @@ export const debtEdgeControllerGetUserBalanceDetails = <ThrowOnError extends boo
 export const debtEdgeControllerGetUserBalance = <ThrowOnError extends boolean = false>(
   options: Options<DebtEdgeControllerGetUserBalanceData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<number, unknown, ThrowOnError>({
     url: '/api/debt-edge/user-balance',
     ...options,
   });
@@ -69,7 +70,7 @@ export const debtEdgeControllerGetUserBalance = <ThrowOnError extends boolean = 
 export const debtEdgeControllerGetDebtDetails = <ThrowOnError extends boolean = false>(
   options: Options<DebtEdgeControllerGetDebtDetailsData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<DebtDetailsResponse, unknown, ThrowOnError>({
     url: '/api/debt-edge/debt-details',
     ...options,
   });
@@ -135,7 +136,7 @@ export const userControllerLogout = <ThrowOnError extends boolean = false>(
 export const expenseControllerGetApartmentExpenses = <ThrowOnError extends boolean = false>(
   options: Options<ExpenseControllerGetApartmentExpensesData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<ApartmentExpenseResponse[], unknown, ThrowOnError>({
     url: '/api/expense/apartment-expenses',
     ...options,
   });
@@ -157,7 +158,7 @@ export const expenseControllerAddEditExpense = <ThrowOnError extends boolean = f
 export const expenseControllerGetExpenseDetails = <ThrowOnError extends boolean = false>(
   options: Options<ExpenseControllerGetExpenseDetailsData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<ExpenseDetailsResponse, unknown, ThrowOnError>({
     url: '/api/expense/expense-details',
     ...options,
   });
@@ -172,10 +173,10 @@ export const paymentControllerCreatePayment = <ThrowOnError extends boolean = fa
   });
 };
 
-export const apartmentControllerGetApartmentUsers = <ThrowOnError extends boolean = false>(
-  options: Options<ApartmentControllerGetApartmentUsersData, ThrowOnError>
+export const apartmentControllerGetApartmentWithResidents = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerGetApartmentWithResidentsData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<ApartmentResponse, unknown, ThrowOnError>({
     url: '/api/apartment',
     ...options,
   });
