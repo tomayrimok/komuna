@@ -34,6 +34,7 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
+  PaymentControllerCreatePaymentResponse,
   ApartmentControllerGetApartmentWithResidentsData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
@@ -398,10 +399,10 @@ export const expenseControllerGetExpenseDetailsOptions = (options: Options<Expen
   });
 };
 
-export const paymentControllerCreatePaymentQueryKey = (options?: Options<PaymentControllerCreatePaymentData>) =>
+export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
   createQueryKey('paymentControllerCreatePayment', options);
 
-export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentControllerCreatePaymentData>) => {
+export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await paymentControllerCreatePayment({
@@ -418,9 +419,13 @@ export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentC
 
 export const paymentControllerCreatePaymentMutation = (
   options?: Partial<Options<PaymentControllerCreatePaymentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<PaymentControllerCreatePaymentData>> => {
+): UseMutationOptions<
+  PaymentControllerCreatePaymentResponse,
+  AxiosError<DefaultError>,
+  Options<PaymentControllerCreatePaymentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    PaymentControllerCreatePaymentResponse,
     AxiosError<DefaultError>,
     Options<PaymentControllerCreatePaymentData>
   > = {

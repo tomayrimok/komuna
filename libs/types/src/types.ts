@@ -14,19 +14,18 @@ export type ApartmentResponse = {
     residents: UserApartment[];
 }
 
-export type ApartmentExpenseResponse = {
-    expense_amount: number;
-    expense_apartmentId: string;
-    expense_createdAt: string;
-    expense_description: string;
-    expense_expenseId: string;
-    expense_paidById: string;
-    expense_splits: { [userId: string]: number };
-    paidByMe: boolean;
-    splitAmount: string;
-    paidByFirstName: string;
-    paidByLastName: string;
-}
+// export type ApartmentExpensesResponse = {
+//     expenseId: string;
+//     apartmentId: string;
+//     description: string;
+//     amount: number;
+//     paidById: string;
+//     paidByUser: User;
+//     splits: { [userId: string]: number };
+//     createdAt: string;
+//     paidByMe?: boolean;
+//     splitAmount?: string;
+// }
 
 export type PaymentResponse = {
     paymentId: string;
@@ -47,24 +46,6 @@ export type DebtDetailsResponse = {
     toUser: User;
 }
 
-export type ExpenseDetailsResponse = {
-    apartmentId: string;
-    amount: number;
-    createdAt: string;
-    description: string;
-    expenseId: string;
-    paidById: string;
-    paidByUser: {
-        firstName: string;
-        lastName: string;
-        image?: string;
-        phoneNumber: string;
-        userId: string;
-    };
-    splits: {
-        [userId: string]: number;
-    };
-};
 
 export type BalanceDetailsResponse = {
     amount: number;

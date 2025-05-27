@@ -14,7 +14,7 @@ const Expenses = () => {
 
     const dataPerMonth = data?.apartmentExpenses
         ? groupBy(data.apartmentExpenses, (item) =>
-            format(parseISO(item.expense_createdAt), 'M/yyyy')
+            format(parseISO(item.createdAt), 'M/yyyy')
         )
         : {};
 
@@ -45,7 +45,7 @@ const Expenses = () => {
                                     </Box>
                                     <Stack gap={2}>
                                         <For each={expenses}>
-                                            {(item) => <ExpenseCard key={item.expense_expenseId} item={item} />}
+                                            {(item) => <ExpenseCard key={item.expenseId} item={item} />}
                                         </For>
                                     </Stack>
                                 </Box>

@@ -5,10 +5,10 @@ import { IconChevronLeft, IconMoneybag } from "@tabler/icons-react";
 import { useLocaleChange } from "../../hooks/useLocaleChange";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 import { format, parseISO } from "date-fns";
-import { ApartmentExpenseResponse } from "libs/types/src/types";
+import { ApartmentExpensesResponse } from "libs/types/src/generated";
 
 interface ExpenseCardProps {
-    item: ApartmentExpenseResponse;
+    item: ApartmentExpensesResponse;
 }
 
 const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
@@ -17,8 +17,8 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
     const navigate = useNavigate();
     // const { isRTL } = useLocaleChange();
 
-    const month = format(parseISO(item.expense_createdAt), 'M')
-    const date = format(parseISO(item.expense_createdAt), 'dd')
+    const month = format(parseISO(item.createdAt), 'M')
+    const date = format(parseISO(item.createdAt), 'dd')
 
 
 
@@ -26,9 +26,9 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
 
         <Box
             cursor={"pointer"}
-            onClick={() => navigate({ to: `/roommate/payments/expenses/${item.expense_expenseId}` })}
+            onClick={() => navigate({ to: `/roommate/payments/expenses/${item.expenseId}` })}
             width="100%"
-            key={item.expense_expenseId}
+            key={item.expenseId}
         >
             <Box py={2}>
                 <Flex gap="3" alignItems="center" justifyContent="space-between">
@@ -55,14 +55,14 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
                     </Flex>
                     <Flex direction="column" flexGrow={1}>
                         <Text fontSize="lg" fontWeight="medium">
-                            {item.expense_description}
+                            {item.description}
                         </Text>
                         <Box as="div" color={"gray.500"} fontSize="sm">
                             {item.paidByMe
-                                ? t("payments.you-paid", { amount: roundUpToXDigits(item.expense_amount) })
+                                ? t("payments.you-paid", { amount: roundUpToXDigits(item.amount) })
                                 : t("payments.paid-by", {
-                                    amount: roundUpToXDigits(item.expense_amount),
-                                    name: `${item.paidByFirstName} ${item.paidByLastName[0]}`,
+                                    amount: roundUpToXDigits(item.amount),
+                                    name: `${item.paidByUser.firstName} ${item.paidByUser.lastName[0]}`,
                                 })}
                         </Box>
                     </Flex>
@@ -74,8 +74,8 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
                         fontSize="sm"
                     >
                         {item.paidByMe
-                            ? t("payments.you-lent", { amount: roundUpToXDigits(item.expense_amount - Number(item.splitAmount)) })
-                            : t("payments.you-borrowed", { amount: roundUpToXDigits(item.splitAmount) })
+                            ? t("payments.you-lent", { amount: roundUpToXDigits(item.amount - Number(item.splitAmount)) })
+                            : t("payments.you-borrowed", { amount: roundUpToXDigits(item.splitAmount ?? 0) })
                         }
                     </Box>
 

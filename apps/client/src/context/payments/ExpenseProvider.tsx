@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, PropsWithChildren, useMemo } from 'react';
-import { ExpenseDetailsResponse, User } from '@komuna/types';
 import { useApartment } from '../../hooks/useApartment';
 import EqualSplit from '../../components/Payments/SplitDetailsDrawer/equalSplit';
 import NumberSplit from '../../components/Payments/SplitDetailsDrawer/numberSplit';
@@ -10,6 +9,7 @@ import { useParams } from '@tanstack/react-router';
 import { useExpenseDetails } from '../../hooks/useExpenseDetails';
 import { useAuth } from '../auth/AuthProvider';
 import { useTranslation } from 'react-i18next';
+import { ApartmentExpensesResponse, User } from 'libs/types/src/generated';
 
 type SplitTypeData = {
     component: React.ReactNode;
@@ -44,7 +44,7 @@ type ExpenseContextValue = {
     setDescription: (description: string) => void;
     setPaidBy: (user: User) => void;
     isExpenseDetailsLoading: boolean;
-    expenseDetails: ExpenseDetailsResponse;
+    expenseDetails: ApartmentExpensesResponse;
     helperText?: {
         outOf: string;
         remaining: string;
@@ -67,7 +67,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const { currentUserDetails } = useAuth();
     const { t } = useTranslation();
 
-    const [expenseDetails, setExpenseDetails] = useState<ExpenseDetailsResponse>({
+    const [expenseDetails, setExpenseDetails] = useState<ApartmentExpensesResponse>({
         expenseId: '',
         apartmentId: '',
         amount: 0,

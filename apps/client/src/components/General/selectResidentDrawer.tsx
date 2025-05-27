@@ -2,8 +2,8 @@ import { Button, Card, CloseButton, ConditionalValue, Drawer, Flex, Portal } fro
 import React, { useState } from "react";
 import { useApartment } from "../../hooks/useApartment";
 import UserCard from "./userCard";
-import { User } from "@komuna/types";
 import { useTranslation } from "react-i18next";
+import { User } from "libs/types/src/generated";
 
 interface SelectUserDrawerProps {
     title?: string;

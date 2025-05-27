@@ -38,7 +38,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtEdgeWithDebtor"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -69,7 +79,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -92,7 +109,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtEdge"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -242,7 +266,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApartmentExpensesResponse"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -289,7 +323,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -301,9 +342,26 @@
       "post": {
         "operationId": "PaymentController_createPayment",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentDto"
+              }
+            }
+          }
+        },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -326,7 +384,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apartment"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -350,42 +415,291 @@
   "servers": [],
   "components": {
     "schemas": {
-      "LoginDto": {
-        "type": "object",
-        "properties": {
-          "phoneNumber": {
-            "type": "string",
-            "description": "User's phone number for login"
-          }
-        },
-        "required": [
-          "phoneNumber"
-        ]
-      },
-      "VerifyPhoneNumberDto": {
-        "type": "object",
-        "properties": {
-          "phoneNumber": {
-            "type": "string",
-            "description": "User's phone number to verify"
-          },
-          "code": {
-            "type": "string",
-            "description": "Verification code sent to the phone number"
-          }
-        },
-        "required": [
-          "phoneNumber",
-          "code"
-        ]
-      },
-      "UserApartment": {
+      "Task": {
         "type": "object",
         "properties": {}
       },
       "Expense": {
         "type": "object",
+        "properties": {
+          "expenseId": {
+            "type": "string",
+            "description": "Unique identifier for the expense"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment associated with the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "splits": {
+            "type": "object",
+            "description": "Splits of the expense among users",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date of the expense"
+          }
+        },
+        "required": [
+          "expenseId",
+          "apartmentId",
+          "description",
+          "amount",
+          "paidById",
+          "splits",
+          "paidByUser",
+          "createdAt"
+        ]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment where the payment is made"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user making the payment"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user receiving the payment"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the payment"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when the payment was created"
+          }
+        },
+        "required": [
+          "paymentId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "createdAt"
+        ]
+      },
+      "Incident": {
+        "type": "object",
         "properties": {}
+      },
+      "ShoppingTemplate": {
+        "type": "object",
+        "properties": {}
+      },
+      "ShoppingList": {
+        "type": "object",
+        "properties": {}
+      },
+      "Apartment": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "Unique identifier for the apartment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the apartment"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL to apartment image"
+          },
+          "code": {
+            "type": "string",
+            "description": "Unique code for the apartment"
+          },
+          "address": {
+            "type": "string",
+            "description": "Apartment address"
+          },
+          "city": {
+            "type": "string",
+            "description": "City where the apartment is located"
+          },
+          "managerId": {
+            "type": "string",
+            "description": "ID of the apartment manager"
+          },
+          "contract": {
+            "type": "string",
+            "description": "Apartment contract details"
+          },
+          "billsDetails": {
+            "type": "string",
+            "description": "Bills payment details"
+          },
+          "residents": {
+            "description": "Apartment residents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "tasks": {
+            "description": "Apartment tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "expenses": {
+            "description": "Apartment expenses",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "payments": {
+            "description": "Apartment payments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "incidents": {
+            "description": "Apartment incidents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "shoppingTemplates": {
+            "description": "Apartment shopping templates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingTemplate"
+            }
+          },
+          "shoppingLists": {
+            "description": "Apartment shopping lists",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingList"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when the apartment was created"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "name",
+          "code",
+          "residents",
+          "tasks",
+          "expenses",
+          "payments",
+          "incidents",
+          "shoppingTemplates",
+          "shoppingLists",
+          "createdAt"
+        ]
+      },
+      "UserApartment": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "The ID of the apartment where the user resides"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The ID of the user who is a resident in the apartment"
+          },
+          "rent": {
+            "type": "number",
+            "description": "The amount of rent the user pays for the apartment"
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user in the apartment",
+            "enum": [
+              "LANDLORD",
+              "ROOMMATE"
+            ]
+          },
+          "apartment": {
+            "description": "The apartment where the user resides",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Apartment"
+              }
+            ]
+          },
+          "user": {
+            "description": "The user who is a resident in the apartment",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "payableByUser": {
+            "description": "The user who is responsible for paying rent",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The date when the user-apartment relationship was created"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "userId",
+          "rent",
+          "role",
+          "apartment",
+          "user",
+          "payableByUser",
+          "createdAt"
+        ]
       },
       "DebtEdge": {
         "type": "object",
@@ -510,6 +824,97 @@
           "credits"
         ]
       },
+      "DebtEdgeWithDebtor": {
+        "type": "object",
+        "properties": {
+          "debtId": {
+            "type": "string",
+            "description": "Unique identifier for the debt"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this debt belongs to"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user who owes the debt"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user who is owed the debt"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the debt"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date of the debt"
+          },
+          "fromUser": {
+            "description": "User who owes the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "toUser": {
+            "description": "User who is owed the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "debtor": {
+            "type": "string",
+            "description": "ID of the user who is considered the debtor in this edge",
+            "example": "user123"
+          }
+        },
+        "required": [
+          "debtId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "updatedAt",
+          "fromUser",
+          "toUser",
+          "debtor"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number for login"
+          }
+        },
+        "required": [
+          "phoneNumber"
+        ]
+      },
+      "VerifyPhoneNumberDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number to verify"
+          },
+          "code": {
+            "type": "string",
+            "description": "Verification code sent to the phone number"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "code"
+        ]
+      },
       "UserCreatedResponseDto": {
         "type": "object",
         "properties": {
@@ -569,6 +974,72 @@
           "user"
         ]
       },
+      "ApartmentExpensesResponse": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this expense belongs to"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation date of the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "expenseId": {
+            "type": "string",
+            "description": "ID of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "splits": {
+            "type": "object",
+            "description": "Object containing user IDs as keys and their share amounts as values",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "paidByMe": {
+            "type": "boolean",
+            "description": "Whether the expense was paid by the current user"
+          },
+          "splitAmount": {
+            "type": "string",
+            "description": "Amount the current user needs to pay for this expense"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "amount",
+          "createdAt",
+          "description",
+          "expenseId",
+          "paidById",
+          "paidByUser",
+          "splits"
+        ]
+      },
       "AddEditExpenseDto": {
         "type": "object",
         "properties": {
@@ -599,6 +1070,9 @@
             "example": {
               "user1": 50,
               "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
             }
           }
         },
@@ -608,6 +1082,29 @@
           "paidById",
           "apartmentId",
           "splits"
+        ]
+      },
+      "CreatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "fromId": {
+            "type": "string"
+          },
+          "toId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount"
         ]
       }
     }
