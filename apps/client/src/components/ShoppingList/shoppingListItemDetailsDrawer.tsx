@@ -3,10 +3,12 @@ import { IconPlus } from "@tabler/icons-react";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListItemQuantity } from "./shoppingListItemQuantity";
 import { ShoppingListItemIsUrgent } from "./shoppingListItemIsUrgent";
+import { useTranslation } from "react-i18next";
 
 const ShoppingListItemDetailsDrawer = () => {
 
     const { newItem, setNewItem, handleAddItem } = useShoppingList();
+    const { t } = useTranslation();
 
     return (
         <Drawer.Root placement={"bottom"}>
@@ -24,13 +26,13 @@ const ShoppingListItemDetailsDrawer = () => {
                     <Drawer.Content h={"2xs"} borderTopRadius={"2xl"}>
                         <Drawer.Header>
                             <Drawer.Title>
-                                הוספת פריט
+                                {t('shopping.add_item')}
                             </Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
 
                             <Input
-                                placeholder="Item name"
+                                placeholder={t('shopping.item_name')}
                                 value={newItem?.name || ""}
                                 onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                                 mb={3}
@@ -60,12 +62,12 @@ const ShoppingListItemDetailsDrawer = () => {
                         <Drawer.Footer justifyContent="space-between">
                             <Drawer.ActionTrigger asChild>
                                 <Button variant="outline">
-                                    ביטול
+                                    {t('cancel')}
                                 </Button>
                             </Drawer.ActionTrigger>
                             <Drawer.ActionTrigger asChild>
                                 <Button onClick={handleAddItem} disabled={!newItem?.name?.trim()}>
-                                    שמירה
+                                    {t('save')}
                                 </Button>
                             </Drawer.ActionTrigger>
                         </Drawer.Footer>

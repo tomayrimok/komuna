@@ -1,35 +1,33 @@
 import { Tabs } from "@chakra-ui/react";
-import { usePersonalShoppingList } from "../../hooks/query/usePersonalShoppingList";
 import { IconHome, IconUser } from "@tabler/icons-react";
 import { ShoppingListContextType } from "@komuna/types";
 import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
 import ShoppingListPage from "./ShoppingListPage";
+import { useTranslation } from "react-i18next";
 
 const CurrentShoppingLists = () => {
 
-  // const { apartmentShoppingList, isApartmentShoppingListLoading } = useApartmentShoppingList();
-  // const { personalShoppingList, isPersonalShoppingListLoading } = usePersonalShoppingList();
+  const { t } = useTranslation();
 
   return (
-    // <div>
     <Tabs.Root defaultValue="apartment" h="100dvh" display={"flex"} flexDirection="column">
+
       <Tabs.List>
         <Tabs.Trigger value="apartment">
           <IconHome />
-          Apartment
+          {t('shopping.apartment')}
         </Tabs.Trigger>
         <Tabs.Trigger value="personal">
           <IconUser />
-          Personal
+          {t('shopping.personal')}
         </Tabs.Trigger>
-        {/* <Tabs.Indicator /> */}
       </Tabs.List>
+
       <Tabs.Content value="apartment" flexGrow={1}>
         <ShoppingListProvider contextType={ShoppingListContextType.APARTMENT}>
           <ShoppingListPage />
         </ShoppingListProvider>
       </Tabs.Content>
-
       <Tabs.Content value="personal" flexGrow={1}>
         <ShoppingListProvider contextType={ShoppingListContextType.USER}>
           <ShoppingListPage />
@@ -37,7 +35,6 @@ const CurrentShoppingLists = () => {
       </Tabs.Content>
 
     </Tabs.Root>
-    // </div>
   );
 };
 

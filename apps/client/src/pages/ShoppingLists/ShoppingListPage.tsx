@@ -21,6 +21,7 @@ import { ShoppingListContextType } from "@komuna/types";
 import { useNavigate } from "@tanstack/react-router";
 import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
 import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppingListItemDetailsDrawer";
+import { useTranslation } from "react-i18next";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -38,12 +39,12 @@ const ShoppingListPage: React.FC = () => {
         items,
         newItem,
         updateOrder,
-        setNewItem,
         handleAddItem,
         openEditDrawer,
         isShoppingListLoading,
-        contextType
     } = useShoppingList();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -60,7 +61,7 @@ const ShoppingListPage: React.FC = () => {
     return (
         <Flex p={8} flexDirection={"column"} py={4} h="100%">
             <Flex justify="space-between" align="center" mb={4}>
-                <Text fontSize="xl" fontWeight="bold">Shopping List</Text>
+                <Text fontSize="xl" fontWeight="bold">{t('shopping.shopping_list')}</Text>
                 <ShoppingListItemDetailsDrawer />
             </Flex>
 
@@ -114,7 +115,9 @@ const ShoppingListPage: React.FC = () => {
                         <Icon width={16} height={16} mb={3}>
                             <IconShoppingCart />
                         </Icon>
-                        <Text mb={3}>Your shopping list is empty</Text>
+                        <Text mb={3}>
+                            {t('shopping.list_is_empty')}
+                        </Text>
                     </Flex>
                 )
                     : null

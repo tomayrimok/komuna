@@ -7,6 +7,8 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
+    "save": "שמירה",
+    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -55,6 +57,15 @@
                 "incidents": "תקלות"
             }
         }
+    },
+    "shopping": {
+        "shopping_list": "רשימת קניות",
+        "personal": "רשימה אישית",
+        "apartment": "רשימה דירתית",
+        "list_is_empty": "רשימת הקניות ריקה",
+        "add_item": "הוספת פריט",
+        "item_name": "שם הפריט",
+        "item_quantity": "כמות"
     },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
