@@ -59,16 +59,21 @@
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
     },
-    "task": {
+    "task_category": {
         "title": "מטלות",
         "task_list": "המטלות שלך: ",
         "tasks": {
-            "title": "שם המטלה: ",
-            "due_date": "לביצוע עד: ",
-            "descrption": "תיאור: ",
-            "assigned_to": "שותפים למטלה: ",
-            "recurrence": "יש לבצע כל: ",
-            "assigned_by": "נוצר על ידי: "
+            "title": "שם המטלה: <b>{{taskName}}</b>",
+            "due_date": "לביצוע עד: {{dueDate}}",
+            "descrption": "תיאור: {{description}}",
+            "assigned_to": "שותפים למטלה: {{assignedTo}}",
+            "recurrence": "יש לבצע כל: {{recurrenceRule}}",
+            "assigned_by": "נוצר על ידי: {{createdBy}}"
+        },
+        "buttons": {
+            "done": "בוצע",
+            "postpone": "דחייה",
+            "didnt_do": "לא בוצע"
         }
     }
 }
