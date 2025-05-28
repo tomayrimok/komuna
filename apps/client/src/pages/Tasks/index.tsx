@@ -1,8 +1,7 @@
 import { Box, Button, HStack, Text, VStack, Image, Card, List } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
-import { useNavigate } from '@tanstack/react-router';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 
 import { useIsRTL } from '../../hooks/useIsRTL';
 
@@ -13,7 +12,14 @@ export function TasksHome() {
     const { isRTL } = useIsRTL();
 
     return (
-        <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column" gap="0">
+        <Box
+            backgroundColor="brand.500"
+            flex="1"
+            display="flex"
+            flexDirection="column"
+            gap="0"
+            border={"3px solid"}
+        >
             <HStack justifyContent="end" paddingX="2" paddingY="1">
                 <LogoutButton />
             </HStack>
@@ -50,7 +56,24 @@ export function TasksHome() {
                     />
                 </Text>
                 <Task />
+                <Task />
+                <Task />
+                <Task />
+                <Task />
             </VStack>
+            <Button
+                borderRadius={"3em"}
+                width={"60px"}
+                height={"60px"}
+                position={"fixed"}
+                right={"43%"}
+                top={"82vh"}
+                backgroundColor={"brand.10"}
+            >
+                <Text fontSize={"5xl"}>
+                    +
+                </Text>
+            </Button>
         </Box>
     );
 }
