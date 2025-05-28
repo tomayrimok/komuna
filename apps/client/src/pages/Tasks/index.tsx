@@ -1,15 +1,18 @@
-import { Box, Button, HStack, Text, VStack, Image, Card, List, Stack, Field, Input } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack, Image, Card, List, Stack, Field, Input, Dialog, Portal, CloseButton } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
 import { Trans } from 'react-i18next';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { Task } from './Task';
+import { NewTask } from './NewTask';
+import { useState } from 'react';
 
 
 
 export function TasksHome() {
     const { currentUserDetails } = useAuth();
     const { isRTL } = useIsRTL();
+    const [open, setOpen] = useState(false);
 
     return (
         <Box
@@ -69,11 +72,43 @@ export function TasksHome() {
                 right={"43%"}
                 top={"82vh"}
                 backgroundColor={"brand.10"}
+                onClick={() => setOpen(true)}
             >
                 <Text fontSize={"5xl"}>
                     +
                 </Text>
             </Button>
+            <Dialog.Root
+                open={open}
+                onOpenChange={(e) => setOpen(e.open)}
+                size="md"
+                placement="center"
+            >
+                <Dialog.Trigger>
+                    {/* You can also leave this empty if you control `open` manually */}
+                </Dialog.Trigger>
+                <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                        <Dialog.Content>
+                            <Dialog.Header>
+                                <Dialog.Title>Create a New Task</Dialog.Title>
+                                <Dialog.CloseTrigger>
+                                    <CloseButton />
+                                </Dialog.CloseTrigger>
+                            </Dialog.Header>
+                            <Dialog.Body>
+                                <NewTask />
+                            </Dialog.Body>
+                            <Dialog.Footer>
+                                <Dialog.ActionTrigger>
+                                    <Button variant="outline">Cancel</Button>
+                                </Dialog.ActionTrigger>
+                            </Dialog.Footer>
+                        </Dialog.Content>
+                    </Dialog.Positioner>
+                </Portal>
+            </Dialog.Root>
         </Box>
     );
 }
