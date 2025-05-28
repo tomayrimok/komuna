@@ -10,10 +10,7 @@ import { useIsRTL } from '../../hooks/useIsRTL';
 
 export function TasksHome() {
     const { currentUserDetails } = useAuth();
-    const { t } = useTranslation();
-    const isRTL = useIsRTL();
-    const navigate = useNavigate();
-
+    const { isRTL } = useIsRTL();
 
     return (
         <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column" gap="0">
@@ -34,11 +31,9 @@ export function TasksHome() {
                     fontSize="4xl"
                     fontWeight="bold"
                     color="brand.900"
-                    border={"2px solid"}
                 >
                     <Trans
                         i18nKey={"task_category.title"}
-                        values={{ title: currentUserDetails?.firstName || "Task Title" }}
                         components={{ b: <b /> }}
                     />
                 </Text>
@@ -48,11 +43,9 @@ export function TasksHome() {
                     color="brand.900"
                     textAlign={isRTL ? "right" : "left"}
                     width={"100%"}
-                    border={"2px solid"}
                 >
                     <Trans
                         i18nKey={"task_category.task_list"}
-                        values={{ title: currentUserDetails?.firstName || "Task Title" }}
                         components={{ b: <b /> }}
                     />
                 </Text>
@@ -64,8 +57,7 @@ export function TasksHome() {
 
 export const Task = () => {
     const { currentUserDetails } = useAuth();
-
-
+    const { isRTL } = useIsRTL();
     return (
         <Card.Root
             id='task'
@@ -76,64 +68,107 @@ export const Task = () => {
             backgroundColor="brand.500"
             display="flex"
             flexDirection="column"
-            height="30vh"
+            height="auto"
         >
-            <List.Root>
-                <List.Item>
-                    <Text>
+            <Card.Body>
+                <List.Root color={"brand.900"}>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.title"}
+                                values={{ taskName: currentUserDetails?.firstName || "Task Title" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.due_date"}
+                                values={{ dueDate: currentUserDetails?.firstName || "Due Date" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.descrption"}
+                                values={{ description: currentUserDetails?.firstName || "Description" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.assigned_to"}
+                                values={{ assignedTo: currentUserDetails?.firstName || "Assigned to" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.recurrence"}
+                                values={{ recurrenceRule: currentUserDetails?.firstName || "Recurrence" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                    <List.Item>
+                        <Text>
+                            <Trans
+                                i18nKey={"task_category.tasks.assigned_by"}
+                                values={{ createdBy: currentUserDetails?.firstName || "Assigned By" }}
+                                components={{ b: <b /> }}
+                            />
+                        </Text>
+                    </List.Item>
+                </List.Root>
+            </Card.Body>
+            <Card.Footer marginRight={"-10px"} marginBottom={"-10px"}>
+                <Button width={"33%"} height={"50px"} border={"2px solid"}>
+                    <Text
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        color="brand.900"
+                        textAlign={isRTL ? "right" : "left"}
+                    >
                         <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Task Title" }}
+                            i18nKey={"task_category.buttons.done"}
                             components={{ b: <b /> }}
                         />
                     </Text>
-                </List.Item>
-                <List.Item>
-                    <Text>
+                </Button>
+                <Button width={"33%"} height={"50px"} border={"2px solid"}>
+                    <Text
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        color="brand.900"
+                        textAlign={isRTL ? "right" : "left"}
+                    >
                         <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Due Date" }}
+                            i18nKey={"task_category.buttons.postpone"}
                             components={{ b: <b /> }}
                         />
                     </Text>
-                </List.Item>
-                <List.Item>
-                    <Text>
+                </Button>
+                <Button width={"33%"} height={"50px"} border={"2px solid"}>
+                    <Text
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        color="brand.900"
+                        textAlign={isRTL ? "right" : "left"}
+                    >
                         <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Description" }}
+                            i18nKey={"task_category.buttons.didnt_do"}
                             components={{ b: <b /> }}
                         />
                     </Text>
-                </List.Item>
-                <List.Item>
-                    <Text>
-                        <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Assigned to" }}
-                            components={{ b: <b /> }}
-                        />
-                    </Text>
-                </List.Item>
-                <List.Item>
-                    <Text>
-                        <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Recurrence" }}
-                            components={{ b: <b /> }}
-                        />
-                    </Text>
-                </List.Item>
-                <List.Item>
-                    <Text>
-                        <Trans
-                            i18nKey={"task_category.tasks.title"}
-                            values={{ title: currentUserDetails?.firstName || "Assigned By" }}
-                            components={{ b: <b /> }}
-                        />
-                    </Text>
-                </List.Item>
-            </List.Root>
+                </Button>
+            </Card.Footer>
         </Card.Root>
     );
 }

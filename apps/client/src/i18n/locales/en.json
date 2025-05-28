@@ -63,12 +63,12 @@
         "title": "Tasks",
         "task_list": "Your Tasks:",
         "tasks": {
-            "title": "Task's Name: {{taskName}}",
-            "due_date": "Due To: {{dueDate}}",
-            "descrption": "Description: {{description}}",
-            "assigned_to": "Participants: {{assignedTo}}",
-            "recurrence": "Recurring Every: {{recurrenceRule}}",
-            "assigned_by": "Assigned By: {{createdBy}}"
+            "title": "Task's Name: <b>{{taskName}}</b>",
+            "due_date": "Due To: <b>{{dueDate}}</b>",
+            "descrption": "Description: <b>{{description}}</b>",
+            "assigned_to": "Participants: <b>{{assignedTo}}</b>",
+            "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
+            "assigned_by": "Assigned By: <b>{{createdBy}}</b>"
         },
         "buttons": {
             "done": "Done",
