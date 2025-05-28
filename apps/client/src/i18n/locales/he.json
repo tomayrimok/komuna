@@ -58,5 +58,17 @@
     },
     "error": {
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
+    },
+    "task": {
+        "title": "מטלות",
+        "task_list": "המטלות שלך: ",
+        "tasks": {
+            "title": "שם המטלה: ",
+            "due_date": "לביצוע עד: ",
+            "descrption": "תיאור: ",
+            "assigned_to": "שותפים למטלה: ",
+            "recurrence": "יש לבצע כל: ",
+            "assigned_by": "נוצר על ידי: "
+        }
     }
 }

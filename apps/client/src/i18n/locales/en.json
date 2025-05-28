@@ -63,8 +63,12 @@
         "title": "Tasks",
         "task_list": "Your Tasks:",
         "tasks": {
-            "name": "Task's Name: ",
-            "due_date": "Due To: "
+            "title": "Task's Name: ",
+            "due_date": "Due To: ",
+            "descrption": "Description: ",
+            "assigned_to": "Participants: ",
+            "recurrence": "Recurring Every: ",
+            "assigned_by": "Assigned By: "
         }
     }
 }

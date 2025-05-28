@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text, VStack, Image } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack, Image, Card } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
 import { useNavigate } from '@tanstack/react-router';
@@ -58,3 +58,17 @@ export const Task = () => {
         </Box>
     );
 }
+
+/*
+preview:
+    title
+    due date
+    description
+
+full:
+    title
+    due date
+    description
+    assigned to
+    every...
+*/
