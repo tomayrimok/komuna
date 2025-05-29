@@ -36,6 +36,11 @@ export class Apartment {
   @Column({ nullable: true })
   city?: string;
 
+  @ApiProperty({ description: 'ID of the apartment manager', required: false })
+  @Column({ nullable: true })
+  // TODO change to landLordId?!
+  managerId?: string;
+
   @ApiProperty({ description: 'Apartment contract end date', required: false })
   @Column({ type: 'date', nullable: true })
   contractEndDate?: Date;
@@ -47,11 +52,6 @@ export class Apartment {
   @ApiProperty({ description: 'Apartment rent', required: false })
   @Column({ type: 'float', nullable: true })
   rent?: number;
-
-  @ApiProperty({ description: 'ID of the apartment manager', required: false })
-  @Column({ nullable: true })
-  // TODO change to landLordId?!
-  managerId?: string;
 
   @ApiProperty({ description: 'Bills payment details', required: false })
   @Column({ type: 'json', nullable: true })
