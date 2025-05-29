@@ -1,5 +1,5 @@
 import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
-import { Body, ConflictException, Controller, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, ConflictException, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
@@ -14,6 +14,11 @@ import { JoinApartmentDto } from './dto/join-apartment.dto';
 export class ApartmentController {
   constructor(private readonly apartmentService: ApartmentService) { }
   private static readonly CODE_LENGTH = 4;
+
+  @Get()
+  async getApartmentUsers(@Query('apartmentId') apartmentId: string) {
+    return await this.apartmentService.getApartmentWithResidents(apartmentId);
+  }
 
   @Post()
   @UseAuth()

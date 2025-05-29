@@ -1,7 +1,7 @@
-import axios from 'axios';
 import Cookies from 'js-cookie';
+import { ApiClient } from '@komuna/types';
 
-export const API = axios.create({
+ApiClient.setConfig({
   baseURL: '/api',
   withCredentials: true,
   headers: {
@@ -9,7 +9,7 @@ export const API = axios.create({
   },
 });
 
-API.interceptors.response.use(
+ApiClient.instance.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('API error:', error);
@@ -19,7 +19,7 @@ API.interceptors.response.use(
 
 export const setAuthToken = (token: string) => {
   if (token) {
-    API.interceptors.request.use(
+    ApiClient.instance.interceptors.request.use(
       (config) => {
         // Retrieve the token from cookies
         const token = Cookies.get('Authentication');
@@ -37,6 +37,6 @@ export const setAuthToken = (token: string) => {
       }
     );
   } else {
-    delete API.defaults.headers.common['Authorization'];
+    delete ApiClient.instance.defaults.headers.common['Authorization'];
   }
 };
