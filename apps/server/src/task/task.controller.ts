@@ -13,6 +13,9 @@ import {
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { TaskDto, GetTaskDto } from '@komuna/types';
+import { UserJwtPayload } from '../user/dto/jwt-user.dto';
+import { User } from '../decorators/User';
+
 
 @Controller('task')
 export class TaskController {
@@ -35,12 +38,14 @@ export class TaskController {
   }
 
   @Post('update')
-  async updateTask(@Body() )
+  async updateTask(@Body() ) {
+
+  }
 
   @Get('get')
-  async getAllTasks(@Body() taskDto: GetTaskDto) {
+  async getAllTasks(@User() user: UserJwtPayload) {
     try {
-      const tasks = await this.taskService.getTask(taskDto.userId, taskDto.apartmentId);
+      const tasks = await this.taskService.getTask(user.userId, user.apartmentId);
       if (!tasks) {
         throw new BadRequestException('No tasks found for the given user and apartment');
       }

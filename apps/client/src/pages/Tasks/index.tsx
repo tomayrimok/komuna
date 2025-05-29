@@ -6,7 +6,7 @@ import { useIsRTL } from '../../hooks/useIsRTL';
 import { Task } from './Task';
 import { NewTask } from './NewTask';
 import { useState, useEffect } from 'react';
-import { TaskDto } from '@komuna/types';
+import { TaskDto, UserResponse } from '@komuna/types';
 import { API } from '../../axios';
 
 
@@ -17,15 +17,24 @@ export function TasksHome() {
     const [open, setOpen] = useState(false);
     const [completedTasks, setCompletedTasks] = useState<TaskDto[] | null>(null);
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
+    const userId = currentUserDetails?.userId || '';
+    const apartmentId = currentUserDetails?.apartmentId || '';
 
     useEffect(() => {
-        const howMany = 10;
+        const pageIndex = completedTasksCounter;
         API.get<TaskDto[]>('/task/get-completed', {
-          params: { userId, apartmentId, limit: howMany }
+            params: { userId, apartmentId, loadMultiplier: pageIndex }
         })
-          .then(resp => setCompletedTasks(resp.data))
-          .catch(console.error);
-      }, [userId, apartmentId]);
+            .then(r => {
+                setCompletedTasks(prev =>
+                    // if you’re re-loading the first page, you might want to reset:
+                    pageIndex === 0
+                        ? r.data               // overwrite on first page
+                        : [...(prev || []), ...r.data] // append subsequent pages
+                );
+            })
+            .catch(console.error);
+    }, [userId, apartmentId, completedTasksCounter]);
 
     return (
         <Box
@@ -77,8 +86,9 @@ export function TasksHome() {
                 <Task />
                 <Task />
                 <Button
-                width={"50%"}
-                height={"75px"}
+                    width={"50%"}
+                    height={"75px"}
+                    onClick={() => setCompletedTasksCounter(prev => prev + 1)}
                 >
                     Load Completed Tasks
                 </Button>
