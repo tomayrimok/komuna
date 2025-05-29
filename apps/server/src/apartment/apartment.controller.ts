@@ -74,6 +74,7 @@ export class ApartmentController {
   @UseAuth()
   async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) { // TODO check validation
     const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
+    console.log('apartment: ', apartment);
     if (!apartment) {
       console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
       throw new NotFoundException();
@@ -95,6 +96,10 @@ export class ApartmentController {
       await this.addRoommateToApartment(apartment, userApartment);
     }
 
+    await this.apartmentService.addUserApartment(apartment, userApartment);
+
+    console.log('newApartment:', await this.apartmentService.getApartmentWithResidents(apartment.apartmentId));
+
     return true;
   }
 
@@ -103,16 +108,12 @@ export class ApartmentController {
       console.error(`User ${userApartment.userId} already exists in apartment with code ${apartment.roommateCode}`);
       throw new ConflictException();
     }
-    return this.apartmentService.addRoommate(apartment, userApartment);
   }
 
   addLandlordToApartment(apartment: Apartment, userApartment: UserApartment) {
-    //@ts-expect-error // TODO: FIX entity!
-    if (apartment.landlord !== null) {
+    if (apartment.landlord) {
       console.error(`User ${userApartment.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`);
       throw new ConflictException();
     }
-    //@ts-expect-error // TODO: FIX entity!
-    apartment.landlord = userApartment;
   }
 }

@@ -19,7 +19,7 @@ export class ApartmentService {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
     }
 
-    async addRoommate(apartment: Apartment, userApartment: UserApartment) {
+    async addUserApartment(apartment: Apartment, userApartment: UserApartment) {
         await this.apartmentRepo.manager.insert(UserApartment, userApartment);
 
         return this.apartmentRepo

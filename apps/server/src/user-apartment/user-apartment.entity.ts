@@ -5,6 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from '@komuna/types';
 import { Apartment } from '../apartment/apartment.entity';
@@ -43,4 +44,7 @@ export class UserApartment {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  // @OneToMany(() => Apartment, (apartment) => apartment.landlord)
+  // apartmentsAsLandlord: Apartment[];
 }

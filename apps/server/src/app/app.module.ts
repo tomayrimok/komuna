@@ -40,7 +40,7 @@ import { AuthUser } from '../user/auth-user.entity';
         ShoppingTemplate,
         Task,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     DebtEdgeModule,
     UserModule,
