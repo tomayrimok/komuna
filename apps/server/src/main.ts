@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import fs from 'fs';
 
 import { AppModule } from './app/app.module';
 
@@ -17,7 +18,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   const port = process.env.PORT || 8080;
   app.use(cookieParser());
   // Set up swagger
@@ -27,8 +28,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('komuna')
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  const document = SwaggerModule.createDocument(app, config);
+  fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
+
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);

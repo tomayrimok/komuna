@@ -1,12 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 
+import { ApartmentService } from '../apartment/apartment.service';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
-import { UserService } from '../user/user.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
-import { ApartmentService } from '../apartment/apartment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { NotificationsService } from '../notifications/notifications.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {

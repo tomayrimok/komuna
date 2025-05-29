@@ -1,22 +1,40 @@
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../user/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class DebtEdge {
-    @PrimaryGeneratedColumn('uuid')
-    debtId: string;
+  @ApiProperty({ description: 'Unique identifier for the debt' })
+  @PrimaryGeneratedColumn('uuid')
+  debtId: string;
 
-    @Column()
-    apartmentId: string;
+  @ApiProperty({ description: 'ID of the apartment this debt belongs to' })
+  @Column()
+  apartmentId: string;
 
-    @Column()
-    fromId: string;
+  @ApiProperty({ description: 'ID of the user who owes the debt' })
+  @Column()
+  fromId: string;
 
-    @Column()
-    toId: string;
+  @ApiProperty({ description: 'ID of the user who is owed the debt' })
+  @Column()
+  toId: string;
 
-    @Column('float')
-    amount: number;
+  @ApiProperty({ description: 'Amount of the debt' })
+  @Column('float')
+  amount: number;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @ApiProperty({ description: 'Last update date of the debt' })
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ApiProperty({ type: () => User, description: 'User who owes the debt' })
+  @ManyToOne(() => User, (user) => user.debts)
+  @JoinColumn({ name: 'fromId' })
+  fromUser: User;
+
+  @ApiProperty({ type: () => User, description: 'User who is owed the debt' })
+  @ManyToOne(() => User, (user) => user.credits)
+  @JoinColumn({ name: 'toId' })
+  toUser: User;
 }

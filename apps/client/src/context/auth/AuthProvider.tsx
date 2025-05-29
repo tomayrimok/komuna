@@ -1,10 +1,9 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { UserResponse, UserRole } from '@komuna/types';
-import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
-import { LoadingApp } from '../../components/LoadingApp';
+import { API, ApiTypes, UserRole } from '@komuna/types';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
-import { API } from '../../axios';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { listenToForegroundMessages, requestPermissionAndGetToken } from '../../app/firebase/notifications';
+import { LoadingApp } from '../../components/LoadingApp';
+import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -16,8 +15,8 @@ export interface AuthContextValue {
   sessionDetails: SessionDetails;
   isAuthLoading: boolean;
   isRefetching: boolean;
-  currentUserDetails?: UserResponse | null;
-  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<UserResponse | null, Error>>;
+  currentUserDetails?: ApiTypes.User | null;
+  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
 }
 
@@ -44,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     // Clear any stored tokens or session info here
     try {
-      await API.post('/user/logout');
+      await API.userControllerLogout();
     } catch (error) {
       console.error('Logout error:', error);
     }

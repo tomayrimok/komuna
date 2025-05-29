@@ -8,17 +8,17 @@ import * as admin from 'firebase-admin';
 
 @Injectable()
 export class ApartmentService {
-
     constructor(
         @InjectRepository(Apartment)
         private readonly apartmentRepo: Repository<Apartment>,
         private readonly notificationService: NotificationsService,
+
     ) { }
+
 
     async createApartment(apartment: Partial<Apartment>) {
         return await this.apartmentRepo.save(apartment);
     }
-
     async updateApartment(apartmentId: string, apartment: Partial<Apartment>) {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
     }
@@ -42,5 +42,16 @@ export class ApartmentService {
             );
         }
 
+    }
+
+    async getApartmentWithResidents(apartmentId: string) {
+        return await this.apartmentRepo.findOne({
+            where: { apartmentId },
+            relations: {
+                residents: {
+                    user: true,
+                },
+            },
+        });
     }
 }

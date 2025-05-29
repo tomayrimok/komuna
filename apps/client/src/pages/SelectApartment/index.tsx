@@ -2,10 +2,12 @@ import { Box, Button, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
+import { useNavigate } from '@tanstack/react-router';
 
 export const SelectApartment = () => {
   const { currentUserDetails } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Box backgroundColor="brand.500" flex="1" display="flex" flexDirection="column" gap="0">
@@ -39,7 +41,15 @@ export const SelectApartment = () => {
           </VStack>
           <VStack gap="5">
             <Image src="/detailed_icons/create_apartment.png" maxW="200px" />
-            <Button size="xl" fontSize="2xl" fontWeight="bold">
+            <Button
+              size="xl"
+              fontSize="2xl"
+              fontWeight="bold"
+              onClick={() => {
+                // TODO: This is temporary, you can remove this once you implement the create new apartment page
+                navigate({ to: '/roommate' });
+              }}
+            >
               {t('select_apartment.no_apartments.create_new_apartment')}
             </Button>
           </VStack>
