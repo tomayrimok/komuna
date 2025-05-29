@@ -83,26 +83,27 @@ export class ApartmentController {
     const role = isLandlord ? UserRole.LANDLORD : UserRole.ROOMMATE;
 
     const userApartment = new UserApartment();
+    userApartment.user = user;
     userApartment.userId = user.userId;
+    userApartment.apartment = apartment;
+    userApartment.apartmentId = apartment.apartmentId;
     userApartment.role = role;
 
     if (isLandlord) {
-      this.addLandlordToApartment(apartment, userApartment);
+      await this.addLandlordToApartment(apartment, userApartment);
     } else {
-      this.addRoommateToApartment(apartment, userApartment);
+      await this.addRoommateToApartment(apartment, userApartment);
     }
-
-    await this.apartmentService.updateApartment(apartment.apartmentId, apartment);
 
     return true;
   }
 
   addRoommateToApartment(apartment: Apartment, userApartment: UserApartment) {
-    if (apartment.residents.some(resident => resident.userId === userApartment.userId)) {
+    if (!apartment.residents || apartment.residents.some(resident => resident.userId === userApartment.userId)) {
       console.error(`User ${userApartment.userId} already exists in apartment with code ${apartment.roommateCode}`);
       throw new ConflictException();
     }
-    apartment.residents.push(userApartment);
+    return this.apartmentService.addRoommate(apartment, userApartment);
   }
 
   addLandlordToApartment(apartment: Apartment, userApartment: UserApartment) {
