@@ -12,7 +12,7 @@ export class ApartmentService {
     constructor(
         @InjectRepository(Apartment)
         private readonly apartmentRepo: Repository<Apartment>,
-        private readonly notificationService: NotificationsService, // Assuming you have a NotificationService to handle notifications
+        private readonly notificationService: NotificationsService,
     ) { }
 
     async createApartment(apartment: Partial<Apartment>) {
