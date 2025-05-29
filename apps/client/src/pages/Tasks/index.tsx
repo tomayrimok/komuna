@@ -5,7 +5,9 @@ import { Trans } from 'react-i18next';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { Task } from './Task';
 import { NewTask } from './NewTask';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { TaskDto } from '@komuna/types';
+import { API } from '../../axios';
 
 
 
@@ -13,6 +15,17 @@ export function TasksHome() {
     const { currentUserDetails } = useAuth();
     const { isRTL } = useIsRTL();
     const [open, setOpen] = useState(false);
+    const [completedTasks, setCompletedTasks] = useState<TaskDto[] | null>(null);
+    const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
+
+    useEffect(() => {
+        const howMany = 10;
+        API.get<TaskDto[]>('/task/get-completed', {
+          params: { userId, apartmentId, limit: howMany }
+        })
+          .then(resp => setCompletedTasks(resp.data))
+          .catch(console.error);
+      }, [userId, apartmentId]);
 
     return (
         <Box
@@ -63,6 +76,12 @@ export function TasksHome() {
                 <Task />
                 <Task />
                 <Task />
+                <Button
+                width={"50%"}
+                height={"75px"}
+                >
+                    Load Completed Tasks
+                </Button>
             </VStack>
             <Button
                 borderRadius={"3em"}

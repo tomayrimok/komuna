@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
 import { RecurrenceRuleDto } from '@komuna/types';
 import { User } from '../user/user.entity';
+import { UserCompletionStatus } from '@komuna/types';
 
 @Entity()
 export class Task {
@@ -21,8 +22,8 @@ export class Task {
   @JoinTable()
   assignedTo: User[];
 
-  @Column()
-  isCompleted: boolean;
+  @Column('json', { nullable: true })
+  completions?: UserCompletionStatus[];
 
   @Column()
   dueDate: Date;
