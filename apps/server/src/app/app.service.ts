@@ -6,6 +6,7 @@ import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { ApartmentService } from '../apartment/apartment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -15,8 +16,9 @@ export class AppService implements OnModuleInit {
     private readonly expenseService: ExpenseService,
     private readonly userService: UserService,
     private readonly apartmentService: ApartmentService,
-    private readonly userApartmentService: UserApartmentService
-  ) {}
+    private readonly userApartmentService: UserApartmentService,
+    private readonly notificationsService: NotificationsService, // Assuming you have a NotificationsService
+  ) { }
 
   onModuleInit() {
     console.log('AppService initialized');
@@ -24,6 +26,10 @@ export class AppService implements OnModuleInit {
   }
 
   async testDebtEdgeService() {
+    // setInterval(() => {
+    //   this.notificationsService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+    // }
+    //   , 6000);
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });

@@ -20,10 +20,13 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { NotificationToken } from '../notifications/notification-token.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
+      // url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
+      url: process.env.DATABASE_URL,
       type: 'postgres',
       entities: [
         User,
@@ -38,6 +41,7 @@ import { AuthUser } from '../user/auth-user.entity';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        NotificationToken
       ],
       synchronize: true,
     }),
@@ -47,8 +51,9 @@ import { AuthUser } from '../user/auth-user.entity';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
+    NotificationsModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

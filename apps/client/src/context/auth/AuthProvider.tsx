@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { UserResponse, UserRole } from '@komuna/types';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
 import { API } from '../../axios';
+import { listenToForegroundMessages, requestPermissionAndGetToken } from '../../app/firebase/notifications';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -50,6 +51,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSessionDetails(defaultAuthContextValues.sessionDetails);
     queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
+
+  useEffect(() => {
+    // Register the token and start listening for messages
+    requestPermissionAndGetToken();
+    listenToForegroundMessages((payload) => {
+      console.log('Message received while active. ', payload);
+      // Handle the foreground message here
+    });
+  }, []);
 
   if (isAuthLoading) return <LoadingApp />;
   return (
