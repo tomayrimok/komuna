@@ -42,8 +42,7 @@ export class Apartment {
 
   @ApiProperty({ description: 'ID of the apartment manager', required: false })
   @Column({ nullable: true })
-  // TODO change to landLordId?!
-  managerId?: string;
+  landLordId?: string;
 
   @ApiProperty({ description: 'Apartment contract end date', required: false })
   @Column({ type: 'date', nullable: true })
