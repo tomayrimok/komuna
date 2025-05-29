@@ -14,5 +14,6 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function (payload) {
   const { title, body } = payload.notification;
   console.log("Received background message ", payload);
-  self.registration.showNotification(title, { body });
+  // eslint-disable-next-line
+  self.registration.showNotification(title, { body, icon: "/meerkats/waving.png" });
 });
