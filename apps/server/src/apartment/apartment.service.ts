@@ -25,4 +25,16 @@ export class ApartmentService {
     getApartmentByCode(code: string) {
         return this.apartmentRepo.findOneBy([{ landlordCode: code }, { roommateCode: code }]);
     }
+
+
+    async getApartmentWithResidents(apartmentId: string) {
+        return await this.apartmentRepo.findOne({
+            where: { apartmentId },
+            relations: {
+                residents: {
+                    user: true,
+                },
+            },
+        });
+    }
 }
