@@ -57,7 +57,7 @@ const Codes: FC = () => {
         <Code code={landlordCode} description={t("create_apartment.share_apartment.landlord_description")} />
       </>
     )
-  } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
+  } catch {
     return (
       <Alert.Root status="error">
         <Alert.Indicator />
