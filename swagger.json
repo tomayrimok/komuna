@@ -333,6 +333,48 @@
           "Apartment"
         ]
       }
+    },
+    "/api/notifications/register-token": {
+      "post": {
+        "operationId": "NotificationsController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/test": {
+      "post": {
+        "operationId": "NotificationsController_sendTestNotification",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/send": {
+      "post": {
+        "operationId": "NotificationsController_sendNotification",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ]
+      }
     }
   },
   "info": {
