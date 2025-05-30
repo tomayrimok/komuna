@@ -24,9 +24,13 @@ export class Apartment {
   @Column({ nullable: true })
   image?: string;
 
-  @ApiProperty({ description: 'Unique code for the apartment. NULL in case the apartment doesn\'t allow new residents' })
-  @Column({ unique: true })
-  code: string;
+  @ApiProperty({ description: 'Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord' })
+  @Column({ unique: true, nullable: true })
+  landlordCode: string;
+
+  @ApiProperty({ description: 'Unique code to join the apartment as a roommate. NULL in case the apartment doesn\'t allow new residents' })
+  @Column({ unique: true, nullable: true })
+  roommateCode: string;
 
   @ApiProperty({ description: 'Apartment address', required: false })
   @Column({ nullable: true })
@@ -36,10 +40,14 @@ export class Apartment {
   @Column({ nullable: true })
   city?: string;
 
-  @ApiProperty({ description: 'ID of the apartment manager', required: false })
+  @ApiProperty({ description: 'Landlord User ID', required: false })
   @Column({ nullable: true })
-  // TODO change to landLordId?!
-  managerId?: string;
+  landlordUserId?: string;
+
+  @ApiProperty({ description: 'Landlord of the apartment (Relation)', required: false })
+  @ManyToOne(() => User, (ua) => ua.landlordApartments, { nullable: true })
+  @JoinColumn({ name: 'landlordUserId', referencedColumnName: 'userId' })
+  landlord?: User;
 
   @ApiProperty({ description: 'Apartment contract end date', required: false })
   @Column({ type: 'date', nullable: true })
