@@ -23,11 +23,6 @@ export class ApartmentController {
   @Post()
   @UseAuth()
   async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User): Promise<CreateApartmentHttpResponse> {
-    const userApartment = new UserApartment();
-    userApartment.userId = user.userId;
-    userApartment.rent = createApartmentData.renterSettings.rent;
-    userApartment.role = createApartmentData.apartmentInfo.role;
-
     const houseCommitteePayerUser = this.createHouseCommitteePayerUser(
       createApartmentData,
       user
@@ -35,6 +30,7 @@ export class ApartmentController {
 
     const landlordCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
     apartment.address = createApartmentData.apartmentInfo.address;
@@ -45,11 +41,24 @@ export class ApartmentController {
     apartment.rent = createApartmentData.apartmentSettings.rent;
     apartment.houseCommitteeRent = createApartmentData.renterSettings.houseCommitteeRent;
     apartment.houseCommitteePayerUser = houseCommitteePayerUser;
-    apartment.residents = [userApartment];
     apartment.landlordCode = landlordCode;
     apartment.roommateCode = roommateCode;
 
-    userApartment.apartment = apartment;
+    const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
+    if (isLandlord) {
+      const landlordUser = new User();
+      landlordUser.userId = user.userId;
+      apartment.landlord = landlordUser;
+    }
+    else {
+      const userApartment = new UserApartment();
+      userApartment.userId = user.userId;
+      userApartment.rent = createApartmentData.renterSettings.rent;
+      userApartment.role = createApartmentData.apartmentInfo.role;
+      userApartment.user = user;
+      userApartment.apartment = apartment;
+      apartment.residents = [userApartment];
+    }
 
     await this.apartmentService.createApartment(apartment);
     return { landlordCode, roommateCode };
@@ -74,6 +83,7 @@ export class ApartmentController {
   @UseAuth()
   async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) { // TODO check validation
     const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
+    console.log('apartment: ', apartment);
     if (!apartment) {
       console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
       throw new NotFoundException();
