@@ -74,7 +74,6 @@ export class ApartmentController {
   @UseAuth()
   async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) { // TODO check validation
     const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
-    console.log('apartment: ', apartment);
     if (!apartment) {
       console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
       throw new NotFoundException();
@@ -95,10 +94,6 @@ export class ApartmentController {
     } else {
       await this.addRoommateToApartment(apartment, userApartment);
     }
-
-    await this.apartmentService.addUserApartment(apartment, userApartment);
-
-    console.log('newApartment:', await this.apartmentService.getApartmentWithResidents(apartment.apartmentId));
 
     return true;
   }
