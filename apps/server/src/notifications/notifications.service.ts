@@ -4,8 +4,6 @@ import { Repository } from 'typeorm';
 import { NotificationToken } from './notification-token.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
-// const userTokens = new Map<string, string>();
-
 @Injectable()
 export class NotificationsService {
 

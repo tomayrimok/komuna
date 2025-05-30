@@ -72,7 +72,6 @@ export class UserController {
       const existingUser = await this.userService.getUserByPhone(phoneNumber);
       if (existingUser) {
         const cookie = await this.userService.getAuthCookie(existingUser);
-        console.log('cookie :', cookie);
         response.setHeader('Set-Cookie', cookie);
         return { user: existingUser, isUser: true };
       }

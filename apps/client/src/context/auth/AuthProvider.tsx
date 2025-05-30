@@ -4,6 +4,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { listenToForegroundMessages, requestPermissionAndGetToken } from '../../app/firebase/notifications';
 import { LoadingApp } from '../../components/LoadingApp';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
+import { toaster } from '../../chakra/ui/toaster';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -56,7 +57,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     requestPermissionAndGetToken();
     listenToForegroundMessages((payload) => {
       console.log('Message received while active. ', payload);
-      // Handle the foreground message here
+      toaster.create({
+        meta: { closable: true },
+        type: "info",
+        title: payload.notification?.title,
+        description: payload.notification?.body,
+        duration: 5000
+      });
     });
   }, []);
 

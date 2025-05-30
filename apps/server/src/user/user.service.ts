@@ -83,15 +83,12 @@ export class UserService {
   }
 
   async getAuthCookie(user: User): Promise<string> {
-    console.log('user :', user);
     const { phoneNumber, userId } = user;
     const payload: UserJwtPayload = { phoneNumber, userId };
-    console.log('payload :', payload);
 
     const token = await this.jwtService.signAsync(payload, {
       expiresIn: '7d',
     });
-    console.log('token :', token);
 
     const sevenDays = 7 * 24 * 60 * 60;
 

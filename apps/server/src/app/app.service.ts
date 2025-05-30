@@ -21,15 +21,17 @@ export class AppService implements OnModuleInit {
   ) { }
 
   onModuleInit() {
-    console.log('AppService initialized');
-    this.testDebtEdgeService();
+    // this.testNotificationsService();
+  }
+
+  async testNotificationsService() {
+    setInterval(() => {
+      this.notificationsService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+    }, 6000);
   }
 
   async testDebtEdgeService() {
-    // setInterval(() => {
-    //   this.notificationsService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
-    // }
-    //   , 6000);
+
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });
