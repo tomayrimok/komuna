@@ -474,6 +474,14 @@
             "type": "string",
             "description": "City where the apartment is located"
           },
+          "landlordUserId": {
+            "type": "string",
+            "description": "Landlord User ID"
+          },
+          "landlord": {
+            "type": "object",
+            "description": "Landlord of the apartment (Relation)"
+          },
           "contractEndDate": {
             "format": "date-time",
             "type": "string",
@@ -552,14 +560,6 @@
             "format": "date-time",
             "type": "string",
             "description": "Date when the apartment was created"
-          },
-          "landlordUserId": {
-            "type": "string",
-            "description": "Landlord User ID"
-          },
-          "landlord": {
-            "type": "object",
-            "description": "Landlord of the apartment (Relation)"
           }
         },
         "required": [
