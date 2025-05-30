@@ -40,6 +40,15 @@ export class Apartment {
   @Column({ nullable: true })
   city?: string;
 
+  @ApiProperty({ description: 'Landlord User ID', required: false })
+  @Column({ nullable: true })
+  landlordUserId?: string;
+
+  @ApiProperty({ description: 'Landlord of the apartment (Relation)', required: false })
+  @ManyToOne(() => User, (ua) => ua.landlordApartments, { nullable: true })
+  @JoinColumn({ name: 'landlordUserId', referencedColumnName: 'userId' })
+  landlord?: User;
+
   @ApiProperty({ description: 'Apartment contract end date', required: false })
   @Column({ type: 'date', nullable: true })
   contractEndDate?: Date;
@@ -96,13 +105,4 @@ export class Apartment {
   @ApiProperty({ description: 'Date when the apartment was created' })
   @CreateDateColumn()
   createdAt: Date;
-
-  @ApiProperty({ description: 'Landlord User ID', required: false })
-  @Column({ nullable: true })
-  landlordUserId?: string;
-
-  @ApiProperty({ description: 'Landlord of the apartment (Relation)', required: false })
-  @ManyToOne(() => User, (ua) => ua.landlordApartments, { nullable: true })
-  @JoinColumn({ name: 'landlordUserId', referencedColumnName: 'userId' })
-  landlord?: User;
 }
