@@ -9,6 +9,7 @@ import { ShoppingTemplate } from '../shopping-template/shopping-template.entity'
 import { Task } from '../task/task.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { User } from '../user/user.entity';
+import { BillsDetailsDto } from './dto/bills-details.dto';
 
 @Entity()
 export class Apartment {
@@ -53,7 +54,7 @@ export class Apartment {
   contract?: string;
 
   @Column({ nullable: true })
-  billsDetails?: string;
+  billsDetails?: BillsDetails;
 
   /** Renter Settings */
   /** מחיר חושי ועד בית */
