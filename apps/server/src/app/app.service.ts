@@ -1,6 +1,4 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-
-import { ApartmentService } from '../apartment/apartment.service';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';

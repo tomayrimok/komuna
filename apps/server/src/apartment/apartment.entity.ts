@@ -1,5 +1,4 @@
 import { BillsDetails } from '@komuna/types';
-import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Expense } from '../expense/expense.entity';
 import { Incident } from '../incident/incident.entity';
@@ -9,7 +8,6 @@ import { ShoppingTemplate } from '../shopping-template/shopping-template.entity'
 import { Task } from '../task/task.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { User } from '../user/user.entity';
-import { BillsDetailsDto } from './dto/bills-details.dto';
 
 @Entity()
 export class Apartment {
