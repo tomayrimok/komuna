@@ -90,7 +90,7 @@ export class ApartmentController {
   }
 
   private addRoommateToApartment(apartment: Apartment, user: User) {
-    if (Array.isArray(apartment.residents) && apartment.residents.some(resident => resident.userId === userApartment.userId)) {
+    if (Array.isArray(apartment.residents) && apartment.residents.some(resident => resident.userId === user.userId)) {
       console.error(`User ${user.userId} already exists in apartment with code ${apartment.roommateCode}`);
       throw new ConflictException();
     }
