@@ -1,16 +1,12 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  OneToMany,
-} from 'typeorm';
 import { UserRole } from '@komuna/types';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Apartment } from '../apartment/apartment.entity';
 import { User } from '../user/user.entity';
 
+/**
+ * ! This is only used for users that are roommates at the apartment.
+ * ! For landlords, use the `landlord` field in the `Apartment` entity which is related to the `User` entity.
+ */
 @Entity()
 export class UserApartment {
   @PrimaryColumn()
@@ -44,7 +40,4 @@ export class UserApartment {
 
   @CreateDateColumn()
   createdAt: Date;
-
-  // @OneToMany(() => Apartment, (apartment) => apartment.landlord)
-  // apartmentsAsLandlord: Apartment[];
 }

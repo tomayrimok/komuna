@@ -80,35 +80,37 @@ export class ApartmentController {
     }
 
     const isLandlord = apartment.landlordCode === code;
-    const role = isLandlord ? UserRole.LANDLORD : UserRole.ROOMMATE;
-
-    const userApartment = new UserApartment();
-    userApartment.user = user;
-    userApartment.userId = user.userId;
-    userApartment.apartment = apartment;
-    userApartment.apartmentId = apartment.apartmentId;
-    userApartment.role = role;
-
     if (isLandlord) {
-      await this.addLandlordToApartment(apartment, userApartment);
+      await this.addLandlordToApartment(apartment, user);
     } else {
-      await this.addRoommateToApartment(apartment, userApartment);
+      await this.addRoommateToApartment(apartment, user);
     }
 
     return true;
   }
 
-  addRoommateToApartment(apartment: Apartment, userApartment: UserApartment) {
+  private addRoommateToApartment(apartment: Apartment, user: User) {
     if (!apartment.residents || apartment.residents.some(resident => resident.userId === userApartment.userId)) {
-      console.error(`User ${userApartment.userId} already exists in apartment with code ${apartment.roommateCode}`);
+      console.error(`User ${user.userId} already exists in apartment with code ${apartment.roommateCode}`);
       throw new ConflictException();
     }
+    const userApartment = new UserApartment();
+    userApartment.user = user;
+    userApartment.userId = user.userId;
+    userApartment.apartment = apartment;
+    userApartment.apartmentId = apartment.apartmentId;
+    userApartment.role = UserRole.ROOMMATE;
+
+    return this.apartmentService.addRoommate(apartment, userApartment);
   }
 
-  addLandlordToApartment(apartment: Apartment, userApartment: UserApartment) {
+  private addLandlordToApartment(apartment: Apartment, user: User) {
     if (apartment.landlord) {
-      console.error(`User ${userApartment.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`);
+      console.error(`User ${user.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`);
       throw new ConflictException();
     }
+    apartment.landlord = new User();
+    apartment.landlord.userId = user.userId;
+    return this.apartmentService.addLandlord(apartment, apartment.landlord);
   }
 }

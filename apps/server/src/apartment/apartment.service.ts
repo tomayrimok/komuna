@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Apartment } from './apartment.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
+import type { User } from '../user/user.entity';
+import { Apartment } from './apartment.entity';
 
 @Injectable()
 export class ApartmentService {
@@ -19,7 +20,7 @@ export class ApartmentService {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
     }
 
-    async addUserApartment(apartment: Apartment, userApartment: UserApartment) {
+    public async addRoommate(apartment: Apartment, userApartment: UserApartment) {
         await this.apartmentRepo.manager.insert(UserApartment, userApartment);
 
         return this.apartmentRepo
@@ -27,6 +28,14 @@ export class ApartmentService {
             .relation(Apartment, "residents")
             .of(apartment)
             .add(userApartment);
+    }
+
+    public async addLandlord(apartment: Apartment, user: User) {
+        return this.apartmentRepo
+            .createQueryBuilder()
+            .relation(Apartment, "landlord")
+            .of(apartment)
+            .set(user);
     }
 
     async getApartment(apartmentId: string) {
