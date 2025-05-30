@@ -332,6 +332,42 @@
         "tags": [
           "Apartment"
         ]
+      },
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
       }
     }
   },
@@ -383,9 +419,158 @@
         "type": "object",
         "properties": {}
       },
+      "Task": {
+        "type": "object",
+        "properties": {}
+      },
       "Expense": {
         "type": "object",
         "properties": {}
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {}
+      },
+      "Incident": {
+        "type": "object",
+        "properties": {}
+      },
+      "ShoppingTemplate": {
+        "type": "object",
+        "properties": {}
+      },
+      "ShoppingList": {
+        "type": "object",
+        "properties": {}
+      },
+      "Apartment": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "Unique identifier for the apartment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the apartment"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL to apartment image"
+          },
+          "landlordCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
+          },
+          "address": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
+          },
+          "city": {
+            "type": "string",
+            "description": "City where the apartment is located"
+          },
+          "contractEndDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Apartment contract end date"
+          },
+          "contractUrl": {
+            "type": "string",
+            "description": "Apartment contract details"
+          },
+          "rent": {
+            "type": "number",
+            "description": "Apartment rent"
+          },
+          "billsDetails": {
+            "type": "object",
+            "description": "Bills payment details"
+          },
+          "houseCommitteeRent": {
+            "type": "number",
+            "description": "Monthly house committee rent"
+          },
+          "houseCommitteePayerUser": {
+            "type": "object",
+            "description": "User ID of the house committee payer. NULL if it's split equally"
+          },
+          "residents": {
+            "description": "Apartment residents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "tasks": {
+            "description": "Apartment tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "expenses": {
+            "description": "Apartment expenses",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "payments": {
+            "description": "Apartment payments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "incidents": {
+            "description": "Apartment incidents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "shoppingTemplates": {
+            "description": "Apartment shopping templates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingTemplate"
+            }
+          },
+          "shoppingLists": {
+            "description": "Apartment shopping lists",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingList"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when the apartment was created"
+          },
+          "landlordUserId": {
+            "type": "string",
+            "description": "Landlord User ID"
+          },
+          "landlord": {
+            "type": "object",
+            "description": "Landlord of the apartment (Relation)"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "name",
+          "landlordCode",
+          "residents",
+          "tasks",
+          "expenses",
+          "payments",
+          "incidents",
+          "shoppingTemplates",
+          "shoppingLists",
+          "createdAt"
+        ]
       },
       "DebtEdge": {
         "type": "object",
@@ -469,6 +654,13 @@
               "$ref": "#/components/schemas/UserApartment"
             }
           },
+          "landlordApartments": {
+            "description": "User's apartments as landlord",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Apartment"
+            }
+          },
           "payableRents": {
             "description": "User's payable rents",
             "type": "array",
@@ -504,6 +696,7 @@
           "phoneNumber",
           "lastName",
           "apartments",
+          "landlordApartments",
           "payableRents",
           "expenses",
           "debts",
@@ -609,6 +802,10 @@
           "apartmentId",
           "splits"
         ]
+      },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }
