@@ -462,9 +462,13 @@
             "type": "string",
             "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
           },
-          "address": {
+          "roommateCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
+          },
+          "address": {
+            "type": "string",
+            "description": "Apartment address"
           },
           "city": {
             "type": "string",
@@ -562,6 +566,7 @@
           "apartmentId",
           "name",
           "landlordCode",
+          "roommateCode",
           "residents",
           "tasks",
           "expenses",

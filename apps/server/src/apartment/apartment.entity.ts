@@ -28,10 +28,10 @@ export class Apartment {
   @Column({ unique: true, nullable: true })
   landlordCode: string;
 
+  @ApiProperty({ description: 'Unique code to join the apartment as a roommate. NULL in case the apartment doesn\'t allow new residents' })
   @Column({ unique: true, nullable: true })
   roommateCode: string;
 
-  @ApiProperty({ description: 'Unique code to join the apartment as a roommate. NULL in case the apartment doesn\'t allow new residents' })
   @ApiProperty({ description: 'Apartment address', required: false })
   @Column({ nullable: true })
   address?: string;
