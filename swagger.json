@@ -333,6 +333,20 @@
           "Apartment"
         ]
       }
+    },
+    "/api/notifications/register-token": {
+      "post": {
+        "operationId": "NotificationsController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ]
+      }
     }
   },
   "info": {

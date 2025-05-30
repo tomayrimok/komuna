@@ -21,7 +21,7 @@ import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
   private readonly logger = new Logger(UserController.name);
 
   @Post('login')
