@@ -46,6 +46,7 @@ export class ApartmentService {
         return this.apartmentRepo.createQueryBuilder("apartment")
             .where('apartment.landlordCode = :code OR apartment.roommateCode = :code', { code })
             .leftJoinAndSelect('apartment.residents', 'residents')
+            .leftJoinAndSelect('apartment.landlord', 'landlord')
             .getOne();
     }
 
