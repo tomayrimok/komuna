@@ -4,7 +4,6 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
-import { GetApartmentWithResidentsDto } from '../user/dto/apartment.dto';
 import { User } from '../user/user.entity';
 import { generateApartmentCode } from '../utils/generateVerificationCode';
 import { Apartment } from './apartment.entity';
@@ -17,12 +16,11 @@ export class ApartmentController {
   constructor(private readonly apartmentService: ApartmentService) { }
   private static readonly CODE_LENGTH = 4;
 
-  // @Get()
-  // @ApiOkResponse({ type: Apartment })
-  // async getApartmentWithResidents(@Query() query: GetApartmentWithResidentsDto) {
-  //   const { apartmentId } = query;
-  //   return await this.apartmentService.getApartmentWithResidents(apartmentId);
-  // }
+  @Get()
+  @ApiOkResponse({ type: Apartment })
+  async getApartmentWithResidents(@Query('apartmentId') apartmentId: string): Promise<Apartment> {
+    return await this.apartmentService.getApartmentWithResidents(apartmentId);
+  }
 
   @Post()
   @UseAuth()

@@ -397,6 +397,42 @@
         "tags": [
           "Apartment"
         ]
+      },
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
       }
     }
   },
@@ -415,10 +451,6 @@
   "servers": [],
   "components": {
     "schemas": {
-      "Task": {
-        "type": "object",
-        "properties": {}
-      },
       "Expense": {
         "type": "object",
         "properties": {
@@ -532,100 +564,119 @@
         "type": "object",
         "properties": {
           "apartmentId": {
-            "type": "string",
-            "description": "Unique identifier for the apartment"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the apartment"
+            "type": "string"
           },
           "image": {
-            "type": "string",
-            "description": "URL to apartment image"
+            "type": "string"
           },
           "code": {
-            "type": "string",
-            "description": "Unique code for the apartment"
+            "type": "string"
           },
           "address": {
-            "type": "string",
-            "description": "Apartment address"
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "description": "City where the apartment is located"
+            "type": "string"
           },
           "managerId": {
-            "type": "string",
-            "description": "ID of the apartment manager"
+            "type": "string"
+          },
+          "contractEndDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "contractUrl": {
+            "type": "string"
+          },
+          "rent": {
+            "type": "number"
           },
           "contract": {
-            "type": "string",
-            "description": "Apartment contract details"
+            "type": "string"
           },
           "billsDetails": {
-            "type": "string",
-            "description": "Bills payment details"
+            "type": "object"
+          },
+          "houseCommitteeRent": {
+            "type": "number"
+          },
+          "houseCommitteePayerUser": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "residents": {
-            "description": "Apartment residents",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserApartment"
             }
           },
           "tasks": {
-            "description": "Apartment tasks",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Task"
+              "$ref": "#/components/schemas/UserApartment"
             }
           },
           "expenses": {
-            "description": "Apartment expenses",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Expense"
             }
           },
           "payments": {
-            "description": "Apartment payments",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Payment"
             }
           },
           "incidents": {
-            "description": "Apartment incidents",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Incident"
             }
           },
           "shoppingTemplates": {
-            "description": "Apartment shopping templates",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShoppingTemplate"
             }
           },
           "shoppingLists": {
-            "description": "Apartment shopping lists",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShoppingList"
             }
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Date when the apartment was created"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           }
         },
         "required": [
           "apartmentId",
           "name",
+          "image",
           "code",
+          "address",
+          "city",
+          "managerId",
+          "contractEndDate",
+          "contractUrl",
+          "rent",
+          "contract",
+          "billsDetails",
+          "houseCommitteeRent",
+          "houseCommitteePayerUser",
           "residents",
           "tasks",
           "expenses",
@@ -1106,6 +1157,10 @@
           "toId",
           "amount"
         ]
+      },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }

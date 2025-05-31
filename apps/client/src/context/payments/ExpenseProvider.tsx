@@ -231,7 +231,10 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         const splits = splitTypesData[splitType].convertToSplits();
         if (!expenseDetails || !apartmentData) return;
         createExpense({
-            ...expenseDetails,
+            expenseId: expenseDetails.expenseId,
+            amount: expenseDetails.amount,
+            description: expenseDetails.description,
+            paidById: expenseDetails.paidById,
             apartmentId: apartmentData.apartmentId,
             splits
         })

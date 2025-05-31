@@ -26,6 +26,8 @@ import type {
   PaymentControllerCreatePaymentResponse,
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerGetApartmentWithResidentsResponse,
+  ApartmentControllerCreateApartmentData,
+  ApartmentControllerJoinApartmentData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -192,6 +194,28 @@ export const apartmentControllerGetApartmentWithResidents = <ThrowOnError extend
     ThrowOnError
   >({
     url: '/api/apartment',
+    ...options,
+  });
+};
+
+export const apartmentControllerCreateApartment = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerCreateApartmentData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = false>(
+  options?: Options<ApartmentControllerJoinApartmentData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment/join/{code}',
     ...options,
   });
 };
