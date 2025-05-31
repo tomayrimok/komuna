@@ -31,7 +31,7 @@ export class ShoppingListController {
     @Post('add-item')
     @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
-    async addItem(@User() user: UserJwtPayload, @Body() body: AddItemDto) {
+    async addItem(@Body() body: AddItemDto, @User() user: UserJwtPayload) {
         const { itemData, contextType } = body;
         return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId, user.userId, itemData);
     }
