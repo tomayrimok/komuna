@@ -51,9 +51,9 @@ const ShoppingListPurchaseDrawer = () => {
                                     ביטול
                                 </Button>
                             </Drawer.ActionTrigger>
-                            <Button onClick={() => { }}>
+                            {/* <Button onClick={() => { }}>
                                 המשך
-                            </Button>
+                            </Button> */}
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />
