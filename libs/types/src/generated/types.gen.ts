@@ -137,6 +137,66 @@ export type AddEditExpenseDto = {
   };
 };
 
+export type CreateApartmentDto = {
+  [key: string]: unknown;
+};
+
+export type ShoppingListContextType = 'APARTMENT' | 'USER';
+
+export type ShoppingListItemDto = {
+  name: string;
+  isPurchased: boolean;
+  image?: string;
+  category?: string;
+  isUrgent: boolean;
+  amount: number;
+  creatorId: string;
+  createdAt: string;
+  itemId: string;
+};
+
+export type ShoppingList = {
+  shoppingListId: string;
+  contextType: ShoppingListContextType;
+  contextId: string;
+  items: Array<ShoppingListItemDto>;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type NewShoppingListItemDto = {
+  name: string;
+  isPurchased: boolean;
+  image?: string;
+  category?: string;
+  isUrgent: boolean;
+  amount: number;
+  creatorId: string;
+  createdAt: string;
+  itemId?: string;
+};
+
+export type AddItemDto = {
+  itemData: NewShoppingListItemDto;
+  contextType: 'APARTMENT' | 'USER';
+};
+
+export type DeleteItemDto = {
+  itemId: string;
+  contextType: 'APARTMENT' | 'USER';
+};
+
+export type UpdateItemDto = {
+  itemId: string;
+  itemData: NewShoppingListItemDto;
+  contextType: 'APARTMENT' | 'USER';
+};
+
+export type ChangeOrderDto = {
+  itemIds: Array<string>;
+  contextType: 'APARTMENT' | 'USER';
+};
+
 export type AppControllerGetDataData = {
   body?: never;
   path?: never;
@@ -301,17 +361,129 @@ export type PaymentControllerCreatePaymentResponses = {
   201: unknown;
 };
 
-export type ApartmentControllerGetApartmentUsersData = {
-  body?: never;
+export type ApartmentControllerCreateApartmentData = {
+  body: CreateApartmentDto;
   path?: never;
-  query: {
-    apartmentId: string;
-  };
+  query?: never;
   url: '/api/apartment';
 };
 
-export type ApartmentControllerGetApartmentUsersResponses = {
-  200: unknown;
+export type ApartmentControllerCreateApartmentResponses = {
+  201: unknown;
+};
+
+export type ApartmentControllerJoinApartmentData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/apartment/join/{code}';
+};
+
+export type ApartmentControllerJoinApartmentResponses = {
+  201: unknown;
+};
+
+export type ShoppingListControllerGetApartmentShoppingListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/apartment';
+};
+
+export type ShoppingListControllerGetApartmentShoppingListResponses = {
+  200: ShoppingList;
+};
+
+export type ShoppingListControllerGetApartmentShoppingListResponse =
+  ShoppingListControllerGetApartmentShoppingListResponses[keyof ShoppingListControllerGetApartmentShoppingListResponses];
+
+export type ShoppingListControllerGetPersonalShoppingListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/personal';
+};
+
+export type ShoppingListControllerGetPersonalShoppingListResponses = {
+  200: ShoppingList;
+};
+
+export type ShoppingListControllerGetPersonalShoppingListResponse =
+  ShoppingListControllerGetPersonalShoppingListResponses[keyof ShoppingListControllerGetPersonalShoppingListResponses];
+
+export type ShoppingListControllerAddItemData = {
+  body: AddItemDto;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/add-item';
+};
+
+export type ShoppingListControllerAddItemResponses = {
+  200: ShoppingList;
+};
+
+export type ShoppingListControllerAddItemResponse =
+  ShoppingListControllerAddItemResponses[keyof ShoppingListControllerAddItemResponses];
+
+export type ShoppingListControllerDeleteItemData = {
+  body: DeleteItemDto;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/delete-item';
+};
+
+export type ShoppingListControllerDeleteItemResponses = {
+  200: ShoppingList;
+};
+
+export type ShoppingListControllerDeleteItemResponse =
+  ShoppingListControllerDeleteItemResponses[keyof ShoppingListControllerDeleteItemResponses];
+
+export type ShoppingListControllerUpdateItemData = {
+  body: UpdateItemDto;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/update-item';
+};
+
+export type ShoppingListControllerUpdateItemResponses = {
+  200: ShoppingList;
+};
+
+export type ShoppingListControllerUpdateItemResponse =
+  ShoppingListControllerUpdateItemResponses[keyof ShoppingListControllerUpdateItemResponses];
+
+export type ShoppingListControllerClearShoppingListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/clear';
+};
+
+export type ShoppingListControllerClearShoppingListResponses = {
+  201: unknown;
+};
+
+export type ShoppingListControllerMarkAllAsPurchasedData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/mark-all-as-purchased';
+};
+
+export type ShoppingListControllerMarkAllAsPurchasedResponses = {
+  201: unknown;
+};
+
+export type ShoppingListControllerChangeOrderData = {
+  body: ChangeOrderDto;
+  path?: never;
+  query?: never;
+  url: '/api/shopping-list/change-order';
+};
+
+export type ShoppingListControllerChangeOrderResponses = {
+  201: unknown;
 };
 
 export type ClientOptions = {

@@ -1,12 +1,12 @@
-import { ShoppingList, ShoppingListContextType, ShoppingListItemDto } from '@komuna/types';
+import { API, ShoppingList, ShoppingListContextType } from '@komuna/types';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 import { useShoppingListQuery } from '../../hooks/query/useShoppingListQuery';
 import { toaster } from '../../chakra/ui/toaster';
-import { API } from '../../axios';
+import { NewShoppingListItemDto, ShoppingListItemDto } from 'libs/types/src/generated/types.gen';
 
 
 export interface ShoppingListContextValue {
-    shoppingList?: ShoppingList;
+    // shoppingList?: ShoppingList;
     items: ShoppingListItemDto[];
     newItem?: Partial<ShoppingListItemDto> | null;
     setItems: React.Dispatch<React.SetStateAction<ShoppingListItemDto[]>>;
@@ -47,7 +47,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const [items, setItems] = useState(shoppingList?.items || []);
     const [editingItem, setEditingItem] = useState<ShoppingListItemDto | null>(null);
-    const [newItem, setNewItem] = useState<Partial<ShoppingListItemDto> | null>(null);
+    const [newItem, setNewItem] = useState<Partial<NewShoppingListItemDto> | null>(null);
     const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
     const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemDto[]>([]);
 
@@ -63,11 +63,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
             prevItems.map((item) => (item.itemId === itemId ? { ...item, ...itemData } : item))
         );
         try {
-            await API.post<ShoppingList>("/shopping-list/update-item", {
-                itemId,
-                itemData,
-                contextType,
-            });
+            await API.shoppingListControllerUpdateItem({ body: { itemId, itemData: itemData as ShoppingListItemDto, contextType } })
         } catch (error) {
             toaster.error({
                 title: "Error",
@@ -79,12 +75,11 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     const handleAddItem = async () => {
         if (newItem?.name?.trim()) {
             try {
-                const { data } = await API.post<ShoppingList>("/shopping-list/add-item", {
-                    itemData: newItem,
-                    contextType,
-                });
-                setItems(data.items);
-                setNewItem(null);
+                const { data } = await API.shoppingListControllerAddItem({ body: { itemData: newItem as NewShoppingListItemDto, contextType, } })
+                if (data) {
+                    setItems(data.items);
+                    setNewItem(null);
+                }
             } catch (error) {
                 toaster.error({
                     title: "Error",
@@ -98,7 +93,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const handleDeleteItem = async (itemId: string) => {
         try {
-            await API.post<ShoppingList>("/shopping-list/delete-item", { itemId, contextType });
+            await API.shoppingListControllerDeleteItem({ body: { itemId, contextType } })
             setItems(prevItems => prevItems.filter(item => item.itemId !== itemId));
             setActiveSwipe(null);
         } catch (error) {
@@ -135,10 +130,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const updateOrder = async (orderedItems?: ShoppingListItemDto[]) => {
         if (orderedItems) setItems(orderedItems);
-        await API.post<ShoppingList>("/shopping-list/change-order", {
-            itemIds: (orderedItems || items).map(item => item.itemId),
-            contextType
-        });
+        await API.shoppingListControllerChangeOrder({ body: { contextType, itemIds: (orderedItems || items).map(item => item.itemId) } })
     }
 
     const togglePurchased = async (itemId: string) => {
@@ -163,7 +155,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     return (
         <ShoppingListContext.Provider
             value={{
-                shoppingList,
+                // shoppingList,
                 items,
                 setItems,
                 setNewItem,

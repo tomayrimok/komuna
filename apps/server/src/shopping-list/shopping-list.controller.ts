@@ -3,7 +3,10 @@ import { ShoppingListService } from './shopping-list.service';
 import { UseAuth } from '../decorators/UseAuth';
 import { User } from '../decorators/User';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
-import { ShoppingListContextType, ShoppingListItemDto } from '@komuna/types';
+import { ShoppingListContextType } from '@komuna/types';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { ShoppingList } from './shopping-list.entity';
+import { AddItemDto, changeOrderDto, DeleteItemDto, UpdateItemDto } from './dto/shopping-list.dto';
 
 @Controller('shopping-list')
 export class ShoppingListController {
@@ -12,51 +15,60 @@ export class ShoppingListController {
     ) { }
 
     @Get('apartment')
+    @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
     async getApartmentShoppingList(@User() user: UserJwtPayload) {
         return this.shoppingListService.getApartmentShoppingList(user.apartmentId);
     }
 
     @Get('personal')
+    @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
     async getPersonalShoppingList(@User() user: UserJwtPayload) {
         return this.shoppingListService.getPersonalShoppingList(user.userId);
     }
 
     @Post('add-item')
+    @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
-    async addItemToApartmentShoppingList(@User() user: UserJwtPayload, @Body('itemData') itemData: ShoppingListItemDto, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemData);
+    async addItem(@User() user: UserJwtPayload, @Body() body: AddItemDto) {
+        const { itemData, contextType } = body;
+        return this.shoppingListService.addItemToShoppingList(contextType, user.apartmentId, user.userId, itemData);
     }
 
     @Post('delete-item')
+    @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
-    async addItemToPersonalShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.removeItemFromShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId);
+    async deleteItem(@User() user: UserJwtPayload, @Body() body: DeleteItemDto) {
+        const { itemId, contextType } = body;
+        return this.shoppingListService.removeItemFromShoppingList(contextType, user.apartmentId, user.userId, itemId);
     }
 
     @Post('update-item')
+    @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
-    async updateItemInApartmentShoppingList(@User() user: UserJwtPayload, @Body('itemId') itemId: string, @Body('itemData') itemData: Partial<ShoppingListItemDto>, @Body('contextType') contextType: ShoppingListContextType) {
-        return await this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemId, itemData);
+    async updateItem(@User() user: UserJwtPayload, @Body() body: UpdateItemDto) {
+        const { itemId, itemData, contextType } = body;
+        return await this.shoppingListService.updateItemInShoppingList(contextType, user.apartmentId, user.userId, itemId, itemData);
     }
 
     @Post('clear')
     @UseAuth()
     async clearShoppingList(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.clearShoppingList(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId);
+        return this.shoppingListService.clearShoppingList(contextType, user.apartmentId, user.userId);
     }
 
     @Post('mark-all-as-purchased')
     @UseAuth()
     async markAllAsPurchased(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.markAllItemsAsPurchased(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId);
+        return this.shoppingListService.markAllItemsAsPurchased(contextType, user.apartmentId, user.userId);
     }
 
     @Post('change-order')
     @UseAuth()
-    async changeOrder(@User() user: UserJwtPayload, @Body('itemIds') itemIds: string[], @Body('contextType') contextType: ShoppingListContextType) {
-        return this.shoppingListService.changeOrder(contextType, user.apartmentId || '60514c72-5b94-417f-b4a3-9da2092a267f', user.userId, itemIds);
+    async changeOrder(@User() user: UserJwtPayload, @Body() body: changeOrderDto) {
+        const { itemIds, contextType } = body;
+        return this.shoppingListService.changeOrder(contextType, user.apartmentId, user.userId, itemIds);
     }
 
 }

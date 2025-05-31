@@ -312,25 +312,227 @@
       }
     },
     "/api/apartment": {
-      "get": {
-        "operationId": "ApartmentController_getApartmentUsers",
-        "parameters": [
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
         },
         "tags": [
           "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/shopping-list/apartment": {
+      "get": {
+        "operationId": "ShoppingListController_getApartmentShoppingList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/personal": {
+      "get": {
+        "operationId": "ShoppingListController_getPersonalShoppingList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/add-item": {
+      "post": {
+        "operationId": "ShoppingListController_addItem",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/delete-item": {
+      "post": {
+        "operationId": "ShoppingListController_deleteItem",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/update-item": {
+      "post": {
+        "operationId": "ShoppingListController_updateItem",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/clear": {
+      "post": {
+        "operationId": "ShoppingListController_clearShoppingList",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/mark-all-as-purchased": {
+      "post": {
+        "operationId": "ShoppingListController_markAllAsPurchased",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/change-order": {
+      "post": {
+        "operationId": "ShoppingListController_changeOrder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ShoppingList"
         ]
       }
     }
@@ -608,6 +810,221 @@
           "paidById",
           "apartmentId",
           "splits"
+        ]
+      },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ShoppingListContextType": {
+        "type": "string",
+        "enum": [
+          "APARTMENT",
+          "USER"
+        ]
+      },
+      "ShoppingListItemDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isPurchased",
+          "isUrgent",
+          "amount",
+          "creatorId",
+          "createdAt",
+          "itemId"
+        ]
+      },
+      "ShoppingList": {
+        "type": "object",
+        "properties": {
+          "shoppingListId": {
+            "type": "string"
+          },
+          "contextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShoppingListContextType"
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemDto"
+            }
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "shoppingListId",
+          "contextType",
+          "contextId",
+          "items",
+          "updatedAt",
+          "createdAt"
+        ]
+      },
+      "NewShoppingListItemDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isPurchased",
+          "isUrgent",
+          "amount",
+          "creatorId",
+          "createdAt"
+        ]
+      },
+      "AddItemDto": {
+        "type": "object",
+        "properties": {
+          "itemData": {
+            "$ref": "#/components/schemas/NewShoppingListItemDto"
+          },
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          }
+        },
+        "required": [
+          "itemData",
+          "contextType"
+        ]
+      },
+      "DeleteItemDto": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          }
+        },
+        "required": [
+          "itemId",
+          "contextType"
+        ]
+      },
+      "UpdateItemDto": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "itemData": {
+            "$ref": "#/components/schemas/NewShoppingListItemDto"
+          },
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          }
+        },
+        "required": [
+          "itemId",
+          "itemData",
+          "contextType"
+        ]
+      },
+      "changeOrderDto": {
+        "type": "object",
+        "properties": {
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          }
+        },
+        "required": [
+          "itemIds",
+          "contextType"
         ]
       }
     }

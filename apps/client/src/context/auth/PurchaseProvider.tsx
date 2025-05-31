@@ -1,4 +1,4 @@
-import { ShoppingListItemDto } from '@komuna/types';
+import { ShoppingListItemDto } from 'libs/types/src/generated/types.gen';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 
 

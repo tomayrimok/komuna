@@ -15,7 +15,16 @@ import {
   expenseControllerAddEditExpense,
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
-  apartmentControllerGetApartmentUsers,
+  apartmentControllerCreateApartment,
+  apartmentControllerJoinApartment,
+  shoppingListControllerGetApartmentShoppingList,
+  shoppingListControllerGetPersonalShoppingList,
+  shoppingListControllerAddItem,
+  shoppingListControllerDeleteItem,
+  shoppingListControllerUpdateItem,
+  shoppingListControllerClearShoppingList,
+  shoppingListControllerMarkAllAsPurchased,
+  shoppingListControllerChangeOrder,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -34,7 +43,19 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  ApartmentControllerCreateApartmentData,
+  ApartmentControllerJoinApartmentData,
+  ShoppingListControllerGetApartmentShoppingListData,
+  ShoppingListControllerGetPersonalShoppingListData,
+  ShoppingListControllerAddItemData,
+  ShoppingListControllerAddItemResponse,
+  ShoppingListControllerDeleteItemData,
+  ShoppingListControllerDeleteItemResponse,
+  ShoppingListControllerUpdateItemData,
+  ShoppingListControllerUpdateItemResponse,
+  ShoppingListControllerClearShoppingListData,
+  ShoppingListControllerMarkAllAsPurchasedData,
+  ShoppingListControllerChangeOrderData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -436,16 +457,13 @@ export const paymentControllerCreatePaymentMutation = (
   return mutationOptions;
 };
 
-export const apartmentControllerGetApartmentUsersQueryKey = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
-) => createQueryKey('apartmentControllerGetApartmentUsers', options);
+export const apartmentControllerCreateApartmentQueryKey = (options: Options<ApartmentControllerCreateApartmentData>) =>
+  createQueryKey('apartmentControllerCreateApartment', options);
 
-export const apartmentControllerGetApartmentUsersOptions = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
-) => {
+export const apartmentControllerCreateApartmentOptions = (options: Options<ApartmentControllerCreateApartmentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await apartmentControllerGetApartmentUsers({
+      const { data } = await apartmentControllerCreateApartment({
         ...options,
         ...queryKey[0],
         signal,
@@ -453,6 +471,352 @@ export const apartmentControllerGetApartmentUsersOptions = (
       });
       return data;
     },
-    queryKey: apartmentControllerGetApartmentUsersQueryKey(options),
+    queryKey: apartmentControllerCreateApartmentQueryKey(options),
   });
+};
+
+export const apartmentControllerCreateApartmentMutation = (
+  options?: Partial<Options<ApartmentControllerCreateApartmentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerCreateApartmentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ApartmentControllerCreateApartmentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await apartmentControllerCreateApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const apartmentControllerJoinApartmentQueryKey = (options?: Options<ApartmentControllerJoinApartmentData>) =>
+  createQueryKey('apartmentControllerJoinApartment', options);
+
+export const apartmentControllerJoinApartmentOptions = (options?: Options<ApartmentControllerJoinApartmentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerJoinApartmentQueryKey(options),
+  });
+};
+
+export const apartmentControllerJoinApartmentMutation = (
+  options?: Partial<Options<ApartmentControllerJoinApartmentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerJoinApartmentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ApartmentControllerJoinApartmentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerGetApartmentShoppingListQueryKey = (
+  options?: Options<ShoppingListControllerGetApartmentShoppingListData>
+) => createQueryKey('shoppingListControllerGetApartmentShoppingList', options);
+
+export const shoppingListControllerGetApartmentShoppingListOptions = (
+  options?: Options<ShoppingListControllerGetApartmentShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerGetApartmentShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerGetApartmentShoppingListQueryKey(options),
+  });
+};
+
+export const shoppingListControllerGetPersonalShoppingListQueryKey = (
+  options?: Options<ShoppingListControllerGetPersonalShoppingListData>
+) => createQueryKey('shoppingListControllerGetPersonalShoppingList', options);
+
+export const shoppingListControllerGetPersonalShoppingListOptions = (
+  options?: Options<ShoppingListControllerGetPersonalShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerGetPersonalShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerGetPersonalShoppingListQueryKey(options),
+  });
+};
+
+export const shoppingListControllerAddItemQueryKey = (options: Options<ShoppingListControllerAddItemData>) =>
+  createQueryKey('shoppingListControllerAddItem', options);
+
+export const shoppingListControllerAddItemOptions = (options: Options<ShoppingListControllerAddItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerAddItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerAddItemQueryKey(options),
+  });
+};
+
+export const shoppingListControllerAddItemMutation = (
+  options?: Partial<Options<ShoppingListControllerAddItemData>>
+): UseMutationOptions<
+  ShoppingListControllerAddItemResponse,
+  AxiosError<DefaultError>,
+  Options<ShoppingListControllerAddItemData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    ShoppingListControllerAddItemResponse,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerAddItemData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerAddItem({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerDeleteItemQueryKey = (options: Options<ShoppingListControllerDeleteItemData>) =>
+  createQueryKey('shoppingListControllerDeleteItem', options);
+
+export const shoppingListControllerDeleteItemOptions = (options: Options<ShoppingListControllerDeleteItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerDeleteItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerDeleteItemQueryKey(options),
+  });
+};
+
+export const shoppingListControllerDeleteItemMutation = (
+  options?: Partial<Options<ShoppingListControllerDeleteItemData>>
+): UseMutationOptions<
+  ShoppingListControllerDeleteItemResponse,
+  AxiosError<DefaultError>,
+  Options<ShoppingListControllerDeleteItemData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    ShoppingListControllerDeleteItemResponse,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerDeleteItemData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerDeleteItem({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerUpdateItemQueryKey = (options: Options<ShoppingListControllerUpdateItemData>) =>
+  createQueryKey('shoppingListControllerUpdateItem', options);
+
+export const shoppingListControllerUpdateItemOptions = (options: Options<ShoppingListControllerUpdateItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerUpdateItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerUpdateItemQueryKey(options),
+  });
+};
+
+export const shoppingListControllerUpdateItemMutation = (
+  options?: Partial<Options<ShoppingListControllerUpdateItemData>>
+): UseMutationOptions<
+  ShoppingListControllerUpdateItemResponse,
+  AxiosError<DefaultError>,
+  Options<ShoppingListControllerUpdateItemData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    ShoppingListControllerUpdateItemResponse,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerUpdateItemData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerUpdateItem({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerClearShoppingListQueryKey = (
+  options?: Options<ShoppingListControllerClearShoppingListData>
+) => createQueryKey('shoppingListControllerClearShoppingList', options);
+
+export const shoppingListControllerClearShoppingListOptions = (
+  options?: Options<ShoppingListControllerClearShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerClearShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerClearShoppingListQueryKey(options),
+  });
+};
+
+export const shoppingListControllerClearShoppingListMutation = (
+  options?: Partial<Options<ShoppingListControllerClearShoppingListData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ShoppingListControllerClearShoppingListData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerClearShoppingListData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerClearShoppingList({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerMarkAllAsPurchasedQueryKey = (
+  options?: Options<ShoppingListControllerMarkAllAsPurchasedData>
+) => createQueryKey('shoppingListControllerMarkAllAsPurchased', options);
+
+export const shoppingListControllerMarkAllAsPurchasedOptions = (
+  options?: Options<ShoppingListControllerMarkAllAsPurchasedData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerMarkAllAsPurchased({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerMarkAllAsPurchasedQueryKey(options),
+  });
+};
+
+export const shoppingListControllerMarkAllAsPurchasedMutation = (
+  options?: Partial<Options<ShoppingListControllerMarkAllAsPurchasedData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ShoppingListControllerMarkAllAsPurchasedData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerMarkAllAsPurchasedData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerMarkAllAsPurchased({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerChangeOrderQueryKey = (options: Options<ShoppingListControllerChangeOrderData>) =>
+  createQueryKey('shoppingListControllerChangeOrder', options);
+
+export const shoppingListControllerChangeOrderOptions = (options: Options<ShoppingListControllerChangeOrderData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerChangeOrder({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerChangeOrderQueryKey(options),
+  });
+};
+
+export const shoppingListControllerChangeOrderMutation = (
+  options?: Partial<Options<ShoppingListControllerChangeOrderData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ShoppingListControllerChangeOrderData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerChangeOrderData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerChangeOrder({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

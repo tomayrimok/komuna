@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShoppingList } from './shopping-list.entity';
 import { Repository } from 'typeorm';
-import { ShoppingListContextType, ShoppingListItemDto } from '@komuna/types';
+import { ShoppingListContextType } from '@komuna/types';
 import { uniqueId } from 'lodash';
 import { randomUUID } from 'crypto';
+import { NewShoppingListItemDto, ShoppingListItemDto } from './dto/shopping-list-item.dto';
 
 @Injectable()
 export class ShoppingListService {
@@ -22,7 +23,7 @@ export class ShoppingListService {
         return this.shoppingListRepository.findOne({ where: { contextType: ShoppingListContextType.USER, contextId: userId } });
     }
 
-    async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: ShoppingListItemDto): Promise<ShoppingList> {
+    async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: NewShoppingListItemDto): Promise<ShoppingList> {
 
         const itemDataWithId = {
             ...itemData,

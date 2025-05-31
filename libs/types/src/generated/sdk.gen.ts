@@ -18,7 +18,21 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  ApartmentControllerCreateApartmentData,
+  ApartmentControllerJoinApartmentData,
+  ShoppingListControllerGetApartmentShoppingListData,
+  ShoppingListControllerGetApartmentShoppingListResponse,
+  ShoppingListControllerGetPersonalShoppingListData,
+  ShoppingListControllerGetPersonalShoppingListResponse,
+  ShoppingListControllerAddItemData,
+  ShoppingListControllerAddItemResponse,
+  ShoppingListControllerDeleteItemData,
+  ShoppingListControllerDeleteItemResponse,
+  ShoppingListControllerUpdateItemData,
+  ShoppingListControllerUpdateItemResponse,
+  ShoppingListControllerClearShoppingListData,
+  ShoppingListControllerMarkAllAsPurchasedData,
+  ShoppingListControllerChangeOrderData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -172,11 +186,120 @@ export const paymentControllerCreatePayment = <ThrowOnError extends boolean = fa
   });
 };
 
-export const apartmentControllerGetApartmentUsers = <ThrowOnError extends boolean = false>(
-  options: Options<ApartmentControllerGetApartmentUsersData, ThrowOnError>
+export const apartmentControllerCreateApartment = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerCreateApartmentData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
     url: '/api/apartment',
     ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = false>(
+  options?: Options<ApartmentControllerJoinApartmentData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment/join/{code}',
+    ...options,
+  });
+};
+
+export const shoppingListControllerGetApartmentShoppingList = <ThrowOnError extends boolean = false>(
+  options?: Options<ShoppingListControllerGetApartmentShoppingListData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    ShoppingListControllerGetApartmentShoppingListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/shopping-list/apartment',
+    ...options,
+  });
+};
+
+export const shoppingListControllerGetPersonalShoppingList = <ThrowOnError extends boolean = false>(
+  options?: Options<ShoppingListControllerGetPersonalShoppingListData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    ShoppingListControllerGetPersonalShoppingListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/shopping-list/personal',
+    ...options,
+  });
+};
+
+export const shoppingListControllerAddItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerAddItemData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<ShoppingListControllerAddItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/add-item',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const shoppingListControllerDeleteItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerDeleteItemData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<ShoppingListControllerDeleteItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/delete-item',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const shoppingListControllerUpdateItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerUpdateItemData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<ShoppingListControllerUpdateItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/update-item',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const shoppingListControllerClearShoppingList = <ThrowOnError extends boolean = false>(
+  options?: Options<ShoppingListControllerClearShoppingListData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/shopping-list/clear',
+    ...options,
+  });
+};
+
+export const shoppingListControllerMarkAllAsPurchased = <ThrowOnError extends boolean = false>(
+  options?: Options<ShoppingListControllerMarkAllAsPurchasedData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/shopping-list/mark-all-as-purchased',
+    ...options,
+  });
+};
+
+export const shoppingListControllerChangeOrder = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerChangeOrderData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/shopping-list/change-order',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
   });
 };

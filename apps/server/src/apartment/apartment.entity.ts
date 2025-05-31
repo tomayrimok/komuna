@@ -51,7 +51,7 @@ export class Apartment {
   @Column({ nullable: true })
   contract?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'jsonb' })
   billsDetails?: BillsDetails;
 
   /** Renter Settings */

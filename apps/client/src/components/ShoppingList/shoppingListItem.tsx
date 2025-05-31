@@ -1,10 +1,10 @@
 import { Box, Card, Checkbox, Container, Flex, Input } from "@chakra-ui/react";
-import { ShoppingListItemDto } from "@komuna/types";
 import { motion, PanInfo, useMotionValue, animate, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { ShoppingListItemQuantity } from "./shoppingListItemQuantity";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListItemIsUrgent } from "./shoppingListItemIsUrgent";
+import { ShoppingListItemDto } from "libs/types/src/generated/types.gen";
 
 interface ShoppingListItemProps {
     item: ShoppingListItemDto;
