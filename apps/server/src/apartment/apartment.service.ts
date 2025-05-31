@@ -42,6 +42,9 @@ export class ApartmentService {
         return await this.apartmentRepo.findOneBy({ apartmentId });
     }
 
+    /**
+     * For joining a roommate/landlord to an apartment
+     */
     getApartmentByCode(code: string) {
         return this.apartmentRepo.createQueryBuilder("apartment")
             .where('apartment.landlordCode = :code OR apartment.roommateCode = :code', { code })
