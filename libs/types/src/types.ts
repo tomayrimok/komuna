@@ -1,4 +1,6 @@
 import { ShoppingListContextType } from "./enums";
+import { ShoppingListItemDto } from "./generated";
+import { UserRole } from "./enums";
 
 export type ShoppingList = {
 
@@ -14,8 +16,6 @@ export type ShoppingList = {
 
     createdAt: Date;
 }
-import { UserRole } from "./enums";
-import { ShoppingListItemDto } from "./generated";
 
 export type User = {
     userId: string;
