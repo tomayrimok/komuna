@@ -25,6 +25,7 @@ import { AuthUser } from '../user/auth-user.entity';
     TypeOrmModule.forRoot({
       url: process.env.DATABASE_URL,
       type: 'postgres',
+      logging: true,
       entities: [
         User,
         AuthUser,
