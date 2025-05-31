@@ -1,63 +1,91 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
-import { UserApartment } from '../user-apartment/user-apartment.entity';
-import { Task } from '../task/task.entity';
+import { BillsDetails } from '@komuna/types';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Expense } from '../expense/expense.entity';
-import { Payment } from '../payment/payment.entity';
 import { Incident } from '../incident/incident.entity';
-import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
+import { Payment } from '../payment/payment.entity';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
-
+import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
+import { Task } from '../task/task.entity';
+import { UserApartment } from '../user-apartment/user-apartment.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Apartment {
-    @PrimaryGeneratedColumn('uuid')
-    apartmentId: string;
+  @PrimaryGeneratedColumn('uuid')
+  apartmentId: string;
 
-    @Column()
-    name: string;
+  /** Apartment Info */
+  @Column()
+  name: string;
 
-    @Column({ nullable: true })
-    image?: string;
+  @Column({ nullable: true })
+  image?: string;
 
-    @Column({ unique: true })
-    code: string;
+  /** The code to join the apartment. NULL in case the apartment doesn't allow new residents */
+  @Column({ unique: true })
+  code: string;
 
-    @Column({ nullable: true })
-    address?: string;
+  /** Apartment Info */
+  @Column({ nullable: true })
+  address?: string;
 
-    @Column({ nullable: true })
-    city?: string;
+  /** Apartment Info */
+  @Column({ nullable: true })
+  city?: string;
 
-    @Column({ nullable: true })
-    managerId?: string;
+  @Column({ nullable: true })
+  // TODO change to landLordId?!
+  managerId?: string;
 
-    @Column({ nullable: true })
-    contract?: string;
+  /** Apartment Settings */
+  @Column({ type: 'date', nullable: true })
+  contractEndDate?: Date;
 
-    @Column({ nullable: true })
-    billsDetails?: string;
+  /** contract file UserRole */
+  @Column({ nullable: true })
+  contractUrl?: string;
 
-    @OneToMany(() => UserApartment, ua => ua.apartmentId)
-    residents: UserApartment[];
+  @Column({ type: 'float', nullable: true })
+  rent?: number;
 
-    @OneToMany(() => Task, task => task.apartmentId)
-    tasks: Task[];
+  @Column({ nullable: true })
+  contract?: string;
 
-    @OneToMany(() => Expense, e => e.apartmentId)
-    expenses: Expense[];
+  @Column({ nullable: true })
+  billsDetails?: BillsDetails;
 
-    @OneToMany(() => Payment, p => p.apartmentId)
-    payments: Payment[];
+  /** Renter Settings */
+  /** מחיר חושי ועד בית */
+  @Column({ type: 'float', nullable: true })
+  houseCommitteeRent: number;
 
-    @OneToMany(() => Incident, i => i.apartmentId)
-    incidents: Incident[];
+  /** Renter Settings */
+  /** The user id of who pays the house committee, or NULL if it's split equally */
+  @ManyToOne(() => User, (u) => u.userId, { nullable: true })
+  @JoinColumn({ name: 'houseCommitteePayerUserId' })
+  houseCommitteePayerUser?: User;
 
-    @OneToMany(() => ShoppingTemplate, st => st.apartmentId)
-    shoppingTemplates: ShoppingTemplate[];
+  @OneToMany(() => UserApartment, (ua) => ua.apartment, { cascade: true })
+  residents: UserApartment[];
 
-    @OneToMany(() => ShoppingList, sl => sl.contextId)
-    shoppingLists: ShoppingList[];
+  @OneToMany(() => Task, (task) => task.apartmentId)
+  tasks: Task[];
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @OneToMany(() => Expense, (e) => e.apartmentId)
+  expenses: Expense[];
+
+  @OneToMany(() => Payment, (p) => p.apartmentId)
+  payments: Payment[];
+
+  @OneToMany(() => Incident, (i) => i.apartmentId)
+  incidents: Incident[];
+
+  @OneToMany(() => ShoppingTemplate, (st) => st.apartmentId)
+  shoppingTemplates: ShoppingTemplate[];
+
+  @OneToMany(() => ShoppingList, (sl) => sl.contextId)
+  shoppingLists: ShoppingList[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

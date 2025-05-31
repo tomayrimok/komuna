@@ -1,6 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -9,9 +10,6 @@ export class AuthGuard implements CanActivate {
   // canActivate will be executed whenever a protected route is hit
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-
-    // // TODO: REmove this timeout, it's just for testing
-    // await new Promise((resolve) => setTimeout(resolve, 4000));
 
     // Extract token from cookies (Authentication is the cookie name, change as needed)
     const token = this.extractTokenFromCookie(request);
@@ -22,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       // Verify the token (you can also add a secret here or get from config)
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload: UserJwtPayload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
 
