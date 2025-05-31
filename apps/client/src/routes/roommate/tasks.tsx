@@ -1,9 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { TasksHome } from '../../pages/Tasks';
+ 
 
 export const Route = createFileRoute('/roommate/tasks')({
-  component: RouteComponent,
+  component: () => <TasksHome />,
 });
 
-function RouteComponent() {
-  return <div>Hello "/member/tasks"!</div>;
-}

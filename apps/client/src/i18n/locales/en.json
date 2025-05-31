@@ -58,5 +58,22 @@
     },
     "error": {
         "action_failed": "Action failed. Please try again."
+    },
+    "task_category": {
+        "title": "Tasks",
+        "task_list": "Your Tasks:",
+        "tasks": {
+            "title": "Task's Name: <b>{{taskName}}</b>",
+            "due_date": "Due To: <b>{{dueDate}}</b>",
+            "descrption": "Description: <b>{{description}}</b>",
+            "assigned_to": "Participants: <b>{{assignedTo}}</b>",
+            "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
+            "assigned_by": "Assigned By: <b>{{createdBy}}</b>"
+        },
+        "buttons": {
+            "done": "Done",
+            "postpone": "Postpone",
+            "didnt_do": "Didnt Do"
+        }
     }
 }
