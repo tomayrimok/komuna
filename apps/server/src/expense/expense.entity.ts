@@ -21,7 +21,7 @@ export class Expense {
     amount: number;
 
     @ApiProperty({ description: 'ID of the user who paid for the expense' })
-    @Column()
+    @Column({ nullable: true })
     paidById: string;
 
     @ApiProperty({
