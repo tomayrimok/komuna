@@ -1,0 +1,615 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/debt-edge/user-balance-details": {
+      "get": {
+        "operationId": "DebtEdgeController_getUserBalanceDetails",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/debt-edge/user-balance": {
+      "get": {
+        "operationId": "DebtEdgeController_getUserBalance",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/debt-edge/debt-details": {
+      "get": {
+        "operationId": "DebtEdgeController_getDebtDetails",
+        "parameters": [
+          {
+            "name": "debtId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "operationId": "UserController_loginOrCreate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user/verify": {
+      "post": {
+        "operationId": "UserController_verify",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyPhoneNumberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreatedResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user": {
+      "post": {
+        "operationId": "UserController_createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "get": {
+        "operationId": "UserController_getCurrentUserProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "operationId": "UserController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/expense/apartment-expenses": {
+      "get": {
+        "operationId": "ExpenseController_getApartmentExpenses",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/expense/add-edit-expense": {
+      "post": {
+        "operationId": "ExpenseController_addEditExpense",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEditExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/expense/expense-details": {
+      "get": {
+        "operationId": "ExpenseController_getExpenseDetails",
+        "parameters": [
+          {
+            "name": "expenseId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/payment/create-payment": {
+      "post": {
+        "operationId": "PaymentController_createPayment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payment"
+        ]
+      }
+    },
+    "/api/apartment": {
+      "get": {
+        "operationId": "ApartmentController_getApartmentUsers",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Komuna",
+    "description": "Komuna API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "komuna",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number for login"
+          }
+        },
+        "required": [
+          "phoneNumber"
+        ]
+      },
+      "VerifyPhoneNumberDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number to verify"
+          },
+          "code": {
+            "type": "string",
+            "description": "Verification code sent to the phone number"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "code"
+        ]
+      },
+      "UserApartment": {
+        "type": "object",
+        "properties": {}
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {}
+      },
+      "DebtEdge": {
+        "type": "object",
+        "properties": {
+          "debtId": {
+            "type": "string",
+            "description": "Unique identifier for the debt"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this debt belongs to"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user who owes the debt"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user who is owed the debt"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the debt"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date of the debt"
+          },
+          "fromUser": {
+            "description": "User who owes the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "toUser": {
+            "description": "User who is owed the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "debtId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "updatedAt",
+          "fromUser",
+          "toUser"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL to user's profile image"
+          },
+          "apartments": {
+            "description": "User's apartments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "payableRents": {
+            "description": "User's payable rents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "expenses": {
+            "description": "User's expenses",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "debts": {
+            "description": "User's debts",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtEdge"
+            }
+          },
+          "credits": {
+            "description": "User's credits",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtEdge"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "firstName",
+          "phoneNumber",
+          "lastName",
+          "apartments",
+          "payableRents",
+          "expenses",
+          "debts",
+          "credits"
+        ]
+      },
+      "UserCreatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "isUser": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "user",
+          "isUser"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "firstName",
+          "lastName",
+          "image"
+        ]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "user"
+        ]
+      },
+      "AddEditExpenseDto": {
+        "type": "object",
+        "properties": {
+          "expenseId": {
+            "type": "string",
+            "description": "ID of the expense (optional for new expenses)"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense",
+            "minimum": 0
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this expense belongs to"
+          },
+          "splits": {
+            "type": "object",
+            "description": "Object containing user IDs as keys and their share amounts as values",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            }
+          }
+        },
+        "required": [
+          "amount",
+          "description",
+          "paidById",
+          "apartmentId",
+          "splits"
+        ]
+      }
+    }
+  }
+}

@@ -14,9 +14,14 @@ export class UserApartmentService {
     return await this.userApartmentRepo.save(userApartment);
   }
 
-  async countMembership(apartmentId: string, userId: string): Promise<number> {
-    return this.userApartmentRepo.count({
-      where: { apartmentId, userId },
+  async isUserInApartment(userId: string, apartmentId: string): Promise<boolean> {
+    const resident = await this.userApartmentRepo.findOne({
+      where: {
+        userId,
+        apartmentId,
+      },
     });
+
+    return !!resident;
   }
 }
