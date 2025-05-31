@@ -12,15 +12,13 @@ import { User } from '../user/user.entity';
 
 @Entity()
 export class Apartment {
-  @ApiProperty({ description: 'Unique identifier for the apartment' })
   @PrimaryGeneratedColumn('uuid')
   apartmentId: string;
 
-  @ApiProperty({ description: 'Name of the apartment' })
+  /** Apartment Info */
   @Column()
   name: string;
 
-  @ApiProperty({ description: 'URL to apartment image', required: false })
   @Column({ nullable: true })
   image?: string;
 
@@ -32,11 +30,11 @@ export class Apartment {
   @Column({ unique: true, nullable: true })
   roommateCode: string;
 
-  @ApiProperty({ description: 'Apartment address', required: false })
+  /** Apartment Info */
   @Column({ nullable: true })
   address?: string;
 
-  @ApiProperty({ description: 'City where the apartment is located', required: false })
+  /** Apartment Info */
   @Column({ nullable: true })
   city?: string;
 
@@ -53,7 +51,17 @@ export class Apartment {
   @Column({ type: 'date', nullable: true })
   contractEndDate?: Date;
 
-  @ApiProperty({ description: 'Apartment contract details', required: false })
+  /** Apartment Settings */
+  @Column({ type: 'date', nullable: true })
+  contractEndDate?: Date;
+
+  /** contract file UserRole */
+  @Column({ nullable: true })
+  contractUrl?: string;
+
+  @Column({ type: 'float', nullable: true })
+  rent?: number;
+
   @Column({ nullable: true })
   contractUrl?: string;
 
@@ -78,31 +86,24 @@ export class Apartment {
   @OneToMany(() => UserApartment, ua => ua.apartment, { cascade: true })
   residents: UserApartment[];
 
-  @ApiProperty({ type: () => [Task], description: 'Apartment tasks' })
   @OneToMany(() => Task, (task) => task.apartmentId)
   tasks: Task[];
 
-  @ApiProperty({ type: () => [Expense], description: 'Apartment expenses' })
   @OneToMany(() => Expense, (e) => e.apartmentId)
   expenses: Expense[];
 
-  @ApiProperty({ type: () => [Payment], description: 'Apartment payments' })
   @OneToMany(() => Payment, (p) => p.apartmentId)
   payments: Payment[];
 
-  @ApiProperty({ type: () => [Incident], description: 'Apartment incidents' })
   @OneToMany(() => Incident, (i) => i.apartmentId)
   incidents: Incident[];
 
-  @ApiProperty({ type: () => [ShoppingTemplate], description: 'Apartment shopping templates' })
   @OneToMany(() => ShoppingTemplate, (st) => st.apartmentId)
   shoppingTemplates: ShoppingTemplate[];
 
-  @ApiProperty({ type: () => [ShoppingList], description: 'Apartment shopping lists' })
   @OneToMany(() => ShoppingList, (sl) => sl.contextId)
   shoppingLists: ShoppingList[];
 
-  @ApiProperty({ description: 'Date when the apartment was created' })
   @CreateDateColumn()
   createdAt: Date;
 }
