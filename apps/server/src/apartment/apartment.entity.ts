@@ -51,17 +51,6 @@ export class Apartment {
   @Column({ type: 'date', nullable: true })
   contractEndDate?: Date;
 
-  /** Apartment Settings */
-  @Column({ type: 'date', nullable: true })
-  contractEndDate?: Date;
-
-  /** contract file UserRole */
-  @Column({ nullable: true })
-  contractUrl?: string;
-
-  @Column({ type: 'float', nullable: true })
-  rent?: number;
-
   @Column({ nullable: true })
   contractUrl?: string;
 
