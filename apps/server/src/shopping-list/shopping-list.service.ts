@@ -96,7 +96,12 @@ export class ShoppingListService {
         }
 
         const itemsMap = new Map(shoppingList.items.map(item => [item.itemId, item]));
-        shoppingList.items = itemIds.map(itemId => itemsMap.get(itemId)).filter(item => item !== undefined);
+        const itemsNotInList = shoppingList.items.filter(item => !itemIds.includes(item.itemId));
+        const orderedItems = itemIds
+            .map(itemId => itemsMap.get(itemId))
+            .filter((item): item is typeof shoppingList.items[0] => item !== undefined);
+
+        shoppingList.items = [...itemsNotInList, ...orderedItems];
 
         return this.shoppingListRepository.save(shoppingList);
     }
