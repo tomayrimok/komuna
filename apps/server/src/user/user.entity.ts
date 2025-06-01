@@ -31,6 +31,10 @@ export class User {
   @OneToMany(() => UserApartment, (ua) => ua.user)
   apartments: UserApartment[];
 
+  @ApiProperty({ type: () => [Apartment], description: "User's apartments as landlord" })
+  @OneToMany(() => Apartment, (a) => a.landlord)
+  landlordApartments: Apartment[];
+
   @ApiProperty({ type: () => [UserApartment], description: "User's payable rents" })
   @OneToMany(() => UserApartment, (ua) => ua.payableByUser)
   payableRents: UserApartment[];
