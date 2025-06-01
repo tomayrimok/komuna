@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Apartment } from './apartment.entity';
 import { Repository } from 'typeorm';
 import { UserRole } from '@komuna/types';
 import { NotificationsService } from '../notifications/notifications.service';
 import * as admin from 'firebase-admin';
+import { UserApartment } from '../user-apartment/user-apartment.entity';
+import type { User } from '../user/user.entity';
+import { Apartment } from './apartment.entity';
 
 @Injectable()
 export class ApartmentService {
@@ -12,15 +14,32 @@ export class ApartmentService {
         @InjectRepository(Apartment)
         private readonly apartmentRepo: Repository<Apartment>,
         private readonly notificationService: NotificationsService,
-
     ) { }
-
 
     async createApartment(apartment: Partial<Apartment>) {
         return await this.apartmentRepo.save(apartment);
     }
+
     async updateApartment(apartmentId: string, apartment: Partial<Apartment>) {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
+    }
+
+    public async addRoommate(apartment: Apartment, userApartment: UserApartment) {
+        await this.apartmentRepo.manager.insert(UserApartment, userApartment);
+
+        return this.apartmentRepo
+            .createQueryBuilder()
+            .relation(Apartment, "residents")
+            .of(apartment)
+            .add(userApartment);
+    }
+
+    public async addLandlord(apartment: Apartment, user: User) {
+        return this.apartmentRepo
+            .createQueryBuilder()
+            .relation(Apartment, "landlord")
+            .of(apartment)
+            .set(user);
     }
 
     async getApartment(apartmentId: string) {
@@ -43,6 +62,18 @@ export class ApartmentService {
         }
 
     }
+
+    /**
+     * For joining a roommate/landlord to an apartment
+     */
+    getApartmentByCode(code: string) {
+        return this.apartmentRepo.createQueryBuilder("apartment")
+            .where('apartment.landlordCode = :code OR apartment.roommateCode = :code', { code })
+            .leftJoinAndSelect('apartment.residents', 'residents')
+            .leftJoinAndSelect('apartment.landlord', 'landlord')
+            .getOne();
+    }
+
 
     async getApartmentWithResidents(apartmentId: string) {
         return await this.apartmentRepo.findOne({

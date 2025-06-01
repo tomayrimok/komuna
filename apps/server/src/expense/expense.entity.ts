@@ -15,7 +15,7 @@ export class Expense {
     @Column('float')
     amount: number;
 
-    @Column()
+    @Column({ nullable: true })
     paidById: string;
 
     @Column('json', { nullable: true })

@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ApartmentController } from './apartment.controller';
-import { ApartmentService } from './apartment.service';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApartmentController } from './apartment.controller';
 import { Apartment } from './apartment.entity';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { ApartmentService } from './apartment.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Apartment]),
-    NotificationsModule
+    NotificationsModule,
+    JwtModule,
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],
-  exports: [ApartmentService],
 })
 export class ApartmentModule { }

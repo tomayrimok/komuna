@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { addMinutes } from 'date-fns';
 import { JwtService } from '@nestjs/jwt';
-import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import axios from 'axios';
+import { addMinutes } from 'date-fns';
 import { Repository } from 'typeorm';
-import { generateVerificationCode } from '../utils/generateVerificationCode';
+import { generateLoginCode } from '../utils/generateVerificationCode';
+import { isSMSEnabled } from '../utils/isSMSEnabled';
 import { AuthUser } from './auth-user.entity';
 import { UserJwtPayload } from './dto/jwt-user.dto';
 import { CreateUserDto } from './dto/user.dto';
-import { isSMSEnabled } from '../utils/isSMSEnabled';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -29,7 +29,7 @@ export class UserService {
       user = this.authUserRepo.create({ phoneNumber });
     }
 
-    const verificationCode = generateVerificationCode();
+    const verificationCode = generateLoginCode();
     user.verificationCode = verificationCode;
     user.verificationCodeExpiresAt = addMinutes(new Date(), 5);
 
