@@ -37,6 +37,9 @@ export class BaseShoppingListItemDto {
 }
 export class ShoppingListItemDto extends BaseShoppingListItemDto {
 
+    @ApiProperty()
+    itemId: string;
+
 }
 
 export class NewShoppingListItemDto extends BaseShoppingListItemDto {

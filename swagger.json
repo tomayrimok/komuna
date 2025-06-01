@@ -770,13 +770,17 @@
           },
           "amount": {
             "type": "number"
+          },
+          "itemId": {
+            "type": "string"
           }
         },
         "required": [
           "name",
           "isPurchased",
           "isUrgent",
-          "amount"
+          "amount",
+          "itemId"
         ]
       },
       "ShoppingList": {

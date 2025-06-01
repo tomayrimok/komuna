@@ -81,6 +81,7 @@ export type ShoppingListItemDto = {
   category?: string;
   isUrgent: boolean;
   amount: number;
+  itemId: string;
 };
 
 export type ShoppingList = {

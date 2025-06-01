@@ -1,27 +1,18 @@
 import {
-    Box,
-    Button,
-    Card,
-    Drawer,
     Flex,
     Icon,
-    IconButton,
-    Input,
     Loader,
     Text
 } from "@chakra-ui/react";
-import { IconPlus, IconShoppingCart } from "@tabler/icons-react";
+import { ShoppingListContextType } from "@komuna/types";
+import { IconShoppingCart } from "@tabler/icons-react";
 import { Reorder } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem";
-import { ShoppingListItemIsUrgent } from "../../components/ShoppingList/shoppingListItemIsUrgent";
-import { ShoppingListItemQuantity } from "../../components/ShoppingList/shoppingListItemQuantity";
-import { useShoppingList } from "../../context/auth/ShoppingListProvider";
-import { ShoppingListContextType } from "@komuna/types";
-import { useNavigate } from "@tanstack/react-router";
-import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
-import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppingListItemDetailsDrawer";
 import { useTranslation } from "react-i18next";
+import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem";
+import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppingListItemDetailsDrawer";
+import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
+import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 
 const NEW_ITEM_DEFAULT = {
     itemId: "",
@@ -42,6 +33,7 @@ const ShoppingListPage: React.FC = () => {
         handleAddItem,
         openEditDrawer,
         isShoppingListLoading,
+        contextType
     } = useShoppingList();
 
     const { t } = useTranslation();
@@ -65,10 +57,10 @@ const ShoppingListPage: React.FC = () => {
                 <ShoppingListItemDetailsDrawer />
             </Flex>
 
-            {/* 
-            {contextType === ShoppingListContextType.APARTMENT && (
-                <ShoppingListPurchaseDrawer />
-            )} */}
+
+            {/* {contextType === ShoppingListContextType.APARTMENT && ( */}
+            <ShoppingListPurchaseDrawer />
+            {/* )} */}
 
 
             <Reorder.Group

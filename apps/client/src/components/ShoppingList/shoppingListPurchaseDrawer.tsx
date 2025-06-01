@@ -1,17 +1,20 @@
-import { Box, Button, CloseButton, Drawer, HStack, Icon, Input, InputGroup, Portal, Text, VStack } from "@chakra-ui/react";
-import { useShoppingList } from "../../context/auth/ShoppingListProvider"
-import SelectionCard from "../selectionCard";
-import { IconSearch, IconShoppingBag } from "@tabler/icons-react";
+import { Button, CloseButton, Drawer, Portal, VStack } from "@chakra-ui/react";
+import { IconShoppingBag } from "@tabler/icons-react";
 import { usePurchase } from "../../context/auth/PurchaseProvider";
+import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { useFilterList } from "../../hooks/useFilterList";
 import { testInput } from "../../utils/testInput";
 import SearchInput from "../searchInput";
+import SelectionCard from "../selectionCard";
 
 const ShoppingListPurchaseDrawer = () => {
     const { items } = useShoppingList();
     const { purchaseItems, toggleItem } = usePurchase();
 
     const { filteredResults, handleChange } = useFilterList(items.filter(item => !item.isPurchased), (list, value) => list.filter(item => testInput(item.name, value)))
+
+    const handleSave = () => {
+    }
 
     return (
         <Drawer.Root placement={"bottom"} >
@@ -51,9 +54,9 @@ const ShoppingListPurchaseDrawer = () => {
                                     ביטול
                                 </Button>
                             </Drawer.ActionTrigger>
-                            {/* <Button onClick={() => { }}>
+                            <Button onClick={handleSave}>
                                 המשך
-                            </Button> */}
+                            </Button>
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />
