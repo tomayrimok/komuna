@@ -16,7 +16,7 @@ export class Notification {
     @Column()
     contextId: string;
 
-    @Column({ nullable: true })
+    @Column({ type: 'enum', enum: UserRole, array: true })
     roles: UserRole[];
 
     @Column({ type: 'jsonb' })

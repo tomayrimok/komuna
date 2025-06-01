@@ -6,12 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationToken } from './notification-token.entity';
 import { Notification } from './notification.entity';
 import { ApartmentModule } from '../apartment/apartment.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
     imports: [
         JwtModule,
         TypeOrmModule.forFeature([NotificationToken, Notification]),
-        ApartmentModule
+        ApartmentModule,
+        ScheduleModule.forRoot(),
     ],
     providers: [NotificationService],
     controllers: [NotificationController],

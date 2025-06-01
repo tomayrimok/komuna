@@ -36,8 +36,6 @@ export class NotificationService {
 
     @Cron(CronExpression.EVERY_MINUTE)
     async handleCron() {
-
-        console.log('Running scheduled notification check...');
         const now = new Date();
         const notifications = await this.findScheduledBefore(now);
         notifications.forEach(n => this.sendNotificationByContextType(n));
@@ -111,10 +109,10 @@ export class NotificationService {
     }
 
     async sendNotificationToApartment(apartmentId: string, payload: admin.messaging.MessagingPayload, roles: UserRole[], excludeUserId?: string) {
-        const apartment = await this.apartmentService.getApartment(apartmentId);
+        const apartment = await this.apartmentService.getApartmentWithResidents(apartmentId);
         if (!apartment) return
 
-        const users = apartment.residents.filter(user =>
+        const users = apartment.residents?.filter(user =>
             roles.includes(user.role) && user.userId !== excludeUserId
         );
 
@@ -125,6 +123,23 @@ export class NotificationService {
             );
         }
 
+    }
+
+    async addNotification(
+        contextType: ContextType,
+        contextId: string,
+        payload: admin.messaging.MessagingPayload,
+        roles: UserRole[] = [],
+    ): Promise<Notification> {
+        const notification = this.notificationRepo.create({
+            contextType,
+            contextId,
+            payload,
+            roles,
+            scheduledAt: new Date(),
+        });
+
+        return this.notificationRepo.save(notification);
     }
 
 }
