@@ -572,8 +572,13 @@
           "image": {
             "type": "string"
           },
-          "code": {
-            "type": "string"
+          "landlordCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
+          },
+          "roommateCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
           },
           "address": {
             "type": "string"
@@ -581,35 +586,34 @@
           "city": {
             "type": "string"
           },
-          "managerId": {
-            "type": "string"
+          "landlordUserId": {
+            "type": "string",
+            "description": "Landlord User ID"
+          },
+          "landlord": {
+            "type": "object",
+            "description": "Landlord of the apartment (Relation)"
           },
           "contractEndDate": {
             "format": "date-time",
-            "type": "string"
-          },
-          "contractUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Apartment contract end date"
           },
           "rent": {
-            "type": "number"
-          },
-          "contract": {
-            "type": "string"
+            "type": "number",
+            "description": "Apartment rent"
           },
           "billsDetails": {
-            "type": "object"
+            "type": "object",
+            "description": "Bills payment details"
           },
           "houseCommitteeRent": {
-            "type": "number"
+            "type": "number",
+            "description": "Monthly house committee rent"
           },
           "houseCommitteePayerUser": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/User"
-              }
-            ]
+            "type": "object",
+            "description": "User ID of the house committee payer. NULL if it's split equally"
           },
           "residents": {
             "type": "array",
@@ -666,17 +670,10 @@
           "apartmentId",
           "name",
           "image",
-          "code",
+          "landlordCode",
+          "roommateCode",
           "address",
           "city",
-          "managerId",
-          "contractEndDate",
-          "contractUrl",
-          "rent",
-          "contract",
-          "billsDetails",
-          "houseCommitteeRent",
-          "houseCommitteePayerUser",
           "residents",
           "tasks",
           "expenses",
@@ -834,6 +831,13 @@
               "$ref": "#/components/schemas/UserApartment"
             }
           },
+          "landlordApartments": {
+            "description": "User's apartments as landlord",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Apartment"
+            }
+          },
           "payableRents": {
             "description": "User's payable rents",
             "type": "array",
@@ -869,6 +873,7 @@
           "phoneNumber",
           "lastName",
           "apartments",
+          "landlordApartments",
           "payableRents",
           "expenses",
           "debts",
