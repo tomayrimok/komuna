@@ -1,22 +1,16 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-
-import { ApartmentService } from '../apartment/apartment.service';
 import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { NotificationService } from '../notification/notification.service';
 import { UserService } from '../user/user.service';
+import { ApartmentService } from '../apartment/apartment.service';
+import { ContextType, UserRole } from '@komuna/types';
 
 @Injectable()
 export class AppService implements OnModuleInit {
   constructor(
-    private readonly debtEdgeService: DebtEdgeService,
-    private readonly paymentService: PaymentService,
-    private readonly expenseService: ExpenseService,
-    private readonly userService: UserService,
-    private readonly apartmentService: ApartmentService,
-    private readonly userApartmentService: UserApartmentService,
     private readonly notificationService: NotificationService,
   ) { }
 
@@ -26,7 +20,18 @@ export class AppService implements OnModuleInit {
 
   async testNotificationService() {
     setInterval(() => {
-      this.notificationService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+      // this.notificationService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+      this.notificationService.addNotification(
+        ContextType.APARTMENT,
+        '92dc0b55-bf6c-450c-b927-b820dd492e97',
+        {
+          notification: {
+            title: 'Test Notification',
+            body: 'This is a test notification',
+          },
+        },
+        [UserRole.ROOMMATE]
+      )
     }, 6000);
   }
 

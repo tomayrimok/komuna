@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ApartmentController } from './apartment.controller';
-import { ApartmentService } from './apartment.service';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApartmentController } from './apartment.controller';
 import { Apartment } from './apartment.entity';
-import { NotificationModule } from '../notification/notification.module';
+import { ApartmentService } from './apartment.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Apartment])
+    TypeOrmModule.forFeature([Apartment]),
+    JwtModule,
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],
