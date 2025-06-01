@@ -433,45 +433,9 @@
         "type": "object",
         "properties": {}
       },
-      "Task": {
-        "type": "object",
-        "properties": {}
-      },
-      "Expense": {
-        "type": "object",
-        "properties": {}
-      },
-      "Payment": {
-        "type": "object",
-        "properties": {}
-      },
-      "Incident": {
-        "type": "object",
-        "properties": {}
-      },
-      "ShoppingTemplate": {
-        "type": "object",
-        "properties": {}
-      },
-      "ShoppingList": {
-        "type": "object",
-        "properties": {}
-      },
       "Apartment": {
         "type": "object",
         "properties": {
-          "apartmentId": {
-            "type": "string",
-            "description": "Unique identifier for the apartment"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the apartment"
-          },
-          "image": {
-            "type": "string",
-            "description": "URL to apartment image"
-          },
           "landlordCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
@@ -479,14 +443,6 @@
           "roommateCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
-          },
-          "address": {
-            "type": "string",
-            "description": "Apartment address"
-          },
-          "city": {
-            "type": "string",
-            "description": "City where the apartment is located"
           },
           "landlordUserId": {
             "type": "string",
@@ -500,10 +456,6 @@
             "format": "date-time",
             "type": "string",
             "description": "Apartment contract end date"
-          },
-          "contractUrl": {
-            "type": "string",
-            "description": "Apartment contract details"
           },
           "rent": {
             "type": "number",
@@ -527,69 +479,17 @@
             "items": {
               "$ref": "#/components/schemas/UserApartment"
             }
-          },
-          "tasks": {
-            "description": "Apartment tasks",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Task"
-            }
-          },
-          "expenses": {
-            "description": "Apartment expenses",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Expense"
-            }
-          },
-          "payments": {
-            "description": "Apartment payments",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Payment"
-            }
-          },
-          "incidents": {
-            "description": "Apartment incidents",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Incident"
-            }
-          },
-          "shoppingTemplates": {
-            "description": "Apartment shopping templates",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingTemplate"
-            }
-          },
-          "shoppingLists": {
-            "description": "Apartment shopping lists",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingList"
-            }
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Date when the apartment was created"
           }
         },
         "required": [
-          "apartmentId",
-          "name",
           "landlordCode",
           "roommateCode",
-          "residents",
-          "tasks",
-          "expenses",
-          "payments",
-          "incidents",
-          "shoppingTemplates",
-          "shoppingLists",
-          "createdAt"
+          "residents"
         ]
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {}
       },
       "DebtEdge": {
         "type": "object",
