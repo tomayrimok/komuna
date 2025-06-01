@@ -1,12 +1,6 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { DebtEdgeService } from '../debt-edge/debt-edge.service';
-import { ExpenseService } from '../expense/expense.service';
-import { PaymentService } from '../payment/payment.service';
-import { UserApartmentService } from '../user-apartment/user-apartment.service';
-import { NotificationService } from '../notification/notification.service';
-import { UserService } from '../user/user.service';
-import { ApartmentService } from '../apartment/apartment.service';
 import { ContextType, UserRole } from '@komuna/types';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {

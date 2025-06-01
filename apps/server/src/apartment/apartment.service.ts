@@ -15,10 +15,10 @@ export class ApartmentService {
         private readonly apartmentRepo: Repository<Apartment>,
     ) { }
 
-
     async createApartment(apartment: Partial<Apartment>) {
         return await this.apartmentRepo.save(apartment);
     }
+
     async updateApartment(apartmentId: string, apartment: Partial<Apartment>) {
         return await this.apartmentRepo.update({ apartmentId }, apartment);
     }
