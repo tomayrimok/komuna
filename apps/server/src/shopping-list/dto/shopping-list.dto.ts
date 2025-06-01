@@ -1,54 +1,46 @@
 import { ShoppingListContextType } from "@komuna/types";
 import { ApiProperty } from "@nestjs/swagger";
-import { NewShoppingListItemDto } from "./shopping-list-item.dto";
-import { IsEnum, ValidateNested } from "class-validator";
+import { NewShoppingListItemDto, ShoppingListItemDto } from "./shopping-list-item.dto";
+import { IsArray, IsEnum, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
-
-export class AddItemDto {
-    @ApiProperty({ type: NewShoppingListItemDto })
-    @ValidateNested()
-    @Type(() => NewShoppingListItemDto)
-    itemData: NewShoppingListItemDto;
-
+export class EditShoppingListItemDto {
     @ApiProperty({ enum: ShoppingListContextType })
     @IsEnum(ShoppingListContextType)
     contextType: ShoppingListContextType;
 }
 
-export class ClearShoppingListDto {
-    @ApiProperty({ enum: ShoppingListContextType })
-    contextType: ShoppingListContextType;
-}
-
-export class MarkAllAsPurchasedDto {
-    @ApiProperty({ enum: ShoppingListContextType })
-    contextType: ShoppingListContextType;
-}
-
-export class DeleteItemDto {
-    @ApiProperty()
-    itemId: string;
-
-    @ApiProperty({ enum: ShoppingListContextType })
-    contextType: ShoppingListContextType;
-}
-
-export class UpdateItemDto {
-    @ApiProperty()
-    itemId: string;
-
+export class AddItemDto extends EditShoppingListItemDto {
     @ApiProperty({ type: NewShoppingListItemDto })
-    itemData: Partial<NewShoppingListItemDto>;
-
-    @ApiProperty({ enum: ShoppingListContextType })
-    contextType: ShoppingListContextType;
+    @ValidateNested()
+    @Type(() => NewShoppingListItemDto)
+    itemData: NewShoppingListItemDto;
 }
 
-export class changeOrderDto {
-    @ApiProperty({ type: [String] })
-    itemIds: string[];
+export class ClearShoppingListDto extends EditShoppingListItemDto { }
 
-    @ApiProperty({ enum: ShoppingListContextType })
-    contextType: ShoppingListContextType;
+export class MarkAllAsPurchasedDto extends EditShoppingListItemDto { }
+
+export class DeleteItemDto extends EditShoppingListItemDto {
+    @ApiProperty()
+    @IsString()
+    itemId: string;
+}
+
+export class UpdateItemDto extends EditShoppingListItemDto {
+    @ApiProperty()
+    @IsString()
+    itemId: string;
+
+    @ApiProperty({ type: ShoppingListItemDto })
+    @ValidateNested()
+    @Type(() => ShoppingListItemDto)
+    itemData: Partial<ShoppingListItemDto>;
+
+}
+
+export class changeOrderDto extends EditShoppingListItemDto {
+    @ApiProperty({ type: [String] })
+    @IsArray()
+    itemIds: string[];
 }

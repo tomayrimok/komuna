@@ -26,7 +26,7 @@ import { ShoppingListModule } from '../shopping-list/shopping-list.module';
     TypeOrmModule.forRoot({
       url: process.env.DATABASE_URL,
       type: 'postgres',
-      logging: true,
+      // logging: true,
       entities: [
         User,
         AuthUser,

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
 
 export class BaseShoppingListItemDto {
@@ -9,34 +9,36 @@ export class BaseShoppingListItemDto {
     name: string;
 
     @ApiProperty()
+    @IsBoolean()
+    @IsOptional()
     isPurchased: boolean;
 
     @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
     image?: string;
 
     @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
     category?: string;
 
     @ApiProperty()
+    @IsBoolean()
+    @IsOptional()
     isUrgent: boolean;
 
     @ApiProperty()
     amount: number;
 
-    @ApiProperty()
     creatorId: string;
-    // assignedTo?: string;
 
-    @ApiProperty()
     createdAt: string;
 }
 export class ShoppingListItemDto extends BaseShoppingListItemDto {
 
-    @ApiProperty()
-    itemId: string;
 }
 
 export class NewShoppingListItemDto extends BaseShoppingListItemDto {
-    @ApiProperty({ required: false })
-    itemId?: string;
+
 }
