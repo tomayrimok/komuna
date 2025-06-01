@@ -17,7 +17,7 @@ export const useCreatePayment = () => {
         onSuccess: (data, variables) => {
             navigate({ to: '/roommate/payments' });
             toaster.success({ title: t('payments.settle-up-success') });
-            queryClient.invalidateQueries({ queryKey: ["debtPayments", variables.apartmentId, currentUserDetails?.userId] });
+            queryClient.invalidateQueries({ queryKey: ["userBalanceDetails", variables.apartmentId, currentUserDetails?.userId] });
         },
         onError: (error: any) => {
             toaster.error({ title: error?.response.data.error || t('error.action_failed'), });
