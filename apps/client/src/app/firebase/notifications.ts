@@ -13,7 +13,7 @@ export const requestPermissionAndGetToken = async () => {
         }
 
         const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        await axios.post('/api/notifications/register-token', { token });
+        await axios.post('/api/notification/register-token', { token });
         return token;
     } catch (err) {
         console.error('Error getting FCM token:', err);

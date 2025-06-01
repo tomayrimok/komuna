@@ -3,12 +3,11 @@ import { ApartmentController } from './apartment.controller';
 import { ApartmentService } from './apartment.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Apartment } from './apartment.entity';
-import { NotificationsModule } from '../notifications/notifications.module';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Apartment]),
-    NotificationsModule
+    TypeOrmModule.forFeature([Apartment])
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],

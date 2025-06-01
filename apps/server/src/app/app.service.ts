@@ -5,7 +5,7 @@ import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
-import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationService } from '../notification/notification.service';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -17,16 +17,16 @@ export class AppService implements OnModuleInit {
     private readonly userService: UserService,
     private readonly apartmentService: ApartmentService,
     private readonly userApartmentService: UserApartmentService,
-    private readonly notificationsService: NotificationsService, // Assuming you have a NotificationsService
+    private readonly notificationService: NotificationService,
   ) { }
 
   onModuleInit() {
-    // this.testNotificationsService();
+    // this.testNotificationService();
   }
 
-  async testNotificationsService() {
+  async testNotificationService() {
     setInterval(() => {
-      this.notificationsService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+      this.notificationService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
     }, 6000);
   }
 

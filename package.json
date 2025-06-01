@@ -13,6 +13,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/schedule": "^6.0.0",
     "@nestjs/swagger": "^8.1.1",
     "@nestjs/typeorm": "^11.0.0",
     "@silk-hq/components": "^0.9.3",

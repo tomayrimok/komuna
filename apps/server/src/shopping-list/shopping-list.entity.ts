@@ -1,4 +1,4 @@
-import { ShoppingListContextType } from '@komuna/types';
+import { ContextType } from '@komuna/types';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,8 +12,8 @@ export class ShoppingList {
   @PrimaryGeneratedColumn('uuid')
   shoppingListId: string;
 
-  @Column({ type: 'enum', enum: ShoppingListContextType })
-  contextType: ShoppingListContextType;
+  @Column({ type: 'enum', enum: ContextType })
+  contextType: ContextType;
 
   @Column()
   contextId: string;

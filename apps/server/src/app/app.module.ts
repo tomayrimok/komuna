@@ -20,8 +20,8 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
-import { NotificationsModule } from '../notifications/notifications.module';
-import { NotificationToken } from '../notifications/notification-token.entity';
+import { NotificationModule } from '../notification/notification.module';
+import { NotificationToken } from '../notification/notification-token.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -50,7 +50,7 @@ import { NotificationToken } from '../notifications/notification-token.entity';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
-    NotificationsModule
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],
