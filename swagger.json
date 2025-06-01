@@ -312,6 +312,27 @@
       }
     },
     "/api/apartment": {
+      "get": {
+        "operationId": "ApartmentController_getApartmentUsers",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      },
       "post": {
         "operationId": "ApartmentController_createApartment",
         "parameters": [],
@@ -585,6 +606,60 @@
         "type": "object",
         "properties": {}
       },
+      "Apartment": {
+        "type": "object",
+        "properties": {
+          "landlordCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
+          },
+          "roommateCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
+          },
+          "landlordUserId": {
+            "type": "string",
+            "description": "Landlord User ID"
+          },
+          "landlord": {
+            "type": "object",
+            "description": "Landlord of the apartment (Relation)"
+          },
+          "contractEndDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Apartment contract end date"
+          },
+          "rent": {
+            "type": "number",
+            "description": "Apartment rent"
+          },
+          "billsDetails": {
+            "type": "object",
+            "description": "Bills payment details"
+          },
+          "houseCommitteeRent": {
+            "type": "number",
+            "description": "Monthly house committee rent"
+          },
+          "houseCommitteePayerUser": {
+            "type": "object",
+            "description": "User ID of the house committee payer. NULL if it's split equally"
+          },
+          "residents": {
+            "description": "Apartment residents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          }
+        },
+        "required": [
+          "landlordCode",
+          "roommateCode",
+          "residents"
+        ]
+      },
       "Expense": {
         "type": "object",
         "properties": {}
@@ -671,6 +746,13 @@
               "$ref": "#/components/schemas/UserApartment"
             }
           },
+          "landlordApartments": {
+            "description": "User's apartments as landlord",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Apartment"
+            }
+          },
           "payableRents": {
             "description": "User's payable rents",
             "type": "array",
@@ -706,6 +788,7 @@
           "phoneNumber",
           "lastName",
           "apartments",
+          "landlordApartments",
           "payableRents",
           "expenses",
           "debts",
@@ -843,25 +926,13 @@
           },
           "amount": {
             "type": "number"
-          },
-          "creatorId": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string"
           }
         },
         "required": [
           "name",
           "isPurchased",
           "isUrgent",
-          "amount",
-          "creatorId",
-          "createdAt",
-          "itemId"
+          "amount"
         ]
       },
       "ShoppingList": {
@@ -924,107 +995,96 @@
           },
           "amount": {
             "type": "number"
-          },
-          "creatorId": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string"
           }
         },
         "required": [
           "name",
           "isPurchased",
           "isUrgent",
-          "amount",
-          "creatorId",
-          "createdAt"
+          "amount"
         ]
       },
       "AddItemDto": {
         "type": "object",
         "properties": {
-          "itemData": {
-            "$ref": "#/components/schemas/NewShoppingListItemDto"
-          },
           "contextType": {
             "type": "string",
             "enum": [
               "APARTMENT",
               "USER"
             ]
+          },
+          "itemData": {
+            "$ref": "#/components/schemas/NewShoppingListItemDto"
           }
         },
         "required": [
-          "itemData",
-          "contextType"
+          "contextType",
+          "itemData"
         ]
       },
       "DeleteItemDto": {
         "type": "object",
         "properties": {
-          "itemId": {
-            "type": "string"
-          },
           "contextType": {
             "type": "string",
             "enum": [
               "APARTMENT",
               "USER"
             ]
+          },
+          "itemId": {
+            "type": "string"
           }
         },
         "required": [
-          "itemId",
-          "contextType"
+          "contextType",
+          "itemId"
         ]
       },
       "UpdateItemDto": {
         "type": "object",
         "properties": {
-          "itemId": {
-            "type": "string"
-          },
-          "itemData": {
-            "$ref": "#/components/schemas/NewShoppingListItemDto"
-          },
           "contextType": {
             "type": "string",
             "enum": [
               "APARTMENT",
               "USER"
             ]
+          },
+          "itemId": {
+            "type": "string"
+          },
+          "itemData": {
+            "$ref": "#/components/schemas/ShoppingListItemDto"
           }
         },
         "required": [
+          "contextType",
           "itemId",
-          "itemData",
-          "contextType"
+          "itemData"
         ]
       },
       "changeOrderDto": {
         "type": "object",
         "properties": {
-          "itemIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "contextType": {
             "type": "string",
             "enum": [
               "APARTMENT",
               "USER"
             ]
+          },
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
-          "itemIds",
-          "contextType"
+          "contextType",
+          "itemIds"
         ]
       }
     }
