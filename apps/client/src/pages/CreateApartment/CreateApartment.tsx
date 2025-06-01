@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Button, HStack } from '@chakra-ui/react';
 import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
-import ShareApartmentCode from './ShareApartmentCode';
+import { ShareApartmentCode } from './ShareApartmentCode';
 import ApartmentLayout from './ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import { RenterSettings } from './RenterSettings';
-import { CreateApartmentDto, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
@@ -50,7 +50,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
     rent: undefined,
     payableByUserId: "",
     houseCommitteeRent: undefined,
-    houseCommitteePayerUserId: "",
+    houseCommitteePayerUserId: RENTER_PAYMENT_WAYS.RENTER,
   },
 }
 
