@@ -11,7 +11,7 @@ export class ExpenseService {
     @InjectRepository(Expense)
     private readonly expenseRepo: Repository<Expense>,
     private readonly debtEdgeService: DebtEdgeService
-  ) {}
+  ) { }
 
   // This method creates a new expense and updates the debts of the users involved in the expense.
   // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
@@ -65,20 +65,17 @@ export class ExpenseService {
   }
 
   async getApartmentExpenses(apartmentId: string, userId: string) {
-    return this.expenseRepo
-      .createQueryBuilder('expense')
-      .select([
-        'expense',
-        `expense.splits ->> :userId AS "splitAmount"`,
-        `"expense"."paidById"::uuid = :userId::uuid AS "paidByMe"`,
-        'paidByUser.firstName AS "paidByFirstName"',
-        'paidByUser.lastName AS "paidByLastName"',
-      ])
-      .leftJoin('expense.paidByUser', 'paidByUser')
-      .where('expense.apartmentId = :apartmentId', { apartmentId })
-      .orderBy('expense.createdAt', 'DESC')
-      .setParameters({ userId })
-      .getRawMany();
+    const expenses = await this.expenseRepo.find({
+      where: { apartmentId },
+      relations: ['paidByUser'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return expenses.map(expense => ({
+      ...expense,
+      splitAmount: expense.splits[userId] ?? 0,
+      paidByMe: expense.paidByUser?.userId === userId,
+    }));
   }
 
   async getExpenseDetails(expenseId: string) {

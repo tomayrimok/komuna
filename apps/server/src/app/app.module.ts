@@ -21,6 +21,7 @@ import { ShoppingTemplate } from '../shopping-template/shopping-template.entity'
 import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
 import { ShoppingListModule } from '../shopping-list/shopping-list.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
