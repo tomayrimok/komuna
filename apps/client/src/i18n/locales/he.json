@@ -91,6 +91,7 @@
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",
+        "save_btn": "שמירה",
         "skip_btn": "דלג"
     },
     "join_existing_apartment": {

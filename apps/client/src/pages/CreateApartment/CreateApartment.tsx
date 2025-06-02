@@ -105,9 +105,9 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   };
 
   const [showSkipBtn, showContinueBtn] = useMemo(() => [
-    page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
+    !isEdit && (page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings),
     page !== CreateApartmentPages.ShareApartmentCode
-  ], [page]);
+  ], [isEdit, page]);
 
   const createApartmentMutation = useMutation<CreateApartmentHttpResponse>({ //TODO move into hooks folder, and create interfaces
     mutationKey: ['createApartment'],
@@ -179,7 +179,7 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
         >
           {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
             (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
-            ? t('create_apartment.done_btn')
+            ? isEdit ? t('create_apartment.save_btn') : t('create_apartment.done_btn')
             : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>
