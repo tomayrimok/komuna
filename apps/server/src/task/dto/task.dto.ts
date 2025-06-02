@@ -1,6 +1,6 @@
 import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { RecurrenceRuleDto } from '../recurrence-rule.dto';
+import { RecurrenceRuleDto } from '@komuna/types';
 
 export class TaskDto {
   @IsUUID()
