@@ -16,26 +16,26 @@ import { useTranslation } from 'react-i18next';
 import { LoginLayout } from './LoginLayout';
 import { IconCamera } from '@tabler/icons-react';
 import { useCreateProfile } from '../../hooks/query/useCreateProfile';
-import { CreateUserDto, UserResponse } from '@komuna/types';
+import { ApiTypes } from '@komuna/types';
 
 interface CreateProfileStepProps {
   phoneNumber: string;
-  onUserCreatedSuccessfully: (user: UserResponse) => void;
+  onUserCreatedSuccessfully: (user: ApiTypes.User) => void;
 }
 
 export const CreateProfileStep = ({ phoneNumber, onUserCreatedSuccessfully }: CreateProfileStepProps) => {
   const { t } = useTranslation();
-  const [profileDetails, setProfileDetails] = useState<CreateUserDto>({
+  const [profileDetails, setProfileDetails] = useState<ApiTypes.CreateUserDto>({
     firstName: '',
     lastName: '',
     image: '/meerkats/waving.png',
     phoneNumber,
   });
   const { isPending, triggerCreateProfile } = useCreateProfile({
-    onSuccess: (res) => onUserCreatedSuccessfully(res.user),
+    onSuccess: (res) => res.user && onUserCreatedSuccessfully(res.user),
   });
 
-  const onSetProfileKey = (key: keyof CreateUserDto, value: string) =>
+  const onSetProfileKey = (key: keyof ApiTypes.CreateUserDto, value: string) =>
     setProfileDetails((prev) => ({ ...prev, [key]: value }));
 
   const fileUpload = useFileUpload({

@@ -1,3 +1,2 @@
-export * from './user/login.dto';
-export * from './user/create-user.dto';
-export * from './incident/incident.dto'
+export * from './apartment/bills-details.interface';
+export * from './user/create-apartment.dto';
