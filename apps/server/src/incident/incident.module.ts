@@ -10,10 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     TypeOrmModule.forFeature([Incident, Comment]),
     UserApartmentModule,
-    JwtModule.register({
-      secret:      process.env.JWT_SECRET || 'changeme',
-      signOptions: { expiresIn: '1h' },
-    })
+    JwtModule,
   ],
   controllers: [IncidentController],
   providers: [IncidentService]
