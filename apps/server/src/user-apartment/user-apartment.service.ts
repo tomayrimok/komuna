@@ -9,10 +9,6 @@ export class UserApartmentService {
     @InjectRepository(UserApartment)
     private readonly userApartmentRepo: Repository<UserApartment>
   ) {}
-  constructor(
-    @InjectRepository(UserApartment)
-    private readonly userApartmentRepo: Repository<UserApartment>
-  ) {}
 
   async createUserApartment(userApartment: Partial<UserApartment>) {
     return await this.userApartmentRepo.save(userApartment);
