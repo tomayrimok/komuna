@@ -1,4 +1,4 @@
-import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
+import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 import { RecurrenceRuleDto } from '@komuna/types';
 
@@ -13,15 +13,14 @@ export class TaskDto {
   description: string;
 
   @IsOptional()
-  @ValidateIf((o) => typeof o.assignedTo === 'string')
   @IsUUID()
-  assignedTo: string | string[];
+  assignedTo: string[];
 
   @IsBoolean()
   isCompleted: boolean;
 
   @IsDateString()
-  dueDate: string;
+  dueDate: Date;
 
   @IsBoolean()
   isRecurrent: boolean;
@@ -35,26 +34,35 @@ export class TaskDto {
   createdBy: string;
 }
 
-export class GetTaskDto {
-  @IsUUID()
-  userId: string;
-
-  @IsUUID()
-  apartmentId: string;
-}
-
-export class UpdateTaskDto {
+export class EditTaskReqDto {
   @IsUUID()
   taskId: string;
 
-  @IsOptional()
-  dueDate?: string;
+  @IsDateString()
+  dueDate: Date;
+
+  @IsString()
+  title: string;
+
+  @IsString()
+  description: string;
+
+  @IsBoolean()
+  isRecurrent: boolean;
 
   @IsOptional()
-  isCompleted?: boolean;
+  @IsEnum(RecurrenceRuleDto)
+  recurrenceRule?: RecurrenceRuleDto;
+
+  @IsOptional()
+  @IsUUID()
+  assignedTo?: string[];
 }
 
-export interface UserCompletionStatus {
-  userId: string;
+export class UpdateTaskReqDto {
+  @IsUUID()
+  taskId: string;
+
+  @IsBoolean()
   isCompleted: boolean;
 }
