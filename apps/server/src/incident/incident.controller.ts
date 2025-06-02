@@ -24,7 +24,7 @@ export class IncidentController {
     async getAllIncidents(@User() user: UserJwtPayload) {
       try {
         const aptID = user.apartmentId;
-        return this.incidentService.getIncidentsByApartment(aptID);
+        return await this.incidentService.getIncidentsByApartment(aptID);
       } catch (error) {
         this.logger.error('Error in retrieving incidents', error)
       }
