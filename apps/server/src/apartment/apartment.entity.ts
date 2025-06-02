@@ -1,4 +1,5 @@
 import { BillsDetails } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Expense } from '../expense/expense.entity';
 import { Incident } from '../incident/incident.entity';
@@ -21,9 +22,13 @@ export class Apartment {
   @Column({ nullable: true })
   image?: string;
 
-  /** The code to join the apartment. NULL in case the apartment doesn't allow new residents */
-  @Column({ unique: true })
-  code: string;
+  @ApiProperty({ description: 'Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord' })
+  @Column({ unique: true, nullable: true })
+  landlordCode: string;
+
+  @ApiProperty({ description: 'Unique code to join the apartment as a roommate. NULL in case the apartment doesn\'t allow new residents' })
+  @Column({ unique: true, nullable: true })
+  roommateCode: string;
 
   /** Apartment Info */
   @Column({ nullable: true })
@@ -33,39 +38,41 @@ export class Apartment {
   @Column({ nullable: true })
   city?: string;
 
+  @ApiProperty({ description: 'Landlord User ID', required: false })
   @Column({ nullable: true })
-  // TODO change to landLordId?!
-  managerId?: string;
+  landlordUserId?: string;
 
-  /** Apartment Settings */
+  @ApiProperty({ description: 'Landlord of the apartment (Relation)', required: false })
+  @ManyToOne(() => User, (ua) => ua.landlordApartments, { nullable: true })
+  @JoinColumn({ name: 'landlordUserId', referencedColumnName: 'userId' })
+  landlord?: User;
+
+  @ApiProperty({ description: 'Apartment contract end date', required: false })
   @Column({ type: 'date', nullable: true })
   contractEndDate?: Date;
 
-  /** contract file UserRole */
   @Column({ nullable: true })
   contractUrl?: string;
 
+  @ApiProperty({ description: 'Apartment rent', required: false })
   @Column({ type: 'float', nullable: true })
   rent?: number;
 
-  @Column({ nullable: true })
-  contract?: string;
-
-  @Column({ nullable: true })
+  @ApiProperty({ description: 'Bills payment details', required: false })
+  @Column({ type: 'json', nullable: true })
   billsDetails?: BillsDetails;
 
-  /** Renter Settings */
-  /** מחיר חושי ועד בית */
+  @ApiProperty({ description: 'Monthly house committee rent', required: false })
   @Column({ type: 'float', nullable: true })
   houseCommitteeRent: number;
 
-  /** Renter Settings */
-  /** The user id of who pays the house committee, or NULL if it's split equally */
+  @ApiProperty({ description: 'User ID of the house committee payer. NULL if it\'s split equally', required: false })
   @ManyToOne(() => User, (u) => u.userId, { nullable: true })
   @JoinColumn({ name: 'houseCommitteePayerUserId' })
   houseCommitteePayerUser?: User;
 
-  @OneToMany(() => UserApartment, (ua) => ua.apartment, { cascade: true })
+  @ApiProperty({ type: () => [UserApartment], description: 'Apartment residents' })
+  @OneToMany(() => UserApartment, ua => ua.apartment, { cascade: true })
   residents: UserApartment[];
 
   @OneToMany(() => Task, (task) => task.apartmentId)

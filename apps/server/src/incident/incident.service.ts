@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Incident, Comment } from './incident.entity';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
-import { AddCommentDto, CreateIncidentDto, UpdateIncidentStatusDto } from '@komuna/types';
+import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto } from './dto/incident.dto';
 
 @Injectable()
 export class IncidentService {
@@ -14,17 +14,19 @@ export class IncidentService {
     @InjectRepository(Comment)
     private readonly commentRepo: Repository<Comment>,
 
-    private readonly userApartmentService: UserApartmentService,
+    private readonly userApartmentService: UserApartmentService
   ) {}
 
   async createIncident(incidentDto: CreateIncidentDto): Promise<Incident> {
     // Check if user is a resident of the apartment
-    const membershipCount = await this.userApartmentService.countMembership(
-      incidentDto.apartmentId,
+    const userMemberOfApartment: boolean = await this.userApartmentService.isUserInApartment(
       incidentDto.userId,
-    )
-    if (membershipCount === 0) {
-      throw new ForbiddenException(`User ${incidentDto.userId} is not a resident of apartment ${incidentDto.apartmentId}`);
+      incidentDto.apartmentId
+    );
+    if (!userMemberOfApartment) {
+      throw new ForbiddenException(
+        `User ${incidentDto.userId} is not a resident of apartment ${incidentDto.apartmentId}`
+      );
     }
 
     const toSave = this.incidentRepo.create({
@@ -61,7 +63,7 @@ export class IncidentService {
     return this.commentRepo.save(comment);
   }
 
-  async getComments(incidentId: string, numOfComments=10): Promise<Comment[]> {
+  async getComments(incidentId: string, numOfComments = 10): Promise<Comment[]> {
     if (typeof numOfComments !== 'number') {
       numOfComments = 10;
     }
