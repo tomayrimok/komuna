@@ -89,7 +89,7 @@ interface CreateApartmentProps {
 * Wraps the CreateApartmentForm in a layout with a back button.
 */
 const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
-  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.RenterSettings);
+  const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
 
   const incPage = () => { setPage(p => p + 1); }
