@@ -88,7 +88,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
 
     useEffect(() => {
         if (fromShoppingList) {
-            setDescription(purchaseItems.size > 0 ? Array.from(purchaseItems).map(item => item.name).join(", ") : "");
+            setDescription(purchaseItems.size > 0 ? Array.from(purchaseItems).map(item => "- " + item.name).join("\n") : "");
         }
     }, [fromShoppingList]);
 

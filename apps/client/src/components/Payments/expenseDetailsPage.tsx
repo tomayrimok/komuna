@@ -7,7 +7,8 @@ import {
     Input,
     NumberInput,
     Stack,
-    Text
+    Text,
+    Textarea
 } from "@chakra-ui/react";
 import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
 import { withWrappers } from "../../utilities/withWrappers";
@@ -49,10 +50,11 @@ const ExpenseDetailsPage = () => {
                             <Text mb={1} fontWeight="medium">
                                 {t("payments.expense.expense-description")}
                             </Text>
-                            <Input
-                                placeholder={t("payments.expense.expense-description")}
+                            <Textarea
+                                // placeholder={t("payments.expense.expense-description")}
                                 value={expenseDetails.description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                resize={"none"}
                             />
                         </Box>
 
