@@ -369,6 +369,201 @@
           "Apartment"
         ]
       }
+    },
+    "/api/task/create": {
+      "post": {
+        "operationId": "TaskController_createTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/update": {
+      "post": {
+        "operationId": "TaskController_updateTaskStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskReqDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/edit": {
+      "post": {
+        "operationId": "TaskController_editTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTaskReqDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/get": {
+      "get": {
+        "operationId": "TaskController_getAllTasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/get-completed": {
+      "get": {
+        "operationId": "TaskController_getCompletedTasks",
+        "parameters": [
+          {
+            "name": "loadMultiplier",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/incident": {
+      "get": {
+        "operationId": "IncidentController_getAllIncidents",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/create": {
+      "post": {
+        "operationId": "IncidentController_createIncident",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateIncidentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/update": {
+      "post": {
+        "operationId": "IncidentController_updateIncident",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateIncidentStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/comment": {
+      "post": {
+        "operationId": "IncidentController_newComment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
     }
   },
   "info": {
@@ -419,45 +614,9 @@
         "type": "object",
         "properties": {}
       },
-      "Task": {
-        "type": "object",
-        "properties": {}
-      },
-      "Expense": {
-        "type": "object",
-        "properties": {}
-      },
-      "Payment": {
-        "type": "object",
-        "properties": {}
-      },
-      "Incident": {
-        "type": "object",
-        "properties": {}
-      },
-      "ShoppingTemplate": {
-        "type": "object",
-        "properties": {}
-      },
-      "ShoppingList": {
-        "type": "object",
-        "properties": {}
-      },
       "Apartment": {
         "type": "object",
         "properties": {
-          "apartmentId": {
-            "type": "string",
-            "description": "Unique identifier for the apartment"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the apartment"
-          },
-          "image": {
-            "type": "string",
-            "description": "URL to apartment image"
-          },
           "landlordCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
@@ -465,14 +624,6 @@
           "roommateCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
-          },
-          "address": {
-            "type": "string",
-            "description": "Apartment address"
-          },
-          "city": {
-            "type": "string",
-            "description": "City where the apartment is located"
           },
           "landlordUserId": {
             "type": "string",
@@ -486,10 +637,6 @@
             "format": "date-time",
             "type": "string",
             "description": "Apartment contract end date"
-          },
-          "contractUrl": {
-            "type": "string",
-            "description": "Apartment contract details"
           },
           "rent": {
             "type": "number",
@@ -513,69 +660,17 @@
             "items": {
               "$ref": "#/components/schemas/UserApartment"
             }
-          },
-          "tasks": {
-            "description": "Apartment tasks",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Task"
-            }
-          },
-          "expenses": {
-            "description": "Apartment expenses",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Expense"
-            }
-          },
-          "payments": {
-            "description": "Apartment payments",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Payment"
-            }
-          },
-          "incidents": {
-            "description": "Apartment incidents",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Incident"
-            }
-          },
-          "shoppingTemplates": {
-            "description": "Apartment shopping templates",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingTemplate"
-            }
-          },
-          "shoppingLists": {
-            "description": "Apartment shopping lists",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingList"
-            }
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Date when the apartment was created"
           }
         },
         "required": [
-          "apartmentId",
-          "name",
           "landlordCode",
           "roommateCode",
-          "residents",
-          "tasks",
-          "expenses",
-          "payments",
-          "incidents",
-          "shoppingTemplates",
-          "shoppingLists",
-          "createdAt"
+          "residents"
         ]
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {}
       },
       "DebtEdge": {
         "type": "object",
@@ -809,6 +904,30 @@
         ]
       },
       "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "TaskDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateTaskReqDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "EditTaskReqDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateIncidentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateIncidentStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AddCommentDto": {
         "type": "object",
         "properties": {}
       }

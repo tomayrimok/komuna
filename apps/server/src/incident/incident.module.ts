@@ -13,6 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule,
   ],
   controllers: [IncidentController],
-  providers: [IncidentService]
+  providers: [IncidentService],
+  exports: [IncidentService],
 })
 export class IncidentModule { }
