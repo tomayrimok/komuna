@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { SplitType } from '@komuna/types';
 
 @Entity()
 export class Expense {
@@ -32,6 +33,10 @@ export class Expense {
     })
     @Column('json', { nullable: true })
     splits: { [userId: string]: number };
+
+    @ApiProperty({ description: 'Type of split for the expense', enum: SplitType, enumName: 'SplitType', })
+    @Column({ type: 'enum', enum: SplitType })
+    splitType: SplitType;
 
     @ApiProperty({ type: () => User, description: 'User who paid for the expense' })
     @ManyToOne(() => User, (user) => user.expenses)

@@ -451,6 +451,14 @@
   "servers": [],
   "components": {
     "schemas": {
+      "SplitType": {
+        "type": "string",
+        "enum": [
+          "EQUAL",
+          "NUMBER",
+          "PERCENTAGE"
+        ]
+      },
       "Expense": {
         "type": "object",
         "properties": {
@@ -485,6 +493,14 @@
               "type": "number"
             }
           },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
+          },
           "paidByUser": {
             "description": "User who paid for the expense",
             "allOf": [
@@ -506,6 +522,7 @@
           "amount",
           "paidById",
           "splits",
+          "splitType",
           "paidByUser",
           "createdAt"
         ]
@@ -1130,6 +1147,14 @@
             "additionalProperties": {
               "type": "number"
             }
+          },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
           }
         },
         "required": [
@@ -1137,7 +1162,8 @@
           "description",
           "paidById",
           "apartmentId",
-          "splits"
+          "splits",
+          "splitType"
         ]
       },
       "CreatePaymentDto": {

@@ -4,5 +4,6 @@ export * from './dto';
 export * as API from './generated/sdk.gen';
 export * as ApiTypes from './generated/types.gen';
 export * from './dto';
+export * from './types';
 
 export { ApiClient };
