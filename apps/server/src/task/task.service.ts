@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { Repository } from 'typeorm';
-import { TaskDto } from '@komuna/types';
-import { UserCompletionStatus } from '@komuna/types';
+import { CreateEditTaskDto } from './dto/task.dto';
+import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class TaskService {
     private readonly userService: UserService,
   ) {}
 
-  async createTask(taskDto: TaskDto) {
+  async createTask(taskDto: CreateEditTaskDto) {
     // If there are multiple userIds, save them as an array, else save the single
     // element as an 1-D array
     const users = await this.userService.getUsersByUserId(taskDto.assignedTo);
@@ -33,7 +33,7 @@ export class TaskService {
     return this.taskRepo.save(task);
   }
 
-  async editTask(taskId: string, editTaskDto: Partial<TaskDto>) {
+  async editTask(taskId: string, editTaskDto: Partial<CreateEditTaskDto>) {
     const task = await this.taskRepo.findOneBy({ taskId });
     if (!task) {
       throw new BadRequestException('Task was not found');

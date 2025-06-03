@@ -11,7 +11,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { TaskDto, EditTaskReqDto, UpdateTaskReqDto } from './dto/task.dto';
+import { TaskDto, EditTaskReqDto, UpdateTaskStatusReqDto } from './dto/task.dto';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { User } from '../decorators/User';
 
@@ -38,7 +38,7 @@ export class TaskController {
   /* Only task owner can edit the task.
   Task participants can only update if they have completed the task */
   @Post('update')
-  async updateTaskStatus(@User() user: UserJwtPayload, @Body() dto: UpdateTaskReqDto) {
+  async updateTaskStatus(@User() user: UserJwtPayload, @Body() dto: UpdateTaskStatusReqDto) {
     const userId = user.userId;
     const task = await this.taskService.getTaskById(dto.taskId);
     let completedTask = true;

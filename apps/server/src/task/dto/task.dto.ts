@@ -1,65 +1,50 @@
-import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, IsEnum } from 'class-validator';
+import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 import { RecurrenceRuleDto } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
+import { UserCompletionStatus } from './user-completion-status.dto';
 
-export class TaskDto {
-  @IsUUID()
-  apartmentId: string;
 
+// Both for request and response, Create and Edit DTOs
+export class CreateEditTaskDto {
+  @ApiProperty({})
   @IsString()
   title: string;
 
+  @ApiProperty({})
   @IsString()
   description: string;
 
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
   @IsOptional()
   @IsUUID()
   assignedTo: string[];
 
-  @IsBoolean()
-  isCompleted: boolean;
+  @ApiProperty({})
+  @Type(() => UserCompletionStatus)
+  @IsArray()
+  completions: UserCompletionStatus[];
 
+  @ApiProperty({ description: 'ISO date string for when the task is due' })
   @IsDateString()
-  dueDate: Date;
+  @IsOptional()
+  dueDate?: Date;
 
+  @ApiProperty({ description: 'Indicates wheter the task is recurring' })
   @IsBoolean()
   isRecurrent: boolean;
 
+  @ApiProperty({
+    description: 'RecurrenceRule is defined as a repetetive time-frame class object',
+    example: '{"frequency": "weekly", "time": "10:00" }'
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => RecurrenceRuleDto)
   recurrenceRule?: RecurrenceRuleDto;
-
-  @IsString()
-  createdBy: string;
 }
 
-export class EditTaskReqDto {
-  @IsUUID()
-  taskId: string;
-
-  @IsDateString()
-  dueDate: Date;
-
-  @IsString()
-  title: string;
-
-  @IsString()
-  description: string;
-
-  @IsBoolean()
-  isRecurrent: boolean;
-
-  @IsOptional()
-  @IsEnum(RecurrenceRuleDto)
-  recurrenceRule?: RecurrenceRuleDto;
-
-  @IsOptional()
-  @IsUUID()
-  assignedTo?: string[];
-}
-
-export class UpdateTaskReqDto {
+export class UpdateTaskStatusReqDto {
   @IsUUID()
   taskId: string;
 
