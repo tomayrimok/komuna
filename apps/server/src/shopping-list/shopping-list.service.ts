@@ -15,8 +15,13 @@ export class ShoppingListService {
         private readonly shoppingListRepository: Repository<ShoppingList>,
     ) { }
 
-    async getShoppingList(userId: string, contextType: ShoppingListContextType): Promise<ShoppingList> {
-        return this.shoppingListRepository.findOne({ where: { contextType, contextId: userId } });
+    async getShoppingList(userId: string, contextType: ShoppingListContextType, apartmentId?: string): Promise<ShoppingList | null> {
+        return this.shoppingListRepository.findOne({
+            where: {
+                contextType,
+                contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId
+            }
+        });
     }
 
     async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: NewShoppingListItemDto): Promise<ShoppingList> {

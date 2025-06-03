@@ -6,14 +6,18 @@ import { useFilterList } from "../../hooks/useFilterList";
 import { testInput } from "../../utils/testInput";
 import SearchInput from "../searchInput";
 import SelectionCard from "../selectionCard";
+import { useNavigate } from "@tanstack/react-router";
 
 const ShoppingListPurchaseDrawer = () => {
-    const { items } = useShoppingList();
-    const { purchaseItems, toggleItem } = usePurchase();
+    const { items, purchaseItems } = useShoppingList();
+    const { toggleItem } = usePurchase();
 
     const { filteredResults, handleChange } = useFilterList(items.filter(item => !item.isPurchased), (list, value) => list.filter(item => testInput(item.name, value)))
 
+    const navigate = useNavigate();
+
     const handleSave = () => {
+        navigate({ to: "/roommate/payments/create-expense", search: { fromShoppingList: true } });
     }
 
     return (

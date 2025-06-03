@@ -10,6 +10,8 @@ import { useExpenseDetails } from '../../hooks/useExpenseDetails';
 import { useAuth } from '../auth/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import { ApartmentExpensesResponse, User } from 'libs/types/src/generated';
+import { usePurchase } from '../auth/PurchaseProvider';
+import { useShoppingList } from '../auth/ShoppingListProvider';
 
 type SplitTypeData = {
     component: React.ReactNode;
@@ -66,6 +68,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
     const { currentUserDetails } = useAuth();
     const { t } = useTranslation();
+    const { purchaseItems, markAllPurchaseItemsAsPurchased } = useShoppingList();
 
     const [expenseDetails, setExpenseDetails] = useState<ApartmentExpensesResponse>({
         expenseId: '',
@@ -79,7 +82,15 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     });
 
     const { expenseId } = useParams({ strict: false });
+    const fromShoppingList = Boolean(new URLSearchParams(window.location.search).get('fromShoppingList'));
+
     const { data: expenseDetailsData, isLoading: isExpenseDetailsLoading, isError: isExpenseDetailsError } = useExpenseDetails(expenseId || '');
+
+    useEffect(() => {
+        if (fromShoppingList) {
+            setDescription(purchaseItems.size > 0 ? Array.from(purchaseItems).map(item => item.name).join(", ") : "");
+        }
+    }, [fromShoppingList]);
 
     useEffect(() => {
         if (!expenseDetailsData) return;
@@ -238,6 +249,9 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             apartmentId: apartmentData.apartmentId,
             splits
         })
+        if (fromShoppingList) {
+            markAllPurchaseItemsAsPurchased();
+        }
     }
 
     const setAmount = (amount: number) => {

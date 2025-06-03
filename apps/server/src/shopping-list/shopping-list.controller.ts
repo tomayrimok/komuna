@@ -18,7 +18,7 @@ export class ShoppingListController {
     @ApiOkResponse({ type: ShoppingList })
     @UseAuth()
     async getShoppingList(@User() user: UserJwtPayload, @Query() query: GetListDto) {
-        return this.shoppingListService.getShoppingList(user.userId, query.contextType);
+        return this.shoppingListService.getShoppingList(user.userId, query.contextType, query.apartmentId);
     }
 
     @Post('sync-items')

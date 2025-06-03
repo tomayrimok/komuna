@@ -1,10 +1,9 @@
 import { ShoppingListItemWithIdDto } from 'libs/types/src/generated/types.gen';
-import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect, useRef } from 'react';
+import { useShoppingList } from './ShoppingListProvider';
 
 
 export interface PurchaseContextValue {
-    purchaseItems: Set<ShoppingListItemWithIdDto>;
-    setPurchaseItems: React.Dispatch<React.SetStateAction<Set<ShoppingListItemWithIdDto>>>;
     toggleItem: (item: ShoppingListItemWithIdDto) => void;
 }
 
@@ -14,7 +13,7 @@ type PurchaseProviderProps = PropsWithChildren
 
 export const PurchaseProvider: React.ComponentType<PurchaseProviderProps> = ({ children }) => {
 
-    const [purchaseItems, setPurchaseItems] = useState<Set<ShoppingListItemWithIdDto>>(new Set());
+    const { setPurchaseItems } = useShoppingList()
 
     const toggleItem = (item: ShoppingListItemWithIdDto) => {
         setPurchaseItems(prev => {
@@ -28,12 +27,11 @@ export const PurchaseProvider: React.ComponentType<PurchaseProviderProps> = ({ c
         });
     };
 
+
     return (
         <PurchaseContext.Provider
             value={{
-                purchaseItems,
-                setPurchaseItems,
-                toggleItem
+                toggleItem,
             }}
         >
             {children}

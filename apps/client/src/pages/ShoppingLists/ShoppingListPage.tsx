@@ -14,14 +14,16 @@ import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppin
 import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 
-const NEW_ITEM_DEFAULT = {
-    itemId: "",
-    name: "",
-    amount: 1,
-    isUrgent: false,
-    isPurchased: false,
-    createdAt: new Date(),
-};
+// const NEW_ITEM_DEFAULT = {
+//     itemId: "",
+//     name: "",
+//     amount: 1,
+//     isUrgent: false,
+//     isPurchased: false,
+//     createdAt: new Date(),
+// };
+
+
 
 const ShoppingListPage: React.FC = () => {
 
@@ -32,8 +34,8 @@ const ShoppingListPage: React.FC = () => {
         updateOrder,
         handleAddItem,
         openEditDrawer,
-        isShoppingListLoading,
-        contextType
+        isFetching,
+        setPurchaseItems
     } = useShoppingList();
 
     const { t } = useTranslation();
@@ -48,6 +50,10 @@ const ShoppingListPage: React.FC = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [newItem]);
+
+    useEffect(() => {
+        setPurchaseItems(new Set());
+    }, []);
 
 
     return (
@@ -85,7 +91,7 @@ const ShoppingListPage: React.FC = () => {
             </Reorder.Group>
 
 
-            {isShoppingListLoading ?
+            {isFetching ?
                 <Flex
                     direction="column"
                     align="center"

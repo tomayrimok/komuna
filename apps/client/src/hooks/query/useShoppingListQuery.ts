@@ -1,21 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { API, ShoppingListContextType } from "@komuna/types";
 import { useAuth } from "../../context/auth/AuthProvider";
 
 const getShoppingList = async (contextType: ShoppingListContextType, apartmentId: string) => {
-    const { data } = await API.shoppingListControllerGetShoppingList({ query: { contextType, apartmentId } })
+    const { data } = await API.shoppingListControllerGetShoppingList({
+        query: { contextType, apartmentId },
+    });
     return data;
-}
+};
 
-export const useShoppingListQuery = (contextType: ShoppingListContextType) => {
-
+export const useShoppingListQuery = () => {
     const { sessionDetails: { apartmentId } } = useAuth();
 
-    const { data: shoppingList, isLoading: isShoppingListLoading, refetch, isFetching } = useQuery({
-        queryKey: ['shoppingList', contextType, apartmentId],
-        queryFn: () => getShoppingList(contextType, apartmentId!),
-        staleTime: 0
+    return useMutation({
+        mutationFn: (contextType: ShoppingListContextType) =>
+            getShoppingList(contextType, apartmentId!),
     });
-
-    return { shoppingList, isShoppingListLoading, refetchShoppingList: refetch, isFetching };
-}
+};
