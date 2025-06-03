@@ -1,11 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
+import { IsBoolean, IsNumber, IsOptional, IsString, Length } from "class-validator";
 
 
 export class BaseShoppingListItemDto {
 
     @ApiProperty()
     @IsString()
+    @Length(1, 100)
     name: string;
 
     @ApiProperty()
@@ -29,19 +30,32 @@ export class BaseShoppingListItemDto {
     isUrgent: boolean;
 
     @ApiProperty()
+    @IsOptional()
+    @IsNumber()
     amount: number;
 
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
     creatorId: string;
 
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
     createdAt: string;
 }
-export class ShoppingListItemDto extends BaseShoppingListItemDto {
 
-    @ApiProperty()
-    itemId: string;
+export class ShoppingListItemDto extends PartialType(BaseShoppingListItemDto) { }
 
-}
+
 
 export class NewShoppingListItemDto extends BaseShoppingListItemDto {
 
+}
+
+export class ShoppingListItemWithIdDto extends BaseShoppingListItemDto {
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    itemId?: string;
 }

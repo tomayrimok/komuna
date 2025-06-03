@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { ShoppingListContextType } from '@komuna/types';
 import { uniqueId } from 'lodash';
 import { randomUUID } from 'crypto';
-import { NewShoppingListItemDto, ShoppingListItemDto } from './dto/shopping-list-item.dto';
+import { NewShoppingListItemDto, ShoppingListItemDto, ShoppingListItemWithIdDto } from './dto/shopping-list-item.dto';
 
 @Injectable()
 export class ShoppingListService {
@@ -15,12 +15,8 @@ export class ShoppingListService {
         private readonly shoppingListRepository: Repository<ShoppingList>,
     ) { }
 
-    async getApartmentShoppingList(apartmentId: string): Promise<ShoppingList> {
-        return this.shoppingListRepository.findOne({ where: { contextType: ShoppingListContextType.APARTMENT, contextId: apartmentId } });
-    }
-
-    async getPersonalShoppingList(userId: string): Promise<ShoppingList> {
-        return this.shoppingListRepository.findOne({ where: { contextType: ShoppingListContextType.USER, contextId: userId } });
+    async getShoppingList(userId: string, contextType: ShoppingListContextType): Promise<ShoppingList> {
+        return this.shoppingListRepository.findOne({ where: { contextType, contextId: userId } });
     }
 
     async addItemToShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemData: NewShoppingListItemDto): Promise<ShoppingList> {
@@ -55,7 +51,7 @@ export class ShoppingListService {
         return await this.shoppingListRepository.save(shoppingList);
     }
 
-    async updateItemInShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemId: string, itemData: Partial<ShoppingListItemDto>): Promise<ShoppingList> {
+    async updateItemInShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, itemId: string, itemData: Partial<ShoppingListItemWithIdDto>): Promise<ShoppingList> {
         const shoppingList = await this.shoppingListRepository.findOne({ where: { contextType, contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId } });
         if (!shoppingList) {
             throw new Error('Shopping list not found');
@@ -105,6 +101,28 @@ export class ShoppingListService {
         shoppingList.items = [...itemsNotInList, ...orderedItems];
 
         return this.shoppingListRepository.save(shoppingList);
+    }
+
+    async syncShoppingList(contextType: ShoppingListContextType, apartmentId: string, userId: string, items: ShoppingListItemWithIdDto[]): Promise<ShoppingList> {
+        const shoppingList = await this.shoppingListRepository.findOne({ where: { contextType, contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId } });
+
+        const newItems = items.map(item => ({
+            ...item,
+            itemId: item.itemId || randomUUID(),
+            creatorId: item.creatorId || userId,
+        }))
+
+        if (!shoppingList) {
+            return this.shoppingListRepository.save({
+                contextType,
+                contextId: contextType === ShoppingListContextType.APARTMENT ? apartmentId : userId,
+                items: newItems
+            });
+        }
+
+        shoppingList.items = newItems;
+
+        return await this.shoppingListRepository.save(shoppingList);
     }
 
 }

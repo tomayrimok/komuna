@@ -435,10 +435,31 @@
         ]
       }
     },
-    "/api/shopping-list/apartment": {
+    "/api/shopping-list": {
       "get": {
-        "operationId": "ShoppingListController_getApartmentShoppingList",
-        "parameters": [],
+        "operationId": "ShoppingListController_getShoppingList",
+        "parameters": [
+          {
+            "name": "contextType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "APARTMENT",
+                "USER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -456,37 +477,16 @@
         ]
       }
     },
-    "/api/shopping-list/personal": {
-      "get": {
-        "operationId": "ShoppingListController_getPersonalShoppingList",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShoppingList"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/add-item": {
+    "/api/shopping-list/sync-items": {
       "post": {
-        "operationId": "ShoppingListController_addItem",
+        "operationId": "ShoppingListController_syncItems",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddItemDto"
+                "$ref": "#/components/schemas/SyncListDto"
               }
             }
           }
@@ -501,120 +501,6 @@
                 }
               }
             }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/delete-item": {
-      "post": {
-        "operationId": "ShoppingListController_deleteItem",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteItemDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShoppingList"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/update-item": {
-      "post": {
-        "operationId": "ShoppingListController_updateItem",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateItemDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShoppingList"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/clear": {
-      "post": {
-        "operationId": "ShoppingListController_clearShoppingList",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/mark-all-as-purchased": {
-      "post": {
-        "operationId": "ShoppingListController_markAllAsPurchased",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/change-order": {
-      "post": {
-        "operationId": "ShoppingListController_changeOrder",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/changeOrderDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
           }
         },
         "tags": [
@@ -750,7 +636,7 @@
           "USER"
         ]
       },
-      "ShoppingListItemDto": {
+      "ShoppingListItemWithIdDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -770,6 +656,12 @@
           },
           "amount": {
             "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
           },
           "itemId": {
             "type": "string"
@@ -802,7 +694,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ShoppingListItemDto"
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
             }
           },
           "updatedAt": {
@@ -1430,36 +1322,7 @@
         "type": "object",
         "properties": {}
       },
-      "NewShoppingListItemDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "isPurchased": {
-            "type": "boolean"
-          },
-          "image": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "isUrgent": {
-            "type": "boolean"
-          },
-          "amount": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "name",
-          "isPurchased",
-          "isUrgent",
-          "amount"
-        ]
-      },
-      "AddItemDto": {
+      "SyncListDto": {
         "type": "object",
         "properties": {
           "contextType": {
@@ -1469,77 +1332,20 @@
               "USER"
             ]
           },
-          "itemData": {
-            "$ref": "#/components/schemas/NewShoppingListItemDto"
-          }
-        },
-        "required": [
-          "contextType",
-          "itemData"
-        ]
-      },
-      "DeleteItemDto": {
-        "type": "object",
-        "properties": {
-          "contextType": {
-            "type": "string",
-            "enum": [
-              "APARTMENT",
-              "USER"
-            ]
-          },
-          "itemId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "contextType",
-          "itemId"
-        ]
-      },
-      "UpdateItemDto": {
-        "type": "object",
-        "properties": {
-          "contextType": {
-            "type": "string",
-            "enum": [
-              "APARTMENT",
-              "USER"
-            ]
-          },
-          "itemId": {
+          "apartmentId": {
             "type": "string"
           },
-          "itemData": {
-            "$ref": "#/components/schemas/ShoppingListItemDto"
-          }
-        },
-        "required": [
-          "contextType",
-          "itemId",
-          "itemData"
-        ]
-      },
-      "changeOrderDto": {
-        "type": "object",
-        "properties": {
-          "contextType": {
-            "type": "string",
-            "enum": [
-              "APARTMENT",
-              "USER"
-            ]
-          },
-          "itemIds": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
             }
           }
         },
         "required": [
           "contextType",
-          "itemIds"
+          "apartmentId",
+          "items"
         ]
       }
     }

@@ -1,11 +1,11 @@
-import { ShoppingListItemDto } from 'libs/types/src/generated/types.gen';
+import { ShoppingListItemWithIdDto } from 'libs/types/src/generated/types.gen';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 
 
 export interface PurchaseContextValue {
-    purchaseItems: Set<ShoppingListItemDto>;
-    setPurchaseItems: React.Dispatch<React.SetStateAction<Set<ShoppingListItemDto>>>;
-    toggleItem: (item: ShoppingListItemDto) => void;
+    purchaseItems: Set<ShoppingListItemWithIdDto>;
+    setPurchaseItems: React.Dispatch<React.SetStateAction<Set<ShoppingListItemWithIdDto>>>;
+    toggleItem: (item: ShoppingListItemWithIdDto) => void;
 }
 
 export const PurchaseContext = createContext<PurchaseContextValue | null>(null);
@@ -14,9 +14,9 @@ type PurchaseProviderProps = PropsWithChildren
 
 export const PurchaseProvider: React.ComponentType<PurchaseProviderProps> = ({ children }) => {
 
-    const [purchaseItems, setPurchaseItems] = useState<Set<ShoppingListItemDto>>(new Set());
+    const [purchaseItems, setPurchaseItems] = useState<Set<ShoppingListItemWithIdDto>>(new Set());
 
-    const toggleItem = (item: ShoppingListItemDto) => {
+    const toggleItem = (item: ShoppingListItemWithIdDto) => {
         setPurchaseItems(prev => {
             const newSet = new Set(prev);
             if (newSet.has(item)) {

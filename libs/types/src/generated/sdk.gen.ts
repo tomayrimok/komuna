@@ -28,19 +28,10 @@ import type {
   ApartmentControllerGetApartmentWithResidentsResponse,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
-  ShoppingListControllerGetApartmentShoppingListData,
-  ShoppingListControllerGetApartmentShoppingListResponse,
-  ShoppingListControllerGetPersonalShoppingListData,
-  ShoppingListControllerGetPersonalShoppingListResponse,
-  ShoppingListControllerAddItemData,
-  ShoppingListControllerAddItemResponse,
-  ShoppingListControllerDeleteItemData,
-  ShoppingListControllerDeleteItemResponse,
-  ShoppingListControllerUpdateItemData,
-  ShoppingListControllerUpdateItemResponse,
-  ShoppingListControllerClearShoppingListData,
-  ShoppingListControllerMarkAllAsPurchasedData,
-  ShoppingListControllerChangeOrderData,
+  ShoppingListControllerGetShoppingListData,
+  ShoppingListControllerGetShoppingListResponse,
+  ShoppingListControllerSyncItemsData,
+  ShoppingListControllerSyncItemsResponse,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -233,94 +224,20 @@ export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = 
   });
 };
 
-export const shoppingListControllerGetApartmentShoppingList = <ThrowOnError extends boolean = false>(
-  options?: Options<ShoppingListControllerGetApartmentShoppingListData, ThrowOnError>
+export const shoppingListControllerGetShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerGetShoppingListData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
-    ShoppingListControllerGetApartmentShoppingListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    url: '/api/shopping-list/apartment',
+  return (options.client ?? _heyApiClient).get<ShoppingListControllerGetShoppingListResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list',
     ...options,
   });
 };
 
-export const shoppingListControllerGetPersonalShoppingList = <ThrowOnError extends boolean = false>(
-  options?: Options<ShoppingListControllerGetPersonalShoppingListData, ThrowOnError>
+export const shoppingListControllerSyncItems = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerSyncItemsData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).get<
-    ShoppingListControllerGetPersonalShoppingListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    url: '/api/shopping-list/personal',
-    ...options,
-  });
-};
-
-export const shoppingListControllerAddItem = <ThrowOnError extends boolean = false>(
-  options: Options<ShoppingListControllerAddItemData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<ShoppingListControllerAddItemResponse, unknown, ThrowOnError>({
-    url: '/api/shopping-list/add-item',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-  });
-};
-
-export const shoppingListControllerDeleteItem = <ThrowOnError extends boolean = false>(
-  options: Options<ShoppingListControllerDeleteItemData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<ShoppingListControllerDeleteItemResponse, unknown, ThrowOnError>({
-    url: '/api/shopping-list/delete-item',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-  });
-};
-
-export const shoppingListControllerUpdateItem = <ThrowOnError extends boolean = false>(
-  options: Options<ShoppingListControllerUpdateItemData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<ShoppingListControllerUpdateItemResponse, unknown, ThrowOnError>({
-    url: '/api/shopping-list/update-item',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-  });
-};
-
-export const shoppingListControllerClearShoppingList = <ThrowOnError extends boolean = false>(
-  options?: Options<ShoppingListControllerClearShoppingListData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/shopping-list/clear',
-    ...options,
-  });
-};
-
-export const shoppingListControllerMarkAllAsPurchased = <ThrowOnError extends boolean = false>(
-  options?: Options<ShoppingListControllerMarkAllAsPurchasedData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/shopping-list/mark-all-as-purchased',
-    ...options,
-  });
-};
-
-export const shoppingListControllerChangeOrder = <ThrowOnError extends boolean = false>(
-  options: Options<ShoppingListControllerChangeOrderData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/shopping-list/change-order',
+  return (options.client ?? _heyApiClient).post<ShoppingListControllerSyncItemsResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/sync-items',
     ...options,
     headers: {
       'Content-Type': 'application/json',

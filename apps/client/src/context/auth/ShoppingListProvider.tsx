@@ -1,34 +1,35 @@
-import { API, ShoppingList, ShoppingListContextType } from '@komuna/types';
+import { API, ShoppingListContextType } from '@komuna/types';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 import { useShoppingListQuery } from '../../hooks/query/useShoppingListQuery';
 import { toaster } from '../../chakra/ui/toaster';
-import { NewShoppingListItemDto, ShoppingListItemDto } from 'libs/types/src/generated/types.gen';
+import { useAuth } from './AuthProvider';
+import { ShoppingListItemWithIdDto } from 'libs/types/src/generated';
 
 
 export interface ShoppingListContextValue {
     // shoppingList?: ShoppingList;
-    items: ShoppingListItemDto[];
-    newItem?: Partial<ShoppingListItemDto> | null;
-    setItems: React.Dispatch<React.SetStateAction<ShoppingListItemDto[]>>;
-    setNewItem: React.Dispatch<React.SetStateAction<Partial<ShoppingListItemDto> | null>>;
-    editingItem: ShoppingListItemDto | null;
-    setEditingItem: React.Dispatch<React.SetStateAction<ShoppingListItemDto | null>>;
+    items: ShoppingListItemWithIdDto[];
+    newItem?: Partial<ShoppingListItemWithIdDto> | null;
+    setItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
+    setNewItem: React.Dispatch<React.SetStateAction<Partial<ShoppingListItemWithIdDto> | null>>;
+    editingItem: ShoppingListItemWithIdDto | null;
+    setEditingItem: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto | null>>;
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isDrawerOpen: boolean;
     handleAddItem: () => Promise<void>;
     handleEditItem: () => void;
     handleDeleteItem: (itemId: string) => Promise<void>;
-    openEditDrawer: (item: ShoppingListItemDto) => void;
+    openEditDrawer: (item: ShoppingListItemWithIdDto) => void;
     setEditDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isEditDrawerOpen: boolean;
     setActiveSwipe: React.Dispatch<React.SetStateAction<string | null>>;
-    updateItem: (itemId: string, itemData: Partial<ShoppingListItemDto>) => Promise<void>;
+    updateItem: (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync?: boolean) => Promise<void>;
     isShoppingListLoading: boolean;
-    handleAmountChange: (itemId: string, amount: number) => void;
     activeSwipe: string | null;
-    updateOrder: (items: ShoppingListItemDto[]) => Promise<void>;
+    updateOrder: (items: ShoppingListItemWithIdDto[]) => Promise<void>;
     togglePurchased: (itemId: string) => Promise<void>;
     contextType: ShoppingListContextType;
+    syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
 
 }
 
@@ -40,61 +41,47 @@ type ShoppingListProviderProps = PropsWithChildren & {
 
 export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children, contextType }) => {
 
-    const { shoppingList, isShoppingListLoading } = useShoppingListQuery(contextType);
+    const { shoppingList, isShoppingListLoading, refetchShoppingList, isFetching } = useShoppingListQuery(contextType);
+
+    const { sessionDetails: { apartmentId } } = useAuth();
 
     const [isEditDrawerOpen, setEditDrawerOpen] = useState(false);
 
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const [items, setItems] = useState(shoppingList?.items || []);
-    const [editingItem, setEditingItem] = useState<ShoppingListItemDto | null>(null);
-    const [newItem, setNewItem] = useState<Partial<NewShoppingListItemDto> | null>(null);
+    const [editingItem, setEditingItem] = useState<ShoppingListItemWithIdDto | null>(null);
+    const [newItem, setNewItem] = useState<Partial<ShoppingListItemWithIdDto> | null>(null);
     const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
-    const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemDto[]>([]);
+    const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemWithIdDto[]>([]);
+
 
     useEffect(() => {
-        if (shoppingList) {
-            setItems(shoppingList.items);
-        }
-    }, [shoppingList]);
+        if (shoppingList && !isFetching) setItems(shoppingList.items);
+    }, [isFetching]);
 
 
-    const updateItem = async (itemId: string, itemData: Partial<ShoppingListItemDto>) => {
-        setItems((prevItems) =>
-            prevItems.map((item) => (item.itemId === itemId ? { ...item, ...itemData } : item))
+    const updateItem = async (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync = true) => {
+        const updatedItems = items.map(item =>
+            item.itemId === itemId ? { ...item, ...itemData } : item
         );
-        try {
-            await API.shoppingListControllerUpdateItem({ body: { itemId, itemData: itemData as ShoppingListItemDto, contextType } })
-        } catch (error) {
-            toaster.error({
-                title: "Error",
-                description: "Failed to update item",
-            });
-        }
+        setItems(updatedItems);
+        if (sync) syncShoppingList(updatedItems);
     };
 
     const handleAddItem = async () => {
         if (newItem?.name?.trim()) {
-            try {
-                const { data } = await API.shoppingListControllerAddItem({ body: { itemData: newItem as NewShoppingListItemDto, contextType, } })
-                if (data) {
-                    setItems(data.items);
-                    setNewItem(null);
-                }
-            } catch (error) {
-                toaster.error({
-                    title: "Error",
-                    description: "Failed to add item",
-                });
-            }
-        } else {
+            const updatedItems = [...items, newItem as ShoppingListItemWithIdDto];
+            setItems(updatedItems);
+            await syncShoppingList(updatedItems);
             setNewItem(null);
         }
     };
 
     const handleDeleteItem = async (itemId: string) => {
         try {
-            await API.shoppingListControllerDeleteItem({ body: { itemId, contextType } })
-            setItems(prevItems => prevItems.filter(item => item.itemId !== itemId));
+            const updatedItems = items.filter(item => item.itemId !== itemId);
+            setItems(updatedItems);
+            await syncShoppingList(updatedItems);
             setActiveSwipe(null);
         } catch (error) {
             toaster.error({
@@ -103,6 +90,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
             });
         }
     };
+
 
     const handleEditItem = () => {
         if (editingItem) {
@@ -116,22 +104,16 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         }
     };
 
-    const openEditDrawer = (item: ShoppingListItemDto) => {
+    const openEditDrawer = (item: ShoppingListItemWithIdDto) => {
         setEditingItem({ ...item });
         setDrawerOpen(true)
     };
 
-    const handleAmountChange = (itemId: string, amount: number) => {
-        setItems((prevItems) =>
-            prevItems.map((item) => (item.itemId === itemId ? { ...item, amount } : item))
-        );
-        updateItem(itemId, { amount });
+    const updateOrder = async (orderedItems?: ShoppingListItemWithIdDto[]) => {
+        const finalItems = orderedItems || items;
+        setItems(finalItems);
+        await syncShoppingList(finalItems);
     };
-
-    const updateOrder = async (orderedItems?: ShoppingListItemDto[]) => {
-        if (orderedItems) setItems(orderedItems);
-        await API.shoppingListControllerChangeOrder({ body: { contextType, itemIds: (orderedItems || items).map(item => item.itemId) } })
-    }
 
     const togglePurchased = async (itemId: string) => {
         const item = items.find(item => item.itemId === itemId);
@@ -139,18 +121,38 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
         const updatedIsPurchased = !item.isPurchased;
 
-        await updateItem(itemId, { isPurchased: updatedIsPurchased });
-        setItems((prevItems) =>
-            [...prevItems].sort((a, b) => {
-                if (a.isPurchased && !b.isPurchased) return 1;
-                if (!a.isPurchased && b.isPurchased) return -1;
-                return 0;
-            })
-        );
-        setTimeout(() => {
-            updateOrder()
-        }, 0);
+        const updatedItems = items.map(i =>
+            i.itemId === itemId ? { ...i, isPurchased: updatedIsPurchased } : i
+        ).sort((a, b) => {
+            if (a.isPurchased && !b.isPurchased) return 1;
+            if (!a.isPurchased && b.isPurchased) return -1;
+            return 0;
+        });
+
+        setItems(updatedItems);
+        await syncShoppingList(updatedItems);
     };
+
+    const syncShoppingList = async (itemsToSync?: ShoppingListItemWithIdDto[]) => {
+        try {
+            const { data } = await API.shoppingListControllerSyncItems({
+                body: {
+                    contextType,
+                    items: itemsToSync || items,
+                    apartmentId: apartmentId!
+                },
+                throwOnError: true
+            })
+            setItems(data.items);
+        }
+        catch (error) {
+            toaster.error({
+                title: "Error",
+                description: "Failed to sync shopping list",
+            });
+            refetchShoppingList();
+        }
+    }
 
     return (
         <ShoppingListContext.Provider
@@ -173,11 +175,11 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
                 updateItem,
                 newItem,
                 isShoppingListLoading,
-                handleAmountChange,
                 activeSwipe,
                 updateOrder,
                 togglePurchased,
                 contextType,
+                syncShoppingList
             }}
         >
             {children}
@@ -192,3 +194,4 @@ export const useShoppingList = () => {
     }
     return context;
 };
+

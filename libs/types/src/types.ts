@@ -1,5 +1,5 @@
 import { ShoppingListContextType } from "./enums";
-import { ShoppingListItemDto, User, UserApartment } from "./generated";
+import { ShoppingListItemWithIdDto, User, UserApartment } from "./generated";
 
 export type ShoppingList = {
 
@@ -9,7 +9,7 @@ export type ShoppingList = {
 
     contextId: string;
 
-    items: ShoppingListItemDto[];
+    items: ShoppingListItemWithIdDto[];
 
     updatedAt: Date;
 
