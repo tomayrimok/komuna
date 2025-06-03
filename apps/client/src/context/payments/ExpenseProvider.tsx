@@ -49,6 +49,7 @@ type ExpenseContextValue = {
         outOf: string;
         remaining: string;
     };
+    isAddEditExpenseLoading?: boolean;
 }
 
 export type SplitType = 'equal' | 'number' | 'percentage';
@@ -58,7 +59,7 @@ export const ExpenseContext = createContext<ExpenseContextValue | null>(null);
 export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: string }>) => {
 
     const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment();
-    const { mutate: createExpense } = useAddEditExpense();
+    const { mutate: createExpense, isPending: isAddEditExpenseLoading } = useAddEditExpense();
     const [open, setOpen] = useState(false);
     const [splitType, setSplitType] = useState<SplitType>('equal');
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
@@ -282,7 +283,8 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             expenseId,
             isExpenseDetailsLoading,
             expenseDetails,
-            helperText
+            helperText,
+            isAddEditExpenseLoading,
         }}>
             {children}
         </ExpenseContext.Provider>

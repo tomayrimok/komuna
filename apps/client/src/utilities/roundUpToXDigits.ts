@@ -1,4 +1,4 @@
-export function roundUpToXDigits(num: number | string, digits = 3) {
+export function roundUpToXDigits(num: number | string, digits = 2) {
     if (typeof num === 'string') {
         num = parseFloat(num);
     }
