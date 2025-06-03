@@ -5,8 +5,6 @@
     },
     "title": "ברוכים הבאים לKomuna",
     "button": "בואו נתחיל",
-    "save": "שמירה",
-    "cancel": "ביטול",
     "other-options": "אפשרויות נוספות",
     "select-roommates": "בחירת שותפים",
     "select-roommate": "בחירת שותף",
@@ -83,6 +81,8 @@
     "welcome": "ברוכים הבאים!",
     "save": "שמירה",
     "cancel": "ביטול",
+    "continue": "המשך",
+    "delete": "מחיקה",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -208,7 +208,10 @@
         "list_is_empty": "רשימת הקניות ריקה",
         "add_item": "הוספת פריט",
         "item_name": "שם הפריט",
-        "item_quantity": "כמות"
+        "item_quantity": "כמות",
+        "choose_purchased_items": "בחרו את הפריטים שנרכשו",
+        "search_item": "חיפוש פריט",
+        "make_purchase": "ביצוע רכישה"
     },
     "error": {
         "error": "שגיאה",

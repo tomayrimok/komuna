@@ -35,7 +35,7 @@ export class Expense {
     splits: { [userId: string]: number };
 
     @ApiProperty({ description: 'Type of split for the expense', enum: SplitType, enumName: 'SplitType', })
-    @Column({ type: 'enum', enum: SplitType })
+    @Column({ type: 'enum', enum: SplitType, default: SplitType.EQUAL })
     splitType: SplitType;
 
     @ApiProperty({ type: () => User, description: 'User who paid for the expense' })

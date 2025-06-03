@@ -7,10 +7,12 @@ import { testInput } from "../../utils/testInput";
 import SearchInput from "../searchInput";
 import SelectionCard from "../selectionCard";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 const ShoppingListPurchaseDrawer = () => {
     const { items, purchaseItems } = useShoppingList();
     const { toggleItem } = usePurchase();
+    const { t } = useTranslation();
 
     const { filteredResults, handleChange } = useFilterList(items.filter(item => !item.isPurchased), (list, value) => list.filter(item => testInput(item.name, value)))
 
@@ -24,7 +26,7 @@ const ShoppingListPurchaseDrawer = () => {
         <Drawer.Root placement={"bottom"} >
             <Drawer.Trigger asChild>
                 <Button size="sm">
-                    ביצוע רכישה
+                    {t("shopping.make_purchase")}
                 </Button>
             </Drawer.Trigger>
             <Portal>
@@ -32,11 +34,13 @@ const ShoppingListPurchaseDrawer = () => {
                 <Drawer.Positioner>
                     <Drawer.Content h={"2xl"}>
                         <Drawer.Header>
-                            <Drawer.Title>בחרו את הפריטים שנרכשו</Drawer.Title>
+                            <Drawer.Title>
+                                {t("shopping.choose_purchased_items")}
+                            </Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
                             <SearchInput
-                                placeholder="חיפוש פריט"
+                                placeholder={t("shopping.search_item")}
                                 handleChange={handleChange}
                             />
                             <VStack>
@@ -55,11 +59,11 @@ const ShoppingListPurchaseDrawer = () => {
                         <Drawer.Footer justifyContent="space-between">
                             <Drawer.ActionTrigger asChild>
                                 <Button variant="outline">
-                                    ביטול
+                                    {t("cancel")}
                                 </Button>
                             </Drawer.ActionTrigger>
                             <Button onClick={handleSave}>
-                                המשך
+                                {t("continue")}
                             </Button>
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>

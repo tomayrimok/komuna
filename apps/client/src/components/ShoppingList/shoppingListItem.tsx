@@ -5,6 +5,7 @@ import { ShoppingListItemQuantity } from "./shoppingListItemQuantity";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListItemIsUrgent } from "./shoppingListItemIsUrgent";
 import { ShoppingListItemWithIdDto } from "libs/types/src/generated/types.gen";
+import { useTranslation } from "react-i18next";
 
 interface ShoppingListItemProps {
     item: ShoppingListItemWithIdDto;
@@ -25,6 +26,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
     const [showRedBg, setShowRedBg] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, setEditingItem, syncShoppingList } = useShoppingList();
+    const { t } = useTranslation();
 
     useMotionValueEvent(x, "change", (latest) => {
         setShowRedBg(latest > 0);
@@ -78,7 +80,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                                 alignItems="center"
                                 onClick={onDelete}
                             >
-                                מחיקה
+                                {t("delete")}
                             </Container>
                         </Box>
 
