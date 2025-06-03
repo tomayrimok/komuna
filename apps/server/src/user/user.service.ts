@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { addMinutes } from 'date-fns';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { generateLoginCode } from '../utils/generateVerificationCode';
 import { isSMSEnabled } from '../utils/isSMSEnabled';
 import { AuthUser } from './auth-user.entity';
@@ -136,5 +136,12 @@ export class UserService {
       this.logger.error('Error sending SMS', error);
       throw new Error('Failed to send SMS');
     }
+  }
+
+  async getUsersByUserId(userIds: string | string[]): Promise<User[] | User> {
+    if (typeof userIds === 'string') {
+      return this.userRepo.findOneBy({ userId: userIds });
+    }
+    return this.userRepo.findBy({ userId: In(userIds) });
   }
 }

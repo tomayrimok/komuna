@@ -1,26 +1,27 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 import { TaskDto } from '@komuna/types';
-import { User } from '../user/user.entity';
 import { UserCompletionStatus } from '@komuna/types';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class TaskService {
   constructor(
     @InjectRepository(Task)
     private readonly taskRepo: Repository<Task>,
+    private readonly userService: UserService,
   ) {}
 
   async createTask(taskDto: TaskDto) {
     // If there are multiple userIds, save them as an array, else save the single
     // element as an 1-D array
-    const users = await this.userRepo.findBy({ userId: In(taskDto.assignedTo) });
+    const users = await this.userService.getUsersByUserId(taskDto.assignedTo);
 
     const task = this.taskRepo.create({
       ...taskDto,
-      assignedTo: users,
+      assignedTo: Array.isArray(users) ? users : [users],
     });
 
     return this.taskRepo.save(task);
@@ -41,13 +42,13 @@ export class TaskService {
       throw new BadRequestException('Must have at least one assigned user')
     }
     const users = editTaskDto.assignedTo
-      ? await this.userRepo.findBy({ userId: In(editTaskDto.assignedTo as string[]) })
+      ? await this.userService.getUsersByUserId(editTaskDto.assignedTo)
       : task.assignedTo;
 
     const updateTask = {
       ...task,
       ...editTaskDto,
-      assignedTo: users,
+      assignedTo: Array.isArray(users) ? users : [users],
     };
     return this.taskRepo.update(taskId, updateTask);
   }
