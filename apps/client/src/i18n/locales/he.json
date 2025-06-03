@@ -59,7 +59,7 @@
             "select-paid-by": "בחרו על ידי מי ההוצאה שולמה:",
             "all-expenses": "כל ההוצאות",
             "no-expenses": "אין הוצאות",
-            "create-expense": "הוספת הוצאה חדשה",
+            "create-expense": "יצירת הוצאה חדשה",
             "out-of": "{{amount}} מתוך {{total}}",
             "remaining": "נשארו {{amount}}",
             "expense-saved": "ההוצאה נשמרה בהצלחה",
