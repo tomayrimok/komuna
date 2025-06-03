@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString, IsNumber, IsNotEmpty, IsObject, IsPositive } from 'class-validator';
 import { User } from '../../user/user.entity';
+import { SplitType } from '@komuna/types';
 
 export class AddEditExpenseDto {
   @ApiProperty({ description: 'ID of the expense (optional for new expenses)', required: false })
@@ -36,6 +37,15 @@ export class AddEditExpenseDto {
   })
   @IsObject()
   splits: { [userId: string]: number };
+
+  @ApiProperty({
+    description: 'Type of split for the expense',
+    enum: SplitType,
+    enumName: 'SplitType',
+  })
+  @IsString()
+  @IsNotEmpty()
+  splitType: SplitType;
 }
 
 

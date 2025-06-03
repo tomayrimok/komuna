@@ -21,7 +21,7 @@ export const useAddEditExpense = () => {
             queryClient.invalidateQueries({ queryKey: ["userBalanceDetails", variables.apartmentId, currentUserDetails?.userId] });
         },
         onError: (error: any) => {
-            toaster.error({ title: error?.response.data.error || t('error.action_failed'), });
+            toaster.error({ title: t('error.action_failed'), });
         },
     });
 };

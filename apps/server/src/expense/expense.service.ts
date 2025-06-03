@@ -17,10 +17,10 @@ export class ExpenseService {
   // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
   // and update the debts of the other members in the group.
   async addEditExpense(expense: AddEditExpenseDto) {
-    const { expenseId, apartmentId, description, amount, splits, paidById } = expense;
-    const data = { apartmentId, description, amount, paidById, splits };
+    const { expenseId, apartmentId, description, amount, splits, paidById, splitType } = expense;
+    const data = { apartmentId, description, amount, paidById, splits, splitType };
 
-    if (!description || !amount || !splits || !paidById) {
+    if (!description || !amount || !splits || !paidById || !apartmentId || !splitType) {
       throw new BadRequestException('Missing required fields', {
         description: 'חסרים שדות חובה',
       });

@@ -25,11 +25,14 @@ const ExpenseDetailsPage = () => {
         setDescription,
         handleSave,
         expenseId,
-        isExpenseDetailsLoading
+        isExpenseDetailsLoading,
+        isAddEditExpenseLoading
     } = useExpense();
 
     const router = useRouter();
     const { t } = useTranslation();
+
+    const buttonDisabled = !expenseDetails.amount || !expenseDetails.description || isExpenseDetailsLoading || !expenseDetails.paidByUser || isAddEditExpenseLoading;
 
     if (expenseId && isExpenseDetailsLoading) return <Text>Loading...</Text>;
 
@@ -105,7 +108,7 @@ const ExpenseDetailsPage = () => {
                     <Button variant="outline" onClick={() => router.history.back()}>
                         {t("cancel")}
                     </Button>
-                    <Button colorScheme="blue" onClick={handleSave}>
+                    <Button colorScheme="blue" onClick={handleSave} disabled={buttonDisabled}>
                         {t("save")}
                     </Button>
                     {/* {expenseId &&
@@ -115,7 +118,7 @@ const ExpenseDetailsPage = () => {
                     } */}
                 </Flex>
             </Stack>
-        </Container>
+        </Container >
     );
 };
 

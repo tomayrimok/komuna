@@ -14,7 +14,7 @@ interface SettleUpDetailsProps {
 
 export const SettleUpDetails: React.FC<SettleUpDetailsProps> = ({ debtAmount, fromUser, toUser }) => {
 
-    const { mutate: createPayment } = useCreatePayment();
+    const { mutate: createPayment, isPending } = useCreatePayment();
     const { t } = useTranslation();
     const [value, setValue] = useState<number>();
     const { sessionDetails: { apartmentId } } = useAuth();
@@ -56,6 +56,7 @@ export const SettleUpDetails: React.FC<SettleUpDetailsProps> = ({ debtAmount, fr
                         maxW="200px"
                         defaultValue={String(roundUpToXDigits(debtAmount || 0))}
                         onValueChange={(e) => setValue(Number(e.value))}
+                        min={0}
                     >
                         <NumberInput.Control />
                         <NumberInput.Input placeholder="0.00" />
@@ -69,6 +70,7 @@ export const SettleUpDetails: React.FC<SettleUpDetailsProps> = ({ debtAmount, fr
                 variant="solid"
                 colorScheme="blue"
                 size="lg"
+                disabled={isPending}
                 onClick={() => createPayment({
                     amount: value ?? 0,
                     fromId: fromUser!.userId,

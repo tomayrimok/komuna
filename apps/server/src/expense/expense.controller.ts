@@ -16,7 +16,7 @@ export class ExpenseController {
 
   @Post('add-edit-expense')
   async addEditExpense(@Body() body: AddEditExpenseDto) {
-    const { expenseId, apartmentId, splits, amount, description, paidById } = body;
+    const { expenseId, apartmentId, splits, amount, description, paidById, splitType } = body;
     return await this.expenseService.addEditExpense({
       expenseId,
       apartmentId,
@@ -24,6 +24,7 @@ export class ExpenseController {
       amount,
       description,
       paidById,
+      splitType
     });
   }
 

@@ -1,16 +1,16 @@
-import React, { createContext, useContext, useState, useEffect, PropsWithChildren, useMemo } from 'react';
-import { useApartment } from '../../hooks/useApartment';
+import { SplitType } from '@komuna/types';
+import { useParams } from '@tanstack/react-router';
+import { ApartmentExpensesResponse, User } from 'libs/types/src/generated';
+import React, { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toaster } from '../../chakra/ui/toaster';
 import EqualSplit from '../../components/Payments/SplitDetailsDrawer/equalSplit';
 import NumberSplit from '../../components/Payments/SplitDetailsDrawer/numberSplit';
 import PercentageSplit from '../../components/Payments/SplitDetailsDrawer/percentageSplit';
-import { toaster } from '../../chakra/ui/toaster';
 import { useAddEditExpense } from '../../hooks/useAddEditExpense';
-import { useParams } from '@tanstack/react-router';
+import { useApartment } from '../../hooks/useApartment';
 import { useExpenseDetails } from '../../hooks/useExpenseDetails';
 import { useAuth } from '../auth/AuthProvider';
-import { useTranslation } from 'react-i18next';
-import { ApartmentExpensesResponse, User } from 'libs/types/src/generated';
-import { usePurchase } from '../auth/PurchaseProvider';
 import { useShoppingList } from '../auth/ShoppingListProvider';
 
 type SplitTypeData = {
@@ -51,18 +51,18 @@ type ExpenseContextValue = {
         outOf: string;
         remaining: string;
     };
+    isAddEditExpenseLoading?: boolean;
 }
 
-export type SplitType = 'equal' | 'number' | 'percentage';
 
 export const ExpenseContext = createContext<ExpenseContextValue | null>(null);
 
 export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: string }>) => {
 
     const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment();
-    const { mutate: createExpense } = useAddEditExpense();
+    const { mutate: createExpense, isPending: isAddEditExpenseLoading } = useAddEditExpense();
     const [open, setOpen] = useState(false);
-    const [splitType, setSplitType] = useState<SplitType>('equal');
+    const [splitType, setSplitType] = useState<SplitType>(SplitType.EQUAL);
     const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
     const [usersFixedAmounts, setUsersFixedAmounts] = useState<{ [userId: string]: number }>({});
     const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
@@ -96,6 +96,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         if (!expenseDetailsData) return;
         setExpenseDetails(expenseDetailsData);
         const userIds = new Set(Object.keys(expenseDetailsData.splits || {}));
+        setSplitType(expenseDetailsData.splitType as SplitType);
         setSelectedUserIds(userIds);
 
         const fixedAmounts: { [userId: string]: number } = {};
@@ -112,7 +113,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
 
 
     const splitTypesData = {
-        'equal': {
+        [SplitType.EQUAL]: {
             component: <EqualSplit
                 toggleSelectUser={(userId: string) => {
                     setSelectedUserIds(prev => {
@@ -134,7 +135,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
                 return splits;
             }
         },
-        'number': {
+        [SplitType.NUMBER]: {
             title: "1.23",
             component: <NumberSplit
                 setUserFixedAmount={(userId: string, amount: number) => {
@@ -159,7 +160,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
                 return { ...usersFixedAmounts };
             }
         },
-        'percentage': {
+        [SplitType.PERCENTAGE]: {
             title: "%",
             component: <PercentageSplit
                 setUserPercentage={(userId: string, percentage: number) => {
@@ -202,11 +203,11 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
     }, [splitTypesData, splitType]);
 
     const helperText = useMemo(() => {
-        if (splitType === 'number') {
+        if (splitType === SplitType.NUMBER) {
             const amount = Object.values(usersFixedAmounts).reduce((acc, val) => acc + val, 0);
             return { outOf: t('payments.expense.out-of', { total: expenseDetails?.amount + "₪", amount: amount + "₪" }), remaining: t('payments.expense.remaining', { amount: (expenseDetails?.amount - amount) + "₪" }) };
         }
-        if (splitType === 'percentage') {
+        if (splitType === SplitType.PERCENTAGE) {
             const amount = Object.values(usersPercentage).reduce((acc, val) => acc + val, 0);
             return { outOf: t('payments.expense.out-of', { total: "100%", amount: amount + "%" }), remaining: t('payments.expense.remaining', { amount: (100 - amount) + "%" }) };
         }
@@ -247,7 +248,8 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             description: expenseDetails.description,
             paidById: expenseDetails.paidById,
             apartmentId: apartmentData.apartmentId,
-            splits
+            splits,
+            splitType,
         })
         if (fromShoppingList) {
             markAllPurchaseItemsAsPurchased();
@@ -296,7 +298,8 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
             expenseId,
             isExpenseDetailsLoading,
             expenseDetails,
-            helperText
+            helperText,
+            isAddEditExpenseLoading,
         }}>
             {children}
         </ExpenseContext.Provider>
