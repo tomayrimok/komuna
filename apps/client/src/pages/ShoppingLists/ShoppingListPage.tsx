@@ -57,7 +57,7 @@ const ShoppingListPage: React.FC = () => {
 
 
     return (
-        <Flex p={8} flexDirection={"column"} py={4} h="100%">
+        <Flex p={8} flexDirection={"column"} py={4} h="100%" pb={14}>
             <Flex justify="space-between" align="center" mb={4}>
                 <Text fontSize="xl" fontWeight="bold">{t('shopping.shopping_list')}</Text>
                 <ShoppingListItemDetailsDrawer />

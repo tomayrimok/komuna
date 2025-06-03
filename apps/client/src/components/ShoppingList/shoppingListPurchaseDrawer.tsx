@@ -8,6 +8,7 @@ import SearchInput from "../searchInput";
 import SelectionCard from "../selectionCard";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import CreatePurchaseButton from "./createPurchaseButton";
 
 const ShoppingListPurchaseDrawer = () => {
     const { items, purchaseItems } = useShoppingList();
@@ -24,11 +25,8 @@ const ShoppingListPurchaseDrawer = () => {
 
     return (
         <Drawer.Root placement={"bottom"} >
-            <Drawer.Trigger asChild>
-                <Button size="sm">
-                    {t("shopping.make_purchase")}
-                </Button>
-            </Drawer.Trigger>
+
+            <CreatePurchaseButton />
             <Portal>
                 <Drawer.Backdrop />
                 <Drawer.Positioner>
