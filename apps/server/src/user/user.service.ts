@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { addMinutes } from 'date-fns';
 import { JwtService } from '@nestjs/jwt';
-import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import axios from 'axios';
+import { addMinutes } from 'date-fns';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
 import { generateLoginCode } from '../utils/generateVerificationCode';
+import { isSMSEnabled } from '../utils/isSMSEnabled';
 import { AuthUser } from './auth-user.entity';
 import { UserJwtPayload } from './dto/jwt-user.dto';
-import { isSMSEnabled } from '../utils/isSMSEnabled';
+import { CreateUserDto } from './dto/user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -20,6 +20,7 @@ export class UserService {
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
   ) {}
+
   private readonly logger = new Logger(UserService.name);
 
   async updateAuthUserVerificationCode(phoneNumber: string): Promise<string> {
@@ -74,6 +75,7 @@ export class UserService {
         },
       },
     });
+    console.log('user: ', JSON.stringify(user, null, 2));
 
     if (!user) {
       this.logger.error(`User with phone number ${phoneNumber} not found`);

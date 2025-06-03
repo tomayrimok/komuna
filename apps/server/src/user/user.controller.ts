@@ -9,13 +9,15 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { LoginDto, VerifyPhoneNumberDto } from './dto/login.dot';
+import { LoginDto, VerifyPhoneNumberDto } from './dto/login.dto';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../decorators/User';
 import { UseAuth } from '../decorators/UseAuth';
 import { UserJwtPayload } from './dto/jwt-user.dto';
 import { isValidPhoneNumber } from 'libphonenumber-js/max';
+import { CreateUserDto } from './dto/user.dto';
+import { UserCreatedResponseDto, UserResponseDto } from './dto/user.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -52,6 +54,7 @@ export class UserController {
   }
 
   @Post('verify')
+  @ApiOkResponse({ type: UserCreatedResponseDto })
   async verify(@Body() body: VerifyPhoneNumberDto, @Res({ passthrough: true }) response: Response) {
     try {
       const { phoneNumber, code } = body;
@@ -86,6 +89,7 @@ export class UserController {
   }
 
   @Post()
+  @ApiOkResponse({ type: UserResponseDto })
   async createUser(@Body() body: CreateUserDto, @Res({ passthrough: true }) response: Response) {
     try {
       if (!body.phoneNumber) {
@@ -117,7 +121,8 @@ export class UserController {
 
   @Get()
   @UseAuth()
-  async getCurrentUserProfile(@User() user: UserJwtPayload) {
+  @ApiOkResponse({ type: UserResponseDto })
+  async getCurrentUserProfile(@User() user: UserJwtPayload): Promise<UserResponseDto> {
     try {
       if (!user || !user.phoneNumber) {
         return { user: null };

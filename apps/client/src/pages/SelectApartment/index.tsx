@@ -1,20 +1,14 @@
 import { Button, Image, Spacer, Text, VStack } from '@chakra-ui/react';
-import { UserRole } from '@komuna/types';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { useAuth } from '../../context/auth/AuthProvider';
-import { useEffect } from 'react';
+import { UserRole } from '@komuna/types';
 
 export const SelectApartment = () => {
   const { currentUserDetails, setSessionDetails } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (currentUserDetails?.apartments && currentUserDetails?.apartments.length === 1) navigate({ to: '/roommate' });
-    if (!currentUserDetails || currentUserDetails?.apartments.length === 0) navigate({ to: '/new-apartment' });
-  }, [])
 
   const handleClick = (apartmentId: string, role: UserRole) => {
     setSessionDetails({ apartmentId, role });

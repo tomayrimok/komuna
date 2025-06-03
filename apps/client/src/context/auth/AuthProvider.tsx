@@ -1,16 +1,13 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { Apartment, UserResponse, UserRole } from '@komuna/types';
+import { UserRole, API, ApiTypes } from '@komuna/types';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
-import { API } from '../../axios';
 
 type SessionDetails = {
   apartmentId: string | null;
   role: UserRole | null;
 };
-
-type CurrentUserDetails = UserResponse & { currApartment?: Apartment };
 
 // Define the context value: auth state + login/logout helpers
 export interface AuthContextValue {
@@ -18,8 +15,8 @@ export interface AuthContextValue {
   setSessionDetails: React.Dispatch<React.SetStateAction<SessionDetails>>;
   isAuthLoading: boolean;
   isRefetching: boolean;
-  currentUserDetails?: CurrentUserDetails | null;
-  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<UserResponse | null, Error>>;
+  currentUserDetails?: ApiTypes.User | null;
+  refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
 }
 export const defaultAuthContextValues: AuthContextValue = {
@@ -46,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     // Clear any stored tokens or session info here
     try {
-      await API.post('/user/logout');
+      await API.userControllerLogout();
     } catch (error) {
       console.error('Logout error:', error);
     }

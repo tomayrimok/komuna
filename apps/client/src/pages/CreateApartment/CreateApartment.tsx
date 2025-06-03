@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { Button, HStack } from '@chakra-ui/react';
 import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
-import ApartmentLayout from '../NewApartment/ApartmentLayout';
+import { ShareApartmentCode } from './ShareApartmentCode';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
-import { CreateApartmentDto, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
 import type { UpdateFieldOfPageFn } from './create-apartment.types';
-import { AUTH_QUERY_KEY } from '../../hooks/query/useAuthQuery';
-import { ShareApartmentCode } from './ShareApartmentCode';
+import ApartmentLayout from '../NewApartment/ApartmentLayout';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -50,7 +49,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
     rent: undefined,
     payableByUserId: "",
     houseCommitteeRent: undefined,
-    houseCommitteePayerUserId: "",
+    houseCommitteePayerUserId: RENTER_PAYMENT_WAYS.RENTER,
   },
 }
 
@@ -74,7 +73,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
     case CreateApartmentPages.GoToApp:
-      return <Navigate to="/select-apartment" />; // TODO CHECK
+      return <Navigate to="/" />; // TODO CHECK
     default:
       return null;
   }
@@ -87,8 +86,6 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
 const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
-
-  const queryClient = useQueryClient()
 
   const incPage = () => { setPage(p => p + 1); }
 
@@ -114,7 +111,6 @@ const CreateApartment = () => {
       return res.data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
       setPage(CreateApartmentPages.ShareApartmentCode);
     },
     onError: () => {
