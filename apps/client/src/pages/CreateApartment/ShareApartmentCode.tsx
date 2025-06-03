@@ -4,9 +4,15 @@ import { MutationState, useMutationState } from '@tanstack/react-query';
 import { ApartmentTitle } from './ApartmentTitle';
 import { Alert, Button, Clipboard, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import type { CreateApartmentHttpResponse, Code as CodeType } from '@komuna/types';
+import { useNavigate } from '@tanstack/react-router';
 
 export const ShareApartmentCode: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    navigate({ to: '/' });
+  };
 
   return (
     <>
@@ -22,8 +28,10 @@ export const ShareApartmentCode: FC = () => {
       <Button
         size="xl"
         fontSize="2xl"
-        fontWeight="bold">
-        {t('create_apartment.share_apartment.close_btn')}
+        fontWeight="bold"
+        onClick={handleClose} // Yes, this should probably be a link and not a button
+      >
+        {t('create_apartment.share_apartment.to_app')}
       </Button>
     </>
   );
