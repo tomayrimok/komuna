@@ -70,7 +70,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const handleAddItem = async () => {
         if (newItem?.name?.trim()) {
-            const updatedItems = [...items, newItem as ShoppingListItemWithIdDto];
+            const updatedItems = [newItem as ShoppingListItemWithIdDto, ...items];
             setItems(updatedItems);
             await syncShoppingList(updatedItems);
             setNewItem(null);
