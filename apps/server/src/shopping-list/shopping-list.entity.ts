@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ShoppingListItemDto } from './dto/shopping-list-item.dto';
+import { ShoppingListItemDto, ShoppingListItemWithIdDto } from './dto/shopping-list-item.dto';
 
 @Entity()
 export class ShoppingList {
@@ -23,7 +23,7 @@ export class ShoppingList {
   @Column()
   contextId: string;
 
-  @ApiProperty({ type: () => ShoppingListItemDto, isArray: true })
+  @ApiProperty({ type: () => ShoppingListItemWithIdDto, isArray: true })
   @Column('json', { default: [] })
   items: {
     itemId: string;

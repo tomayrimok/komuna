@@ -61,7 +61,7 @@ const ShoppingListItemDetailsDrawer = () => {
                         </Drawer.Body>
                         <Drawer.Footer justifyContent="space-between">
                             <Drawer.ActionTrigger asChild>
-                                <Button variant="outline">
+                                <Button variant="outline" onClick={() => setNewItem(null)}>
                                     {t('cancel')}
                                 </Button>
                             </Drawer.ActionTrigger>

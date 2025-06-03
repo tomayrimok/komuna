@@ -4,11 +4,11 @@ import { useRef, useState } from "react";
 import { ShoppingListItemQuantity } from "./shoppingListItemQuantity";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { ShoppingListItemIsUrgent } from "./shoppingListItemIsUrgent";
-import { ShoppingListItemDto } from "libs/types/src/generated/types.gen";
+import { ShoppingListItemWithIdDto } from "libs/types/src/generated/types.gen";
 
 interface ShoppingListItemProps {
-    item: ShoppingListItemDto;
-    openEditDrawer: (item: ShoppingListItemDto) => void;
+    item: ShoppingListItemWithIdDto;
+    openEditDrawer: (item: ShoppingListItemWithIdDto) => void;
 }
 
 const DELETE_THRESHOLD = 100;
@@ -24,7 +24,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
     const itemRef = useRef<HTMLDivElement>(null);
     const [showRedBg, setShowRedBg] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
-    const { handleAmountChange, handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, setEditingItem } = useShoppingList();
+    const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, setEditingItem, syncShoppingList } = useShoppingList();
 
     useMotionValueEvent(x, "change", (latest) => {
         setShowRedBg(latest > 0);
@@ -131,22 +131,27 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                                                     fontSize="md"
                                                     h={"3/4"}
                                                     me={2}
-                                                    defaultValue={item.name}
+                                                    value={item.name}
                                                     variant={"subtle"}
                                                     style={{ borderColor: "transparent", backgroundColor: "transparent", outline: "none" }}
 
                                                     onFocus={(e) => {
                                                         setEditingItem(item);
                                                     }}
+
+                                                    onChange={(e) => {
+                                                        updateItem(item.itemId, { name: e.target.value }, false);
+                                                    }}
+
                                                     onBlur={(e) => {
-                                                        updateItem(item.itemId, { name: e.target.value });
+                                                        syncShoppingList();
                                                         setEditingItem(null);
                                                     }}
                                                 />
 
                                                 <ShoppingListItemQuantity
                                                     handleChange={(amount) => {
-                                                        handleAmountChange(item.itemId, amount);
+                                                        updateItem(item.itemId, { amount });
                                                     }}
                                                     amount={item.amount}
                                                 />

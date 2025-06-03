@@ -22,6 +22,55 @@ export type UserApartment = {
   [key: string]: unknown;
 };
 
+export type Apartment = {
+  /**
+   * Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord
+   */
+  landlordCode: string;
+  /**
+   * Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents
+   */
+  roommateCode: string;
+  /**
+   * Landlord User ID
+   */
+  landlordUserId?: string;
+  /**
+   * Landlord of the apartment (Relation)
+   */
+  landlord?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Apartment contract end date
+   */
+  contractEndDate?: string;
+  /**
+   * Apartment rent
+   */
+  rent?: number;
+  /**
+   * Bills payment details
+   */
+  billsDetails?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Monthly house committee rent
+   */
+  houseCommitteeRent?: number;
+  /**
+   * User ID of the house committee payer. NULL if it's split equally
+   */
+  houseCommitteePayerUser?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Apartment residents
+   */
+  residents: Array<UserApartment>;
+};
+
 export type Expense = {
   [key: string]: unknown;
 };
@@ -74,6 +123,10 @@ export type User = {
    * User's apartments
    */
   apartments: Array<UserApartment>;
+  /**
+   * User's apartments as landlord
+   */
+  landlordApartments: Array<Apartment>;
   /**
    * User's payable rents
    */
@@ -143,15 +196,15 @@ export type CreateApartmentDto = {
 
 export type ShoppingListContextType = 'APARTMENT' | 'USER';
 
-export type ShoppingListItemDto = {
+export type ShoppingListItemWithIdDto = {
   name: string;
   isPurchased: boolean;
   image?: string;
   category?: string;
   isUrgent: boolean;
   amount: number;
-  creatorId: string;
-  createdAt: string;
+  creatorId?: string;
+  createdAt?: string;
   itemId: string;
 };
 
@@ -159,42 +212,15 @@ export type ShoppingList = {
   shoppingListId: string;
   contextType: ShoppingListContextType;
   contextId: string;
-  items: Array<ShoppingListItemDto>;
+  items: Array<ShoppingListItemWithIdDto>;
   updatedAt: string;
   createdAt: string;
 };
 
-export type NewShoppingListItemDto = {
-  name: string;
-  isPurchased: boolean;
-  image?: string;
-  category?: string;
-  isUrgent: boolean;
-  amount: number;
-  creatorId: string;
-  createdAt: string;
-  itemId?: string;
-};
-
-export type AddItemDto = {
-  itemData: NewShoppingListItemDto;
+export type SyncListDto = {
   contextType: 'APARTMENT' | 'USER';
-};
-
-export type DeleteItemDto = {
-  itemId: string;
-  contextType: 'APARTMENT' | 'USER';
-};
-
-export type UpdateItemDto = {
-  itemId: string;
-  itemData: NewShoppingListItemDto;
-  contextType: 'APARTMENT' | 'USER';
-};
-
-export type ChangeOrderDto = {
-  itemIds: Array<string>;
-  contextType: 'APARTMENT' | 'USER';
+  apartmentId: string;
+  items: Array<ShoppingListItemWithIdDto>;
 };
 
 export type AppControllerGetDataData = {
@@ -361,6 +387,19 @@ export type PaymentControllerCreatePaymentResponses = {
   201: unknown;
 };
 
+export type ApartmentControllerGetApartmentUsersData = {
+  body?: never;
+  path?: never;
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerGetApartmentUsersResponses = {
+  200: unknown;
+};
+
 export type ApartmentControllerCreateApartmentData = {
   body: CreateApartmentDto;
   path?: never;
@@ -383,108 +422,36 @@ export type ApartmentControllerJoinApartmentResponses = {
   201: unknown;
 };
 
-export type ShoppingListControllerGetApartmentShoppingListData = {
+export type ShoppingListControllerGetShoppingListData = {
   body?: never;
   path?: never;
-  query?: never;
-  url: '/api/shopping-list/apartment';
+  query: {
+    contextType: 'APARTMENT' | 'USER';
+    apartmentId: string;
+  };
+  url: '/api/shopping-list';
 };
 
-export type ShoppingListControllerGetApartmentShoppingListResponses = {
+export type ShoppingListControllerGetShoppingListResponses = {
   200: ShoppingList;
 };
 
-export type ShoppingListControllerGetApartmentShoppingListResponse =
-  ShoppingListControllerGetApartmentShoppingListResponses[keyof ShoppingListControllerGetApartmentShoppingListResponses];
+export type ShoppingListControllerGetShoppingListResponse =
+  ShoppingListControllerGetShoppingListResponses[keyof ShoppingListControllerGetShoppingListResponses];
 
-export type ShoppingListControllerGetPersonalShoppingListData = {
-  body?: never;
+export type ShoppingListControllerSyncItemsData = {
+  body: SyncListDto;
   path?: never;
   query?: never;
-  url: '/api/shopping-list/personal';
+  url: '/api/shopping-list/sync-items';
 };
 
-export type ShoppingListControllerGetPersonalShoppingListResponses = {
+export type ShoppingListControllerSyncItemsResponses = {
   200: ShoppingList;
 };
 
-export type ShoppingListControllerGetPersonalShoppingListResponse =
-  ShoppingListControllerGetPersonalShoppingListResponses[keyof ShoppingListControllerGetPersonalShoppingListResponses];
-
-export type ShoppingListControllerAddItemData = {
-  body: AddItemDto;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/add-item';
-};
-
-export type ShoppingListControllerAddItemResponses = {
-  200: ShoppingList;
-};
-
-export type ShoppingListControllerAddItemResponse =
-  ShoppingListControllerAddItemResponses[keyof ShoppingListControllerAddItemResponses];
-
-export type ShoppingListControllerDeleteItemData = {
-  body: DeleteItemDto;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/delete-item';
-};
-
-export type ShoppingListControllerDeleteItemResponses = {
-  200: ShoppingList;
-};
-
-export type ShoppingListControllerDeleteItemResponse =
-  ShoppingListControllerDeleteItemResponses[keyof ShoppingListControllerDeleteItemResponses];
-
-export type ShoppingListControllerUpdateItemData = {
-  body: UpdateItemDto;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/update-item';
-};
-
-export type ShoppingListControllerUpdateItemResponses = {
-  200: ShoppingList;
-};
-
-export type ShoppingListControllerUpdateItemResponse =
-  ShoppingListControllerUpdateItemResponses[keyof ShoppingListControllerUpdateItemResponses];
-
-export type ShoppingListControllerClearShoppingListData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/clear';
-};
-
-export type ShoppingListControllerClearShoppingListResponses = {
-  201: unknown;
-};
-
-export type ShoppingListControllerMarkAllAsPurchasedData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/mark-all-as-purchased';
-};
-
-export type ShoppingListControllerMarkAllAsPurchasedResponses = {
-  201: unknown;
-};
-
-export type ShoppingListControllerChangeOrderData = {
-  body: ChangeOrderDto;
-  path?: never;
-  query?: never;
-  url: '/api/shopping-list/change-order';
-};
-
-export type ShoppingListControllerChangeOrderResponses = {
-  201: unknown;
-};
+export type ShoppingListControllerSyncItemsResponse =
+  ShoppingListControllerSyncItemsResponses[keyof ShoppingListControllerSyncItemsResponses];
 
 export type ClientOptions = {
   baseURL: string;

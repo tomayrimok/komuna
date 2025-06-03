@@ -1,6 +1,6 @@
 import { ShoppingListContextType } from "@komuna/types";
 import { ApiProperty } from "@nestjs/swagger";
-import { NewShoppingListItemDto, ShoppingListItemDto } from "./shopping-list-item.dto";
+import { NewShoppingListItemDto, ShoppingListItemWithIdDto } from "./shopping-list-item.dto";
 import { IsArray, IsEnum, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
@@ -8,6 +8,10 @@ export class EditShoppingListItemDto {
     @ApiProperty({ enum: ShoppingListContextType })
     @IsEnum(ShoppingListContextType)
     contextType: ShoppingListContextType;
+
+    @ApiProperty()
+    @IsString()
+    apartmentId: string;
 }
 
 export class AddItemDto extends EditShoppingListItemDto {
@@ -32,11 +36,19 @@ export class UpdateItemDto extends EditShoppingListItemDto {
     @IsString()
     itemId: string;
 
-    @ApiProperty({ type: ShoppingListItemDto })
+    @ApiProperty({ type: ShoppingListItemWithIdDto })
     @ValidateNested()
-    @Type(() => ShoppingListItemDto)
-    itemData: Partial<ShoppingListItemDto>;
+    @Type(() => ShoppingListItemWithIdDto)
+    itemData: Partial<ShoppingListItemWithIdDto>;
 
+}
+
+export class SyncListDto extends EditShoppingListItemDto {
+    @ApiProperty({ type: [ShoppingListItemWithIdDto] })
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ShoppingListItemWithIdDto)
+    items: ShoppingListItemWithIdDto[];
 }
 
 export class changeOrderDto extends EditShoppingListItemDto {
@@ -44,3 +56,5 @@ export class changeOrderDto extends EditShoppingListItemDto {
     @IsArray()
     itemIds: string[];
 }
+
+export class GetListDto extends EditShoppingListItemDto { }
