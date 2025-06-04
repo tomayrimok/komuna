@@ -15,7 +15,9 @@ import {
   expenseControllerAddEditExpense,
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
-  apartmentControllerGetApartmentUsers,
+  apartmentControllerGetApartmentWithResidents,
+  apartmentControllerCreateApartment,
+  apartmentControllerJoinApartment,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -34,7 +36,10 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  PaymentControllerCreatePaymentResponse,
+  ApartmentControllerGetApartmentWithResidentsData,
+  ApartmentControllerCreateApartmentData,
+  ApartmentControllerJoinApartmentData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -398,10 +403,10 @@ export const expenseControllerGetExpenseDetailsOptions = (options: Options<Expen
   });
 };
 
-export const paymentControllerCreatePaymentQueryKey = (options?: Options<PaymentControllerCreatePaymentData>) =>
+export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
   createQueryKey('paymentControllerCreatePayment', options);
 
-export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentControllerCreatePaymentData>) => {
+export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await paymentControllerCreatePayment({
@@ -418,9 +423,13 @@ export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentC
 
 export const paymentControllerCreatePaymentMutation = (
   options?: Partial<Options<PaymentControllerCreatePaymentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<PaymentControllerCreatePaymentData>> => {
+): UseMutationOptions<
+  PaymentControllerCreatePaymentResponse,
+  AxiosError<DefaultError>,
+  Options<PaymentControllerCreatePaymentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    PaymentControllerCreatePaymentResponse,
     AxiosError<DefaultError>,
     Options<PaymentControllerCreatePaymentData>
   > = {
@@ -436,16 +445,16 @@ export const paymentControllerCreatePaymentMutation = (
   return mutationOptions;
 };
 
-export const apartmentControllerGetApartmentUsersQueryKey = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
-) => createQueryKey('apartmentControllerGetApartmentUsers', options);
+export const apartmentControllerGetApartmentWithResidentsQueryKey = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
+) => createQueryKey('apartmentControllerGetApartmentWithResidents', options);
 
-export const apartmentControllerGetApartmentUsersOptions = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
+export const apartmentControllerGetApartmentWithResidentsOptions = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await apartmentControllerGetApartmentUsers({
+      const { data } = await apartmentControllerGetApartmentWithResidents({
         ...options,
         ...queryKey[0],
         signal,
@@ -453,6 +462,82 @@ export const apartmentControllerGetApartmentUsersOptions = (
       });
       return data;
     },
-    queryKey: apartmentControllerGetApartmentUsersQueryKey(options),
+    queryKey: apartmentControllerGetApartmentWithResidentsQueryKey(options),
   });
+};
+
+export const apartmentControllerCreateApartmentQueryKey = (options: Options<ApartmentControllerCreateApartmentData>) =>
+  createQueryKey('apartmentControllerCreateApartment', options);
+
+export const apartmentControllerCreateApartmentOptions = (options: Options<ApartmentControllerCreateApartmentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerCreateApartment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerCreateApartmentQueryKey(options),
+  });
+};
+
+export const apartmentControllerCreateApartmentMutation = (
+  options?: Partial<Options<ApartmentControllerCreateApartmentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerCreateApartmentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ApartmentControllerCreateApartmentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await apartmentControllerCreateApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const apartmentControllerJoinApartmentQueryKey = (options?: Options<ApartmentControllerJoinApartmentData>) =>
+  createQueryKey('apartmentControllerJoinApartment', options);
+
+export const apartmentControllerJoinApartmentOptions = (options?: Options<ApartmentControllerJoinApartmentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerJoinApartmentQueryKey(options),
+  });
+};
+
+export const apartmentControllerJoinApartmentMutation = (
+  options?: Partial<Options<ApartmentControllerJoinApartmentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerJoinApartmentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ApartmentControllerJoinApartmentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

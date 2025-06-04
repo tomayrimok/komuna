@@ -44,3 +44,9 @@ export enum RENTER_PAYMENT_WAYS {
   EQUALLY = "EQUALLY",
   ELSE = "ELSE", // TODO this must be a user id! Might need to change the whole type of this field
 }
+
+export enum SplitType {
+  EQUAL = "EQUAL",
+  NUMBER = "NUMBER",
+  PERCENTAGE = "PERCENTAGE",
+}
