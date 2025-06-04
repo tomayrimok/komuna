@@ -15,7 +15,7 @@ import {
   expenseControllerAddEditExpense,
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
-  apartmentControllerGetApartmentUsers,
+  apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
   shoppingListControllerGetShoppingList,
@@ -38,7 +38,8 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
-  ApartmentControllerGetApartmentUsersData,
+  PaymentControllerCreatePaymentResponse,
+  ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ShoppingListControllerGetShoppingListData,
@@ -407,10 +408,10 @@ export const expenseControllerGetExpenseDetailsOptions = (options: Options<Expen
   });
 };
 
-export const paymentControllerCreatePaymentQueryKey = (options?: Options<PaymentControllerCreatePaymentData>) =>
+export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
   createQueryKey('paymentControllerCreatePayment', options);
 
-export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentControllerCreatePaymentData>) => {
+export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await paymentControllerCreatePayment({
@@ -427,9 +428,13 @@ export const paymentControllerCreatePaymentOptions = (options?: Options<PaymentC
 
 export const paymentControllerCreatePaymentMutation = (
   options?: Partial<Options<PaymentControllerCreatePaymentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<PaymentControllerCreatePaymentData>> => {
+): UseMutationOptions<
+  PaymentControllerCreatePaymentResponse,
+  AxiosError<DefaultError>,
+  Options<PaymentControllerCreatePaymentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    PaymentControllerCreatePaymentResponse,
     AxiosError<DefaultError>,
     Options<PaymentControllerCreatePaymentData>
   > = {
@@ -445,16 +450,16 @@ export const paymentControllerCreatePaymentMutation = (
   return mutationOptions;
 };
 
-export const apartmentControllerGetApartmentUsersQueryKey = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
-) => createQueryKey('apartmentControllerGetApartmentUsers', options);
+export const apartmentControllerGetApartmentWithResidentsQueryKey = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
+) => createQueryKey('apartmentControllerGetApartmentWithResidents', options);
 
-export const apartmentControllerGetApartmentUsersOptions = (
-  options: Options<ApartmentControllerGetApartmentUsersData>
+export const apartmentControllerGetApartmentWithResidentsOptions = (
+  options: Options<ApartmentControllerGetApartmentWithResidentsData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await apartmentControllerGetApartmentUsers({
+      const { data } = await apartmentControllerGetApartmentWithResidents({
         ...options,
         ...queryKey[0],
         signal,
@@ -462,7 +467,7 @@ export const apartmentControllerGetApartmentUsersOptions = (
       });
       return data;
     },
-    queryKey: apartmentControllerGetApartmentUsersQueryKey(options),
+    queryKey: apartmentControllerGetApartmentWithResidentsQueryKey(options),
   });
 };
 

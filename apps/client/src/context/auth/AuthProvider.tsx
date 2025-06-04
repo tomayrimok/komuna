@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { UserRole, API, ApiTypes } from '@komuna/types';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 import { LoadingApp } from '../../components/LoadingApp';
@@ -38,6 +38,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
     role: null,
   });
+
+  // useEffect(() => {
+  //   if (currentUserDetails) {
+  //     setSessionDetails({
+  //       apartmentId: currentUserDetails.apartments?.[0]?.apartmentId || null,
+  //       role: (currentUserDetails.apartments?.[0]?.role as UserRole) || null,
+  //     });
+  //   }
+  // }, [currentUserDetails]);
 
   const logout = async () => {
     // Clear any stored tokens or session info here

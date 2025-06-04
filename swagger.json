@@ -38,7 +38,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtEdgeWithDebtor"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -69,7 +79,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -92,7 +109,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtEdge"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -242,7 +266,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApartmentExpensesResponse"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -289,7 +323,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -301,9 +342,26 @@
       "post": {
         "operationId": "PaymentController_createPayment",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentDto"
+              }
+            }
+          }
+        },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -313,7 +371,7 @@
     },
     "/api/apartment": {
       "get": {
-        "operationId": "ApartmentController_getApartmentUsers",
+        "operationId": "ApartmentController_getApartmentWithResidents",
         "parameters": [
           {
             "name": "apartmentId",
@@ -326,7 +384,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apartment"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -459,42 +524,226 @@
   "servers": [],
   "components": {
     "schemas": {
-      "LoginDto": {
-        "type": "object",
-        "properties": {
-          "phoneNumber": {
-            "type": "string",
-            "description": "User's phone number for login"
-          }
-        },
-        "required": [
-          "phoneNumber"
+      "SplitType": {
+        "type": "string",
+        "enum": [
+          "EQUAL",
+          "NUMBER",
+          "PERCENTAGE"
         ]
       },
-      "VerifyPhoneNumberDto": {
+      "Expense": {
         "type": "object",
         "properties": {
-          "phoneNumber": {
+          "expenseId": {
             "type": "string",
-            "description": "User's phone number to verify"
+            "description": "Unique identifier for the expense"
           },
-          "code": {
+          "apartmentId": {
             "type": "string",
-            "description": "Verification code sent to the phone number"
+            "description": "ID of the apartment associated with the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "splits": {
+            "type": "object",
+            "description": "Splits of the expense among users",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date of the expense"
           }
         },
         "required": [
-          "phoneNumber",
-          "code"
+          "expenseId",
+          "apartmentId",
+          "description",
+          "amount",
+          "paidById",
+          "splits",
+          "splitType",
+          "paidByUser",
+          "createdAt"
         ]
       },
-      "UserApartment": {
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment where the payment is made"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user making the payment"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user receiving the payment"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the payment"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when the payment was created"
+          }
+        },
+        "required": [
+          "paymentId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "createdAt"
+        ]
+      },
+      "Incident": {
         "type": "object",
         "properties": {}
+      },
+      "ShoppingTemplate": {
+        "type": "object",
+        "properties": {}
+      },
+      "ShoppingListContextType": {
+        "type": "string",
+        "enum": [
+          "APARTMENT",
+          "USER"
+        ]
+      },
+      "ShoppingListItemWithIdDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isPurchased",
+          "isUrgent",
+          "amount",
+          "itemId"
+        ]
+      },
+      "ShoppingList": {
+        "type": "object",
+        "properties": {
+          "shoppingListId": {
+            "type": "string"
+          },
+          "contextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShoppingListContextType"
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+            }
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "shoppingListId",
+          "contextType",
+          "contextId",
+          "items",
+          "updatedAt",
+          "createdAt"
+        ]
       },
       "Apartment": {
         "type": "object",
         "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
           "landlordCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
@@ -502,6 +751,12 @@
           "roommateCode": {
             "type": "string",
             "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
           },
           "landlordUserId": {
             "type": "string",
@@ -533,22 +788,138 @@
             "description": "User ID of the house committee payer. NULL if it's split equally"
           },
           "residents": {
-            "description": "Apartment residents",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserApartment"
             }
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "expenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "incidents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "shoppingTemplates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingTemplate"
+            }
+          },
+          "shoppingLists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingList"
+            }
+          },
+          "createdAt": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           }
         },
         "required": [
+          "apartmentId",
+          "name",
+          "image",
           "landlordCode",
           "roommateCode",
-          "residents"
+          "address",
+          "city",
+          "residents",
+          "tasks",
+          "expenses",
+          "payments",
+          "incidents",
+          "shoppingTemplates",
+          "shoppingLists",
+          "createdAt"
         ]
       },
-      "Expense": {
+      "UserApartment": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "The ID of the apartment where the user resides"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The ID of the user who is a resident in the apartment"
+          },
+          "rent": {
+            "type": "number",
+            "description": "The amount of rent the user pays for the apartment"
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user in the apartment",
+            "enum": [
+              "LANDLORD",
+              "ROOMMATE"
+            ]
+          },
+          "apartment": {
+            "description": "The apartment where the user resides",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Apartment"
+              }
+            ]
+          },
+          "user": {
+            "description": "The user who is a resident in the apartment",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "payableByUser": {
+            "description": "The user who is responsible for paying rent",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The date when the user-apartment relationship was created"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "userId",
+          "rent",
+          "role",
+          "apartment",
+          "user",
+          "payableByUser",
+          "createdAt"
+        ]
       },
       "DebtEdge": {
         "type": "object",
@@ -681,6 +1052,97 @@
           "credits"
         ]
       },
+      "DebtEdgeWithDebtor": {
+        "type": "object",
+        "properties": {
+          "debtId": {
+            "type": "string",
+            "description": "Unique identifier for the debt"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this debt belongs to"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user who owes the debt"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user who is owed the debt"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the debt"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date of the debt"
+          },
+          "fromUser": {
+            "description": "User who owes the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "toUser": {
+            "description": "User who is owed the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "debtor": {
+            "type": "string",
+            "description": "ID of the user who is considered the debtor in this edge",
+            "example": "user123"
+          }
+        },
+        "required": [
+          "debtId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "updatedAt",
+          "fromUser",
+          "toUser",
+          "debtor"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number for login"
+          }
+        },
+        "required": [
+          "phoneNumber"
+        ]
+      },
+      "VerifyPhoneNumberDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number to verify"
+          },
+          "code": {
+            "type": "string",
+            "description": "Verification code sent to the phone number"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "code"
+        ]
+      },
       "UserCreatedResponseDto": {
         "type": "object",
         "properties": {
@@ -740,6 +1202,72 @@
           "user"
         ]
       },
+      "ApartmentExpensesResponse": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this expense belongs to"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation date of the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "expenseId": {
+            "type": "string",
+            "description": "ID of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "splits": {
+            "type": "object",
+            "description": "Object containing user IDs as keys and their share amounts as values",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "paidByMe": {
+            "type": "boolean",
+            "description": "Whether the expense was paid by the current user"
+          },
+          "splitAmount": {
+            "type": "string",
+            "description": "Amount the current user needs to pay for this expense"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "amount",
+          "createdAt",
+          "description",
+          "expenseId",
+          "paidById",
+          "paidByUser",
+          "splits"
+        ]
+      },
       "AddEditExpenseDto": {
         "type": "object",
         "properties": {
@@ -770,7 +1298,18 @@
             "example": {
               "user1": 50,
               "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
             }
+          },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
           }
         },
         "required": [
@@ -778,98 +1317,36 @@
           "description",
           "paidById",
           "apartmentId",
-          "splits"
+          "splits",
+          "splitType"
+        ]
+      },
+      "CreatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "fromId": {
+            "type": "string"
+          },
+          "toId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount"
         ]
       },
       "CreateApartmentDto": {
         "type": "object",
         "properties": {}
-      },
-      "ShoppingListContextType": {
-        "type": "string",
-        "enum": [
-          "APARTMENT",
-          "USER"
-        ]
-      },
-      "ShoppingListItemWithIdDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "isPurchased": {
-            "type": "boolean"
-          },
-          "image": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "isUrgent": {
-            "type": "boolean"
-          },
-          "amount": {
-            "type": "number"
-          },
-          "creatorId": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "isPurchased",
-          "isUrgent",
-          "amount",
-          "itemId"
-        ]
-      },
-      "ShoppingList": {
-        "type": "object",
-        "properties": {
-          "shoppingListId": {
-            "type": "string"
-          },
-          "contextType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ShoppingListContextType"
-              }
-            ]
-          },
-          "contextId": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
-            }
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "shoppingListId",
-          "contextType",
-          "contextId",
-          "items",
-          "updatedAt",
-          "createdAt"
-        ]
       },
       "SyncListDto": {
         "type": "object",
