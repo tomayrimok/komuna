@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text, VStack, Image, Card, List, Stack, Field, Input, Dialog, Portal, CloseButton } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack, Dialog, Portal, CloseButton } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
 import { Trans } from 'react-i18next';
@@ -6,8 +6,7 @@ import { useIsRTL } from '../../hooks/useIsRTL';
 import { Task } from './Task';
 import { NewTask } from './NewTask';
 import { useState, useEffect } from 'react';
-import { TaskDto, UserResponse } from '@komuna/types';
-import { API } from '../../axios';
+import { CreateTaskReqDto as TaskStruct } from '@komuna/types';
 
 
 
@@ -15,14 +14,14 @@ export function TasksHome() {
     const { currentUserDetails } = useAuth();
     const { isRTL } = useIsRTL();
     const [open, setOpen] = useState(false);
-    const [completedTasks, setCompletedTasks] = useState<TaskDto[] | null>(null);
+    const [completedTasks, setCompletedTasks] = useState<TaskStruct[] | null>(null);
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
     const userId = currentUserDetails?.userId || '';
     const apartmentId = currentUserDetails?.apartmentId || '';
 
     useEffect(() => {
         const pageIndex = completedTasksCounter;
-        API.get<TaskDto[]>('/task/get-completed', {
+        API.get<TaskStruct[]>('/task/get-completed', {
             params: { userId, apartmentId, loadMultiplier: pageIndex }
         })
             .then(r => {

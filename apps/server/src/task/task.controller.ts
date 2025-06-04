@@ -11,9 +11,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { TaskDto, EditTaskReqDto, UpdateTaskStatusReqDto } from './dto/task.dto';
-import { UserJwtPayload } from '../user/dto/jwt-user.dto';
-import { User } from '../decorators/User';
+import { CreateTaskDto, EditTaskDto } from './dto/task.dto';
+import { UserCompletionStatus } from './dto/user-completion-status.dto';
 
 @Controller('task')
 export class TaskController {
@@ -21,7 +20,7 @@ export class TaskController {
   private readonly logger = new Logger(TaskController.name);
 
   @Post('create')
-  async createTask(@Body() taskDto: TaskDto) {
+  async createTask(@Body() taskDto: CreateTaskDto) {
     // TODO add validation
     //TODO make sure assigned users belong to the apartment
     try {
@@ -35,31 +34,17 @@ export class TaskController {
     }
   }
 
-  /* Only task owner can edit the task.
-  Task participants can only update if they have completed the task */
+  // Task participants can only update the task's status
   @Post('update')
-  async updateTaskStatus(@User() user: UserJwtPayload, @Body() dto: UpdateTaskStatusReqDto) {
-    const userId = user.userId;
+  async updateTaskStatus(@Query('userId') userId: string, @Body() dto: UserCompletionStatus) {
     const task = await this.taskService.getTaskById(dto.taskId);
-    let completedTask = true;
-
     if (!task) {
       throw new BadRequestException('Task was not found');
-    }
-    task.completions.forEach(participant => {
-      if (!participant.isCompleted) {
-        completedTask = false;
-      }
-    })
-    if (!this.taskService.IsUserAParticipant(dto.taskId, userId)) {
+    } else if (!this.taskService.IsUserAParticipant(dto.taskId, userId)) {
       throw new BadRequestException('User is not a participant of the task');
-    }
-    else if (completedTask) {
-      throw new BadRequestException('Task is already completed by all participants');
-    }
-    else {
+    } else {
       try {
-        return await this.taskService.updateTaskStatus(task.taskId, userId, dto.isCompleted);
+        return await this.taskService.updateTaskStatus(task.taskId, userId, dto.status);
       } catch (error) {
         this.logger.error('Error in updateTaskStatus:', error.stack);
         throw new InternalServerErrorException('Failed to update task status', {
@@ -69,33 +54,31 @@ export class TaskController {
     }
   }
 
+  // Only task owner can edit the task.
   @Post('edit')
-  async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: EditTaskReqDto) {
-    const userId = user.userId;
-     const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
-     if (task && userId === task.createdBy) {
-        try {
-          return await this.taskService.editTask(editTaskReqDto.taskId, {...editTaskReqDto})
-        } catch (error) {
-          this.logger.error('Error in editTask:', error.stack);
-          throw new InternalServerErrorException(' Failed to edit task');
-        }
-     }
-     if (!task) {
+  async editTask(@Query('userId') userId: string, @Body() editTaskReqDto: EditTaskDto) {
+    const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
+    if (task && userId === task.createdBy) {
+      try {
+        return await this.taskService.editTask(editTaskReqDto.taskId, { ...editTaskReqDto });
+      } catch (error) {
+        this.logger.error('Error in editTask:', error.stack);
+        throw new InternalServerErrorException(' Failed to edit task');
+      }
+    }
+    if (!task) {
       throw new BadRequestException('Task was not found');
-     }
-     else if (task.createdBy !== userId) {
+    } else if (task.createdBy !== userId) {
       throw new BadRequestException('Only the task creator can edit the task');
-     }
-     else {
+    } else {
       return { success: false };
-     }
+    }
   }
 
   @Get('get')
-  async getAllTasks(@User() user: UserJwtPayload) {
+  async getAllTasks(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
     try {
-      const tasks = await this.taskService.getTask(user.userId, user.apartmentId);
+      const tasks = await this.taskService.getTask(userId, apartmentId);
       if (!tasks) {
         throw new BadRequestException('No tasks found for the given user and apartment');
       }
@@ -109,7 +92,8 @@ export class TaskController {
 
   @Get('get-completed')
   async getCompletedTasks(
-    @Query() user: UserJwtPayload,
+    @Query('userId') userId: string,
+    @Query('apartmentId') apartmentId: string,
     @Query('loadMultiplier', new DefaultValuePipe(0), ParseIntPipe)
     loadMultiplier: number
   ) {
@@ -117,7 +101,7 @@ export class TaskController {
     const skip = loadMultiplier * pageSize;
     const take = pageSize;
 
-    const tasks = await this.taskService.getTask(user.userId, user.apartmentId, true, skip, take);
+    const tasks = await this.taskService.getTask(userId, apartmentId, true, skip, take);
     return { success: true, tasks };
   }
 }

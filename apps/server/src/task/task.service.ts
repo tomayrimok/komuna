@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { Repository } from 'typeorm';
-import { CreateEditTaskDto } from './dto/task.dto';
+import { CreateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
 
@@ -14,7 +14,7 @@ export class TaskService {
     private readonly userService: UserService,
   ) {}
 
-  async createTask(taskDto: CreateEditTaskDto) {
+  async createTask(taskDto: CreateTaskDto) {
     // If there are multiple userIds, save them as an array, else save the single
     // element as an 1-D array
     const users = await this.userService.getUsersByUserId(taskDto.assignedTo);
@@ -27,13 +27,13 @@ export class TaskService {
     return this.taskRepo.save(task);
   }
 
-  async updateTaskStatus(taskId: string, userId: string, isCompleted: boolean) {
+  async updateTaskStatus(taskId: string, userId: string, status: boolean) {
     const task = await this.taskRepo.findOneBy({ taskId });
-    task.completions.find((c) => c.userId === userId).isCompleted = isCompleted;
+    task.completions.find((c) => c.userId === userId).status = status;
     return this.taskRepo.save(task);
   }
 
-  async editTask(taskId: string, editTaskDto: Partial<CreateEditTaskDto>) {
+  async editTask(taskId: string, editTaskDto: Partial<CreateTaskDto>) {
     const task = await this.taskRepo.findOneBy({ taskId });
     if (!task) {
       throw new BadRequestException('Task was not found');
@@ -59,7 +59,7 @@ export class TaskService {
         where: {
           createdBy: userId,
           apartmentId,
-          completions: { userId, isCompleted: true },
+          completions: { userId, status: true },
         },
         skip,
         take,
@@ -97,9 +97,9 @@ export class TaskService {
     if (task) {
       const completion = task.completions.find((c) => c.userId === userId);
       if (completion) {
-        completion.isCompleted = isCompleted;
+        completion.status = isCompleted;
       } else {
-        task.completions.push({ userId, isCompleted } as UserCompletionStatus);
+        task.completions.push({ userId, status: isCompleted } as UserCompletionStatus);
       }
       return await this.taskRepo.save(task);
     }
