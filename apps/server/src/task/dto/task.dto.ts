@@ -14,7 +14,8 @@ export class CreateTaskDto implements CreateTaskReqDto {
 
   @ApiProperty()
   @IsString()
-  description: string;
+  @IsOptional()
+  description?: string;
 
   @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
   @IsOptional()
@@ -30,6 +31,11 @@ export class CreateTaskDto implements CreateTaskReqDto {
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
+
+  @ApiProperty({ description: 'ISO time string for when the task is due' })
+  @IsString()
+  @IsOptional()
+  dueTime?: string;
 
   @ApiProperty({ description: 'Indicates wheter the task is recurring' })
   @IsBoolean()
@@ -72,6 +78,11 @@ export class EditTaskDto implements EditTaskReqResDto {
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
+
+  @ApiProperty({ description: 'ISO time string for when the task is due' })
+  @IsString()
+  @IsOptional()
+  dueTime?: string;
 
   @ApiProperty({ description: 'Indicates wheter the task is recurring' })
   @IsBoolean()

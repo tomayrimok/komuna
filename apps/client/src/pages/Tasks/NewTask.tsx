@@ -6,7 +6,14 @@ import {
   Input,
   Stack,
   Button,
+  Portal,
 } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/menu";
 import { useForm } from "react-hook-form";
 
 interface FormValues {
@@ -15,6 +22,8 @@ interface FormValues {
   description: string;
   assignedTo: string;
   recurrence: string;
+  images: string[];
+  dueTime: string;
 }
 
 export const NewTask = () => {
@@ -23,6 +32,14 @@ export const NewTask = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
+
+  const todayLocal = (() => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  })();
 
   const onSubmit = (data: FormValues) => {
     // e.g. axios.post("/api/tasks", data)
@@ -57,6 +74,7 @@ export const NewTask = () => {
               <Input
                 id="dueDate"
                 type="date"
+                min={todayLocal}
                 {...register("dueDate", {
                   required: "Due date is required",
                 })}
@@ -66,16 +84,29 @@ export const NewTask = () => {
               </Field.ErrorText>
             </Field.Root>
 
-            <Field.Root invalid={!!errors.description} required>
+            <Field.Root invalid={!!errors.dueTime} required>
+              <Field.Label htmlFor="dueTime">Due Time</Field.Label>
+              <Input
+                id="dueTime"
+                type="time"
+                {...register("dueTime", {
+                  required: "Due time is required",
+                })}
+              />
+              <Field.ErrorText>
+                {errors.dueTime?.message}
+              </Field.ErrorText>
+            </Field.Root>
+
+            <Field.Root invalid={!!errors.description}>
               <Field.Label htmlFor="description">
                 Description
               </Field.Label>
               <Input
                 id="description"
                 placeholder="Describe the task"
-                {...register("description", {
-                  required: "Description is required",
-                })}
+                {...register("description",
+                )}
               />
               <Field.ErrorText>
                 {errors.description?.message}
@@ -86,13 +117,31 @@ export const NewTask = () => {
               <Field.Label htmlFor="assignedTo">
                 Assigned To
               </Field.Label>
-              <Input
-                id="assignedTo"
-                placeholder="User email or name"
-                {...register("assignedTo", {
-                  required: "Please specify assignee",
-                })}
-              />
+
+              {/* Chakra Menu: Menu + MenuButton + MenuList + MenuItem */}
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  variant="outline"
+                  size="sm"
+                  right={"50%"}
+                >
+                  Open
+                </MenuButton>
+
+                {/* Wrap MenuList in Portal so it renders at document.body */}
+                <Portal>
+                  <MenuList zIndex={"10000"} background={"white"} paddingX={"10px"}>
+                    {/* TODO add API call to get all users and list them as MenuItem */}
+                    <MenuItem value="new-txt">New Text File</MenuItem>
+                    <MenuItem value="new-file">New File…</MenuItem>
+                    <MenuItem value="new-win">New Window</MenuItem>
+                    <MenuItem value="open-file">Open File…</MenuItem>
+                    <MenuItem value="export">Export</MenuItem>
+                  </MenuList>
+                </Portal>
+              </Menu>
+
               <Field.ErrorText>
                 {errors.assignedTo?.message}
               </Field.ErrorText>

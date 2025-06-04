@@ -15,7 +15,7 @@ export class Task {
   title: string;
 
   @Column()
-  description: string;
+  description?: string;
 
   // task.entity.ts
   @ManyToMany(() => User, { eager: true })
@@ -27,6 +27,9 @@ export class Task {
 
   @Column()
   dueDate?: Date;
+
+  @Column('time', { nullable: true})
+  dueTime?: string;
 
   @Column()
   isRecurrent: boolean;

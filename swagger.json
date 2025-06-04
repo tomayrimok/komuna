@@ -989,6 +989,10 @@
             "type": "string",
             "description": "ISO date string for when the task is due"
           },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
           "isRecurrent": {
             "type": "boolean",
             "description": "Indicates wheter the task is recurring"
@@ -1009,6 +1013,7 @@
           "assignedTo",
           "completions",
           "dueDate",
+          "dueTime",
           "isRecurrent",
           "recurrenceRule"
         ]
@@ -1066,6 +1071,10 @@
             "type": "string",
             "description": "ISO date string for when the task is due"
           },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
           "isRecurrent": {
             "type": "boolean",
             "description": "Indicates wheter the task is recurring"
@@ -1087,6 +1096,7 @@
           "assignedTo",
           "completions",
           "dueDate",
+          "dueTime",
           "isRecurrent",
           "recurrenceRule"
         ]

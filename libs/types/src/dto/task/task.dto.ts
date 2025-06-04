@@ -1,47 +1,49 @@
-import { RecurrenceRuleDto } from "../recurrence-rule.dto";
+import { RecurrenceRuleDto } from '../recurrence-rule.dto';
 
 export class CreateTaskReqDto {
+  title: string;
 
-    title: string;
+  description?: string;
 
-    description: string;
+  assignedTo: string[];
 
-    assignedTo: string[];
+  completions: UserCompletionStatus[];
 
-    completions: UserCompletionStatus[];
+  dueDate?: Date;
 
-    dueDate?: Date;
+  dueTime?: string;
 
-    isRecurrent: boolean;
+  isRecurrent: boolean;
 
-    recurrenceRule?: RecurrenceRuleDto;
-  }
-  
-  export class EditTaskReqResDto {
+  recurrenceRule?: RecurrenceRuleDto;
+}
 
-    taskId: string;
+export class EditTaskReqResDto {
+  taskId: string;
 
-    title: string;
+  title: string;
 
-    description: string;
+  description: string;
 
-    assignedTo: string[];
+  assignedTo: string[];
 
-    completions: UserCompletionStatus[];
+  completions: UserCompletionStatus[];
 
-    dueDate?: Date;
-  
-    isRecurrent: boolean;
+  dueDate?: Date;
 
-    recurrenceRule?: RecurrenceRuleDto;
-  }
+  dueTime?: string;
 
-  export interface UserCompletionStatus {
-    taskId: string;
+  isRecurrent: boolean;
 
-    apartmentId: string;
+  recurrenceRule?: RecurrenceRuleDto;
+}
 
-    userId: string;
-  
-    status: boolean;
-  }
+export interface UserCompletionStatus {
+  taskId: string;
+
+  apartmentId: string;
+
+  userId: string;
+
+  status: boolean;
+}

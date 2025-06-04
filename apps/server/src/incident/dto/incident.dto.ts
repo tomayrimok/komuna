@@ -52,6 +52,7 @@ export class UpdateIncidentStatusDto {
     
     @IsDateString()
     updatedAt: string;
+
 }
 
 export class AddCommentDto {
@@ -67,4 +68,7 @@ export class AddCommentDto {
     @IsOptional()
     @IsString({ each: true })
     images?: string[];
+
+    @IsString()
+    timeStamp: string;
 }
