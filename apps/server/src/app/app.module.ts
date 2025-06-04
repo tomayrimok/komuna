@@ -22,12 +22,13 @@ import { Task } from '../task/task.entity';
 import { AuthUser } from '../user/auth-user.entity';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { NotificationToken } from '../notifications/notification-token.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       url: process.env.DATABASE_URL,
       type: 'postgres',
-      logging: true,
+      // logging: true,
       entities: [
         User,
         AuthUser,

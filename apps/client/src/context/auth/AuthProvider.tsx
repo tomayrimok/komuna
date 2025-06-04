@@ -2,9 +2,9 @@ import { API, ApiTypes, UserRole } from '@komuna/types';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { listenToForegroundMessages, requestPermissionAndGetToken } from '../../app/firebase/notifications';
+import { toaster } from '../../chakra/ui/toaster';
 import { LoadingApp } from '../../components/LoadingApp';
 import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
-import { toaster } from '../../chakra/ui/toaster';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -23,7 +23,7 @@ export interface AuthContextValue {
 
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
-    apartmentId: null,
+    apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
     role: null,
   },
   isAuthLoading: true,
@@ -37,9 +37,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
-    apartmentId: null,
+    apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
     role: null,
   });
+
+  // useEffect(() => {
+  //   if (currentUserDetails) {
+  //     setSessionDetails({
+  //       apartmentId: currentUserDetails.apartments?.[0]?.apartmentId || null,
+  //       role: (currentUserDetails.apartments?.[0]?.role as UserRole) || null,
+  //     });
+  //   }
+  // }, [currentUserDetails]);
 
   const logout = async () => {
     // Clear any stored tokens or session info here

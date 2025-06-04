@@ -8,10 +8,10 @@ export const Route = createFileRoute('/login')({
   validateSearch: z.object({
     redirect: z.string().optional().catch(''),
   }),
-  beforeLoad: ({ context, search }) => {
-    if (context.currentUserDetails) {
-      throw redirect({ to: search.redirect || fallback });
-    }
-  },
+  // beforeLoad: ({ context, search }) => {
+  //   if (context.currentUserDetails) {
+  //     throw redirect({ to: search.redirect || fallback });
+  //   }
+  // },
   component: () => <Login />,
 });
