@@ -24,6 +24,7 @@ export const defaultAuthContextValues: AuthContextValue = {
     apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
     role: null,
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
   setSessionDetails: () => { },
   isAuthLoading: true,
   isRefetching: false,
