@@ -379,7 +379,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TaskDto"
+                "$ref": "#/components/schemas/CreateTaskDto"
               }
             }
           }
@@ -397,13 +397,22 @@
     "/api/task/update": {
       "post": {
         "operationId": "TaskController_updateTaskStatus",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTaskReqDto"
+                "$ref": "#/components/schemas/UserCompletionStatus"
               }
             }
           }
@@ -421,13 +430,22 @@
     "/api/task/edit": {
       "post": {
         "operationId": "TaskController_editTask",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTaskReqDto"
+                "$ref": "#/components/schemas/EditTaskDto"
               }
             }
           }
@@ -445,7 +463,24 @@
     "/api/task/get": {
       "get": {
         "operationId": "TaskController_getAllTasks",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
@@ -460,6 +495,22 @@
       "get": {
         "operationId": "TaskController_getCompletedTasks",
         "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "loadMultiplier",
             "required": true,
@@ -907,17 +958,138 @@
         "type": "object",
         "properties": {}
       },
-      "TaskDto": {
+      "RecurrenceRuleDto": {
         "type": "object",
         "properties": {}
       },
-      "UpdateTaskReqDto": {
+      "CreateTaskDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "assignedTo",
+          "completions",
+          "dueDate",
+          "isRecurrent",
+          "recurrenceRule"
+        ]
       },
-      "EditTaskReqDto": {
+      "UserCompletionStatus": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "taskId",
+          "apartmentId",
+          "userId",
+          "status"
+        ]
+      },
+      "EditTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "title",
+          "description",
+          "assignedTo",
+          "completions",
+          "dueDate",
+          "isRecurrent",
+          "recurrenceRule"
+        ]
       },
       "CreateIncidentDto": {
         "type": "object",

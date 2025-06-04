@@ -7,6 +7,7 @@ import { Task } from './Task';
 import { NewTask } from './NewTask';
 import { useState, useEffect } from 'react';
 import { CreateTaskReqDto as TaskStruct } from '@komuna/types';
+import { GetTasks } from '../../hooks/query/useTasks';
 
 
 
@@ -18,22 +19,6 @@ export function TasksHome() {
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
     const userId = currentUserDetails?.userId || '';
     const apartmentId = currentUserDetails?.apartmentId || '';
-
-    useEffect(() => {
-        const pageIndex = completedTasksCounter;
-        API.get<TaskStruct[]>('/task/get-completed', {
-            params: { userId, apartmentId, loadMultiplier: pageIndex }
-        })
-            .then(r => {
-                setCompletedTasks(prev =>
-                    // if you’re re-loading the first page, you might want to reset:
-                    pageIndex === 0
-                        ? r.data               // overwrite on first page
-                        : [...(prev || []), ...r.data] // append subsequent pages
-                );
-            })
-            .catch(console.error);
-    }, [userId, apartmentId, completedTasksCounter]);
 
     return (
         <Box
@@ -56,17 +41,41 @@ export function TasksHome() {
                 borderRadius="88px"
                 borderBottomEndRadius="none"
                 borderBottomStartRadius="none"
+                align={"center"}
             >
-                <Text
-                    fontSize="4xl"
-                    fontWeight="bold"
-                    color="brand.900"
-                >
-                    <Trans
-                        i18nKey={"task_category.title"}
-                        components={{ b: <b /> }}
-                    />
-                </Text>
+                <Box w="100%" position="relative" marginTop={"20px"}>
+                    {/* Absolutely center the title */}
+                    <Text
+                        position="absolute"
+                        left="50%"
+                        top="50%"
+                        transform="translate(-50%, -50%)"
+                        fontSize="4xl"
+                        fontWeight="bold"
+                        color="brand.900"
+                        textAlign="center"
+                    >
+                        <Trans
+                            i18nKey={"task_category.title"}
+                            components={{ b: <b /> }}
+                        />
+                    </Text>
+
+                    {/* Position the button at the right edge */}
+                    <Button
+                        position="absolute"
+                        left="0"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        borderRadius="3em"
+                        width="60px"
+                        height="60px"
+                        backgroundColor="brand.500"
+                        onClick={() => setOpen(true)}
+                    >
+                        <Text fontSize="5xl">+</Text>
+                    </Button>
+                </Box>
                 <Text
                     fontSize="1xl"
                     fontWeight="bold"
@@ -92,20 +101,7 @@ export function TasksHome() {
                     Load Completed Tasks
                 </Button>
             </VStack>
-            <Button
-                borderRadius={"3em"}
-                width={"60px"}
-                height={"60px"}
-                position={"fixed"}
-                right={"43%"}
-                top={"82vh"}
-                backgroundColor={"brand.10"}
-                onClick={() => setOpen(true)}
-            >
-                <Text fontSize={"5xl"}>
-                    +
-                </Text>
-            </Button>
+
             <Dialog.Root
                 open={open}
                 onOpenChange={(e) => setOpen(e.open)}
