@@ -23,12 +23,13 @@ import { AuthUser } from '../user/auth-user.entity';
 import { TaskModule } from '../task/task.module';
 import { IncidentModule } from '../incident/incident.module';
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
       type: 'postgres',
-      logging: true,
+      // logging: true,
       entities: [
         User,
         AuthUser,
@@ -58,4 +59,4 @@ import { IncidentModule } from '../incident/incident.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
