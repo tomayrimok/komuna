@@ -1,30 +1,36 @@
+import { ContextType, UserRole } from '@komuna/types';
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
   constructor(
-    private readonly notificationsService: NotificationsService, // Assuming you have a NotificationsService
-    // private readonly debtEdgeService: DebtEdgeService,
-    // private readonly paymentService: PaymentService,
-    // private readonly expenseService: ExpenseService,
-    // private readonly userService: UserService,
-    // private readonly apartmentService: ApartmentService,
-    // private readonly userApartmentService: UserApartmentService
+    private readonly notificationService: NotificationService,
   ) { }
 
   onModuleInit() {
-    // this.testNotificationsService();
+    // this.testNotificationService();
   }
 
-  async testNotificationsService() {
+  async testNotificationService() {
     setInterval(() => {
-      this.notificationsService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+      // this.notificationService.sendTest('5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7')
+      this.notificationService.addNotification(
+        ContextType.APARTMENT,
+        '92dc0b55-bf6c-450c-b927-b820dd492e97',
+        {
+          notification: {
+            title: 'Test Notification',
+            body: 'This is a test notification',
+          },
+        },
+        [UserRole.ROOMMATE]
+      )
     }, 6000);
   }
 
-
   async testDebtEdgeService() {
+
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });

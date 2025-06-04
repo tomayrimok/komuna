@@ -3,16 +3,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApartmentController } from './apartment.controller';
 import { Apartment } from './apartment.entity';
-import { NotificationsModule } from '../notifications/notifications.module';
 import { ApartmentService } from './apartment.service';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Apartment]),
-    NotificationsModule,
     JwtModule,
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],
+  exports: [ApartmentService],
 })
 export class ApartmentModule { }

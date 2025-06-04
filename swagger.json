@@ -435,9 +435,9 @@
         ]
       }
     },
-    "/api/notifications/register-token": {
+    "/api/notification/register-token": {
       "post": {
-        "operationId": "NotificationsController_registerToken",
+        "operationId": "NotificationController_registerToken",
         "parameters": [],
         "responses": {
           "201": {
@@ -445,7 +445,7 @@
           }
         },
         "tags": [
-          "Notifications"
+          "Notification"
         ]
       }
     }
@@ -622,8 +622,12 @@
             "description": "Landlord User ID"
           },
           "landlord": {
-            "type": "object",
-            "description": "Landlord of the apartment (Relation)"
+            "description": "Landlord of the apartment (Relation)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "contractEndDate": {
             "format": "date-time",
@@ -643,8 +647,12 @@
             "description": "Monthly house committee rent"
           },
           "houseCommitteePayerUser": {
-            "type": "object",
-            "description": "User ID of the house committee payer. NULL if it's split equally"
+            "description": "User ID of the house committee payer. NULL if it's split equally",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "residents": {
             "type": "array",
