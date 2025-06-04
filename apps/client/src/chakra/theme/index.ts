@@ -1,4 +1,3 @@
-// theme.ts
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 const config = defineConfig({
@@ -6,7 +5,7 @@ const config = defineConfig({
     recipes: {
       button: {
         base: {
-          borderRadius: 'xl',
+          borderRadius: 'lg',
           paddingY: '12px',
           paddingX: '30px',
         },
@@ -23,6 +22,7 @@ const config = defineConfig({
           borderRadius: 'xl',
           background: 'white',
         },
+
       },
     },
     tokens: {

@@ -11,16 +11,16 @@ export class ExpenseService {
     @InjectRepository(Expense)
     private readonly expenseRepo: Repository<Expense>,
     private readonly debtEdgeService: DebtEdgeService
-  ) {}
+  ) { }
 
   // This method creates a new expense and updates the debts of the users involved in the expense.
   // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
   // and update the debts of the other members in the group.
   async addEditExpense(expense: AddEditExpenseDto) {
-    const { expenseId, apartmentId, description, amount, splits, paidById } = expense;
-    const data = { apartmentId, description, amount, paidById, splits };
+    const { expenseId, apartmentId, description, amount, splits, paidById, splitType } = expense;
+    const data = { apartmentId, description, amount, paidById, splits, splitType };
 
-    if (!description || !amount || !splits || !paidById) {
+    if (!description || !amount || !splits || !paidById || !apartmentId || !splitType) {
       throw new BadRequestException('Missing required fields', {
         description: 'חסרים שדות חובה',
       });
@@ -65,20 +65,17 @@ export class ExpenseService {
   }
 
   async getApartmentExpenses(apartmentId: string, userId: string) {
-    return this.expenseRepo
-      .createQueryBuilder('expense')
-      .select([
-        'expense',
-        `expense.splits ->> :userId AS "splitAmount"`,
-        `"expense"."paidById"::uuid = :userId::uuid AS "paidByMe"`,
-        'paidByUser.firstName AS "paidByFirstName"',
-        'paidByUser.lastName AS "paidByLastName"',
-      ])
-      .leftJoin('expense.paidByUser', 'paidByUser')
-      .where('expense.apartmentId = :apartmentId', { apartmentId })
-      .orderBy('expense.createdAt', 'DESC')
-      .setParameters({ userId })
-      .getRawMany();
+    const expenses = await this.expenseRepo.find({
+      where: { apartmentId },
+      relations: ['paidByUser'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return expenses.map(expense => ({
+      ...expense,
+      splitAmount: expense.splits[userId] ?? 0,
+      paidByMe: expense.paidByUser?.userId === userId,
+    }));
   }
 
   async getExpenseDetails(expenseId: string) {
