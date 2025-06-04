@@ -136,5 +136,18 @@
             "postpone": "Postpone",
             "didnt_do": "Didnt Do"
         }
+    },
+    "incidents": {
+        "create_incident": "Create Incident",
+        "edit_incident": "Edit Incident",
+        "incident_title": "Title",
+        "incident_description": "Description",
+        "urgency_level": "Urgency Level"
+    },
+    "urgency": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "extreme": "Extreme"
     }
 }

@@ -3,22 +3,22 @@ import { IncidentStatus, IncidentUrgency } from "@komuna/types";
 
 export interface CreateIncidentDto {
 
-    userId: string; // UUID
+    // reporterId: string; // UUID
 
     apartmentId: string; // UUID
-    
-    incidentName: string;
-    
+
+    title: string;
+
     description: string;
-    
+
     status: IncidentStatus;
-    
+
     urgencyLevel: IncidentUrgency;
-    
+
     createdAt: string; // ISO date string
-    
-    location: string;
-    
+
+    // location: string;
+
     images?: string[];
 
 }
@@ -28,7 +28,7 @@ export interface UpdateIncidentStatusDto {
     incidentId: string; // UUID
 
     status: IncidentStatus; // ENUM
-    
+
     updatedAt: string; // ISO date string
 }
 

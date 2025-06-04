@@ -15,24 +15,21 @@ export class IncidentService {
     private readonly commentRepo: Repository<Comment>,
 
     private readonly userApartmentService: UserApartmentService
-  ) {}
+  ) { }
 
-  async createIncident(incidentDto: CreateIncidentDto): Promise<Incident> {
+  async createIncident(incidentDto: CreateIncidentDto, userId: string): Promise<Incident> {
     // Check if user is a resident of the apartment
     const userMemberOfApartment: boolean = await this.userApartmentService.isUserInApartment(
-      incidentDto.userId,
+      incidentDto.reporterId,
       incidentDto.apartmentId
     );
     if (!userMemberOfApartment) {
       throw new ForbiddenException(
-        `User ${incidentDto.userId} is not a resident of apartment ${incidentDto.apartmentId}`
+        `User ${incidentDto.reporterId} is not a resident of apartment ${incidentDto.apartmentId}`
       );
     }
 
-    const toSave = this.incidentRepo.create({
-      ...incidentDto,
-      reporterId: incidentDto.userId,
-    });
+    const toSave = this.incidentRepo.create({ ...incidentDto, reporterId: userId });
     return this.incidentRepo.save(toSave);
   }
 
@@ -97,5 +94,18 @@ export class IncidentService {
     } catch (error) {
       throw new InternalServerErrorException('Failed to set owner seen status ', error);
     }
+  }
+
+  async getIncidentDetails(incidentId: string): Promise<Incident> {
+    const incident = await this.incidentRepo.findOne({
+      where: { incidentId },
+      relations: ['comments'],
+    });
+
+    if (!incident) {
+      throw new NotFoundException(`Incident with id ${incidentId} not found`);
+    }
+
+    return incident;
   }
 }

@@ -18,6 +18,17 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  taskControllerCreateTask,
+  taskControllerUpdateTaskStatus,
+  taskControllerEditTask,
+  taskControllerGetAllTasks,
+  taskControllerGetCompletedTasks,
+  incidentControllerGetAllIncidents,
+  incidentControllerGetIncidentDetails,
+  incidentControllerCreateIncident,
+  incidentControllerUpdateIncident,
+  incidentControllerNewComment,
+  incidentControllerSetOwnerSeen,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -40,6 +51,18 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  TaskControllerCreateTaskData,
+  TaskControllerUpdateTaskStatusData,
+  TaskControllerEditTaskData,
+  TaskControllerGetAllTasksData,
+  TaskControllerGetCompletedTasksData,
+  IncidentControllerGetAllIncidentsData,
+  IncidentControllerGetIncidentDetailsData,
+  IncidentControllerCreateIncidentData,
+  IncidentControllerCreateIncidentResponse,
+  IncidentControllerUpdateIncidentData,
+  IncidentControllerNewCommentData,
+  IncidentControllerSetOwnerSeenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -532,6 +555,347 @@ export const apartmentControllerJoinApartmentMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const taskControllerCreateTaskQueryKey = (options: Options<TaskControllerCreateTaskData>) =>
+  createQueryKey('taskControllerCreateTask', options);
+
+export const taskControllerCreateTaskOptions = (options: Options<TaskControllerCreateTaskData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerCreateTask({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerCreateTaskQueryKey(options),
+  });
+};
+
+export const taskControllerCreateTaskMutation = (
+  options?: Partial<Options<TaskControllerCreateTaskData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerCreateTaskData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<TaskControllerCreateTaskData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await taskControllerCreateTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const taskControllerUpdateTaskStatusQueryKey = (options: Options<TaskControllerUpdateTaskStatusData>) =>
+  createQueryKey('taskControllerUpdateTaskStatus', options);
+
+export const taskControllerUpdateTaskStatusOptions = (options: Options<TaskControllerUpdateTaskStatusData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerUpdateTaskStatus({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerUpdateTaskStatusQueryKey(options),
+  });
+};
+
+export const taskControllerUpdateTaskStatusMutation = (
+  options?: Partial<Options<TaskControllerUpdateTaskStatusData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerUpdateTaskStatusData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<TaskControllerUpdateTaskStatusData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await taskControllerUpdateTaskStatus({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const taskControllerEditTaskQueryKey = (options: Options<TaskControllerEditTaskData>) =>
+  createQueryKey('taskControllerEditTask', options);
+
+export const taskControllerEditTaskOptions = (options: Options<TaskControllerEditTaskData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerEditTask({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerEditTaskQueryKey(options),
+  });
+};
+
+export const taskControllerEditTaskMutation = (
+  options?: Partial<Options<TaskControllerEditTaskData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> => {
+  const mutationOptions: UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await taskControllerEditTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const taskControllerGetAllTasksQueryKey = (options?: Options<TaskControllerGetAllTasksData>) =>
+  createQueryKey('taskControllerGetAllTasks', options);
+
+export const taskControllerGetAllTasksOptions = (options?: Options<TaskControllerGetAllTasksData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerGetAllTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerGetAllTasksQueryKey(options),
+  });
+};
+
+export const taskControllerGetCompletedTasksQueryKey = (options: Options<TaskControllerGetCompletedTasksData>) =>
+  createQueryKey('taskControllerGetCompletedTasks', options);
+
+export const taskControllerGetCompletedTasksOptions = (options: Options<TaskControllerGetCompletedTasksData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerGetCompletedTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerGetCompletedTasksQueryKey(options),
+  });
+};
+
+export const incidentControllerGetAllIncidentsQueryKey = (options: Options<IncidentControllerGetAllIncidentsData>) =>
+  createQueryKey('incidentControllerGetAllIncidents', options);
+
+export const incidentControllerGetAllIncidentsOptions = (options: Options<IncidentControllerGetAllIncidentsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerGetAllIncidents({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerGetAllIncidentsQueryKey(options),
+  });
+};
+
+export const incidentControllerGetIncidentDetailsQueryKey = (
+  options: Options<IncidentControllerGetIncidentDetailsData>
+) => createQueryKey('incidentControllerGetIncidentDetails', options);
+
+export const incidentControllerGetIncidentDetailsOptions = (
+  options: Options<IncidentControllerGetIncidentDetailsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerGetIncidentDetails({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerGetIncidentDetailsQueryKey(options),
+  });
+};
+
+export const incidentControllerCreateIncidentQueryKey = (options: Options<IncidentControllerCreateIncidentData>) =>
+  createQueryKey('incidentControllerCreateIncident', options);
+
+export const incidentControllerCreateIncidentOptions = (options: Options<IncidentControllerCreateIncidentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerCreateIncident({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerCreateIncidentQueryKey(options),
+  });
+};
+
+export const incidentControllerCreateIncidentMutation = (
+  options?: Partial<Options<IncidentControllerCreateIncidentData>>
+): UseMutationOptions<
+  IncidentControllerCreateIncidentResponse,
+  AxiosError<DefaultError>,
+  Options<IncidentControllerCreateIncidentData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    IncidentControllerCreateIncidentResponse,
+    AxiosError<DefaultError>,
+    Options<IncidentControllerCreateIncidentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await incidentControllerCreateIncident({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const incidentControllerUpdateIncidentQueryKey = (options: Options<IncidentControllerUpdateIncidentData>) =>
+  createQueryKey('incidentControllerUpdateIncident', options);
+
+export const incidentControllerUpdateIncidentOptions = (options: Options<IncidentControllerUpdateIncidentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerUpdateIncident({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerUpdateIncidentQueryKey(options),
+  });
+};
+
+export const incidentControllerUpdateIncidentMutation = (
+  options?: Partial<Options<IncidentControllerUpdateIncidentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<IncidentControllerUpdateIncidentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<IncidentControllerUpdateIncidentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await incidentControllerUpdateIncident({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const incidentControllerNewCommentQueryKey = (options: Options<IncidentControllerNewCommentData>) =>
+  createQueryKey('incidentControllerNewComment', options);
+
+export const incidentControllerNewCommentOptions = (options: Options<IncidentControllerNewCommentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerNewComment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerNewCommentQueryKey(options),
+  });
+};
+
+export const incidentControllerNewCommentMutation = (
+  options?: Partial<Options<IncidentControllerNewCommentData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<IncidentControllerNewCommentData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<IncidentControllerNewCommentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await incidentControllerNewComment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const incidentControllerSetOwnerSeenQueryKey = (options: Options<IncidentControllerSetOwnerSeenData>) =>
+  createQueryKey('incidentControllerSetOwnerSeen', options);
+
+export const incidentControllerSetOwnerSeenOptions = (options: Options<IncidentControllerSetOwnerSeenData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await incidentControllerSetOwnerSeen({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: incidentControllerSetOwnerSeenQueryKey(options),
+  });
+};
+
+export const incidentControllerSetOwnerSeenMutation = (
+  options?: Partial<Options<IncidentControllerSetOwnerSeenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<IncidentControllerSetOwnerSeenData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<IncidentControllerSetOwnerSeenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await incidentControllerSetOwnerSeen({
         ...options,
         ...localOptions,
         throwOnError: true,

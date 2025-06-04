@@ -1,4 +1,5 @@
 import { IncidentStatus, IncidentUrgency } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,45 +13,58 @@ import {
 
 @Entity()
 export class Incident {
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   incidentId: string;
 
+  @ApiProperty()
   @Column()
   apartmentId: string;
 
+  @ApiProperty()
   @Column()
   title: string;
 
+  @ApiProperty()
   @Column()
   description: string;
 
-  @Column('json')
-  images: string[];
+  @ApiProperty()
+  @Column('json', { nullable: true })
+  images?: string[];
 
+  @ApiProperty({ enum: IncidentUrgency, enumName: 'IncidentUrgency' })
   @Column({ type: 'enum', enum: IncidentUrgency })
   urgencyLevel: IncidentUrgency;
 
+  @ApiProperty()
   @Column()
   reporterId: string;
 
-  @Column({ type: 'enum', enum: IncidentStatus })
+  @ApiProperty({ enum: IncidentStatus, enumName: 'IncidentStatus' })
+  @Column({ type: 'enum', enum: IncidentStatus, default: IncidentStatus.OPEN })
   status: IncidentStatus;
 
-  @Column()
+  @ApiProperty()
+  @Column({ default: false })
   seenByManager: boolean;
 
+  @ApiProperty()
   @Column({ nullable: true })
   managerResponse: string;
 
+  @ApiProperty()
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
 
+  @ApiProperty({ type: () => [Comment] })
   @OneToMany(() => Comment, (comment) => comment.incident, {
     cascade: true,
-    eager:   false
+    eager: false
   })
   comments: Comment[];
 }

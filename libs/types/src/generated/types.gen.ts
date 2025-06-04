@@ -70,8 +70,28 @@ export type Payment = {
   createdAt: string;
 };
 
-export type Incident = {
+export type IncidentUrgency = 'LOW' | 'MEDIUM' | 'HIGH' | 'EXTREME';
+
+export type IncidentStatus = 'OPEN' | 'IN_PROGRESS' | 'SOLVED';
+
+export type Comment = {
   [key: string]: unknown;
+};
+
+export type Incident = {
+  incidentId: string;
+  apartmentId: string;
+  title: string;
+  description: string;
+  images: Array<string>;
+  urgencyLevel: IncidentUrgency;
+  reporterId: string;
+  status: IncidentStatus;
+  seenByManager: boolean;
+  managerResponse: string;
+  updatedAt: string;
+  createdAt: string;
+  comments: Array<Comment>;
 };
 
 export type ShoppingTemplate = {
@@ -407,6 +427,44 @@ export type CreateApartmentDto = {
   [key: string]: unknown;
 };
 
+export type TaskDto = {
+  [key: string]: unknown;
+};
+
+export type UpdateTaskReqDto = {
+  [key: string]: unknown;
+};
+
+export type EditTaskReqDto = {
+  [key: string]: unknown;
+};
+
+export type CreateIncidentDto = {
+  apartmentId: string;
+  title: string;
+  description: string;
+  /**
+   * How urgent the incident is. used by Enum IncidentUrgency
+   */
+  urgencyLevel: IncidentUrgency;
+  images: Array<string>;
+};
+
+export type UpdateIncidentStatusDto = {
+  incidentId: string;
+  status: {
+    [key: string]: unknown;
+  };
+  updatedAt: string;
+};
+
+export type AddCommentDto = {
+  incidentId: string;
+  userId: string;
+  message: string;
+  images: Array<string>;
+};
+
 export type AppControllerGetDataData = {
   body?: never;
   path?: never;
@@ -624,6 +682,145 @@ export type ApartmentControllerJoinApartmentData = {
 };
 
 export type ApartmentControllerJoinApartmentResponses = {
+  201: unknown;
+};
+
+export type TaskControllerCreateTaskData = {
+  body: TaskDto;
+  path?: never;
+  query?: never;
+  url: '/api/task/create';
+};
+
+export type TaskControllerCreateTaskResponses = {
+  201: unknown;
+};
+
+export type TaskControllerUpdateTaskStatusData = {
+  body: UpdateTaskReqDto;
+  path?: never;
+  query?: never;
+  url: '/api/task/update';
+};
+
+export type TaskControllerUpdateTaskStatusResponses = {
+  201: unknown;
+};
+
+export type TaskControllerEditTaskData = {
+  body: EditTaskReqDto;
+  path?: never;
+  query?: never;
+  url: '/api/task/edit';
+};
+
+export type TaskControllerEditTaskResponses = {
+  201: unknown;
+};
+
+export type TaskControllerGetAllTasksData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/task/get';
+};
+
+export type TaskControllerGetAllTasksResponses = {
+  200: unknown;
+};
+
+export type TaskControllerGetCompletedTasksData = {
+  body?: never;
+  path?: never;
+  query: {
+    loadMultiplier: number;
+  };
+  url: '/api/task/get-completed';
+};
+
+export type TaskControllerGetCompletedTasksResponses = {
+  200: unknown;
+};
+
+export type IncidentControllerGetAllIncidentsData = {
+  body?: never;
+  path?: never;
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/incident';
+};
+
+export type IncidentControllerGetAllIncidentsResponses = {
+  200: Array<Incident>;
+};
+
+export type IncidentControllerGetAllIncidentsResponse =
+  IncidentControllerGetAllIncidentsResponses[keyof IncidentControllerGetAllIncidentsResponses];
+
+export type IncidentControllerGetIncidentDetailsData = {
+  body?: never;
+  path?: never;
+  query: {
+    incidentId: string;
+  };
+  url: '/api/incident/details';
+};
+
+export type IncidentControllerGetIncidentDetailsResponses = {
+  200: Incident;
+};
+
+export type IncidentControllerGetIncidentDetailsResponse =
+  IncidentControllerGetIncidentDetailsResponses[keyof IncidentControllerGetIncidentDetailsResponses];
+
+export type IncidentControllerCreateIncidentData = {
+  body: CreateIncidentDto;
+  path?: never;
+  query?: never;
+  url: '/api/incident/create';
+};
+
+export type IncidentControllerCreateIncidentResponses = {
+  200: Incident;
+};
+
+export type IncidentControllerCreateIncidentResponse =
+  IncidentControllerCreateIncidentResponses[keyof IncidentControllerCreateIncidentResponses];
+
+export type IncidentControllerUpdateIncidentData = {
+  body: UpdateIncidentStatusDto;
+  path?: never;
+  query?: never;
+  url: '/api/incident/update';
+};
+
+export type IncidentControllerUpdateIncidentResponses = {
+  201: unknown;
+};
+
+export type IncidentControllerNewCommentData = {
+  body: AddCommentDto;
+  path?: never;
+  query?: never;
+  url: '/api/incident/comment';
+};
+
+export type IncidentControllerNewCommentResponses = {
+  201: unknown;
+};
+
+export type IncidentControllerSetOwnerSeenData = {
+  body?: never;
+  path?: never;
+  query: {
+    incidentId: string;
+    apartmentId: string;
+  };
+  url: '/api/incident/owner-seen';
+};
+
+export type IncidentControllerSetOwnerSeenResponses = {
   201: unknown;
 };
 

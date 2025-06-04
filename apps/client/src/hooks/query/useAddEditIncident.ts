@@ -1,0 +1,32 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/auth/AuthProvider";
+import { useNavigate } from "@tanstack/react-router";
+import { toaster } from "../../chakra/ui/toaster";
+import { API, ApiTypes } from "@komuna/types";
+
+export const postCreateIncident = async (data: ApiTypes.CreateIncidentDto) => {
+    const response = await API.incidentControllerCreateIncident({ body: data, throwOnError: true });
+    return response.data;
+};
+
+export const useAddEditIncident = () => {
+
+    const queryClient = useQueryClient();
+    const { currentUserDetails } = useAuth();
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    return useMutation({
+        mutationFn: postCreateIncident,
+        onSuccess: (data, variables) => {
+            // navigate({ to:  '/roommate/payments' });
+            toaster.success({ title: 'יאי' });
+            queryClient.invalidateQueries({ queryKey: ["incidents", variables.apartmentId, currentUserDetails?.userId] });
+        },
+        onError: (error: any) => {
+            toaster.error({ title: t('error.action_failed'), });
+        },
+    });
+};

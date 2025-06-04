@@ -220,5 +220,23 @@
             "postpone": "דחייה",
             "didnt_do": "לא בוצע"
         }
+    },
+    "incidents": {
+        "create_incident": "יצירת תקלה חדשה",
+        "edit_incident": "עריכת תקלה",
+        "incident_title": "כותרת",
+        "incident_description": "תיאור התקלה",
+        "urgency_level": "רמת דחיפות"
+    },
+    "urgency": {
+        "LOW": "דחיפות נמוכה",
+        "MEDIUM": "דחיפות בינונית",
+        "HIGH": "דחיפות גבוהה",
+        "EXTREME": "דחיפות קריטית"
+    },
+    "status": {
+        "OPEN": "פתוח",
+        "IN_PROGRESS": "בתהליך",
+        "SOLVED": "נפתר"
     }
 }

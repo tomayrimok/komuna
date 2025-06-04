@@ -2,15 +2,18 @@ import { IsUUID, IsString, IsEnum, IsOptional, IsDateString, IsArray } from 'cla
 import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    CreateIncidentDto as CreateIncidentDtoReq,
-    UpdateIncidentStatusDto as UpdateIncidentStatusDtoReq,
-    AddCommentDto as AddCommentDtoReq
+  CreateIncidentDto as CreateIncidentDtoReq,
+  UpdateIncidentStatusDto as UpdateIncidentStatusDtoReq,
+  AddCommentDto as AddCommentDtoReq
 } from '@komuna/types';
 
 export class CreateIncidentDto implements CreateIncidentDtoReq {
-  @ApiProperty()
-  @IsUUID()
-  userId: string;
+  createdAt: string;
+  status: IncidentStatus;
+  reporterId: string;
+  // @ApiProperty()
+  // @IsUUID()
+  // reporterId: string;
 
   @ApiProperty()
   @IsUUID()
@@ -18,30 +21,30 @@ export class CreateIncidentDto implements CreateIncidentDtoReq {
 
   @ApiProperty()
   @IsString()
-  incidentName: string;
+  title: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   description: string;
 
-  @ApiProperty({description: 'Status of the incident used by Enum IncidentStatus'})
-  @IsEnum(IncidentStatus)
-  status: IncidentStatus;
+  // @ApiProperty({ description: 'Status of the incident used by Enum IncidentStatus', enum: IncidentStatus, enumName: 'IncidentStatus' })
+  // @IsEnum(IncidentStatus)
+  // status: IncidentStatus;
 
-  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency' })
+  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency', enum: IncidentUrgency, enumName: 'IncidentUrgency' })
   @IsEnum(IncidentUrgency)
   urgencyLevel: IncidentUrgency;
 
-  @IsDateString()
-  createdAt: string;
+  // @IsDateString()
+  // createdAt: string;
 
-  @ApiProperty({ description: 'Where the incident orccured' })
-  @IsString()
-  location: string;
+  // @ApiProperty({ description: 'Where the incident orccured' })
+  // @IsString()
+  // location: string;
 
-  @ApiProperty()
-  @IsString({each: true})
+  @ApiProperty({ required: false, type: [String], description: 'List of image URLs related to the incident' })
+  @IsString({ each: true })
   @IsArray()
   @IsOptional()
   images?: string[];
@@ -78,4 +81,17 @@ export class AddCommentDto implements AddCommentDtoReq {
   @IsOptional()
   @IsString({ each: true })
   images?: string[];
+}
+
+
+export class GetIncidentsDto {
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+}
+
+export class GetIncidentDto {
+  @ApiProperty()
+  @IsUUID()
+  incidentId: string;
 }

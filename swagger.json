@@ -547,10 +547,59 @@
     "/api/incident": {
       "get": {
         "operationId": "IncidentController_getAllIncidents",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Incident"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/details": {
+      "get": {
+        "operationId": "IncidentController_getIncidentDetails",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -573,8 +622,15 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -620,6 +676,37 @@
             }
           }
         },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/owner-seen": {
+      "post": {
+        "operationId": "IncidentController_setOwnerSeen",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": ""
@@ -760,9 +847,101 @@
           "createdAt"
         ]
       },
-      "Incident": {
+      "IncidentUrgency": {
+        "type": "string",
+        "enum": [
+          "LOW",
+          "MEDIUM",
+          "HIGH",
+          "EXTREME"
+        ]
+      },
+      "IncidentStatus": {
+        "type": "string",
+        "enum": [
+          "OPEN",
+          "IN_PROGRESS",
+          "SOLVED"
+        ]
+      },
+      "Comment": {
         "type": "object",
         "properties": {}
+      },
+      "Incident": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "reporterId": {
+            "type": "string"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "seenByManager": {
+            "type": "boolean"
+          },
+          "managerResponse": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "apartmentId",
+          "title",
+          "description",
+          "images",
+          "urgencyLevel",
+          "reporterId",
+          "status",
+          "seenByManager",
+          "managerResponse",
+          "updatedAt",
+          "createdAt",
+          "comments"
+        ]
       },
       "ShoppingTemplate": {
         "type": "object",
@@ -1402,15 +1581,83 @@
       },
       "CreateIncidentDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "description": "How urgent the incident is. used by Enum IncidentUrgency",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "images": {
+            "description": "List of image URLs related to the incident",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "apartmentId",
+          "title",
+          "description",
+          "urgencyLevel"
+        ]
       },
       "UpdateIncidentStatusDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "object"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "incidentId",
+          "status",
+          "updatedAt"
+        ]
       },
       "AddCommentDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "userId",
+          "message",
+          "images"
+        ]
       }
     }
   }
