@@ -22,6 +22,9 @@ export class Notification {
     @Column({ type: 'jsonb' })
     payload: admin.messaging.MessagingPayload;
 
+    @Column({ type: 'jsonb', default: {} })
+    metadata: Record<string, any>;
+
     @CreateDateColumn()
     createdAt: Date;
 

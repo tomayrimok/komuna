@@ -130,6 +130,7 @@ export class NotificationService {
         contextId: string,
         payload: admin.messaging.MessagingPayload,
         roles: UserRole[] = [],
+        metadata: Record<string, any> = {}
     ): Promise<Notification> {
         const notification = this.notificationRepo.create({
             contextType,
@@ -137,9 +138,21 @@ export class NotificationService {
             payload,
             roles,
             scheduledAt: new Date(),
+            metadata
         });
 
         return this.notificationRepo.save(notification);
+    }
+
+    async deleteNotificationByMetadata(metadata: Record<string, any>): Promise<void> {
+        await this.notificationRepo.delete({ metadata });
+    }
+
+    async updateNotificationByMetadata(
+        metadata: Record<string, any>,
+        updateData: Partial<Notification>
+    ): Promise<void> {
+        await this.notificationRepo.update({ metadata }, updateData);
     }
 
 }
