@@ -1,70 +1,81 @@
+import { IsUUID, IsString, IsEnum, IsOptional, IsDateString, IsArray } from 'class-validator';
+import { IncidentStatus, IncidentUrgency } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsUUID,
-    IsString,
-    IsEnum,
-    IsBoolean,
-    IsOptional,
-    IsDateString,
-  } from 'class-validator';
-import { IncidentStatus, IncidentUrgency } from "@komuna/types";
+    CreateIncidentDto as CreateIncidentDtoReq,
+    UpdateIncidentStatusDto as UpdateIncidentStatusDtoReq,
+    AddCommentDto as AddCommentDtoReq
+} from '@komuna/types';
 
+export class CreateIncidentDto implements CreateIncidentDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
 
-export class CreateIncidentDto {
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
 
-    @IsUUID()
-    userId: string;
+  @ApiProperty()
+  @IsString()
+  incidentName: string;
 
-    @IsUUID()
-    apartmentId: string;
-    
-    @IsString()
-    incidentName: string;
-    
-    @IsOptional()
-    @IsString()
-    description: string;
-    
-    @IsEnum(IncidentStatus)
-    status: IncidentStatus;
-    
-    @IsEnum(IncidentUrgency)
-    urgencyLevel: IncidentUrgency;
-    
-    @IsDateString()
-    createdAt: string;
-    
-    @IsString()
-    location: string;
-    
-    @IsBoolean()
-    includingImages: boolean;
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  description: string;
 
-    @IsBoolean()
-    ownerSeen: boolean;
+  @ApiProperty({description: 'Status of the incident used by Enum IncidentStatus'})
+  @IsEnum(IncidentStatus)
+  status: IncidentStatus;
+
+  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency' })
+  @IsEnum(IncidentUrgency)
+  urgencyLevel: IncidentUrgency;
+
+  @IsDateString()
+  createdAt: string;
+
+  @ApiProperty({ description: 'Where the incident orccured' })
+  @IsString()
+  location: string;
+
+  @ApiProperty()
+  @IsString({each: true})
+  @IsArray()
+  @IsOptional()
+  images?: string[];
 }
 
-export class UpdateIncidentStatusDto {
-    @IsUUID()
-    incidentId: string;
+export class UpdateIncidentStatusDto implements UpdateIncidentStatusDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  incidentId: string;
 
-    @IsEnum(IncidentStatus)
-    status: IncidentStatus;
-    
-    @IsDateString()
-    updatedAt: string;
+  @ApiProperty()
+  @IsEnum(IncidentStatus)
+  status: IncidentStatus;
+
+  @ApiProperty()
+  @IsDateString()
+  updatedAt: string;
 }
 
-export class AddCommentDto {
-    @IsUUID()
-    incidentId: string;
+export class AddCommentDto implements AddCommentDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  incidentId: string;
 
-    @IsUUID()
-    userId: string;
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
 
-    @IsString()
-    message: string;
+  @ApiProperty()
+  @IsString()
+  message: string;
 
-    @IsOptional()
-    @IsString({ each: true })
-    images?: string[];
+  @ApiProperty()
+  @IsOptional()
+  @IsString({ each: true })
+  images?: string[];
 }

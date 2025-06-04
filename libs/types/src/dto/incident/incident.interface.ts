@@ -19,9 +19,8 @@ export interface CreateIncidentDto {
     
     location: string;
     
-    includingImages: boolean;
+    images?: string[];
 
-    ownerSeen: boolean;
 }
 
 export interface UpdateIncidentStatusDto {

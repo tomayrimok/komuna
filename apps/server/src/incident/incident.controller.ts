@@ -1,9 +1,7 @@
-import { Body, Controller, Logger, Post, Get } from '@nestjs/common';
+import { Body, Controller, Logger, Post, Get, Query } from '@nestjs/common';
 import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto } from './dto/incident.dto';
 import { IncidentService } from './incident.service';
 import { UseAuth } from '../decorators/UseAuth';
-import { User } from '../decorators/User';
-import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 
 @Controller('incident')
 export class IncidentController {
@@ -12,9 +10,8 @@ export class IncidentController {
 
   @Get()
   @UseAuth()
-  async getAllIncidents(@User() user: UserJwtPayload) {
-    const aptID = user.apartmentId;
-    return await this.incidentService.getIncidentsByApartment(aptID);
+  async getAllIncidents(@Query('apartmentId') apartmendId: string) {
+    return await this.incidentService.getIncidentsByApartment(apartmendId);
   }
 
   @Post('create') // TODO redirect to the new incident - /create/id=?incidentId
@@ -30,5 +27,10 @@ export class IncidentController {
   @Post('comment')
   async newComment(@Body() addComment: AddCommentDto) {
     return this.incidentService.addComment(addComment);
+  }
+
+  @Post('owner-seen')
+  async setOwnerSeen(@Query('incidentId') incidentId: string, @Query('apartmentId') apartmentId: string) {
+    return this.incidentService.setOwnerSeen(incidentId, apartmentId);
   }
 }

@@ -84,7 +84,18 @@ export class IncidentService {
         order: { createdAt: 'DESC' },
       });
     } catch (error) {
-      throw new InternalServerErrorException('Failed to load incidents', error);
+      throw new InternalServerErrorException('Failed to load incidents ', error);
+    }
+  }
+
+  async setOwnerSeen(incidentId: string, apartmentId: string) {
+    try {
+      return this.incidentRepo.update(
+        { incidentId, apartmentId },
+        { seenByManager: true }
+      )
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to set owner seen status ', error);
     }
   }
 }
