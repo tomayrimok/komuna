@@ -3,6 +3,8 @@ import { DebtEdgeService } from '../debt-edge/debt-edge.service';
 import { ExpenseService } from '../expense/expense.service';
 import { PaymentService } from '../payment/payment.service';
 import { UserService } from '../user/user.service';
+import { UserRole } from '@komuna/types';
+import { UserApartmentService } from '../user-apartment/user-apartment.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -12,8 +14,8 @@ export class AppService implements OnModuleInit {
     private readonly expenseService: ExpenseService,
     private readonly userService: UserService,
     // private readonly apartmentService: ApartmentService,
-    // private readonly userApartmentService: UserApartmentService
-  ) {}
+    private readonly userApartmentService: UserApartmentService
+  ) { }
 
   onModuleInit() {
     // console.log('AppService initialized');
@@ -26,7 +28,7 @@ export class AppService implements OnModuleInit {
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });
     // const apartment = await this.apartmentService.createApartment({ name: 'Herzel 14', code: '1111' });
     // create user-apartment relation
-    // await this.userApartmentService.createUserApartment({ userId: aaa.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
+    // await this.userApartmentService.createUserApartment({ userId: '5c271ba7-6740-4fe2-8d0e-8af4e4a91dd7', apartmentId: 'd04fd195-6343-4183-9a7a-9049f958a0cc', role: UserRole.ROOMMATE });
     // await this.userApartmentService.createUserApartment({ userId: bbb.userId, apartmentId: apartment.apartmentId, role: UserRole.MEMBER });
     // Now bbb payed for batteries
     // const expense = await this.expenseService.createExpense({ description: 'Batteries', amount: 500, apartmentId: apartment.apartmentId, splits: [{ userId: aaa.userId, amount: 10 }, { userId: aaa.userId, amount: 10 }] }, aaa.userId);
