@@ -1,28 +1,20 @@
 import { Box, Card, Flex, Icon, Tag, Text } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { IconChevronLeft, IconMoneybag } from "@tabler/icons-react";
+import { IconAlertCircle, IconArrowsDown, IconArrowsTransferDown, IconBrandMedium, IconCheck, IconChevronDown, IconChevronLeft, IconChevronsDown, IconChevronsUp, IconChevronUp, IconClock, IconEqual, IconMinus, IconMoneybag, IconStar } from "@tabler/icons-react";
 import { useLocaleChange } from "../../hooks/useLocaleChange";
 import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
 import { format, parseISO } from "date-fns";
 import { Incident } from "libs/types/src/generated";
 import { IncidentStatus, IncidentUrgency } from "@komuna/types";
+import IncidentTag from "./incidentTag";
+import { STATUSES_DATA } from "./consts/statuses.data";
+import { URGENCY_DATA } from "./consts/urgency.data";
 
 interface IncidentCardProps {
     item: Incident;
 }
 
-const urgencyColors: Record<string, string> = {
-    [IncidentUrgency.LOW]: "green.500",
-    [IncidentUrgency.MEDIUM]: "yellow.500",
-    [IncidentUrgency.HIGH]: "orange.600",
-    [IncidentUrgency.EXTREME]: "red.700",
-};
-const statusColors: Record<string, string> = {
-    [IncidentStatus.OPEN]: "blue.500",
-    [IncidentStatus.IN_PROGRESS]: "yellow.500",
-    [IncidentStatus.SOLVED]: "green.500",
-};
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
 
@@ -51,13 +43,11 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
                         <Text color={"gray.500"}>
                             {item.description}
                         </Text>
+                        <Flex mt={2} gap={2}>
+                            <IncidentTag value={item.status} data={STATUSES_DATA} />
+                            <IncidentTag value={item.urgencyLevel} data={URGENCY_DATA} />
+                        </Flex>
                     </Box>
-                    {/* <Tag.Root backgroundColor={urgencyColors[item.urgencyLevel]} color={"white"} borderRadius={"2xl"}>
-                        {t(`urgency.${item.urgencyLevel}` as any)}
-                    </Tag.Root> */}
-                    <Tag.Root backgroundColor={statusColors[item.status]} color={"white"} borderRadius={"2xl"}>
-                        {t(`status.${item.status}` as any)}
-                    </Tag.Root>
 
                 </Flex>
 
@@ -67,6 +57,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
 
             </Card.Description>
             <Card.Footer>
+
                 <Text fontSize="sm" direction={"l"} color={"gray.500"} ms={"auto"}>
                     {date} {t(`months.${month}` as any)} {year}
                 </Text>

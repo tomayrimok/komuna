@@ -71,21 +71,28 @@ export class Incident {
 
 @Entity()
 export class Comment {
+
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   commentId: string;
 
+  @ApiProperty()
   @Column()
   message: string;
 
+  @ApiProperty()
   @Column()
   userId: string;
 
+  @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
 
+  @ApiProperty()
   @Column()
   incidentId: string;
 
+  @ApiProperty()
   @Column('text', { array: true, nullable: true })
   images?: string[];
 

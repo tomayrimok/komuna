@@ -866,7 +866,38 @@
       },
       "Comment": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "commentId",
+          "message",
+          "userId",
+          "createdAt",
+          "incidentId",
+          "images"
+        ]
       },
       "Incident": {
         "type": "object",

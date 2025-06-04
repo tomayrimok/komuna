@@ -75,7 +75,12 @@ export type IncidentUrgency = 'LOW' | 'MEDIUM' | 'HIGH' | 'EXTREME';
 export type IncidentStatus = 'OPEN' | 'IN_PROGRESS' | 'SOLVED';
 
 export type Comment = {
-  [key: string]: unknown;
+  commentId: string;
+  message: string;
+  userId: string;
+  createdAt: string;
+  incidentId: string;
+  images: Array<string>;
 };
 
 export type Incident = {
@@ -447,7 +452,10 @@ export type CreateIncidentDto = {
    * How urgent the incident is. used by Enum IncidentUrgency
    */
   urgencyLevel: IncidentUrgency;
-  images: Array<string>;
+  /**
+   * List of image URLs related to the incident
+   */
+  images?: Array<string>;
 };
 
 export type UpdateIncidentStatusDto = {

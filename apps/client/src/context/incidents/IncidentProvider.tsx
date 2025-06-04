@@ -20,6 +20,9 @@ type IncidentContextValue = {
     incidentId?: string;
     handleSave?: () => void;
     updateIncidentDetails: (data: Partial<Incident>) => void;
+    newComment: string;
+    setNewComment: (comment: string) => void;
+
 }
 
 
@@ -33,6 +36,7 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
     const { t } = useTranslation();
 
     const [incidentDetails, setIncidentDetails] = useState<Incident>();
+    const [newComment, setNewComment] = useState<string>('');
 
     const { incidentId } = useParams({ strict: false });
     const { data: incidentDetailsData, isLoading: isIncidentDetailsLoading, isError: isIncidentDetailsError } = useIncidentDetails(incidentId || '');
@@ -62,7 +66,22 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
         });
     }
 
+    const addComment = (incidentId: string, commentText: string) => {
+        if (!commentText.trim()) return;
 
+        const newNote = {
+            id: Date.now(),
+            text: commentText,
+            author: 'משתמש נוכחי',
+            createdAt: new Date().toISOString()
+        };
+
+        // setIncidents(prev => prev.map(incident =>
+        //   incident.incidentId === incidentId
+        //     ? { ...incident, notes: [...incident.notes, newNote] }
+        //     : incident
+        // ));
+    };
 
     return (
         <IncidentContext.Provider value={{
@@ -73,7 +92,9 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
             createIncident,
             incidentId,
             handleSave,
-            updateIncidentDetails
+            updateIncidentDetails,
+            newComment,
+            setNewComment
         }}>
             {children}
         </IncidentContext.Provider>
