@@ -2,7 +2,7 @@ import { Fragment, useMemo } from "react";
 import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack, Alert } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { RenterSettingsDto, RENTER_PAYMENT_WAYS } from "@komuna/types";
-import { ApartmentTitle } from "./ApartmentTitle";
+import { ApartmentTitle } from "../NewApartment/ApartmentTitle";
 import { IconCurrencyShekel } from "@tabler/icons-react";
 import type { CommonApartmentProps } from "./create-apartment.types";
 
