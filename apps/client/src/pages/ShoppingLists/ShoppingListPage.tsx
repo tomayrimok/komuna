@@ -17,7 +17,7 @@ import { ShoppingListItem } from "../../components/ShoppingList/shoppingListItem
 import { ShoppingListItemIsUrgent } from "../../components/ShoppingList/shoppingListItemIsUrgent";
 import { ShoppingListItemQuantity } from "../../components/ShoppingList/shoppingListItemQuantity";
 import { useShoppingList } from "../../context/auth/ShoppingListProvider";
-import { ShoppingListContextType } from "@komuna/types";
+import { ContextType } from "@komuna/types";
 import { useNavigate } from "@tanstack/react-router";
 import ShoppingListPurchaseDrawer from "../../components/ShoppingList/shoppingListPurchaseDrawer";
 import ShoppingListItemDetailsDrawer from "../../components/ShoppingList/shoppingListItemDetailsDrawer";
@@ -66,7 +66,7 @@ const ShoppingListPage: React.FC = () => {
             </Flex>
 
             {/* 
-            {contextType === ShoppingListContextType.APARTMENT && (
+            {contextType === ContextType.APARTMENT && (
                 <ShoppingListPurchaseDrawer />
             )} */}
 

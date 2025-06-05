@@ -1,6 +1,6 @@
 import { Tabs } from "@chakra-ui/react";
 import { IconHome, IconUser } from "@tabler/icons-react";
-import { ShoppingListContextType } from "@komuna/types";
+import { ContextType } from "@komuna/types";
 import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
 import ShoppingListPage from "./ShoppingListPage";
 import { useTranslation } from "react-i18next";
@@ -24,12 +24,12 @@ const CurrentShoppingLists = () => {
       </Tabs.List>
 
       <Tabs.Content value="apartment" flexGrow={1}>
-        <ShoppingListProvider contextType={ShoppingListContextType.APARTMENT}>
+        <ShoppingListProvider contextType={ContextType.APARTMENT}>
           <ShoppingListPage />
         </ShoppingListProvider>
       </Tabs.Content>
       <Tabs.Content value="personal" flexGrow={1}>
-        <ShoppingListProvider contextType={ShoppingListContextType.USER}>
+        <ShoppingListProvider contextType={ContextType.USER}>
           <ShoppingListPage />
         </ShoppingListProvider>
       </Tabs.Content>

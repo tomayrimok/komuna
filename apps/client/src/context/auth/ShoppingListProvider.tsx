@@ -1,4 +1,4 @@
-import { API, ShoppingListContextType } from '@komuna/types';
+import { API, ContextType } from '@komuna/types';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 import { useShoppingListQuery } from '../../hooks/query/useShoppingListQuery';
 import { toaster } from '../../chakra/ui/toaster';
@@ -28,7 +28,7 @@ export interface ShoppingListContextValue {
     activeSwipe: string | null;
     updateOrder: (items: ShoppingListItemWithIdDto[]) => Promise<void>;
     togglePurchased: (itemId: string) => Promise<void>;
-    contextType: ShoppingListContextType;
+    contextType: ContextType;
     syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
 
 }
@@ -36,7 +36,7 @@ export interface ShoppingListContextValue {
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
 
 type ShoppingListProviderProps = PropsWithChildren & {
-    contextType: ShoppingListContextType;
+    contextType: ContextType;
 };
 
 export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children, contextType }) => {

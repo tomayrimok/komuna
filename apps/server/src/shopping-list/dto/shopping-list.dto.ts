@@ -1,13 +1,13 @@
-import { ShoppingListContextType } from "@komuna/types";
+import { ContextType } from "@komuna/types";
 import { ApiProperty } from "@nestjs/swagger";
 import { NewShoppingListItemDto, ShoppingListItemWithIdDto } from "./shopping-list-item.dto";
 import { IsArray, IsEnum, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 export class EditShoppingListItemDto {
-    @ApiProperty({ enum: ShoppingListContextType })
-    @IsEnum(ShoppingListContextType)
-    contextType: ShoppingListContextType;
+    @ApiProperty({ enum: ContextType })
+    @IsEnum(ContextType)
+    contextType: ContextType;
 
     @ApiProperty()
     @IsString()

@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { API, ShoppingListContextType } from "@komuna/types";
+import { API, ContextType } from "@komuna/types";
 import { useAuth } from "../../context/auth/AuthProvider";
 
-const getShoppingList = async (contextType: ShoppingListContextType, apartmentId: string) => {
+const getShoppingList = async (contextType: ContextType, apartmentId: string) => {
     const { data } = await API.shoppingListControllerGetShoppingList({ query: { contextType, apartmentId } })
     return data;
 }
 
-export const useShoppingListQuery = (contextType: ShoppingListContextType) => {
+export const useShoppingListQuery = (contextType: ContextType) => {
 
     const { sessionDetails: { apartmentId } } = useAuth();
 
