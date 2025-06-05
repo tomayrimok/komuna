@@ -78,7 +78,7 @@ export type ShoppingTemplate = {
   [key: string]: unknown;
 };
 
-export type ShoppingListContextType = 'APARTMENT' | 'USER';
+export type ContextType = 'APARTMENT' | 'USER';
 
 export type ShoppingListItemWithIdDto = {
   name: string;
@@ -94,7 +94,7 @@ export type ShoppingListItemWithIdDto = {
 
 export type ShoppingList = {
   shoppingListId: string;
-  contextType: ShoppingListContextType;
+  contextType: ContextType;
   contextId: string;
   items: Array<ShoppingListItemWithIdDto>;
   updatedAt: string;
@@ -122,9 +122,7 @@ export type Apartment = {
   /**
    * Landlord of the apartment (Relation)
    */
-  landlord?: {
-    [key: string]: unknown;
-  };
+  landlord?: User;
   /**
    * Apartment contract end date
    */
@@ -146,9 +144,7 @@ export type Apartment = {
   /**
    * User ID of the house committee payer. NULL if it's split equally
    */
-  houseCommitteePayerUser?: {
-    [key: string]: unknown;
-  };
+  houseCommitteePayerUser?: User;
   residents: Array<UserApartment>;
   tasks: Array<UserApartment>;
   expenses: Array<Expense>;
@@ -682,6 +678,17 @@ export type ShoppingListControllerSyncItemsResponses = {
 
 export type ShoppingListControllerSyncItemsResponse =
   ShoppingListControllerSyncItemsResponses[keyof ShoppingListControllerSyncItemsResponses];
+
+export type NotificationControllerRegisterTokenData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/notification/register-token';
+};
+
+export type NotificationControllerRegisterTokenResponses = {
+  201: unknown;
+};
 
 export type ClientOptions = {
   baseURL: string;

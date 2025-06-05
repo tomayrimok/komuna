@@ -1,8 +1,10 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { UserRole, API, ApiTypes } from '@komuna/types';
-import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
-import { LoadingApp } from '../../components/LoadingApp';
+import { API, ApiTypes, UserRole } from '@komuna/types';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from '@tanstack/react-query';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { listenToForegroundMessages, requestPermissionAndGetToken } from '../../app/firebase/notifications';
+import { toaster } from '../../chakra/ui/toaster';
+import { LoadingApp } from '../../components/LoadingApp';
+import { AUTH_QUERY_KEY, useAuthQuery } from '../../hooks/query/useAuthQuery';
 
 type SessionDetails = {
   apartmentId: string | null;
@@ -58,6 +60,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSessionDetails(defaultAuthContextValues.sessionDetails);
     queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
+
+  useEffect(() => {
+    // Register the token and start listening for messages
+    requestPermissionAndGetToken();
+    listenToForegroundMessages((payload) => {
+      console.log('Message received while active. ', payload);
+      toaster.create({
+        meta: { closable: true },
+        type: "info",
+        title: payload.notification?.title,
+        description: payload.notification?.body,
+        duration: 5000
+      });
+    });
+  }, []);
 
   if (isAuthLoading) return <LoadingApp />;
   return (

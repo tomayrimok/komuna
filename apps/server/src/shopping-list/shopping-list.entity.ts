@@ -1,4 +1,4 @@
-import { ShoppingListContextType } from '@komuna/types';
+import { ContextType } from '@komuna/types';
 import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
@@ -15,9 +15,9 @@ export class ShoppingList {
   @PrimaryGeneratedColumn('uuid')
   shoppingListId: string;
 
-  @ApiProperty({ enum: ShoppingListContextType, enumName: 'ShoppingListContextType' })
-  @Column({ type: 'enum', enum: ShoppingListContextType })
-  contextType: ShoppingListContextType;
+  @ApiProperty({ enum: ContextType, enumName: 'ContextType' })
+  @Column({ type: 'enum', enum: ContextType })
+  contextType: ContextType;
 
   @ApiProperty()
   @Column()
