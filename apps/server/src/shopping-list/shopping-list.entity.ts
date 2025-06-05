@@ -1,13 +1,7 @@
 import { ContextType } from '@komuna/types';
-import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { ShoppingListItemDto, ShoppingListItemWithIdDto } from './dto/shopping-list-item.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { ShoppingListItemWithIdDto } from './dto/shopping-list-item.dto';
 
 @Entity()
 export class ShoppingList {

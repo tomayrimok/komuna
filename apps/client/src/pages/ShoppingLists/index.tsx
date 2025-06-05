@@ -1,17 +1,15 @@
-import { Tabs } from "@chakra-ui/react";
-import { IconHome, IconUser } from "@tabler/icons-react";
-import { ContextType } from "@komuna/types";
-import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
-import ShoppingListPage from "./ShoppingListPage";
-import { useTranslation } from "react-i18next";
+import { Tabs } from '@chakra-ui/react';
+import { IconHome, IconUser } from '@tabler/icons-react';
+import { ContextType } from '@komuna/types';
+import { ShoppingListProvider } from '../../context/auth/ShoppingListProvider';
+import ShoppingListPage from './ShoppingListPage';
+import { useTranslation } from 'react-i18next';
 
 const CurrentShoppingLists = () => {
-
   const { t } = useTranslation();
 
   return (
-    <Tabs.Root defaultValue="apartment" h="100dvh" display={"flex"} flexDirection="column">
-
+    <Tabs.Root defaultValue="apartment" h="100dvh" display={'flex'} flexDirection="column">
       <Tabs.List>
         <Tabs.Trigger value="apartment">
           <IconHome />
@@ -33,7 +31,6 @@ const CurrentShoppingLists = () => {
           <ShoppingListPage />
         </ShoppingListProvider>
       </Tabs.Content>
-
     </Tabs.Root>
   );
 };

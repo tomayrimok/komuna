@@ -45,7 +45,7 @@ import { AppService } from './app.service';
         ShoppingTemplate,
         Task,
         NotificationToken,
-        Notification
+        Notification,
       ],
       synchronize: true,
     }),
@@ -56,9 +56,9 @@ import { AppService } from './app.service';
     ApartmentModule,
     UserApartmentModule,
     ShoppingListModule,
-    NotificationModule
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

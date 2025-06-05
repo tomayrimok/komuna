@@ -15,10 +15,10 @@ export const SelectApartment = () => {
 
   return (
     <ApartmentLayout>
-      <Text textAlign='center' fontSize="2xl" fontWeight="bold" >
+      <Text textAlign="center" fontSize="2xl" fontWeight="bold">
         {t('choose_apartment.title')}
       </Text>
-      <VStack gap='6'>
+      <VStack gap="6">
         {apartments.map((apartment) => {
           return (
             <Button
@@ -27,20 +27,20 @@ export const SelectApartment = () => {
               fontWeight="bold"
               h="200px"
               variant="outline"
-              backgroundColor='transparent'
-              onClick={() => { navigate({ to: '/roommate' }); }}>
-              <VStack w='100%'>
-                <Image h='60px' src="/detailed_icons/apartment.png" />
+              backgroundColor="transparent"
+              onClick={() => {
+                navigate({ to: '/roommate' });
+              }}
+            >
+              <VStack w="100%">
+                <Image h="60px" src="/detailed_icons/apartment.png" />
                 <Text>{apartment.address}</Text>
-                <Text>(
-                  {apartment.role === UserRole.ROOMMATE ?
-                    t('choose_apartment.renter')
-                    : t('choose_apartment.leaser')}
-                  )
+                <Text>
+                  ({apartment.role === UserRole.ROOMMATE ? t('choose_apartment.renter') : t('choose_apartment.leaser')})
                 </Text>
               </VStack>
             </Button>
-          )
+          );
         })}
       </VStack>
       <Spacer />
@@ -48,10 +48,13 @@ export const SelectApartment = () => {
         size="xl"
         fontSize="2xl"
         fontWeight="bold"
-        backgroundColor='transparent'
-        onClick={() => { navigate({ to: '/create-apartment' }); }}>
+        backgroundColor="transparent"
+        onClick={() => {
+          navigate({ to: '/create-apartment' });
+        }}
+      >
         + {t('select_apartment.no_apartments.create_new_apartment')}
       </Button>
-    </ApartmentLayout >
+    </ApartmentLayout>
   );
 };

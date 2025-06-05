@@ -22,7 +22,6 @@ const config = defineConfig({
           borderRadius: 'xl',
           background: 'white',
         },
-
       },
     },
     tokens: {

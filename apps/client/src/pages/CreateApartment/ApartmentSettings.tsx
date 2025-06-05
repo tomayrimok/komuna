@@ -1,21 +1,38 @@
-import { useMemo } from "react";
-import { Field, HStack, Input, Stack, VStack, Text, InputGroup, Button, useFileUpload, FileUpload } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { ApartmentTitle } from "./ApartmentTitle";
-import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from "@tabler/icons-react";
-import { BillsDetails } from "@komuna/types";
-import { withMask } from "use-mask-input";
-import type { CommonApartmentProps } from "./create-apartment.types";
+import { useMemo } from 'react';
+import {
+  Field,
+  HStack,
+  Input,
+  Stack,
+  VStack,
+  Text,
+  InputGroup,
+  Button,
+  useFileUpload,
+  FileUpload,
+} from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { ApartmentTitle } from './ApartmentTitle';
+import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from '@tabler/icons-react';
+import { BillsDetails } from '@komuna/types';
+import { withMask } from 'use-mask-input';
+import type { CommonApartmentProps } from './create-apartment.types';
 
-export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentProps<"apartmentSettings">) => {
+export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentProps<'apartmentSettings'>) => {
   const { t } = useTranslation();
 
-  const billFields = useMemo(() => [
-    { key: "electricity", title: t("create_apartment.apartment_settings.accounts_location.electricity"), Icon: IconBulb, },
-    { key: "water", title: t("create_apartment.apartment_settings.accounts_location.water"), Icon: IconDroplet, },
-    { key: "gas", title: t("create_apartment.apartment_settings.accounts_location.gas"), Icon: IconFlame, },
-  ], [t]);
-
+  const billFields = useMemo(
+    () => [
+      {
+        key: 'electricity',
+        title: t('create_apartment.apartment_settings.accounts_location.electricity'),
+        Icon: IconBulb,
+      },
+      { key: 'water', title: t('create_apartment.apartment_settings.accounts_location.water'), Icon: IconDroplet },
+      { key: 'gas', title: t('create_apartment.apartment_settings.accounts_location.gas'), Icon: IconFlame },
+    ],
+    [t]
+  );
 
   const fileUpload = useFileUpload({
     maxFiles: 1,
@@ -32,9 +49,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
 
   return (
     <>
-      <ApartmentTitle
-        title={t('create_apartment.apartment_settings.title')}
-      />
+      <ApartmentTitle title={t('create_apartment.apartment_settings.title')} />
       <Stack width="100%" gap="6">
         <Field.Root>
           <Field.Label fontWeight="bold" fontSize="md">
@@ -43,15 +58,17 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
           <Input
             value={
               aptDetails.apartmentSettings.contractEndDate
-                ? typeof aptDetails.apartmentSettings.contractEndDate === "string"
+                ? typeof aptDetails.apartmentSettings.contractEndDate === 'string'
                   ? aptDetails.apartmentSettings.contractEndDate
-                  : `${aptDetails.apartmentSettings.contractEndDate.getDate()}/${aptDetails.apartmentSettings.contractEndDate.getMonth() + 1}/${aptDetails.apartmentSettings.contractEndDate.getFullYear()}`
-                : ""
+                  : `${aptDetails.apartmentSettings.contractEndDate.getDate()}/${
+                      aptDetails.apartmentSettings.contractEndDate.getMonth() + 1
+                    }/${aptDetails.apartmentSettings.contractEndDate.getFullYear()}`
+                : ''
             }
             placeholder="dd/mm/yyyy"
-            ref={withMask("99/99/9999")}
+            ref={withMask('99/99/9999')}
             direction="ltr"
-            onChange={(e) => updateField("contractEndDate", e.target.value)}
+            onChange={(e) => updateField('contractEndDate', e.target.value)}
             backgroundColor="white"
             size="xl"
             fontSize="xl"
@@ -62,17 +79,11 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
           <Text fontWeight="bold" fontSize="md" w="70%">
             {t('create_apartment.apartment_settings.file_upload')}
           </Text>
-          <FileUpload.RootProvider value={fileUpload} >
+          <FileUpload.RootProvider value={fileUpload}>
             <FileUpload.HiddenInput />
             <FileUpload.Trigger asChild>
               <Stack w="100%">
-                <Button
-                  backgroundColor="white"
-                  size="xl"
-                  fontSize="xl"
-                  colorPalette="gray"
-                  variant="outline"
-                >
+                <Button backgroundColor="white" size="xl" fontSize="xl" colorPalette="gray" variant="outline">
                   {t('create_apartment.apartment_settings.contract_document_upload')}
                   <IconFile />
                 </Button>
@@ -89,7 +100,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
             <InputGroup endElement={<IconCurrencyShekel />}>
               <Input
                 value={aptDetails.apartmentSettings.rent}
-                onChange={(e) => updateField("rent", e.target.value)}
+                onChange={(e) => updateField('rent', e.target.value)}
                 backgroundColor="white"
                 size="xl"
                 fontSize="xl"
@@ -110,11 +121,13 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
                   {field.title}
                 </Field.Label>
                 <Input
-                  value={aptDetails.apartmentSettings.billsDetails?.[field.key as keyof BillsDetails] || ""}
-                  onChange={(e) => updateField("billsDetails", {
-                    ...aptDetails.apartmentSettings.billsDetails,
-                    [field.key]: e.target.value,
-                  })}
+                  value={aptDetails.apartmentSettings.billsDetails?.[field.key as keyof BillsDetails] || ''}
+                  onChange={(e) =>
+                    updateField('billsDetails', {
+                      ...aptDetails.apartmentSettings.billsDetails,
+                      [field.key]: e.target.value,
+                    })
+                  }
                   placeholder={t('create_apartment.apartment_settings.accounts_location.supplier_name')}
                   w="90%"
                   backgroundColor="white"
@@ -128,6 +141,6 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
       </Stack>
     </>
   );
-}
+};
 
 export default ApartmentSettings;

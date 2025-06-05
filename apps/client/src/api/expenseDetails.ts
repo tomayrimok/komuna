@@ -1,12 +1,11 @@
-import { API } from "@komuna/types";
-import axios from "axios";
+import { API } from '@komuna/types';
 
 export const fetchExpenseDetails = async (expenseId: string) => {
-    const response = await API.expenseControllerGetExpenseDetails({
-        query: {
-            expenseId
-        }
-    });
+  const response = await API.expenseControllerGetExpenseDetails({
+    query: {
+      expenseId,
+    },
+  });
 
-    return response.data;
+  return response.data;
 };

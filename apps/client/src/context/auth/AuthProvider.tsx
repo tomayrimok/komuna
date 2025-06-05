@@ -68,10 +68,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log('Message received while active. ', payload);
       toaster.create({
         meta: { closable: true },
-        type: "info",
+        type: 'info',
         title: payload.notification?.title,
         description: payload.notification?.body,
-        duration: 5000
+        duration: 5000,
       });
     });
   }, []);

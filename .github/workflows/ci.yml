@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   ci:
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        target: [ lint, build ]
+        target: [lint, build]
 
     steps:
       # 1. Check out your PR branch (full history)

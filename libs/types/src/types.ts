@@ -1,24 +1,20 @@
-import { ContextType } from "./enums";
-import { ShoppingListItemWithIdDto } from "./generated";
-import { UserRole } from "./enums";
-import { User, UserApartment } from "./generated";
+import { ContextType } from './enums';
+import { ShoppingListItemWithIdDto } from './generated';
+import { User, UserApartment } from './generated';
 
 export type ShoppingList = {
+  shoppingListId: string;
 
-    shoppingListId: string;
+  contextType: ContextType;
 
-    contextType: ContextType;
+  contextId: string;
 
-    contextId: string;
+  items: ShoppingListItemWithIdDto[];
 
-    items: ShoppingListItemWithIdDto[];
+  updatedAt: Date;
 
-    updatedAt: Date;
-
-    createdAt: Date;
-}
-
-
+  createdAt: Date;
+};
 
 // export type User = {
 //     userId: string;
@@ -29,10 +25,10 @@ export type ShoppingList = {
 // }
 
 export type ApartmentResponse = {
-    apartmentId: string;
-    name: string;
-    residents: UserApartment[];
-}
+  apartmentId: string;
+  name: string;
+  residents: UserApartment[];
+};
 
 // export type ApartmentExpensesResponse = {
 //     expenseId: string;
@@ -48,32 +44,31 @@ export type ApartmentResponse = {
 // }
 
 export type PaymentResponse = {
-    paymentId: string;
-    apartmentId: string;
-    fromId: string;
-    toId: string;
-    amount: number;
-    createdAt: string;
-}
+  paymentId: string;
+  apartmentId: string;
+  fromId: string;
+  toId: string;
+  amount: number;
+  createdAt: string;
+};
 
 export type DebtDetailsResponse = {
-    apartmentId: string;
-    amount: number;
-    debtId: string;
-    fromId: string;
-    toId: string;
-    fromUser: User;
-    toUser: User;
-}
-
+  apartmentId: string;
+  amount: number;
+  debtId: string;
+  fromId: string;
+  toId: string;
+  fromUser: User;
+  toUser: User;
+};
 
 export type BalanceDetailsResponse = {
-    amount: number;
-    debtId: string;
-    debtor: boolean;
-    fromId: string;
-    toId: string;
-    fromUser: User;
-    toUser: User;
-    updatedAt: string;
+  amount: number;
+  debtId: string;
+  debtor: boolean;
+  fromId: string;
+  toId: string;
+  fromUser: User;
+  toUser: User;
+  updatedAt: string;
 };

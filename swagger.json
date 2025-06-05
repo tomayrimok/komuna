@@ -10,9 +10,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "App"
-        ]
+        "tags": ["App"]
       }
     },
     "/api/debt-edge/user-balance-details": {
@@ -51,9 +49,7 @@
             }
           }
         },
-        "tags": [
-          "DebtEdge"
-        ]
+        "tags": ["DebtEdge"]
       }
     },
     "/api/debt-edge/user-balance": {
@@ -89,9 +85,7 @@
             }
           }
         },
-        "tags": [
-          "DebtEdge"
-        ]
+        "tags": ["DebtEdge"]
       }
     },
     "/api/debt-edge/debt-details": {
@@ -119,9 +113,7 @@
             }
           }
         },
-        "tags": [
-          "DebtEdge"
-        ]
+        "tags": ["DebtEdge"]
       }
     },
     "/api/user/login": {
@@ -143,9 +135,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/api/user/verify": {
@@ -174,9 +164,7 @@
             }
           }
         },
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/api/user": {
@@ -205,9 +193,7 @@
             }
           }
         },
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       },
       "get": {
         "operationId": "UserController_getCurrentUserProfile",
@@ -224,9 +210,7 @@
             }
           }
         },
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/api/user/logout": {
@@ -238,9 +222,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/api/expense/apartment-expenses": {
@@ -279,9 +261,7 @@
             }
           }
         },
-        "tags": [
-          "Expense"
-        ]
+        "tags": ["Expense"]
       }
     },
     "/api/expense/add-edit-expense": {
@@ -303,9 +283,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Expense"
-        ]
+        "tags": ["Expense"]
       }
     },
     "/api/expense/expense-details": {
@@ -333,9 +311,7 @@
             }
           }
         },
-        "tags": [
-          "Expense"
-        ]
+        "tags": ["Expense"]
       }
     },
     "/api/payment/create-payment": {
@@ -364,9 +340,7 @@
             }
           }
         },
-        "tags": [
-          "Payment"
-        ]
+        "tags": ["Payment"]
       }
     },
     "/api/apartment": {
@@ -394,9 +368,7 @@
             }
           }
         },
-        "tags": [
-          "Apartment"
-        ]
+        "tags": ["Apartment"]
       },
       "post": {
         "operationId": "ApartmentController_createApartment",
@@ -416,9 +388,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Apartment"
-        ]
+        "tags": ["Apartment"]
       }
     },
     "/api/apartment/join/{code}": {
@@ -430,9 +400,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Apartment"
-        ]
+        "tags": ["Apartment"]
       }
     },
     "/api/shopping-list": {
@@ -444,10 +412,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "enum": [
-                "APARTMENT",
-                "USER"
-              ],
+              "enum": ["APARTMENT", "USER"],
               "type": "string"
             }
           },
@@ -472,9 +437,7 @@
             }
           }
         },
-        "tags": [
-          "ShoppingList"
-        ]
+        "tags": ["ShoppingList"]
       }
     },
     "/api/shopping-list/sync-items": {
@@ -503,9 +466,7 @@
             }
           }
         },
-        "tags": [
-          "ShoppingList"
-        ]
+        "tags": ["ShoppingList"]
       }
     },
     "/api/notification/register-token": {
@@ -517,9 +478,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Notification"
-        ]
+        "tags": ["Notification"]
       }
     }
   },
@@ -540,11 +499,7 @@
     "schemas": {
       "SplitType": {
         "type": "string",
-        "enum": [
-          "EQUAL",
-          "NUMBER",
-          "PERCENTAGE"
-        ]
+        "enum": ["EQUAL", "NUMBER", "PERCENTAGE"]
       },
       "Expense": {
         "type": "object",
@@ -643,14 +598,7 @@
             "description": "Date when the payment was created"
           }
         },
-        "required": [
-          "paymentId",
-          "apartmentId",
-          "fromId",
-          "toId",
-          "amount",
-          "createdAt"
-        ]
+        "required": ["paymentId", "apartmentId", "fromId", "toId", "amount", "createdAt"]
       },
       "Incident": {
         "type": "object",
@@ -662,10 +610,7 @@
       },
       "ContextType": {
         "type": "string",
-        "enum": [
-          "APARTMENT",
-          "USER"
-        ]
+        "enum": ["APARTMENT", "USER"]
       },
       "ShoppingListItemWithIdDto": {
         "type": "object",
@@ -698,13 +643,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "isPurchased",
-          "isUrgent",
-          "amount",
-          "itemId"
-        ]
+        "required": ["name", "isPurchased", "isUrgent", "amount", "itemId"]
       },
       "ShoppingList": {
         "type": "object",
@@ -737,14 +676,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "shoppingListId",
-          "contextType",
-          "contextId",
-          "items",
-          "updatedAt",
-          "createdAt"
-        ]
+        "required": ["shoppingListId", "contextType", "contextId", "items", "updatedAt", "createdAt"]
       },
       "Apartment": {
         "type": "object",
@@ -896,10 +828,7 @@
           "role": {
             "type": "string",
             "description": "The role of the user in the apartment",
-            "enum": [
-              "LANDLORD",
-              "ROOMMATE"
-            ]
+            "enum": ["LANDLORD", "ROOMMATE"]
           },
           "apartment": {
             "description": "The apartment where the user resides",
@@ -932,16 +861,7 @@
             "description": "The date when the user-apartment relationship was created"
           }
         },
-        "required": [
-          "apartmentId",
-          "userId",
-          "rent",
-          "role",
-          "apartment",
-          "user",
-          "payableByUser",
-          "createdAt"
-        ]
+        "required": ["apartmentId", "userId", "rent", "role", "apartment", "user", "payableByUser", "createdAt"]
       },
       "DebtEdge": {
         "type": "object",
@@ -988,16 +908,7 @@
             ]
           }
         },
-        "required": [
-          "debtId",
-          "apartmentId",
-          "fromId",
-          "toId",
-          "amount",
-          "updatedAt",
-          "fromUser",
-          "toUser"
-        ]
+        "required": ["debtId", "apartmentId", "fromId", "toId", "amount", "updatedAt", "fromUser", "toUser"]
       },
       "User": {
         "type": "object",
@@ -1124,17 +1035,7 @@
             "example": "user123"
           }
         },
-        "required": [
-          "debtId",
-          "apartmentId",
-          "fromId",
-          "toId",
-          "amount",
-          "updatedAt",
-          "fromUser",
-          "toUser",
-          "debtor"
-        ]
+        "required": ["debtId", "apartmentId", "fromId", "toId", "amount", "updatedAt", "fromUser", "toUser", "debtor"]
       },
       "LoginDto": {
         "type": "object",
@@ -1144,9 +1045,7 @@
             "description": "User's phone number for login"
           }
         },
-        "required": [
-          "phoneNumber"
-        ]
+        "required": ["phoneNumber"]
       },
       "VerifyPhoneNumberDto": {
         "type": "object",
@@ -1160,10 +1059,7 @@
             "description": "Verification code sent to the phone number"
           }
         },
-        "required": [
-          "phoneNumber",
-          "code"
-        ]
+        "required": ["phoneNumber", "code"]
       },
       "UserCreatedResponseDto": {
         "type": "object",
@@ -1180,10 +1076,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "user",
-          "isUser"
-        ]
+        "required": ["user", "isUser"]
       },
       "CreateUserDto": {
         "type": "object",
@@ -1201,12 +1094,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "phoneNumber",
-          "firstName",
-          "lastName",
-          "image"
-        ]
+        "required": ["phoneNumber", "firstName", "lastName", "image"]
       },
       "UserResponseDto": {
         "type": "object",
@@ -1220,9 +1108,7 @@
             ]
           }
         },
-        "required": [
-          "user"
-        ]
+        "required": ["user"]
       },
       "ApartmentExpensesResponse": {
         "type": "object",
@@ -1334,14 +1220,7 @@
             ]
           }
         },
-        "required": [
-          "amount",
-          "description",
-          "paidById",
-          "apartmentId",
-          "splits",
-          "splitType"
-        ]
+        "required": ["amount", "description", "paidById", "apartmentId", "splits", "splitType"]
       },
       "CreatePaymentDto": {
         "type": "object",
@@ -1359,12 +1238,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "apartmentId",
-          "fromId",
-          "toId",
-          "amount"
-        ]
+        "required": ["apartmentId", "fromId", "toId", "amount"]
       },
       "CreateApartmentDto": {
         "type": "object",
@@ -1375,10 +1249,7 @@
         "properties": {
           "contextType": {
             "type": "string",
-            "enum": [
-              "APARTMENT",
-              "USER"
-            ]
+            "enum": ["APARTMENT", "USER"]
           },
           "apartmentId": {
             "type": "string"
@@ -1390,11 +1261,7 @@
             }
           }
         },
-        "required": [
-          "contextType",
-          "apartmentId",
-          "items"
-        ]
+        "required": ["contextType", "apartmentId", "items"]
       }
     }
   }

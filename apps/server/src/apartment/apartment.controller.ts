@@ -13,7 +13,7 @@ import { JoinApartmentDto } from './dto/join-apartment.dto';
 
 @Controller('apartment')
 export class ApartmentController {
-  constructor(private readonly apartmentService: ApartmentService) { }
+  constructor(private readonly apartmentService: ApartmentService) {}
   private static readonly CODE_LENGTH = 4;
 
   @Get()
@@ -24,16 +24,16 @@ export class ApartmentController {
 
   @Post()
   @UseAuth()
-  async createApartment(@Body() createApartmentData: CreateApartmentDto, @GetUser() user: User): Promise<CreateApartmentHttpResponse> {
+  async createApartment(
+    @Body() createApartmentData: CreateApartmentDto,
+    @GetUser() user: User
+  ): Promise<CreateApartmentHttpResponse> {
     const userApartment = new UserApartment();
     userApartment.userId = user.userId;
     userApartment.rent = createApartmentData.renterSettings.rent;
     userApartment.role = createApartmentData.apartmentInfo.role;
 
-    const houseCommitteePayerUser = this.createHouseCommitteePayerUser(
-      createApartmentData,
-      user
-    );
+    const houseCommitteePayerUser = this.createHouseCommitteePayerUser(createApartmentData, user);
     const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
 
     const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
@@ -56,8 +56,7 @@ export class ApartmentController {
       const landlordUser = new User();
       landlordUser.userId = user.userId;
       apartment.landlord = landlordUser;
-    }
-    else {
+    } else {
       const userApartment = new UserApartment();
       userApartment.userId = user.userId;
       userApartment.rent = createApartmentData.renterSettings.rent;
@@ -71,7 +70,10 @@ export class ApartmentController {
     return { landlordCode, roommateCode };
   }
 
-  private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {
+  private createHouseCommitteePayerUser(
+    createApartmentData: CreateApartmentDto,
+    renter: User
+  ): Apartment['houseCommitteePayerUser'] {
     const paymentWay = createApartmentData.renterSettings.houseCommitteePayerUserId;
     const user = new User();
 
@@ -86,9 +88,10 @@ export class ApartmentController {
     return user;
   }
 
-  @Post("join/:code")
+  @Post('join/:code')
   @UseAuth()
-  async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) { // TODO check validation
+  async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) {
+    // TODO check validation
     const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
     console.log('apartment: ', apartment);
     if (!apartment) {
@@ -107,7 +110,7 @@ export class ApartmentController {
   }
 
   private addRoommateToApartment(apartment: Apartment, user: User) {
-    if (Array.isArray(apartment.residents) && apartment.residents.some(resident => resident.userId === user.userId)) {
+    if (Array.isArray(apartment.residents) && apartment.residents.some((resident) => resident.userId === user.userId)) {
       console.error(`User ${user.userId} already exists in apartment with code ${apartment.roommateCode}`);
       throw new ConflictException();
     }
@@ -123,7 +126,9 @@ export class ApartmentController {
 
   private addLandlordToApartment(apartment: Apartment, user: User) {
     if (apartment.landlord) {
-      console.error(`User ${user.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`);
+      console.error(
+        `User ${user.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`
+      );
       throw new ConflictException();
     }
     apartment.landlord = new User();

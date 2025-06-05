@@ -25,11 +25,17 @@ export class Apartment {
   @Column({ nullable: true })
   image?: string;
 
-  @ApiProperty({ description: 'Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord' })
+  @ApiProperty({
+    description:
+      'Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord',
+  })
   @Column({ unique: true, nullable: true })
   landlordCode: string;
 
-  @ApiProperty({ description: 'Unique code to join the apartment as a roommate. NULL in case the apartment doesn\'t allow new residents' })
+  @ApiProperty({
+    description:
+      "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents",
+  })
   @Column({ unique: true, nullable: true })
   roommateCode: string;
 
@@ -71,7 +77,7 @@ export class Apartment {
   @Column({ type: 'float', nullable: true })
   houseCommitteeRent: number;
 
-  @ApiProperty({ description: 'User ID of the house committee payer. NULL if it\'s split equally', required: false })
+  @ApiProperty({ description: "User ID of the house committee payer. NULL if it's split equally", required: false })
   @ManyToOne(() => User, (u) => u.userId, { nullable: true })
   @JoinColumn({ name: 'houseCommitteePayerUserId' })
   houseCommitteePayerUser?: User;

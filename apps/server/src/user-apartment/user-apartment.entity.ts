@@ -10,7 +10,6 @@ import { ApiProperty } from '@nestjs/swagger';
  */
 @Entity()
 export class UserApartment {
-
   @ApiProperty({ description: 'The ID of the apartment where the user resides' })
   @PrimaryColumn()
   apartmentId: string;
@@ -19,7 +18,7 @@ export class UserApartment {
   @PrimaryColumn()
   userId: string;
 
-  @ApiProperty({ description: "The amount of rent the user pays for the apartment" })
+  @ApiProperty({ description: 'The amount of rent the user pays for the apartment' })
   @Column('float', { nullable: true })
   rent?: number;
 

@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import PaymentPage from '../../../components/Payments/paymentPage'
+import { createFileRoute } from '@tanstack/react-router';
+import PaymentPage from '../../../components/Payments/paymentPage';
 
 export const Route = createFileRoute('/roommate/payments/')({
-    component: RouteComponent,
-})
+  component: RouteComponent,
+});
 
 function RouteComponent() {
-    return <PaymentPage />
+  return <PaymentPage />;
 }
