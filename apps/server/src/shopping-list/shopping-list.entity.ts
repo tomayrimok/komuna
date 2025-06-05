@@ -1,13 +1,7 @@
-import { ShoppingListContextType } from '@komuna/types';
-import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { ShoppingListItemDto } from './dto/shopping-list-item.dto';
+import { ContextType } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { ShoppingListItemWithIdDto } from './dto/shopping-list-item.dto';
 
 @Entity()
 export class ShoppingList {
@@ -15,15 +9,15 @@ export class ShoppingList {
   @PrimaryGeneratedColumn('uuid')
   shoppingListId: string;
 
-  @ApiProperty({ enum: ShoppingListContextType, enumName: 'ShoppingListContextType' })
-  @Column({ type: 'enum', enum: ShoppingListContextType })
-  contextType: ShoppingListContextType;
+  @ApiProperty({ enum: ContextType, enumName: 'ContextType' })
+  @Column({ type: 'enum', enum: ContextType })
+  contextType: ContextType;
 
   @ApiProperty()
   @Column()
   contextId: string;
 
-  @ApiProperty({ type: () => ShoppingListItemDto, isArray: true })
+  @ApiProperty({ type: () => ShoppingListItemWithIdDto, isArray: true })
   @Column('json', { default: [] })
   items: {
     itemId: string;

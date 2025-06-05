@@ -1,5 +1,5 @@
-import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
-import { IconChevronDown, IconMinus, IconPlus } from '@tabler/icons-react';
+import { Flex, IconButton, Text } from '@chakra-ui/react';
+import { IconMinus, IconPlus } from '@tabler/icons-react';
 
 interface ShoppingListItemQuantityProps {
   handleChange: (amount: number) => void;
@@ -12,6 +12,13 @@ export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> =
   handleChange,
   isPurchased,
 }) => {
+  const oncChange = (newAmount: number) => {
+    if (newAmount < 1) {
+      newAmount = 1;
+    }
+    handleChange(newAmount);
+  };
+
   return (
     <Flex alignItems={'center'}>
       {!isPurchased && (
@@ -20,7 +27,7 @@ export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> =
           variant={'subtle'}
           size={'2xs'}
           color={'gray.500'}
-          onClick={() => handleChange(amount - 1)}
+          onClick={() => oncChange(amount - 1)}
         >
           <IconMinus />
         </IconButton>
@@ -31,7 +38,7 @@ export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> =
       </Text>
 
       {!isPurchased && (
-        <IconButton variant={'subtle'} size={'2xs'} color={'gray.500'} onClick={() => handleChange(amount + 1)}>
+        <IconButton variant={'subtle'} size={'2xs'} color={'gray.500'} onClick={() => oncChange(amount + 1)}>
           <IconPlus />
         </IconButton>
       )}

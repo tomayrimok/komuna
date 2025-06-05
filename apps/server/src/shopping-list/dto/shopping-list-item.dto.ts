@@ -1,20 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsBoolean, IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 export class BaseShoppingListItemDto {
   @ApiProperty()
   @IsString()
+  @Length(1, 100)
   name: string;
-
-  @ApiProperty()
-  @IsBoolean()
-  @IsOptional()
-  isPurchased: boolean;
 
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   image?: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isPurchased: boolean;
 
   @ApiProperty({ required: false })
   @IsString()
@@ -27,17 +28,28 @@ export class BaseShoppingListItemDto {
   isUrgent: boolean;
 
   @ApiProperty()
-  @IsInt()
+  @IsOptional()
+  @IsNumber()
   amount: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsString()
   @IsOptional()
-  itemId?: string;
-
   creatorId: string;
 
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
   createdAt: string;
 }
-export class ShoppingListItemDto extends BaseShoppingListItemDto {}
+
+export class ShoppingListItemDto extends PartialType(BaseShoppingListItemDto) {}
 
 export class NewShoppingListItemDto extends BaseShoppingListItemDto {}
+
+export class ShoppingListItemWithIdDto extends BaseShoppingListItemDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  itemId?: string;
+}

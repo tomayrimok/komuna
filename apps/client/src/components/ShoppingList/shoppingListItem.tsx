@@ -1,4 +1,4 @@
-import { Box, Card, Checkbox, Container, Flex, HStack, Image, Textarea, VStack } from '@chakra-ui/react';
+import { Box, Card, Checkbox, Container, Flex, Image, Textarea, VStack } from '@chakra-ui/react';
 import { motion, PanInfo, useMotionValue, animate, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ShoppingListItemQuantity } from './shoppingListItemQuantity';
@@ -16,14 +16,14 @@ const DELETE_THRESHOLD = 100;
 const DELETE_BUTTON_WIDTH = 80;
 const SWIPE_THRESHOLD = 20;
 const DEFAULT_IMAGE = 'https://icons.veryicon.com/png/o/business/hotel-facilities/supermarket.png';
+
 export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEditDrawer }) => {
   const x = useMotionValue(0);
   const hasTriggeredDelete = useRef(false);
   const itemRef = useRef<HTMLDivElement>(null);
   const [showRedBg, setShowRedBg] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const { handleAmountChange, handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, setEditingItem } =
-    useShoppingList();
+  const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, syncShoppingList } = useShoppingList();
 
   useMotionValueEvent(x, 'change', (latest) => {
     setShowRedBg(latest > 0);
@@ -110,16 +110,9 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                         <Checkbox.HiddenInput />
                         <Checkbox.Control />
                       </Checkbox.Root>
+
                       <Image src={item.image || DEFAULT_IMAGE} alt={item.name} w="40px" h="40px" />
                       <Flex w="full" alignItems="center" justifyContent="space-between">
-                        {/* <Flex
-                                                    flexGrow={1}
-                                                    fontWeight={item.isUrgent ? "bold" : "medium"}
-                                                    textDecoration={item.isPurchased ? "line-through" : "none"}
-                                                    fontSize="md"
-                                                >
-                                                    {item.name}
-                                                </Flex> */}
                         <VStack alignItems="start">
                           <Textarea
                             fontWeight={item.isUrgent ? 'bold' : 'medium'}
@@ -143,31 +136,28 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                               target.style.height = 'auto';
                               target.style.height = `${target.scrollHeight}px`;
                             }}
-                            onFocus={(e) => {
-                              setEditingItem(item);
+                            onChange={(e) => {
+                              updateItem(item.itemId, { name: e.target.value }, false);
                             }}
                             onBlur={(e) => {
-                              updateItem(item.itemId, { name: e.target.value });
-                              setEditingItem(null);
+                              syncShoppingList();
                             }}
-                          />{' '}
+                          />
                           <GroceryItemCategory category={item.category} />
                         </VStack>
-                        <HStack gap={0}>
-                          <ShoppingListItemQuantity
-                            handleChange={(amount) => {
-                              handleAmountChange(item.itemId, amount);
-                            }}
-                            amount={item.amount}
-                            isPurchased={item.isPurchased}
-                          />
-                          <ShoppingListItemIsUrgent
-                            handleChange={(isUrgent) => {
-                              updateItem(item.itemId, { isUrgent });
-                            }}
-                            isUrgent={item.isUrgent}
-                          />
-                        </HStack>
+
+                        <ShoppingListItemQuantity
+                          handleChange={(amount) => {
+                            updateItem(item.itemId, { amount });
+                          }}
+                          amount={item.amount}
+                        />
+                        <ShoppingListItemIsUrgent
+                          handleChange={(isUrgent) => {
+                            updateItem(item.itemId, { isUrgent });
+                          }}
+                          isUrgent={item.isUrgent}
+                        />
                       </Flex>
                     </Flex>
                   </Flex>

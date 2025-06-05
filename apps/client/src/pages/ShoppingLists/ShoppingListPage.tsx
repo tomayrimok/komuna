@@ -21,6 +21,7 @@ const ShoppingListPage: React.FC = () => {
       <Flex mb={4}>
         <SearchGroceryInput />
       </Flex>
+
       <Reorder.Group axis="y" values={items} onReorder={updateOrder}>
         {items.map((item) => {
           return (
@@ -35,14 +36,16 @@ const ShoppingListPage: React.FC = () => {
         <Flex direction="column" align="center" justify="center" h="200px" color="gray.500">
           <Loader />
         </Flex>
-      ) : items.length === 0 ? (
-        <Flex direction="column" align="center" justify="center" color="gray.500" flexGrow={1}>
-          <Icon width={16} height={16} mb={3}>
-            <IconShoppingCart />
-          </Icon>
-          <Text mb={3}>{t('shopping.list_is_empty')}</Text>
-        </Flex>
-      ) : null}
+      ) : (
+        items.length === 0 && (
+          <Flex direction="column" align="center" justify="center" color="gray.500" flexGrow={1}>
+            <Icon width={16} height={16} mb={3}>
+              <IconShoppingCart />
+            </Icon>
+            <Text mb={3}>{t('shopping.list_is_empty')}</Text>
+          </Flex>
+        )
+      )}
     </Flex>
   );
 };
