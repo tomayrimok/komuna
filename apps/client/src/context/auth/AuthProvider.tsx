@@ -20,6 +20,7 @@ export interface AuthContextValue {
   currentUserDetails?: ApiTypes.User | null;
   refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
+  setSession: (sessionDetails: SessionDetails) => void;
 }
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
@@ -27,10 +28,12 @@ export const defaultAuthContextValues: AuthContextValue = {
     role: null,
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
-  setSessionDetails: () => { },
+  setSessionDetails: () => {},
   isAuthLoading: true,
   isRefetching: false,
   logout: () => null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
+  setSession: () => {},
 };
 
 export const AuthContext = createContext<AuthContextValue>(defaultAuthContextValues);
@@ -70,13 +73,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log('Message received while active. ', payload);
       toaster.create({
         meta: { closable: true },
-        type: "info",
+        type: 'info',
         title: payload.notification?.title,
         description: payload.notification?.body,
-        duration: 5000
+        duration: 5000,
       });
     });
   }, []);
+
+  const setSession = (sessionDetails: SessionDetails) => {
+    setSessionDetails(sessionDetails);
+    queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
+  };
 
   if (isAuthLoading) return <LoadingApp />;
   return (
@@ -89,13 +97,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         currentUserDetails,
         logout,
         refetchAuth,
+        setSession,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

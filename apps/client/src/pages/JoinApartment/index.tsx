@@ -8,22 +8,33 @@ import { useNavigate } from '@tanstack/react-router';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
 import { useMutation } from '@tanstack/react-query';
+import { useAuth } from '../../context/auth/AuthProvider';
+import { UserRole } from 'libs/types/src/enums';
+import { ApiTypes } from '@komuna/types';
 
 const JoinApartment = () => {
   const [pincode, setPincode] = useState(['', '', '', '']);
-
+  const { setSession } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const joinApartmentMutation = useMutation({
     mutationFn: async (code: string) => {
-      await axios.post(`/api/apartment/join/${code}`);
+      const { data } = await axios.post<ApiTypes.UserApartment>(`/api/apartment/join/${code}`);
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toaster.create({
         title: t('join_existing_apartment.success'),
         type: 'success',
+        duration: 5000,
       });
+
+      setSession({
+        apartmentId: data.apartmentId,
+        role: data.role as UserRole,
+      });
+      navigate({ to: `/select-apartment` });
     },
     onError: () => {
       toaster.create({

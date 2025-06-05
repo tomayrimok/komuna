@@ -28,6 +28,7 @@ import type {
   ApartmentControllerGetApartmentWithResidentsResponse,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ApartmentControllerJoinApartmentResponse,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
@@ -219,7 +220,7 @@ export const apartmentControllerCreateApartment = <ThrowOnError extends boolean 
 export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = false>(
   options?: Options<ApartmentControllerJoinApartmentData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).post<ApartmentControllerJoinApartmentResponse, unknown, ThrowOnError>({
     url: '/api/apartment/join/{code}',
     ...options,
   });

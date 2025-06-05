@@ -426,8 +426,15 @@
         "operationId": "ApartmentController_joinApartment",
         "parameters": [],
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApartment"
+                }
+              }
+            }
           }
         },
         "tags": [
