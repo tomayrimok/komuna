@@ -739,9 +739,6 @@
       "ShoppingList": {
         "type": "object",
         "properties": {
-          "shoppingListId": {
-            "type": "string"
-          },
           "contextType": {
             "allOf": [
               {
@@ -768,7 +765,6 @@
           }
         },
         "required": [
-          "shoppingListId",
           "contextType",
           "contextId",
           "items",

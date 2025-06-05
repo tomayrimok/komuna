@@ -27,6 +27,7 @@ export const SearchGroceryInput = () => {
 
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setSearchTerm('');
       }
     };
 
@@ -74,7 +75,7 @@ export const SearchGroceryInput = () => {
   };
 
   const handleSuggestionClick = (suggestion: ApiTypes.GroceryItem) => {
-    setSearchTerm(suggestion.description);
+    setSearchTerm('');
     setIsOpen(false);
     handleAddItem({
       name: suggestion.description,

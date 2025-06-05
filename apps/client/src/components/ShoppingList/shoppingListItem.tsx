@@ -4,12 +4,12 @@ import { useRef, useState } from 'react';
 import { ShoppingListItemQuantity } from './shoppingListItemQuantity';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { ShoppingListItemIsUrgent } from './shoppingListItemIsUrgent';
-import { ShoppingListItemDto } from 'libs/types/src/generated/types.gen';
+import { ApiTypes } from '@komuna/types';
 import { GroceryItemCategory } from './GroceryItemCategory';
 
 interface ShoppingListItemProps {
-  item: ShoppingListItemDto;
-  openEditDrawer: (item: ShoppingListItemDto) => void;
+  item: ApiTypes.ShoppingListItemWithIdDto;
+  openEditDrawer: (item: ApiTypes.ShoppingListItemWithIdDto) => void;
 }
 
 const DELETE_THRESHOLD = 100;

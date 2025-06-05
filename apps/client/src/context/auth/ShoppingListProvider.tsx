@@ -87,7 +87,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     }
   };
 
-  const handleEditItem = (editingItem: ShoppingListItemWithIdDto) => {
+  const handleEditItem = (editingItem: ApiTypes.ShoppingListItemWithIdDto) => {
     try {
       if (editingItem) {
         updateItem(editingItem.itemId, {

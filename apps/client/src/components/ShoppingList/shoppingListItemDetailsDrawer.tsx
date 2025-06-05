@@ -13,7 +13,7 @@ interface ShoppingListItemDetailsDrawerProps {
 }
 
 const ShoppingListItemDetailsDrawer = ({ initialText = '', onClose }: ShoppingListItemDetailsDrawerProps) => {
-  const [newItem, setNewItem] = useState<Partial<ApiTypes.NewShoppingListItemDto> | null>({
+  const [newItem, setNewItem] = useState<Partial<ApiTypes.ShoppingListItemWithIdDto> | null>({
     name: initialText,
     amount: 1,
   });
@@ -27,8 +27,9 @@ const ShoppingListItemDetailsDrawer = ({ initialText = '', onClose }: ShoppingLi
     try {
       console.log('newItem', newItem);
       if (!newItem) return;
-      await handleAddItem(newItem as ApiTypes.NewShoppingListItemDto);
+      await handleAddItem(newItem as ApiTypes.ShoppingListItemWithIdDto);
       setNewItem(null);
+      onClose?.();
     } catch (error) {
       console.error('trili', error);
     }

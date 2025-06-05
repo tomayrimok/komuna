@@ -8,6 +8,7 @@ import { ShoppingList } from './shopping-list.entity';
 import axios from 'axios';
 import { GroceryItem, SearchGroceryResponse } from './dto/search-grocery.dto';
 import { GetListDto, SyncListDto } from './dto/shopping-list.dto';
+import { ContextType } from '@komuna/types';
 
 const API_URL = 'https://www.shufersal.co.il/online/he';
 const DEPARTMENT = `departments:A`;
@@ -20,7 +21,11 @@ export class ShoppingListController {
   @ApiOkResponse({ type: ShoppingList })
   @UseAuth()
   async getShoppingList(@User() user: UserJwtPayload, @Query() query: GetListDto) {
-    return this.shoppingListService.getShoppingList(user.userId, query.contextType);
+    const { apartmentId, contextType } = query;
+    const contextId = contextType === ContextType.APARTMENT ? apartmentId : user.userId;
+    const shoppingList = await this.shoppingListService.getShoppingList(contextId, contextType);
+    if (!shoppingList) return null;
+    return shoppingList;
   }
 
   @Post('sync-items')
