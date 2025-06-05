@@ -42,6 +42,11 @@ export class NotificationService {
     }
 
     async saveToken(userId: string, token: string) {
+        const existingToken = await this.notificationTokenRepo.findOne({ where: { userId } });
+        if (existingToken) {
+            existingToken.token = token;
+            return this.notificationTokenRepo.save(existingToken);
+        }
         return this.notificationTokenRepo.save({ userId, token });
     }
 

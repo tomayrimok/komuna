@@ -23,7 +23,7 @@ export interface AuthContextValue {
 
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
-    apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
+    apartmentId: null,
     role: null,
   },
   isAuthLoading: true,
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
-    apartmentId: 'fc379b80-3865-4e2d-b781-86a95fea8828',
+    apartmentId: null,
     role: null,
   });
 

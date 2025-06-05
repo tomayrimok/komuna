@@ -27,6 +27,7 @@
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
+    "framer-motion": "^12.11.0",
     "firebase": "^11.8.1",
     "firebase-admin": "^13.4.0",
     "i18next": "^25.0.1",
@@ -110,9 +111,9 @@
     "webpack-cli": "^5.1.4"
   },
   "overrides": {
-  "chokidar": "3.6.0",
-  "picomatch": "2.3.1",
-  "readdirp": "3.6.0",
-  "glob-parent": "5.1.2"
-}
+    "chokidar": "3.6.0",
+    "picomatch": "2.3.1",
+    "readdirp": "3.6.0",
+    "glob-parent": "5.1.2"
+  }
 }

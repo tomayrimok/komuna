@@ -12,6 +12,7 @@ import { ColorModeProvider } from './chakra/ui/color-mode';
 import { Toaster } from './chakra/ui/toaster';
 import { WebView } from './components/WebView';
 import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
+import { PurchaseProvider } from './context/auth/PurchaseProvider';
 import { useLocaleChange } from './hooks/useLocaleChange';
 import './i18n/';
 import { routeTree } from './routeTree.gen';
@@ -53,8 +54,10 @@ const AppEntry = () => {
     >
       {isMobile ? (
         <AuthProvider>
-          <RouterWrapper />
-          <Toaster />
+          <PurchaseProvider>
+            <RouterWrapper />
+            <Toaster />
+          </PurchaseProvider>
         </AuthProvider>
       ) : (
         <WebView />

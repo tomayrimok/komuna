@@ -19,6 +19,7 @@ import { Task } from '../task/task.entity';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { AuthUser } from '../user/auth-user.entity';
+import { ShoppingListModule } from '../shopping-list/shopping-list.module';
 import { User } from '../user/user.entity';
 import { UserModule } from '../user/user.module';
 import { AppController } from './app.controller';
@@ -54,6 +55,7 @@ import { AppService } from './app.service';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
+    ShoppingListModule,
     NotificationModule
   ],
   controllers: [AppController],
