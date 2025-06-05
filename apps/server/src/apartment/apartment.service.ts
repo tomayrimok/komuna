@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserRole } from '@komuna/types';
+import { NotificationService } from '../notification/notification.service';
+import * as admin from 'firebase-admin';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import type { User } from '../user/user.entity';
 import { Apartment } from './apartment.entity';

@@ -627,6 +627,17 @@ export type ApartmentControllerJoinApartmentResponses = {
   201: unknown;
 };
 
+export type NotificationsControllerRegisterTokenData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/notifications/register-token';
+};
+
+export type NotificationsControllerRegisterTokenResponses = {
+  201: unknown;
+};
+
 export type ClientOptions = {
   baseURL: string;
 };

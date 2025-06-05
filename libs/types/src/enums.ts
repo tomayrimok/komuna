@@ -9,7 +9,7 @@ export enum IncidentStatus {
   SOLVED = 'SOLVED',
 }
 
-export enum ShoppingListContextType {
+export enum ContextType {
   APARTMENT = 'APARTMENT',
   USER = 'USER',
 }

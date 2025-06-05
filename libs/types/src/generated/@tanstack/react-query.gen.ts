@@ -18,6 +18,7 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  notificationsControllerRegisterToken,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -40,6 +41,7 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  NotificationsControllerRegisterTokenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -532,6 +534,47 @@ export const apartmentControllerJoinApartmentMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const notificationsControllerRegisterTokenQueryKey = (
+  options?: Options<NotificationsControllerRegisterTokenData>
+) => createQueryKey('notificationsControllerRegisterToken', options);
+
+export const notificationsControllerRegisterTokenOptions = (
+  options?: Options<NotificationsControllerRegisterTokenData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await notificationsControllerRegisterToken({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: notificationsControllerRegisterTokenQueryKey(options),
+  });
+};
+
+export const notificationsControllerRegisterTokenMutation = (
+  options?: Partial<Options<NotificationsControllerRegisterTokenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationsControllerRegisterTokenData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<NotificationsControllerRegisterTokenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await notificationsControllerRegisterToken({
         ...options,
         ...localOptions,
         throwOnError: true,

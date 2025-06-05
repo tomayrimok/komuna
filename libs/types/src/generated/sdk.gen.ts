@@ -28,6 +28,7 @@ import type {
   ApartmentControllerGetApartmentWithResidentsResponse,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  NotificationsControllerRegisterTokenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -216,6 +217,15 @@ export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = 
 ) => {
   return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
     url: '/api/apartment/join/{code}',
+    ...options,
+  });
+};
+
+export const notificationsControllerRegisterToken = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificationsControllerRegisterTokenData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/notifications/register-token',
     ...options,
   });
 };
