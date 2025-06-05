@@ -42,7 +42,7 @@ export class IncidentService {
     return this.incidentRepo.save(incident);
   }
 
-  async addComment(commentDto: AddCommentDto): Promise<Comment> {
+  async addComment(commentDto: AddCommentDto, userId: string): Promise<Comment> {
     const incident = await this.incidentRepo.findOneBy({
       incidentId: commentDto.incidentId,
     });
@@ -52,9 +52,8 @@ export class IncidentService {
 
     const comment = this.commentRepo.create({
       incidentId: commentDto.incidentId,
-      userId: commentDto.userId,
-      message: commentDto.message,
-      images: commentDto.images, // optional
+      userId: userId,
+      message: commentDto.message
     });
 
     return this.commentRepo.save(comment);

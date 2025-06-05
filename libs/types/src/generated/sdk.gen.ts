@@ -41,6 +41,7 @@ import type {
   IncidentControllerCreateIncidentResponse,
   IncidentControllerUpdateIncidentData,
   IncidentControllerNewCommentData,
+  IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
@@ -338,7 +339,7 @@ export const incidentControllerUpdateIncident = <ThrowOnError extends boolean = 
 export const incidentControllerNewComment = <ThrowOnError extends boolean = false>(
   options: Options<IncidentControllerNewCommentData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<IncidentControllerNewCommentResponse, unknown, ThrowOnError>({
     url: '/api/incident/comment',
     ...options,
     headers: {

@@ -468,9 +468,11 @@ export type UpdateIncidentStatusDto = {
 
 export type AddCommentDto = {
   incidentId: string;
-  userId: string;
   message: string;
-  images: Array<string>;
+  /**
+   * List of image URLs related to the comment
+   */
+  images?: Array<string>;
 };
 
 export type AppControllerGetDataData = {
@@ -815,8 +817,11 @@ export type IncidentControllerNewCommentData = {
 };
 
 export type IncidentControllerNewCommentResponses = {
-  201: unknown;
+  200: Incident;
 };
+
+export type IncidentControllerNewCommentResponse =
+  IncidentControllerNewCommentResponses[keyof IncidentControllerNewCommentResponses];
 
 export type IncidentControllerSetOwnerSeenData = {
   body?: never;

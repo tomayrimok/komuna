@@ -42,8 +42,10 @@ export class IncidentController {
   }
 
   @Post('comment')
-  async newComment(@Body() addComment: AddCommentDto) {
-    return await this.incidentService.addComment(addComment);
+  @UseAuth()
+  @ApiOkResponse({ type: Incident })
+  async newComment(@Body() addComment: AddCommentDto, @GetUser() user: User) {
+    return await this.incidentService.addComment(addComment, user.userId);
   }
 
   @Post('owner-seen')

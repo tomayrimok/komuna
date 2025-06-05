@@ -677,8 +677,15 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1670,13 +1677,11 @@
           "incidentId": {
             "type": "string"
           },
-          "userId": {
-            "type": "string"
-          },
           "message": {
             "type": "string"
           },
           "images": {
+            "description": "List of image URLs related to the comment",
             "type": "array",
             "items": {
               "type": "string"
@@ -1685,9 +1690,7 @@
         },
         "required": [
           "incidentId",
-          "userId",
-          "message",
-          "images"
+          "message"
         ]
       }
     }

@@ -65,19 +65,16 @@ export class UpdateIncidentStatusDto implements UpdateIncidentStatusDtoReq {
 }
 
 export class AddCommentDto implements AddCommentDtoReq {
+  userId: string;
   @ApiProperty()
   @IsUUID()
   incidentId: string;
 
   @ApiProperty()
-  @IsUUID()
-  userId: string;
-
-  @ApiProperty()
   @IsString()
   message: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false, type: [String], description: 'List of image URLs related to the comment' })
   @IsOptional()
   @IsString({ each: true })
   images?: string[];

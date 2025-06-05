@@ -1,4 +1,4 @@
-import { IncidentStatus, IncidentUrgency } from '@komuna/types';
+import { API, IncidentStatus, IncidentUrgency } from '@komuna/types';
 import { useParams } from '@tanstack/react-router';
 import { CreateIncidentDto, Incident, User } from 'libs/types/src/generated';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
@@ -22,7 +22,7 @@ type IncidentContextValue = {
     updateIncidentDetails: (data: Partial<Incident>) => void;
     newComment: string;
     setNewComment: (comment: string) => void;
-
+    addComment?: () => void;
 }
 
 
@@ -66,15 +66,16 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
         });
     }
 
-    const addComment = (incidentId: string, commentText: string) => {
-        if (!commentText.trim()) return;
+    const addComment = () => {
+        const commentText = newComment.trim();
+        if (!commentText) return;
 
-        const newNote = {
-            id: Date.now(),
-            text: commentText,
-            author: 'משתמש נוכחי',
-            createdAt: new Date().toISOString()
-        };
+        API.incidentControllerNewComment({
+            body: {
+                incidentId: incidentDetails?.incidentId!,
+                message: commentText,
+            }
+        })
 
         // setIncidents(prev => prev.map(incident =>
         //   incident.incidentId === incidentId
@@ -94,7 +95,8 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
             handleSave,
             updateIncidentDetails,
             newComment,
-            setNewComment
+            setNewComment,
+            addComment
         }}>
             {children}
         </IncidentContext.Provider>

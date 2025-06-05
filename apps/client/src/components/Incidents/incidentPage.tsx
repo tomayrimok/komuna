@@ -34,6 +34,7 @@ const IncidentPage = () => {
         isIncidentDetailsLoading,
         isAddEditIncidentLoading,
         updateIncidentDetails,
+        addComment,
         newComment,
         setNewComment
     } = useIncident();
@@ -96,7 +97,7 @@ const IncidentPage = () => {
                             onChange={(e) => setNewComment(e.target.value)}
                             value={newComment || ''}
                         />
-                        <Button colorScheme="blue">
+                        <Button colorScheme="blue" onClick={addComment}>
                             <IconSend2 style={{ transform: isRTL ? "scaleX(-1)" : "" }} />
                         </Button>
 

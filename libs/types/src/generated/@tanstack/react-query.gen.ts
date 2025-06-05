@@ -62,6 +62,7 @@ import type {
   IncidentControllerCreateIncidentResponse,
   IncidentControllerUpdateIncidentData,
   IncidentControllerNewCommentData,
+  IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
@@ -850,9 +851,13 @@ export const incidentControllerNewCommentOptions = (options: Options<IncidentCon
 
 export const incidentControllerNewCommentMutation = (
   options?: Partial<Options<IncidentControllerNewCommentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<IncidentControllerNewCommentData>> => {
+): UseMutationOptions<
+  IncidentControllerNewCommentResponse,
+  AxiosError<DefaultError>,
+  Options<IncidentControllerNewCommentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    IncidentControllerNewCommentResponse,
     AxiosError<DefaultError>,
     Options<IncidentControllerNewCommentData>
   > = {
