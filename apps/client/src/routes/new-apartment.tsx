@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { NewApartment } from '../pages/CreateApartment';
+import { NewApartment } from '../pages/NewApartment';
 
 export const Route = createFileRoute('/new-apartment')({
   beforeLoad: ({ context, location }) => {
