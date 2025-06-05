@@ -81,8 +81,6 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
-    "save": "שמירה",
-    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -162,7 +160,6 @@
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
-            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "close_btn": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",

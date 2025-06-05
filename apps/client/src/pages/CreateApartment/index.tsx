@@ -5,12 +5,12 @@ import { useNavigate } from '@tanstack/react-router';
 import ApartmentLayout from './ApartmentLayout';
 
 export const NewApartment = () => {
-  const { currentUserDetails, logout } = useAuth();
+  const { currentUserDetails } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <ApartmentLayout logoutButton>
+    <ApartmentLayout>
       <VStack>
         <Text fontSize="2xl" fontWeight="bold">
           {t('select_apartment.no_apartments.title')}
@@ -26,7 +26,10 @@ export const NewApartment = () => {
             size="xl"
             fontSize="2xl"
             fontWeight="bold"
-            onClick={() => { navigate({ to: '/join-apartment' }); }}>
+            onClick={() => {
+              navigate({ to: '/join-apartment' });
+            }}
+          >
             {t('select_apartment.no_apartments.join_apartment')}
           </Button>
         </VStack>
@@ -36,7 +39,10 @@ export const NewApartment = () => {
             size="xl"
             fontSize="2xl"
             fontWeight="bold"
-            onClick={() => { navigate({ to: '/create-apartment' }); }}>
+            onClick={() => {
+              navigate({ to: '/create-apartment' });
+            }}
+          >
             {t('select_apartment.no_apartments.create_new_apartment')}
           </Button>
         </VStack>
