@@ -81,6 +81,8 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
+    "save": "שמירה",
+    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -150,7 +152,8 @@
                 "renter_pays": "אני משלם את ועד הבית",
                 "renters_paying_equally": "מתחלקים שווה בשווה",
                 "paying_for_renter": "מישהו אחר משלם את וועד הבית"
-            }
+            },
+            "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו')."
         },
         "share_apartment": {
             "title": "הדירה נוצרה בהצלחה! 🎉",
@@ -163,6 +166,7 @@
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",
+        "save_btn": "שמירה",
         "skip_btn": "דלג"
     },
     "join_existing_apartment": {
@@ -198,6 +202,15 @@
                 "incidents": "תקלות"
             }
         }
+    },
+    "shopping": {
+        "shopping_list": "רשימת קניות",
+        "personal": "רשימה אישית",
+        "apartment": "רשימה דירתית",
+        "list_is_empty": "רשימת הקניות ריקה",
+        "add_item": "הוספת פריט",
+        "item_name": "שם הפריט",
+        "item_quantity": "כמות"
     },
     "error": {
         "error": "שגיאה",

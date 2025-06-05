@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
-import RenterSettings from './RenterSettings';
+import { RenterSettings } from './RenterSettings';
 import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import type { UpdateFieldOfPageFn } from './create-apartment.types';
 import { ShareApartmentCode } from './ShareApartmentCode';
@@ -27,6 +27,7 @@ interface CreateApartmentFormProps {
   page: CreateApartmentPages;
   aptDetails: CreateApartmentDto;
   setPageState: UpdateFieldOfPageFn;
+  isEdit: boolean;
 }
 
 const INITIAL_APT_DETAILS: CreateApartmentDto = {
@@ -55,7 +56,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
   },
 }
 
-const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState }) => {
+const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState, isEdit }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
       return <ApartmentInfo
@@ -71,21 +72,26 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
       return <RenterSettings
         aptDetails={aptDetails}
         updateField={setPageState("renterSettings")}
+        isEdit={isEdit}
       />;
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
     case CreateApartmentPages.GoToApp:
-      return <Navigate to="/select-apartment" />;
+      return <Navigate to="/" />;
     default:
       return null;
   }
 };
 
 
+interface CreateApartmentProps {
+  isEdit?: boolean;
+}
+
 /**
 * Wraps the CreateApartmentForm in a layout with a back button.
 */
-const CreateApartment = () => {
+const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
 
@@ -108,9 +114,9 @@ const CreateApartment = () => {
   });
 
   const [showSkipBtn, showContinueBtn] = useMemo(() => [
-    page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
+    !isEdit && (page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings),
     page !== CreateApartmentPages.ShareApartmentCode
-  ], [page]);
+  ], [isEdit, page]);
 
   const updateFieldOfPage: UpdateFieldOfPageFn = (page) => (field, value) => {
     setsAptDetails((currState) => ({
@@ -153,6 +159,7 @@ const CreateApartment = () => {
         page={page}
         aptDetails={aptDetails}
         setPageState={updateFieldOfPage}
+        isEdit={isEdit || false}
       />
       <HStack gap="30px">
         {showSkipBtn && <Button
@@ -172,7 +179,7 @@ const CreateApartment = () => {
         >
           {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
             (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
-            ? t('create_apartment.done_btn')
+            ? isEdit ? t('create_apartment.save_btn') : t('create_apartment.done_btn')
             : t('create_apartment.continue_btn')}
         </Button>}
       </HStack>
