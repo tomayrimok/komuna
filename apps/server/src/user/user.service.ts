@@ -69,13 +69,8 @@ export class UserService {
   async getUserProfile(phoneNumber: string): Promise<User | null> {
     const user = await this.userRepo.findOne({
       where: { phoneNumber },
-      relations: {
-        apartments: {
-          apartment: true,
-        },
-      },
+      relations: ['apartments', 'apartments.apartment', 'landlordApartments'],
     });
-    console.log('user: ', JSON.stringify(user, null, 2));
 
     if (!user) {
       this.logger.error(`User with phone number ${phoneNumber} not found`);

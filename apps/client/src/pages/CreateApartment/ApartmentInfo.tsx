@@ -7,7 +7,7 @@ import type { CommonApartmentProps } from "./create-apartment.types";
 
 export const ApartmentInfo = ({ aptDetails, updateField }: CommonApartmentProps<"apartmentInfo">) => {
   const { t } = useTranslation();
-
+  
   const fields = useMemo(() => [
     { key: "name", title: t("create_apartment.apartment_info.apartment_name"), required: true, },
     { key: "address", title: t("create_apartment.apartment_info.apartment_address"), required: false, },

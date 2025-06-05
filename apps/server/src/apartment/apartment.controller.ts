@@ -67,8 +67,8 @@ export class ApartmentController {
       apartment.residents = [userApartment];
     }
 
-    await this.apartmentService.createApartment(apartment);
-    return { landlordCode, roommateCode };
+    const { apartmentId } = await this.apartmentService.createApartment(apartment);
+    return { apartmentId, landlordCode, roommateCode };
   }
 
   private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {

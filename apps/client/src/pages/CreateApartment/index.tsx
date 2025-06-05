@@ -6,13 +6,14 @@ import { ApartmentSettings } from './ApartmentSettings';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import RenterSettings from './RenterSettings';
-import { CreateApartmentDto, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import { toaster } from '../../chakra/ui/toaster';
+import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import type { UpdateFieldOfPageFn } from './create-apartment.types';
-import { AUTH_QUERY_KEY } from '../../hooks/query/useAuthQuery';
 import { ShareApartmentCode } from './ShareApartmentCode';
+import { useCreateApartment } from '../../hooks/query/useCreateApartment';
+import { toaster } from '../../chakra/ui/toaster';
+import { useQueryClient } from '@tanstack/react-query';
+import { AUTH_QUERY_KEY } from '../../hooks/query/useAuthQuery';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -50,7 +51,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
     rent: undefined,
     payableByUserId: "",
     houseCommitteeRent: undefined,
-    houseCommitteePayerUserId: "",
+    houseCommitteePayerUserId: RENTER_PAYMENT_WAYS.RENTER,
   },
 }
 
@@ -74,7 +75,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
     case CreateApartmentPages.GoToApp:
-      return <Navigate to="/select-apartment" />; // TODO CHECK
+      return <Navigate to="/select-apartment" />;
     default:
       return null;
   }
@@ -88,9 +89,28 @@ const CreateApartment = () => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
 
-  const queryClient = useQueryClient()
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const { setSessionDetails } = useAuth();
+  const { triggerCreateApartment } = useCreateApartment({
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] }); // getting the new apartment
+      setSessionDetails(() => ({ apartmentId: res.apartmentId, role: aptDetails.apartmentInfo.role }));
+      setPage(CreateApartmentPages.ShareApartmentCode);
+    },
+    onError: () => {
+      toaster.create({
+        title: t('error.action_failed'),
+        type: 'error'
+      });
+    },
+  });
 
-  const incPage = () => { setPage(p => p + 1); }
+  const [showSkipBtn, showContinueBtn] = useMemo(() => [
+    page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
+    page !== CreateApartmentPages.ShareApartmentCode
+  ], [page]);
 
   const updateFieldOfPage: UpdateFieldOfPageFn = (page) => (field, value) => {
     setsAptDetails((currState) => ({
@@ -102,42 +122,18 @@ const CreateApartment = () => {
     }));
   };
 
-  const [showSkipBtn, showContinueBtn] = useMemo(() => [
-    page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings,
-    page !== CreateApartmentPages.ShareApartmentCode
-  ], [page]);
+  const incPage = () => { setPage(p => p + 1); }
 
-  const createApartmentMutation = useMutation<CreateApartmentHttpResponse>({ //TODO move into hooks folder, and create interfaces
-    mutationKey: ['createApartment'],
-    mutationFn: async () => {
-      const res = await axios.post('/api/apartment', aptDetails);
-      return res.data
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
-      setPage(CreateApartmentPages.ShareApartmentCode);
-    },
-    onError: () => {
-      toaster.create({
-        title: t('error.action_failed'),
-        type: 'error'
-      })
-    }
-  })
-
-  const handleOnClick = () => {//TODO check
+  const handleOnClick = () => {
     if (
       (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
       (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
     ) {
-      createApartmentMutation.mutate();
+      triggerCreateApartment(aptDetails);
       return;
     }
     incPage();
   }
-
-  const navigate = useNavigate();
-  const { t } = useTranslation();
 
   /**
    * Goes back one page, unless on the first page, in which case it navigates to the select apartment page.
@@ -152,7 +148,7 @@ const CreateApartment = () => {
 
   return (
     <ApartmentLayout
-      goBack={page !== CreateApartmentPages.ShareApartmentCode && (() => goPageBack(page))}>
+      goBack={page !== CreateApartmentPages.ShareApartmentCode ? (() => goPageBack(page)) : undefined}>
       <CreateApartmentForm
         page={page}
         aptDetails={aptDetails}

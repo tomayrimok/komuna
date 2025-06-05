@@ -41,6 +41,7 @@ export class CreateApartmentDto {
 
 export type Code = string | number;
 export interface CreateApartmentHttpResponse {
+  apartmentId: string;
   landlordCode: Code;
   roommateCode: Code;
 }
