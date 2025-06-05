@@ -41,6 +41,24 @@ export class CreateApartmentDto {
 
 export type Code = string | number;
 export interface CreateApartmentHttpResponse {
+  apartmentId: string;
   landlordCode: Code;
   roommateCode: Code;
+}
+
+export type ApartmentDetails = { apartmentId: string } & ApartmentInfoDto &
+  CreateApartmentHttpResponse &
+  ApartmentSettingsDto &
+  RenterSettingsDto;
+
+export interface Apartment {
+  apartment: ApartmentDetails;
+
+  createdAt: string;
+
+  rent: number;
+
+  role: UserRole;
+
+  userId: string;
 }

@@ -1,12 +1,16 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MutationState, useMutationState } from '@tanstack/react-query';
-import { ApartmentTitle } from './ApartmentTitle';
+import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { Alert, Button, Clipboard, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import type { CreateApartmentHttpResponse, Code as CodeType } from '@komuna/types';
+import { useNavigate } from '@tanstack/react-router';
+import { useRolePath } from '../../hooks/useRolePath';
 
 export const ShareApartmentCode: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const rolePath = useRolePath();
 
   return (
     <>
@@ -22,7 +26,9 @@ export const ShareApartmentCode: FC = () => {
       <Button
         size="xl"
         fontSize="2xl"
-        fontWeight="bold">
+        fontWeight="bold"
+        onClick={() => navigate({ to: rolePath })}
+      >
         {t('create_apartment.share_apartment.close_btn')}
       </Button>
     </>

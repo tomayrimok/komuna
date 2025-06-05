@@ -160,7 +160,6 @@
             "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה!",
             "roommate_description": "זהו קוד להזמנת שותפים לדירה:",
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
-            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "close_btn": "מעבר לאפליקציה"
@@ -178,7 +177,7 @@
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
-        "create_new_apartment": "יצירת דירה חדשה",
+        "create_new_apartment_btn": "דירה חדשה",
         "leaser": "בעל דירה",
         "renter": "דייר"
     },
@@ -192,7 +191,8 @@
                 "notifications_settings": "ניהול התראות ואירועים",
                 "app_settings": "הגדרות אפליקציה",
                 "logout": "התנתקות",
-                "change_languege": "שנה שפה"
+                "change_languege": "שנה שפה",
+                "select_apartment": "שינוי דירה"
             },
             "navigation": {
                 "tasks": "משימות",

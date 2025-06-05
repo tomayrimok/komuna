@@ -1,15 +1,17 @@
 import { Avatar, Button, HStack, Stack, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { IconBellCog, IconHomeCog, IconLogout, IconMenu2, IconSettings, IconUserCog } from '@tabler/icons-react';
+import { IconBellCog, IconHomeCog, IconLogout, IconMenu2, IconSettings, IconUserCog, IconHomeEdit } from '@tabler/icons-react';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { Sidebar } from '../../../components/Sidebar/Sidebar';
 import { LanguegeSelector } from '../../../components/LanguegeSelector';
 import { useIsRTL } from '../../../hooks/useIsRTL';
+import { useNavigate } from '@tanstack/react-router';
 
 export const SettingLeftbar = () => {
   const { currentUserDetails, logout } = useAuth();
   const { dir } = useIsRTL();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Sidebar trigger={<IconMenu2 />}>
@@ -51,6 +53,11 @@ export const SettingLeftbar = () => {
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconSettings />
               {t('roommate.homepage.leftbar.app_settings')}
+            </Button>
+
+            <Button justifyContent="start" variant="ghost" size="lg" onClick={() => navigate({ to: '/select-apartment' })}>
+              <IconHomeEdit />
+              {t('roommate.homepage.leftbar.select_apartment')}
             </Button>
           </VStack>
           <Stack gap="4" alignItems="start">
