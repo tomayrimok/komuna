@@ -20,7 +20,7 @@ export interface AuthContextValue {
   currentUserDetails?: ApiTypes.User | null;
   refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
-  setSession: (sessionDetails: SessionDetails) => void;
+  setSession: (sessionDetails: SessionDetails) => Promise<void>;
 }
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
@@ -81,9 +81,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const setSession = (sessionDetails: SessionDetails) => {
+  const setSession = async (sessionDetails: SessionDetails) => {
     setSessionDetails(sessionDetails);
-    queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
+    return queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
   };
 
   if (isAuthLoading) return <LoadingApp />;

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { Button, PinInput, Spacer } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { times } from 'lodash';
 import { useNavigate } from '@tanstack/react-router';
 import axios from 'axios';
@@ -14,7 +14,7 @@ import { ApiTypes } from '@komuna/types';
 
 const JoinApartment = () => {
   const [pincode, setPincode] = useState(['', '', '', '']);
-  const { setSession } = useAuth();
+  const { setSession, currentUserDetails } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -23,18 +23,17 @@ const JoinApartment = () => {
       const { data } = await axios.post<ApiTypes.UserApartment>(`/api/apartment/join/${code}`);
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toaster.create({
         title: t('join_existing_apartment.success'),
         type: 'success',
         duration: 5000,
       });
 
-      setSession({
+      await setSession({
         apartmentId: data.apartmentId,
         role: data.role as UserRole,
       });
-      navigate({ to: `/select-apartment` });
     },
     onError: () => {
       toaster.create({
@@ -43,6 +42,12 @@ const JoinApartment = () => {
       });
     },
   });
+
+  useEffect(() => {
+    if (currentUserDetails?.apartments.length) {
+      navigate({ to: `/select-apartment` });
+    }
+  }, [currentUserDetails?.apartments.length]);
 
   return (
     <ApartmentLayout
