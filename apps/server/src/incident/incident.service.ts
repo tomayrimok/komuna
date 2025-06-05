@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Incident, Comment } from './incident.entity';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
-import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto } from './dto/incident.dto';
+import { AddEditIncidentDto, AddCommentDto, UpdateIncidentDto } from './dto/incident.dto';
 
 @Injectable()
 export class IncidentService {
@@ -17,29 +17,36 @@ export class IncidentService {
     private readonly userApartmentService: UserApartmentService
   ) { }
 
-  async createIncident(incidentDto: CreateIncidentDto, userId: string): Promise<Incident> {
-    // Check if user is a resident of the apartment
-    const userMemberOfApartment: boolean = await this.userApartmentService.isUserInApartment(
-      incidentDto.reporterId,
-      incidentDto.apartmentId
-    );
-    if (!userMemberOfApartment) {
-      throw new ForbiddenException(
-        `User ${incidentDto.reporterId} is not a resident of apartment ${incidentDto.apartmentId}`
-      );
+  async addEditIncident(incidentDto: AddEditIncidentDto, userId: string): Promise<Incident> {
+
+    if (incidentDto.incidentId) {
+      const existingIncident = await this.incidentRepo.findOneBy({
+        incidentId: incidentDto.incidentId,
+        apartmentId: incidentDto.apartmentId,
+      });
+
+      if (existingIncident) return this.incidentRepo.save({ ...existingIncident, ...incidentDto });
     }
 
-    const toSave = this.incidentRepo.create({ ...incidentDto, reporterId: userId });
-    return this.incidentRepo.save(toSave);
+    const newIncident = this.incidentRepo.create({
+      ...incidentDto,
+      reporterId: userId
+    });
+    try {
+      return await this.incidentRepo.save(newIncident);
+    }
+    catch (error) {
+      throw new InternalServerErrorException('Failed to create or update incident', error);
+    }
+
   }
 
-  async updateIncidentStatus(incidentDto: UpdateIncidentStatusDto) {
+  async updateIncident(incidentDto: UpdateIncidentDto) {
     const incident = await this.incidentRepo.findOneBy({ incidentId: incidentDto.incidentId });
     if (!incident) {
       throw new NotFoundException(`Incident ${incidentDto.incidentId} not found`);
     }
-    incident.status = incidentDto.status;
-    return this.incidentRepo.save(incident);
+    return this.incidentRepo.save({ ...incident, ...incidentDto });
   }
 
   async addComment(commentDto: AddCommentDto, userId: string): Promise<Comment> {
@@ -59,25 +66,26 @@ export class IncidentService {
     return this.commentRepo.save(comment);
   }
 
-  async getComments(incidentId: string, numOfComments = 10): Promise<Comment[]> {
-    if (typeof numOfComments !== 'number') {
-      numOfComments = 10;
-    }
+  // async getComments(incidentId: string, numOfComments = 10): Promise<Comment[]> {
+  //   if (typeof numOfComments !== 'number') {
+  //     numOfComments = 10;
+  //   }
 
-    const comments = await this.commentRepo.find({
-      where: { incidentId },
-      order: { createdAt: 'DESC' },
-      take: numOfComments,
-    });
+  //   const comments = await this.commentRepo.find({
+  //     where: { incidentId },
+  //     order: { createdAt: 'DESC' },
+  //     take: numOfComments,
+  //   });
 
-    return comments;
-  }
+  //   return comments;
+  // }
 
   async getIncidentsByApartment(apartmentId: string): Promise<Incident[]> {
     try {
       return await this.incidentRepo.find({
         where: { apartmentId },
         order: { createdAt: 'DESC' },
+        relations: ['reporter', 'comments']
       });
     } catch (error) {
       throw new InternalServerErrorException('Failed to load incidents ', error);
@@ -98,7 +106,7 @@ export class IncidentService {
   async getIncidentDetails(incidentId: string): Promise<Incident> {
     const incident = await this.incidentRepo.findOne({
       where: { incidentId },
-      relations: ['comments'],
+      relations: ['reporter', 'comments', 'comments.user'],
     });
 
     if (!incident) {

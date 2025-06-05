@@ -23,15 +23,6 @@ export interface CreateIncidentDto {
 
 }
 
-export interface UpdateIncidentStatusDto {
-
-    incidentId: string; // UUID
-
-    status: IncidentStatus; // ENUM
-
-    updatedAt: string; // ISO date string
-}
-
 export interface AddCommentDto {
 
     incidentId: string; //UUID

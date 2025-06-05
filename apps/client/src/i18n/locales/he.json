@@ -222,6 +222,7 @@
         }
     },
     "incidents": {
+        "no_incidents": "אין תקלות",
         "create_incident": "יצירת תקלה חדשה",
         "edit_incident": "עריכת תקלה",
         "incident_title": "כותרת",

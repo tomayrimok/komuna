@@ -37,9 +37,10 @@ import type {
   IncidentControllerGetAllIncidentsResponse,
   IncidentControllerGetIncidentDetailsData,
   IncidentControllerGetIncidentDetailsResponse,
-  IncidentControllerCreateIncidentData,
-  IncidentControllerCreateIncidentResponse,
+  IncidentControllerAddEditIncidentData,
+  IncidentControllerAddEditIncidentResponse,
   IncidentControllerUpdateIncidentData,
+  IncidentControllerUpdateIncidentResponse,
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
@@ -310,11 +311,11 @@ export const incidentControllerGetIncidentDetails = <ThrowOnError extends boolea
   });
 };
 
-export const incidentControllerCreateIncident = <ThrowOnError extends boolean = false>(
-  options: Options<IncidentControllerCreateIncidentData, ThrowOnError>
+export const incidentControllerAddEditIncident = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerAddEditIncidentData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).post<IncidentControllerCreateIncidentResponse, unknown, ThrowOnError>({
-    url: '/api/incident/create',
+  return (options.client ?? _heyApiClient).post<IncidentControllerAddEditIncidentResponse, unknown, ThrowOnError>({
+    url: '/api/incident/add-edit',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -326,7 +327,7 @@ export const incidentControllerCreateIncident = <ThrowOnError extends boolean = 
 export const incidentControllerUpdateIncident = <ThrowOnError extends boolean = false>(
   options: Options<IncidentControllerUpdateIncidentData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<IncidentControllerUpdateIncidentResponse, unknown, ThrowOnError>({
     url: '/api/incident/update',
     ...options,
     headers: {

@@ -138,6 +138,7 @@
         }
     },
     "incidents": {
+        "no_incidents": "No incidents",
         "create_incident": "Create Incident",
         "edit_incident": "Edit Incident",
         "incident_title": "Title",

@@ -1,7 +1,7 @@
-import { Button } from "@chakra-ui/react"
+import { Button } from "@chakra-ui/react";
+import { IconFlagPlus } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { IconPlus, IconMoneybagPlus } from "@tabler/icons-react";
 
 const CreateIncidentButton = () => {
 
@@ -9,7 +9,7 @@ const CreateIncidentButton = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate({ to: '/landlord/incident' });
+        navigate({ to: '/landlord/incident/details' });
     }
 
     return (
@@ -26,7 +26,7 @@ const CreateIncidentButton = () => {
             py={6}
             shadow={"md"}
         >
-            <IconMoneybagPlus size={20} />
+            <IconFlagPlus size={20} />
             פתיחת תקלה
             {/* {t('payments.incident.create-incident')} */}
         </Button>

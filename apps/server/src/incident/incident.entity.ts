@@ -9,27 +9,24 @@ import {
   OneToMany,
   JoinColumn,
   ManyToOne,
+  OneToOne,
 } from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Incident {
-  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   incidentId: string;
 
-  @ApiProperty()
   @Column()
   apartmentId: string;
 
-  @ApiProperty()
   @Column()
   title: string;
 
-  @ApiProperty()
   @Column()
   description: string;
 
-  @ApiProperty()
   @Column('json', { nullable: true })
   images?: string[];
 
@@ -37,7 +34,6 @@ export class Incident {
   @Column({ type: 'enum', enum: IncidentUrgency })
   urgencyLevel: IncidentUrgency;
 
-  @ApiProperty()
   @Column()
   reporterId: string;
 
@@ -45,19 +41,15 @@ export class Incident {
   @Column({ type: 'enum', enum: IncidentStatus, default: IncidentStatus.OPEN })
   status: IncidentStatus;
 
-  @ApiProperty()
   @Column({ default: false })
   seenByManager: boolean;
 
-  @ApiProperty()
   @Column({ nullable: true })
   managerResponse: string;
 
-  @ApiProperty()
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
 
@@ -67,6 +59,11 @@ export class Incident {
     eager: false
   })
   comments: Comment[];
+
+  @ApiProperty({ type: () => User })
+  @ManyToOne(() => User, (user) => user.incidents, { eager: true })
+  @JoinColumn({ name: 'reporterId' })
+  reporter: User;
 }
 
 @Entity()
@@ -95,6 +92,11 @@ export class Comment {
   @ApiProperty()
   @Column('text', { array: true, nullable: true })
   images?: string[];
+
+  @ApiProperty()
+  @ManyToOne(() => User, user => user.comments, { eager: true })
+  @JoinColumn({ name: 'userId' })
+  user: string;
 
   @ManyToOne(() => Incident, i => i.comments)
   @JoinColumn({ name: 'incidentId' })

@@ -565,7 +565,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Incident"
+                    "$ref": "#/components/schemas/IncidentResponseDto"
                   }
                 }
               }
@@ -596,7 +596,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Incident"
+                  "$ref": "#/components/schemas/IncidentResponseDto"
                 }
               }
             }
@@ -607,16 +607,16 @@
         ]
       }
     },
-    "/api/incident/create": {
+    "/api/incident/add-edit": {
       "post": {
-        "operationId": "IncidentController_createIncident",
+        "operationId": "IncidentController_addEditIncident",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateIncidentDto"
+                "$ref": "#/components/schemas/AddEditIncidentDto"
               }
             }
           }
@@ -647,14 +647,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateIncidentStatusDto"
+                "$ref": "#/components/schemas/UpdateIncidentDto"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -682,7 +689,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Incident"
+                  "$ref": "#/components/schemas/Comment"
                 }
               }
             }
@@ -895,6 +902,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "user": {
+            "type": "string"
           }
         },
         "required": [
@@ -903,39 +913,19 @@
           "userId",
           "createdAt",
           "incidentId",
-          "images"
+          "images",
+          "user"
         ]
       },
       "Incident": {
         "type": "object",
         "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "apartmentId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "urgencyLevel": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/IncidentUrgency"
               }
             ]
-          },
-          "reporterId": {
-            "type": "string"
           },
           "status": {
             "allOf": [
@@ -944,41 +934,21 @@
               }
             ]
           },
-          "seenByManager": {
-            "type": "boolean"
-          },
-          "managerResponse": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
           "comments": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Comment"
             }
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "required": [
-          "incidentId",
-          "apartmentId",
-          "title",
-          "description",
-          "images",
           "urgencyLevel",
-          "reporterId",
           "status",
-          "seenByManager",
-          "managerResponse",
-          "updatedAt",
-          "createdAt",
-          "comments"
+          "comments",
+          "reporter"
         ]
       },
       "ShoppingTemplate": {
@@ -1294,6 +1264,20 @@
             "items": {
               "$ref": "#/components/schemas/DebtEdge"
             }
+          },
+          "comments": {
+            "description": "The comments made by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "incidents": {
+            "description": "The incidents reported by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
           }
         },
         "required": [
@@ -1306,7 +1290,9 @@
           "payableRents",
           "expenses",
           "debts",
-          "credits"
+          "credits",
+          "comments",
+          "incidents"
         ]
       },
       "DebtEdgeWithDebtor": {
@@ -1617,10 +1603,120 @@
         "type": "object",
         "properties": {}
       },
-      "CreateIncidentDto": {
+      "CommentResponseDto": {
         "type": "object",
         "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "commentId",
+          "incidentId",
+          "userId",
+          "message",
+          "createdAt",
+          "user"
+        ]
+      },
+      "IncidentResponseDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
           "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "reporterId": {
+            "type": "string"
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "seenByManager": {
+            "type": "boolean"
+          },
+          "managerResponse": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "apartmentId",
+          "title",
+          "description",
+          "images",
+          "urgencyLevel",
+          "reporterId",
+          "reporter",
+          "status",
+          "seenByManager",
+          "managerResponse",
+          "updatedAt",
+          "createdAt",
+          "comments"
+        ]
+      },
+      "AddEditIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
             "type": "string"
           },
           "title": {
@@ -1637,6 +1733,43 @@
               }
             ]
           },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "urgencyLevel",
+          "apartmentId"
+        ]
+      },
+      "UpdateIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
           "images": {
             "description": "List of image URLs related to the incident",
             "type": "array",
@@ -1646,29 +1779,7 @@
           }
         },
         "required": [
-          "apartmentId",
-          "title",
-          "description",
-          "urgencyLevel"
-        ]
-      },
-      "UpdateIncidentStatusDto": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "object"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "incidentId",
-          "status",
-          "updatedAt"
+          "incidentId"
         ]
       },
       "AddCommentDto": {

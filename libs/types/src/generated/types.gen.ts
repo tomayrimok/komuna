@@ -81,21 +81,12 @@ export type Comment = {
   createdAt: string;
   incidentId: string;
   images: Array<string>;
+  user: string;
 };
 
 export type Incident = {
-  incidentId: string;
-  apartmentId: string;
-  title: string;
-  description: string;
-  images: Array<string>;
   urgencyLevel: IncidentUrgency;
-  reporterId: string;
   status: IncidentStatus;
-  seenByManager: boolean;
-  managerResponse: string;
-  updatedAt: string;
-  createdAt: string;
   comments: Array<Comment>;
 };
 
@@ -268,6 +259,10 @@ export type User = {
    * User's credits
    */
   credits: Array<DebtEdge>;
+  /**
+   * The comments made by the user
+   */
+  comments: Array<Comment>;
 };
 
 export type DebtEdgeWithDebtor = {
@@ -444,26 +439,53 @@ export type EditTaskReqDto = {
   [key: string]: unknown;
 };
 
-export type CreateIncidentDto = {
+export type CommentResponseDto = {
+  commentId: string;
+  incidentId: string;
+  userId: string;
+  message: string;
+  createdAt: string;
+  user: User;
+};
+
+export type IncidentResponseDto = {
+  incidentId: string;
   apartmentId: string;
+  title: string;
+  description: string;
+  images: Array<string>;
+  urgencyLevel: IncidentUrgency;
+  reporterId: string;
+  reporter: User;
+  status: IncidentStatus;
+  seenByManager: boolean;
+  managerResponse: string;
+  updatedAt: string;
+  createdAt: string;
+  comments: Array<CommentResponseDto>;
+};
+
+export type AddEditIncidentDto = {
+  incidentId?: string;
   title: string;
   description: string;
   /**
    * How urgent the incident is. used by Enum IncidentUrgency
    */
   urgencyLevel: IncidentUrgency;
+  apartmentId: string;
+};
+
+export type UpdateIncidentDto = {
+  incidentId: string;
+  status?: IncidentStatus;
+  title?: string;
+  description?: string;
+  urgencyLevel?: IncidentUrgency;
   /**
    * List of image URLs related to the incident
    */
   images?: Array<string>;
-};
-
-export type UpdateIncidentStatusDto = {
-  incidentId: string;
-  status: {
-    [key: string]: unknown;
-  };
-  updatedAt: string;
 };
 
 export type AddCommentDto = {
@@ -762,7 +784,7 @@ export type IncidentControllerGetAllIncidentsData = {
 };
 
 export type IncidentControllerGetAllIncidentsResponses = {
-  200: Array<Incident>;
+  200: Array<IncidentResponseDto>;
 };
 
 export type IncidentControllerGetAllIncidentsResponse =
@@ -778,36 +800,39 @@ export type IncidentControllerGetIncidentDetailsData = {
 };
 
 export type IncidentControllerGetIncidentDetailsResponses = {
-  200: Incident;
+  200: IncidentResponseDto;
 };
 
 export type IncidentControllerGetIncidentDetailsResponse =
   IncidentControllerGetIncidentDetailsResponses[keyof IncidentControllerGetIncidentDetailsResponses];
 
-export type IncidentControllerCreateIncidentData = {
-  body: CreateIncidentDto;
+export type IncidentControllerAddEditIncidentData = {
+  body: AddEditIncidentDto;
   path?: never;
   query?: never;
-  url: '/api/incident/create';
+  url: '/api/incident/add-edit';
 };
 
-export type IncidentControllerCreateIncidentResponses = {
+export type IncidentControllerAddEditIncidentResponses = {
   200: Incident;
 };
 
-export type IncidentControllerCreateIncidentResponse =
-  IncidentControllerCreateIncidentResponses[keyof IncidentControllerCreateIncidentResponses];
+export type IncidentControllerAddEditIncidentResponse =
+  IncidentControllerAddEditIncidentResponses[keyof IncidentControllerAddEditIncidentResponses];
 
 export type IncidentControllerUpdateIncidentData = {
-  body: UpdateIncidentStatusDto;
+  body: UpdateIncidentDto;
   path?: never;
   query?: never;
   url: '/api/incident/update';
 };
 
 export type IncidentControllerUpdateIncidentResponses = {
-  201: unknown;
+  200: IncidentResponseDto;
 };
+
+export type IncidentControllerUpdateIncidentResponse =
+  IncidentControllerUpdateIncidentResponses[keyof IncidentControllerUpdateIncidentResponses];
 
 export type IncidentControllerNewCommentData = {
   body: AddCommentDto;
@@ -817,7 +842,7 @@ export type IncidentControllerNewCommentData = {
 };
 
 export type IncidentControllerNewCommentResponses = {
-  200: Incident;
+  200: Comment;
 };
 
 export type IncidentControllerNewCommentResponse =

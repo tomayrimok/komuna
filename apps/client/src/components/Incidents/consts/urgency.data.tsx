@@ -21,7 +21,7 @@ export const URGENCY_DATA = {
         text: "urgency.HIGH"
     },
     [IncidentUrgency.EXTREME]: {
-        backgroundColor: "red.500",
+        backgroundColor: "red.600",
         color: "white",
         icon: <IconAlertCircle />,
         text: "urgency.EXTREME"

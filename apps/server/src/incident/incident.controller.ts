@@ -1,11 +1,11 @@
-import { Body, Controller, Logger, Post, Get, Query } from '@nestjs/common';
-import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto, GetIncidentsDto, GetIncidentDto } from './dto/incident.dto';
-import { IncidentService } from './incident.service';
-import { UseAuth } from '../decorators/UseAuth';
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { Incident } from './incident.entity';
+import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { User } from '../user/user.entity';
+import { AddCommentDto, AddEditIncidentDto, GetIncidentDto, GetIncidentsDto, IncidentResponseDto, UpdateIncidentDto } from './dto/incident.dto';
+import { Comment, Incident } from './incident.entity';
+import { IncidentService } from './incident.service';
 
 @Controller('incident')
 export class IncidentController {
@@ -14,7 +14,7 @@ export class IncidentController {
 
   @Get()
   @UseAuth()
-  @ApiOkResponse({ type: [Incident] })
+  @ApiOkResponse({ type: [IncidentResponseDto] })
   async getAllIncidents(@Query() query: GetIncidentsDto) {
     const { apartmentId } = query;
     return await this.incidentService.getIncidentsByApartment(apartmentId);
@@ -22,28 +22,30 @@ export class IncidentController {
 
   @Get('details')
   @UseAuth()
-  @ApiOkResponse({ type: Incident })
+  @ApiOkResponse({ type: IncidentResponseDto })
   async getIncidentDetails(@Query() query: GetIncidentDto
   ) {
     const { incidentId } = query;
     return await this.incidentService.getIncidentDetails(incidentId);
   }
 
-  @Post('create') // TODO redirect to the new incident - /create/id=?incidentId
+  @Post('add-edit') // TODO redirect to the new incident - /create/id=?incidentId
   @UseAuth()
   @ApiOkResponse({ type: Incident })
-  async createIncident(@Body() newIncident: CreateIncidentDto, @GetUser() user: User) {
-    return await this.incidentService.createIncident(newIncident, user.userId);
+  async addEditIncident(@Body() newIncident: AddEditIncidentDto, @GetUser() user: User) {
+    return await this.incidentService.addEditIncident(newIncident, user.userId);
   }
 
   @Post('update')
-  async updateIncident(@Body() setIncident: UpdateIncidentStatusDto) {
-    return await this.incidentService.updateIncidentStatus(setIncident);
+  @UseAuth()
+  @ApiOkResponse({ type: Incident })
+  async updateIncident(@Body() setIncident: UpdateIncidentDto) {
+    return await this.incidentService.updateIncident(setIncident);
   }
 
   @Post('comment')
   @UseAuth()
-  @ApiOkResponse({ type: Incident })
+  @ApiOkResponse({ type: Comment })
   async newComment(@Body() addComment: AddCommentDto, @GetUser() user: User) {
     return await this.incidentService.addComment(addComment, user.userId);
   }

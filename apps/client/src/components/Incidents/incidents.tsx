@@ -1,18 +1,17 @@
-import { Box, Flex, For, Icon, Image, SkeletonText, Stack, Text } from "@chakra-ui/react";
+import { Flex, For, Image, SkeletonText, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../context/auth/AuthProvider";
-import { groupBy } from 'lodash';
-import { format, parseISO } from 'date-fns';
 
+import { IncidentStatus } from "@komuna/types";
 import { useIncidents } from "../../hooks/query/useIncidents";
 import IncidentCard from "./incidentCard";
 
 const Incidents = () => {
-    const { t } = useTranslation();
-    const { currentUserDetails } = useAuth();
-    const { data, isLoading } = useIncidents();
-    console.log('data :', data);
 
+    const { data, isLoading } = useIncidents();
+    const { t } = useTranslation();
+
+    const solvedIncidents = data?.data?.filter(incident => incident.status === IncidentStatus.SOLVED) || [];
+    const unsolvedIncidents = data?.data?.filter(incident => incident.status !== IncidentStatus.SOLVED) || [];
 
 
     return (
@@ -28,17 +27,35 @@ const Incidents = () => {
                     >
                         <Image src="/meerkats/campfire.png" width="50vw" />
                         <Text fontSize="xl" fontWeight="bold" mb={2}>
-
-                            {/* {t("payments.incident.no-incidents")} */}
+                            {t("incidents.no_incidents")}
                         </Text>
                     </Flex>
                 ) : (
+                    <>
+                        {unsolvedIncidents.length ?
+                            <>
+                                <Text fontSize="xl" fontWeight="bold" mb={2}>
+                                    תקלות פתוחות
+                                </Text>
+                                <For each={unsolvedIncidents}>
+                                    {(item) => <IncidentCard key={item.incidentId} item={item} />}
+                                </For>
+                            </>
+                            : null
+                        }
+                        {solvedIncidents.length ?
+                            <>
+                                <Text fontSize="xl" fontWeight="bold" mb={2} mt={4}>
+                                    תקלות פתורות
+                                </Text>
+                                <For each={solvedIncidents}>
+                                    {(item) => <IncidentCard key={item.incidentId} item={item} />}
+                                </For>
+                            </>
+                            : null
+                        }
 
-                    <For each={data.data}>
-                        {(item) => <IncidentCard key={item.incidentId} item={item} />}
-                    </For>
-
-
+                    </>
                 )
             )}
         </Flex>

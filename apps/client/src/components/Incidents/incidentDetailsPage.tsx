@@ -20,6 +20,7 @@ import SelectUserDrawer from "../General/selectResidentDrawer";
 import { useTranslation } from "react-i18next";
 import { IncidentProvider, useIncident } from "../../context/incidents/IncidentProvider";
 import { IncidentUrgency } from "@komuna/types";
+import { IncidentMetadataProvider, useIncidentMetadata } from "../../context/incidents/incidentMetadataProvider";
 
 const IncidentDetailsPage = () => {
     const {
@@ -27,14 +28,13 @@ const IncidentDetailsPage = () => {
         handleSave,
         incidentId,
         isIncidentDetailsLoading,
-        isAddEditIncidentLoading,
         updateIncidentDetails
-    } = useIncident();
+    } = useIncidentMetadata();
 
     const router = useRouter();
     const { t } = useTranslation();
 
-    const buttonDisabled = !incidentDetails?.title || !incidentDetails.description || isIncidentDetailsLoading || isAddEditIncidentLoading;
+    const buttonDisabled = !incidentDetails?.title || isIncidentDetailsLoading;
 
     const urgencyLevels = createListCollection({
         items: [
@@ -142,4 +142,4 @@ const IncidentDetailsPage = () => {
     );
 };
 
-export default withWrappers(IncidentDetailsPage, [IncidentProvider]);
+export default withWrappers(IncidentDetailsPage, [IncidentMetadataProvider]);

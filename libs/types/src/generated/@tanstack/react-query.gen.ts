@@ -25,7 +25,7 @@ import {
   taskControllerGetCompletedTasks,
   incidentControllerGetAllIncidents,
   incidentControllerGetIncidentDetails,
-  incidentControllerCreateIncident,
+  incidentControllerAddEditIncident,
   incidentControllerUpdateIncident,
   incidentControllerNewComment,
   incidentControllerSetOwnerSeen,
@@ -58,9 +58,10 @@ import type {
   TaskControllerGetCompletedTasksData,
   IncidentControllerGetAllIncidentsData,
   IncidentControllerGetIncidentDetailsData,
-  IncidentControllerCreateIncidentData,
-  IncidentControllerCreateIncidentResponse,
+  IncidentControllerAddEditIncidentData,
+  IncidentControllerAddEditIncidentResponse,
   IncidentControllerUpdateIncidentData,
+  IncidentControllerUpdateIncidentResponse,
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
@@ -751,13 +752,13 @@ export const incidentControllerGetIncidentDetailsOptions = (
   });
 };
 
-export const incidentControllerCreateIncidentQueryKey = (options: Options<IncidentControllerCreateIncidentData>) =>
-  createQueryKey('incidentControllerCreateIncident', options);
+export const incidentControllerAddEditIncidentQueryKey = (options: Options<IncidentControllerAddEditIncidentData>) =>
+  createQueryKey('incidentControllerAddEditIncident', options);
 
-export const incidentControllerCreateIncidentOptions = (options: Options<IncidentControllerCreateIncidentData>) => {
+export const incidentControllerAddEditIncidentOptions = (options: Options<IncidentControllerAddEditIncidentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await incidentControllerCreateIncident({
+      const { data } = await incidentControllerAddEditIncident({
         ...options,
         ...queryKey[0],
         signal,
@@ -765,24 +766,24 @@ export const incidentControllerCreateIncidentOptions = (options: Options<Inciden
       });
       return data;
     },
-    queryKey: incidentControllerCreateIncidentQueryKey(options),
+    queryKey: incidentControllerAddEditIncidentQueryKey(options),
   });
 };
 
-export const incidentControllerCreateIncidentMutation = (
-  options?: Partial<Options<IncidentControllerCreateIncidentData>>
+export const incidentControllerAddEditIncidentMutation = (
+  options?: Partial<Options<IncidentControllerAddEditIncidentData>>
 ): UseMutationOptions<
-  IncidentControllerCreateIncidentResponse,
+  IncidentControllerAddEditIncidentResponse,
   AxiosError<DefaultError>,
-  Options<IncidentControllerCreateIncidentData>
+  Options<IncidentControllerAddEditIncidentData>
 > => {
   const mutationOptions: UseMutationOptions<
-    IncidentControllerCreateIncidentResponse,
+    IncidentControllerAddEditIncidentResponse,
     AxiosError<DefaultError>,
-    Options<IncidentControllerCreateIncidentData>
+    Options<IncidentControllerAddEditIncidentData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await incidentControllerCreateIncident({
+      const { data } = await incidentControllerAddEditIncident({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -813,9 +814,13 @@ export const incidentControllerUpdateIncidentOptions = (options: Options<Inciden
 
 export const incidentControllerUpdateIncidentMutation = (
   options?: Partial<Options<IncidentControllerUpdateIncidentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<IncidentControllerUpdateIncidentData>> => {
+): UseMutationOptions<
+  IncidentControllerUpdateIncidentResponse,
+  AxiosError<DefaultError>,
+  Options<IncidentControllerUpdateIncidentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    IncidentControllerUpdateIncidentResponse,
     AxiosError<DefaultError>,
     Options<IncidentControllerUpdateIncidentData>
   > = {

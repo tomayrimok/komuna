@@ -1,25 +1,18 @@
-import { Box, Button, Card, For, FormatNumber, SkeletonText, Stack, Text } from "@chakra-ui/react";
-import { useNavigate } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { useAuth } from "../../context/auth/AuthProvider";
-import { useUserBalanceDetails } from "../../hooks/useUserBalanceDetails";
-import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
-import { API } from "@komuna/types";
+import { Box, Icon, SkeletonText, Text } from "@chakra-ui/react";
+import { IncidentStatus } from "@komuna/types";
+import { IconTool } from "@tabler/icons-react";
 import { useIncidents } from "../../hooks/query/useIncidents";
 
 const IncidentsHeader = () => {
 
+    const { data, isLoading } = useIncidents();
 
-    const isLoading = false; // Replace with actual loading state
-
-    const { sessionDetails: { apartmentId } } = useAuth();
-
-    const { data } = useIncidents();
+    const numberOfOpenIncidents = data?.data?.filter((incident) => incident.status !== IncidentStatus.SOLVED).length || 0;
 
     return (
         <Box
             width="full"
-            height={"23vh"}
+            height={"18vh"}
             position={"relative"}
             overflow={"hidden"}
             display={"flex"}
@@ -36,17 +29,16 @@ const IncidentsHeader = () => {
                 bottom={0}
                 right={"-10vw"}
                 zIndex={-1}
-
             />
+            <Icon size={"2xl"} mb={3}>
+                <IconTool />
+            </Icon>
             {!isLoading && data ?
-                <>
-                    <Text fontWeight={"bold"} fontSize="lg">
-                        יש איקס תקלות פתוחות
-                    </Text>
-
-                </>
+                <Text fontWeight={"bold"} fontSize="xl">
+                    {numberOfOpenIncidents} תקלות פתוחות
+                </Text>
                 :
-                <SkeletonText noOfLines={2} width="50%" m="auto" mb="2" />
+                <SkeletonText noOfLines={1} width="50%" m="auto" />
             }
 
 

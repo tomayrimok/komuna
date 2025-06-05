@@ -5,6 +5,8 @@ import {
     createListCollection,
     Flex,
     Heading,
+    Icon,
+    IconButton,
     Input,
     NumberInput,
     Portal,
@@ -15,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
 import { withWrappers } from "../../utilities/withWrappers";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import SelectUserDrawer from "../General/selectResidentDrawer";
 import { useTranslation } from "react-i18next";
 import { IncidentProvider, useIncident } from "../../context/incidents/IncidentProvider";
@@ -23,16 +25,14 @@ import { IncidentStatus, IncidentUrgency } from "@komuna/types";
 import IncidentTag from "./incidentTag";
 import { URGENCY_DATA } from "./consts/urgency.data";
 import { INCIDENT_STATUSES, STATUSES_DATA } from "./consts/statuses.data";
-import { IconSend, IconSend2 } from "@tabler/icons-react";
+import { IconEdit, IconSend, IconSend2 } from "@tabler/icons-react";
 import { useIsRTL } from "../../hooks/useIsRTL";
+import DateText from "../dateText";
 
 const IncidentPage = () => {
     const {
         incidentDetails,
-        handleSave,
         incidentId,
-        isIncidentDetailsLoading,
-        isAddEditIncidentLoading,
         updateIncidentDetails,
         addComment,
         newComment,
@@ -41,21 +41,27 @@ const IncidentPage = () => {
 
     const { t } = useTranslation();
 
+    const navigate = useNavigate();
+
     const { isRTL } = useIsRTL();
-    console.log('isRTL :', isRTL);
 
     if (!incidentDetails) return <Text>Loading...</Text>;
 
 
     return (
         <Container maxW="lg" p={8}>
-            <Stack gap={6}>
-
-
+            <Stack gap={4}>
                 <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
-                    <Text fontSize="xl" fontWeight="bold">
-                        {incidentDetails?.title}
-                    </Text>
+                    <Flex justifyContent="space-between" alignItems="top">
+                        <Heading>{incidentDetails?.title}</Heading>
+                        <IconButton
+                            onClick={() => navigate({ to: `/landlord/incident/details/${incidentId}` })}
+                            color={"gray.500"} variant={"ghost"}>
+                            <IconEdit />
+                        </IconButton>
+
+                    </Flex>
+
                     <Text>
                         {incidentDetails?.description}
                     </Text>
@@ -85,22 +91,27 @@ const IncidentPage = () => {
                     <Text fontSize="lg" fontWeight="bold">
                         הערות ועדכונים
                     </Text>
-                    {incidentDetails?.comments?.map((comment, index) => (
-                        <Box key={index} p={3} borderWidth={1} borderRadius="md" bg="gray.50" mt={2}>
-                            <Text fontWeight="bold">{comment.message}</Text>
-                            <Text>{comment.createdAt}</Text>
-                        </Box>
-                    ))}
-                    <Flex alignItems={"center"} gap={2}>
-                        <Input
-                            placeholder="הוסף הערה..."
-                            onChange={(e) => setNewComment(e.target.value)}
-                            value={newComment || ''}
-                        />
-                        <Button colorScheme="blue" onClick={addComment}>
-                            <IconSend2 style={{ transform: isRTL ? "scaleX(-1)" : "" }} />
-                        </Button>
+                    <Flex direction={"column"} gap={3} mt={3}>
+                        {incidentDetails?.comments?.map((comment, index) => (
+                            <Box key={index} p={3} borderWidth={1} borderRadius="md" bg="gray.50">
+                                <Flex direction={"column"}>
+                                    <Text fontWeight="bold" fontSize={"sm"} color={"brand.700"}>{`${comment.user.firstName} ${comment.user.lastName}`}</Text>
+                                    <Text>{comment.message}</Text>
+                                    <Text fontSize="sm" direction={"l"} color={"gray.500"} ms={"auto"}><DateText date={comment.createdAt} /></Text>
+                                </Flex>
+                            </Box>
+                        ))}
+                        <Flex alignItems={"center"} gap={2}>
+                            <Input
+                                placeholder="הוסף הערה..."
+                                onChange={(e) => setNewComment(e.target.value)}
+                                value={newComment || ''}
+                            />
+                            <Button colorScheme="blue" onClick={addComment}>
+                                <IconSend2 style={{ transform: isRTL ? "scaleX(-1)" : "" }} />
+                            </Button>
 
+                        </Flex>
                     </Flex>
                 </Box>
 
