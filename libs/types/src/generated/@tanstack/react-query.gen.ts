@@ -18,6 +18,9 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  shoppingListControllerGetShoppingList,
+  shoppingListControllerSyncItems,
+  notificationControllerRegisterToken,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -40,6 +43,10 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ShoppingListControllerGetShoppingListData,
+  ShoppingListControllerSyncItemsData,
+  ShoppingListControllerSyncItemsResponse,
+  NotificationControllerRegisterTokenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -532,6 +539,110 @@ export const apartmentControllerJoinApartmentMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await apartmentControllerJoinApartment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const shoppingListControllerGetShoppingListQueryKey = (
+  options: Options<ShoppingListControllerGetShoppingListData>
+) => createQueryKey('shoppingListControllerGetShoppingList', options);
+
+export const shoppingListControllerGetShoppingListOptions = (
+  options: Options<ShoppingListControllerGetShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerGetShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerGetShoppingListQueryKey(options),
+  });
+};
+
+export const shoppingListControllerSyncItemsQueryKey = (options: Options<ShoppingListControllerSyncItemsData>) =>
+  createQueryKey('shoppingListControllerSyncItems', options);
+
+export const shoppingListControllerSyncItemsOptions = (options: Options<ShoppingListControllerSyncItemsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerSyncItems({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerSyncItemsQueryKey(options),
+  });
+};
+
+export const shoppingListControllerSyncItemsMutation = (
+  options?: Partial<Options<ShoppingListControllerSyncItemsData>>
+): UseMutationOptions<
+  ShoppingListControllerSyncItemsResponse,
+  AxiosError<DefaultError>,
+  Options<ShoppingListControllerSyncItemsData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    ShoppingListControllerSyncItemsResponse,
+    AxiosError<DefaultError>,
+    Options<ShoppingListControllerSyncItemsData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await shoppingListControllerSyncItems({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const notificationControllerRegisterTokenQueryKey = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => createQueryKey('notificationControllerRegisterToken', options);
+
+export const notificationControllerRegisterTokenOptions = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await notificationControllerRegisterToken({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: notificationControllerRegisterTokenQueryKey(options),
+  });
+};
+
+export const notificationControllerRegisterTokenMutation = (
+  options?: Partial<Options<NotificationControllerRegisterTokenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<NotificationControllerRegisterTokenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...localOptions,
         throwOnError: true,

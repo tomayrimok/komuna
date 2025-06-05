@@ -28,6 +28,11 @@ import type {
   ApartmentControllerGetApartmentWithResidentsResponse,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ShoppingListControllerGetShoppingListData,
+  ShoppingListControllerGetShoppingListResponse,
+  ShoppingListControllerSyncItemsData,
+  ShoppingListControllerSyncItemsResponse,
+  NotificationControllerRegisterTokenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -216,6 +221,37 @@ export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = 
 ) => {
   return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
     url: '/api/apartment/join/{code}',
+    ...options,
+  });
+};
+
+export const shoppingListControllerGetShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerGetShoppingListData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<ShoppingListControllerGetShoppingListResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list',
+    ...options,
+  });
+};
+
+export const shoppingListControllerSyncItems = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerSyncItemsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<ShoppingListControllerSyncItemsResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/sync-items',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/notification/register-token',
     ...options,
   });
 };

@@ -1,4 +1,24 @@
+import { ContextType } from "./enums";
+import { ShoppingListItemWithIdDto } from "./generated";
+import { UserRole } from "./enums";
 import { User, UserApartment } from "./generated";
+
+export type ShoppingList = {
+
+    shoppingListId: string;
+
+    contextType: ContextType;
+
+    contextId: string;
+
+    items: ShoppingListItemWithIdDto[];
+
+    updatedAt: Date;
+
+    createdAt: Date;
+}
+
+
 
 // export type User = {
 //     userId: string;

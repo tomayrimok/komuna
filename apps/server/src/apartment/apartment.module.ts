@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApartmentController } from './apartment.controller';
 import { Apartment } from './apartment.entity';
 import { ApartmentService } from './apartment.service';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
@@ -12,5 +13,6 @@ import { ApartmentService } from './apartment.service';
   ],
   controllers: [ApartmentController],
   providers: [ApartmentService],
+  exports: [ApartmentService],
 })
 export class ApartmentModule { }

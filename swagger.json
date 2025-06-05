@@ -434,6 +434,93 @@
           "Apartment"
         ]
       }
+    },
+    "/api/shopping-list": {
+      "get": {
+        "operationId": "ShoppingListController_getShoppingList",
+        "parameters": [
+          {
+            "name": "contextType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "APARTMENT",
+                "USER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/sync-items": {
+      "post": {
+        "operationId": "ShoppingListController_syncItems",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/notification/register-token": {
+      "post": {
+        "operationId": "NotificationController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notification"
+        ]
+      }
     }
   },
   "info": {
@@ -573,9 +660,91 @@
         "type": "object",
         "properties": {}
       },
+      "ContextType": {
+        "type": "string",
+        "enum": [
+          "APARTMENT",
+          "USER"
+        ]
+      },
+      "ShoppingListItemWithIdDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isPurchased",
+          "isUrgent",
+          "amount",
+          "itemId"
+        ]
+      },
       "ShoppingList": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "shoppingListId": {
+            "type": "string"
+          },
+          "contextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+            }
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "shoppingListId",
+          "contextType",
+          "contextId",
+          "items",
+          "updatedAt",
+          "createdAt"
+        ]
       },
       "Apartment": {
         "type": "object",
@@ -608,8 +777,12 @@
             "description": "Landlord User ID"
           },
           "landlord": {
-            "type": "object",
-            "description": "Landlord of the apartment (Relation)"
+            "description": "Landlord of the apartment (Relation)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "contractEndDate": {
             "format": "date-time",
@@ -629,8 +802,12 @@
             "description": "Monthly house committee rent"
           },
           "houseCommitteePayerUser": {
-            "type": "object",
-            "description": "User ID of the house committee payer. NULL if it's split equally"
+            "description": "User ID of the house committee payer. NULL if it's split equally",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "residents": {
             "type": "array",
@@ -1192,6 +1369,32 @@
       "CreateApartmentDto": {
         "type": "object",
         "properties": {}
+      },
+      "SyncListDto": {
+        "type": "object",
+        "properties": {
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+            }
+          }
+        },
+        "required": [
+          "contextType",
+          "apartmentId",
+          "items"
+        ]
       }
     }
   }
