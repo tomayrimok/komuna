@@ -36,19 +36,22 @@ const Codes: FC = () => {
     filters: { status: "success", mutationKey: ["createApartment"], },
   });
 
-  const getValidCode = (code?: CodeType): string => {
+  const getValidCode = (code?: CodeType, allowNull = false): string | null => {
     if (typeof code === "string") {
       return code;
     }
     else if (typeof code === "number") {
       return code.toString();
     }
+    else if (allowNull && code == null) {
+      return null;
+    }
     throw new Error("Invalid code type");
   }
 
   try {
     const roommateCode = getValidCode(mutationState.data?.roommateCode);
-    const landlordCode = getValidCode(mutationState.data?.landlordCode);
+    const landlordCode = getValidCode(mutationState.data?.landlordCode, true);
 
     return (
       <>
@@ -68,7 +71,8 @@ const Codes: FC = () => {
 
 }
 
-const Code: FC<{ code: string, description: string }> = ({ code, description }) => {
+const Code: FC<{ code: string | null, description: string }> = ({ code, description }) => {
+  if (!code) { return null; }
   return (
     <VStack borderRadius='lg'>
       <Text fontSize="lg" textAlign="center" >
