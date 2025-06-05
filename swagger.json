@@ -556,6 +556,36 @@
           "ShoppingList"
         ]
       }
+    },
+    "/api/shopping-list/search-item": {
+      "get": {
+        "operationId": "ShoppingListController_searchItem",
+        "parameters": [
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchGroceryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
     }
   },
   "info": {
@@ -926,13 +956,17 @@
           },
           "amount": {
             "type": "number"
+          },
+          "itemId": {
+            "type": "string"
           }
         },
         "required": [
           "name",
           "isPurchased",
           "isUrgent",
-          "amount"
+          "amount",
+          "itemId"
         ]
       },
       "ShoppingList": {
@@ -995,13 +1029,17 @@
           },
           "amount": {
             "type": "number"
+          },
+          "itemId": {
+            "type": "string"
           }
         },
         "required": [
           "name",
           "isPurchased",
           "isUrgent",
-          "amount"
+          "amount",
+          "itemId"
         ]
       },
       "AddItemDto": {
@@ -1085,6 +1123,51 @@
         "required": [
           "contextType",
           "itemIds"
+        ]
+      },
+      "GroceryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "formattedPrice": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priceForUnit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "formattedPrice",
+          "image",
+          "description",
+          "category",
+          "priceForUnit"
+        ]
+      },
+      "SearchGroceryResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroceryItem"
+            }
+          }
+        },
+        "required": [
+          "items"
         ]
       }
     }

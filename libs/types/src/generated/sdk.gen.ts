@@ -18,6 +18,7 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
+  ApartmentControllerGetApartmentUsersData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ShoppingListControllerGetApartmentShoppingListData,
@@ -33,6 +34,8 @@ import type {
   ShoppingListControllerClearShoppingListData,
   ShoppingListControllerMarkAllAsPurchasedData,
   ShoppingListControllerChangeOrderData,
+  ShoppingListControllerSearchItemData,
+  ShoppingListControllerSearchItemResponse,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -186,6 +189,15 @@ export const paymentControllerCreatePayment = <ThrowOnError extends boolean = fa
   });
 };
 
+export const apartmentControllerGetApartmentUsers = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerGetApartmentUsersData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment',
+    ...options,
+  });
+};
+
 export const apartmentControllerCreateApartment = <ThrowOnError extends boolean = false>(
   options: Options<ApartmentControllerCreateApartmentData, ThrowOnError>
 ) => {
@@ -301,5 +313,14 @@ export const shoppingListControllerChangeOrder = <ThrowOnError extends boolean =
       'Content-Type': 'application/json',
       ...options?.headers,
     },
+  });
+};
+
+export const shoppingListControllerSearchItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerSearchItemData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<ShoppingListControllerSearchItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/search-item',
+    ...options,
   });
 };

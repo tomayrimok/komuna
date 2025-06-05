@@ -22,6 +22,55 @@ export type UserApartment = {
   [key: string]: unknown;
 };
 
+export type Apartment = {
+  /**
+   * Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord
+   */
+  landlordCode: string;
+  /**
+   * Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents
+   */
+  roommateCode: string;
+  /**
+   * Landlord User ID
+   */
+  landlordUserId?: string;
+  /**
+   * Landlord of the apartment (Relation)
+   */
+  landlord?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Apartment contract end date
+   */
+  contractEndDate?: string;
+  /**
+   * Apartment rent
+   */
+  rent?: number;
+  /**
+   * Bills payment details
+   */
+  billsDetails?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Monthly house committee rent
+   */
+  houseCommitteeRent?: number;
+  /**
+   * User ID of the house committee payer. NULL if it's split equally
+   */
+  houseCommitteePayerUser?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Apartment residents
+   */
+  residents: Array<UserApartment>;
+};
+
 export type Expense = {
   [key: string]: unknown;
 };
@@ -74,6 +123,10 @@ export type User = {
    * User's apartments
    */
   apartments: Array<UserApartment>;
+  /**
+   * User's apartments as landlord
+   */
+  landlordApartments: Array<Apartment>;
   /**
    * User's payable rents
    */
@@ -150,8 +203,6 @@ export type ShoppingListItemDto = {
   category?: string;
   isUrgent: boolean;
   amount: number;
-  creatorId: string;
-  createdAt: string;
   itemId: string;
 };
 
@@ -171,30 +222,41 @@ export type NewShoppingListItemDto = {
   category?: string;
   isUrgent: boolean;
   amount: number;
-  creatorId: string;
-  createdAt: string;
-  itemId?: string;
+  itemId: string;
 };
 
 export type AddItemDto = {
-  itemData: NewShoppingListItemDto;
   contextType: 'APARTMENT' | 'USER';
+  itemData: NewShoppingListItemDto;
 };
 
 export type DeleteItemDto = {
-  itemId: string;
   contextType: 'APARTMENT' | 'USER';
+  itemId: string;
 };
 
 export type UpdateItemDto = {
-  itemId: string;
-  itemData: NewShoppingListItemDto;
   contextType: 'APARTMENT' | 'USER';
+  itemId: string;
+  itemData: ShoppingListItemDto;
 };
 
 export type ChangeOrderDto = {
-  itemIds: Array<string>;
   contextType: 'APARTMENT' | 'USER';
+  itemIds: Array<string>;
+};
+
+export type GroceryItem = {
+  id: string;
+  formattedPrice: string;
+  image: string;
+  description: string;
+  category: string;
+  priceForUnit: string;
+};
+
+export type SearchGroceryResponse = {
+  items: Array<GroceryItem>;
 };
 
 export type AppControllerGetDataData = {
@@ -361,6 +423,19 @@ export type PaymentControllerCreatePaymentResponses = {
   201: unknown;
 };
 
+export type ApartmentControllerGetApartmentUsersData = {
+  body?: never;
+  path?: never;
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerGetApartmentUsersResponses = {
+  200: unknown;
+};
+
 export type ApartmentControllerCreateApartmentData = {
   body: CreateApartmentDto;
   path?: never;
@@ -485,6 +560,22 @@ export type ShoppingListControllerChangeOrderData = {
 export type ShoppingListControllerChangeOrderResponses = {
   201: unknown;
 };
+
+export type ShoppingListControllerSearchItemData = {
+  body?: never;
+  path?: never;
+  query: {
+    query: string;
+  };
+  url: '/api/shopping-list/search-item';
+};
+
+export type ShoppingListControllerSearchItemResponses = {
+  200: SearchGroceryResponse;
+};
+
+export type ShoppingListControllerSearchItemResponse =
+  ShoppingListControllerSearchItemResponses[keyof ShoppingListControllerSearchItemResponses];
 
 export type ClientOptions = {
   baseURL: string;

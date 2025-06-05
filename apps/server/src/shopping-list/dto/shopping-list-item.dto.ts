@@ -1,44 +1,43 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
-
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class BaseShoppingListItemDto {
+  @ApiProperty()
+  @IsString()
+  name: string;
 
-    @ApiProperty()
-    @IsString()
-    name: string;
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isPurchased: boolean;
 
-    @ApiProperty()
-    @IsBoolean()
-    @IsOptional()
-    isPurchased: boolean;
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  image?: string;
 
-    @ApiProperty({ required: false })
-    @IsString()
-    @IsOptional()
-    image?: string;
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  category?: string;
 
-    @ApiProperty({ required: false })
-    @IsString()
-    @IsOptional()
-    category?: string;
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isUrgent: boolean;
 
-    @ApiProperty()
-    @IsBoolean()
-    @IsOptional()
-    isUrgent: boolean;
+  @ApiProperty()
+  @IsInt()
+  amount: number;
 
-    @ApiProperty()
-    amount: number;
+  @ApiProperty()
+  @IsOptional()
+  itemId?: string;
 
-    creatorId: string;
+  creatorId: string;
 
-    createdAt: string;
+  createdAt: string;
 }
-export class ShoppingListItemDto extends BaseShoppingListItemDto {
+export class ShoppingListItemDto extends BaseShoppingListItemDto {}
 
-}
-
-export class NewShoppingListItemDto extends BaseShoppingListItemDto {
-
-}
+export class NewShoppingListItemDto extends BaseShoppingListItemDto {}

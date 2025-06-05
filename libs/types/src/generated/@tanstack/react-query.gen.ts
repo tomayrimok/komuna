@@ -15,6 +15,7 @@ import {
   expenseControllerAddEditExpense,
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
+  apartmentControllerGetApartmentUsers,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
   shoppingListControllerGetApartmentShoppingList,
@@ -25,6 +26,7 @@ import {
   shoppingListControllerClearShoppingList,
   shoppingListControllerMarkAllAsPurchased,
   shoppingListControllerChangeOrder,
+  shoppingListControllerSearchItem,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -43,6 +45,7 @@ import type {
   ExpenseControllerAddEditExpenseData,
   ExpenseControllerGetExpenseDetailsData,
   PaymentControllerCreatePaymentData,
+  ApartmentControllerGetApartmentUsersData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ShoppingListControllerGetApartmentShoppingListData,
@@ -56,6 +59,7 @@ import type {
   ShoppingListControllerClearShoppingListData,
   ShoppingListControllerMarkAllAsPurchasedData,
   ShoppingListControllerChangeOrderData,
+  ShoppingListControllerSearchItemData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -457,6 +461,27 @@ export const paymentControllerCreatePaymentMutation = (
   return mutationOptions;
 };
 
+export const apartmentControllerGetApartmentUsersQueryKey = (
+  options: Options<ApartmentControllerGetApartmentUsersData>
+) => createQueryKey('apartmentControllerGetApartmentUsers', options);
+
+export const apartmentControllerGetApartmentUsersOptions = (
+  options: Options<ApartmentControllerGetApartmentUsersData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerGetApartmentUsers({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerGetApartmentUsersQueryKey(options),
+  });
+};
+
 export const apartmentControllerCreateApartmentQueryKey = (options: Options<ApartmentControllerCreateApartmentData>) =>
   createQueryKey('apartmentControllerCreateApartment', options);
 
@@ -819,4 +844,22 @@ export const shoppingListControllerChangeOrderMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const shoppingListControllerSearchItemQueryKey = (options: Options<ShoppingListControllerSearchItemData>) =>
+  createQueryKey('shoppingListControllerSearchItem', options);
+
+export const shoppingListControllerSearchItemOptions = (options: Options<ShoppingListControllerSearchItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerSearchItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerSearchItemQueryKey(options),
+  });
 };
