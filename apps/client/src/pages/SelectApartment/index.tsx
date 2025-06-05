@@ -20,7 +20,7 @@ export const SelectApartment = () => {
 
   return (
     <ApartmentLayout
-      goBack={!!sessionDetails.role ? () => navigate({ to: rolePath }) : undefined}
+      goBack={sessionDetails.role ? () => navigate({ to: rolePath }) : undefined}
       logout={!sessionDetails.role}>
       <Text textAlign='center' fontSize="2xl" fontWeight="bold" >
         {t('choose_apartment.title')}

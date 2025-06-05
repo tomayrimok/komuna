@@ -6,7 +6,7 @@ import { ApartmentSettings } from './ApartmentSettings';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentInfo } from './ApartmentInfo';
 import { RenterSettings } from './RenterSettings';
-import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
+import { CreateApartmentDto, RENTER_PAYMENT_WAYS, UserRole } from '@komuna/types';
 import type { UpdateFieldOfPageFn } from './create-apartment.types';
 import { ShareApartmentCode } from './ShareApartmentCode';
 import { useCreateApartment } from '../../hooks/query/useCreateApartment';

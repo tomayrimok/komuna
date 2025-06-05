@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { API, ApiTypes, CreateApartmentHttpResponse } from '@komuna/types';
 import { toaster } from '../../chakra/ui/toaster';
 import { t } from 'i18next';
