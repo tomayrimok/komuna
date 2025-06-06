@@ -1,6 +1,6 @@
 import { Box, Card, Checkbox, Container, Flex, Image, Textarea, VStack } from '@chakra-ui/react';
 import { motion, PanInfo, useMotionValue, animate, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ShoppingListItemQuantity } from './shoppingListItemQuantity';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { ShoppingListItemIsUrgent } from './shoppingListItemIsUrgent';
@@ -21,9 +21,17 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
   const x = useMotionValue(0);
   const hasTriggeredDelete = useRef(false);
   const itemRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showRedBg, setShowRedBg] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, syncShoppingList } = useShoppingList();
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, []);
 
   useMotionValueEvent(x, 'change', (latest) => {
     setShowRedBg(latest > 0);
@@ -115,6 +123,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                       <Flex w="full" alignItems="center" justifyContent="space-between">
                         <VStack alignItems="start">
                           <Textarea
+                            ref={textareaRef}
                             fontWeight={item.isUrgent ? 'bold' : 'medium'}
                             textDecoration={item.isPurchased ? 'line-through' : 'none'}
                             fontSize="md"

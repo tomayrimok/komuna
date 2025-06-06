@@ -115,7 +115,7 @@ export const SearchGroceryInput = () => {
           maxH="300px"
           overflowY="auto"
         >
-          <VStack align="stretch">
+          <VStack align="stretch" gap={0}>
             <Box
               borderBottom="1px solid"
               borderColor="gray.200"
@@ -150,7 +150,7 @@ export const SearchGroceryInput = () => {
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <Image src={suggestion.image} alt={suggestion.description} width="60px" />
-                <Flex direction="column" flex={1}>
+                <Flex direction="column" flex={1} gap={2}>
                   <Stack flexDirection="column" alignItems="flex-start">
                     <Text fontWeight="bold">{suggestion.description}</Text>
                     <GroceryItemCategory category={suggestion.category} />
