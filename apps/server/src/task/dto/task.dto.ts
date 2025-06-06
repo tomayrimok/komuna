@@ -9,6 +9,14 @@ import { CreateTaskReqDto, EditTaskReqResDto } from '@komuna/types';
 // Both for request and response, Create and Edit DTOs
 export class CreateTaskDto implements CreateTaskReqDto {
   @ApiProperty()
+  @IsUUID()
+  createdBy: string;
+
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+
+  @ApiProperty()
   @IsString()
   title: string;
 
@@ -20,6 +28,8 @@ export class CreateTaskDto implements CreateTaskReqDto {
   @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
   @IsOptional()
   @IsUUID()
+  @IsArray()
+  @Type(() => String)
   assignedTo: string[];
 
   @ApiProperty()

@@ -9,10 +9,6 @@ export class CreateTaskReqDto {
 
   completions: UserCompletionStatus[];
 
-  dueDate?: Date;
-
-  dueTime?: string;
-
   isRecurrent: boolean;
 
   recurrenceRule?: RecurrenceRuleDto;
@@ -38,11 +34,7 @@ export class EditTaskReqResDto {
   recurrenceRule?: RecurrenceRuleDto;
 }
 
-export interface UserCompletionStatus {
-  taskId: string;
-
-  apartmentId: string;
-
+export interface UserCompletionStatus {  
   userId: string;
 
   status: boolean;
