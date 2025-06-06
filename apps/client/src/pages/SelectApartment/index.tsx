@@ -25,7 +25,7 @@ export const SelectApartment = () => {
       <Text textAlign='center' fontSize="2xl" fontWeight="bold" >
         {t('choose_apartment.title')}
       </Text>
-      <Box position="relative" maxH="55vh" overflowY="auto">
+      <Box position="relative" height="55vh" maxH="55vh">
         <VStack
           maxH="55vh"
           width="100vw"
