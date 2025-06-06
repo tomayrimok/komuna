@@ -1,16 +1,11 @@
-import { Box, Card, Container, Flex, Icon, Tag, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, Icon, Text } from "@chakra-ui/react";
+import { IconUser } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { IconAlertCircle, IconArrowsDown, IconArrowsTransferDown, IconBrandMedium, IconCheck, IconChevronDown, IconChevronLeft, IconChevronsDown, IconChevronsUp, IconChevronUp, IconClock, IconEqual, IconMessage, IconMessage2, IconMessage2Bolt, IconMessage2Down, IconMessageFilled, IconMinus, IconMoneybag, IconStar, IconUser } from "@tabler/icons-react";
-import { useLocaleChange } from "../../hooks/useLocaleChange";
-import { roundUpToXDigits } from "../../utilities/roundUpToXDigits";
-import { format, parseISO } from "date-fns";
-import { Incident, IncidentResponseDto } from "libs/types/src/generated";
-import { IncidentStatus, IncidentUrgency } from "@komuna/types";
-import IncidentTag from "./incidentTag";
-import { STATUSES_DATA } from "./consts/statuses.data";
-import { URGENCY_DATA } from "./consts/urgency.data";
+import { IncidentResponseDto } from "libs/types/src/generated";
+import { useAuth } from "../../context/auth/AuthProvider";
 import DateText from "../dateText";
+import { STATUSES_DATA } from "./consts/statuses.data";
+import IncidentTag from "./incidentTag";
 import NumberOfComments from "./numberOfComments";
 import UrgencyIndication from "./urgencyIndication";
 
@@ -21,12 +16,10 @@ interface IncidentCardProps {
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
 
-    const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isRTL } = useLocaleChange();
 
     const numberOfComments = item.comments?.length || 0;
-
+    const { sessionDetails: { role } } = useAuth();
 
     return (
 
@@ -34,7 +27,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
             backgroundColor={"white"}
             borderWidth={1}
             borderRadius={"xl"}
-            onClick={() => navigate({ to: `/landlord/incident/${item.incidentId}` })}
+            onClick={() => navigate({ to: `/${role?.toLowerCase()}/incident/${item.incidentId}` })}
             width="100%"
             key={item.incidentId}
             position={"relative"}

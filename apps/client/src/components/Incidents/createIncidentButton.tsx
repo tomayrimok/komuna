@@ -2,14 +2,16 @@ import { Button } from "@chakra-ui/react";
 import { IconFlagPlus } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/auth/AuthProvider";
 
 const CreateIncidentButton = () => {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { sessionDetails: { role } } = useAuth();
 
     const handleClick = () => {
-        navigate({ to: '/landlord/incident/details' });
+        navigate({ to: `/${role?.toLowerCase()}/incident/details` });
     }
 
     return (

@@ -2,33 +2,27 @@ import {
     Box,
     Button,
     Container,
-    createListCollection,
     Flex,
     Heading,
     Icon,
     IconButton,
-    Input,
     Loader,
-    NumberInput,
-    Portal,
-    Select,
     Stack,
     Text,
     Textarea
 } from "@chakra-ui/react";
-import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
-import { withWrappers } from "../../utilities/withWrappers";
-import { useNavigate, useRouter } from "@tanstack/react-router";
-import SelectUserDrawer from "../General/selectResidentDrawer";
+import { IncidentStatus } from "@komuna/types";
+import { IconEdit, IconSend2 } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/auth/AuthProvider";
 import { IncidentProvider, useIncident } from "../../context/incidents/IncidentProvider";
-import { IncidentStatus, IncidentUrgency } from "@komuna/types";
-import IncidentTag from "./incidentTag";
-import { URGENCY_DATA } from "./consts/urgency.data";
-import { INCIDENT_STATUSES, STATUSES_DATA } from "./consts/statuses.data";
-import { IconEdit, IconSend, IconSend2 } from "@tabler/icons-react";
 import { useIsRTL } from "../../hooks/useIsRTL";
+import { withWrappers } from "../../utilities/withWrappers";
 import DateText from "../dateText";
+import { INCIDENT_STATUSES, STATUSES_DATA } from "./consts/statuses.data";
+import { URGENCY_DATA } from "./consts/urgency.data";
+import IncidentTag from "./incidentTag";
 
 const IncidentPage = () => {
     const {
@@ -40,11 +34,13 @@ const IncidentPage = () => {
         setNewComment
     } = useIncident();
 
-    const { t } = useTranslation();
+
 
     const navigate = useNavigate();
-
+    const { sessionDetails: { role } } = useAuth();
     const { isRTL } = useIsRTL();
+    const { t } = useTranslation();
+
 
     if (!incidentDetails) return <Loader />;
 
@@ -55,7 +51,7 @@ const IncidentPage = () => {
                     <Flex justifyContent="space-between" alignItems="top">
                         <Heading>{incidentDetails?.title}</Heading>
                         <IconButton
-                            onClick={() => navigate({ to: `/landlord/incident/details/${incidentId}` })}
+                            onClick={() => navigate({ to: `/${role?.toLowerCase()}/incident/details/${incidentId}` })}
                             color={"gray.500"} variant={"ghost"}>
                             <IconEdit />
                         </IconButton>
