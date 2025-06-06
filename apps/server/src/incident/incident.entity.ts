@@ -9,6 +9,7 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Incident {
@@ -41,6 +42,9 @@ export class Incident {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  updatedBy: User;
 
   @CreateDateColumn()
   createdAt: Date;

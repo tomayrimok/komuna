@@ -54,6 +54,10 @@ export class UpdateIncidentStatusDto implements UpdateIncidentStatusDtoReq {
   @ApiProperty()
   @IsDateString()
   updatedAt: string;
+
+  @ApiProperty()
+  @IsDateString()
+  updatedBy: string;
 }
 
 export class AddCommentDto implements AddCommentDtoReq {

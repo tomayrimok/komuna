@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Incident, Comment } from './incident.entity';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Incident, Comment]),
     UserApartmentModule,
+    UserModule,
     JwtModule,
   ],
   controllers: [IncidentController],

@@ -4,6 +4,8 @@ import { Incident, Comment } from './incident.entity';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
 import { CreateIncidentDto, UpdateIncidentStatusDto, AddCommentDto } from './dto/incident.dto';
+import { UserService } from '../user/user.service';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class IncidentService {
@@ -14,7 +16,9 @@ export class IncidentService {
     @InjectRepository(Comment)
     private readonly commentRepo: Repository<Comment>,
 
-    private readonly userApartmentService: UserApartmentService
+    private readonly userApartmentService: UserApartmentService,
+
+    private readonly userService: UserService,
   ) {}
 
   async createIncident(incidentDto: CreateIncidentDto): Promise<Incident> {
@@ -36,12 +40,15 @@ export class IncidentService {
     return this.incidentRepo.save(toSave);
   }
 
-  async updateIncidentStatus(incidentDto: UpdateIncidentStatusDto) {
+  async updateIncidentStatus(incidentDto: UpdateIncidentStatusDto, userId: string) {
     const incident = await this.incidentRepo.findOneBy({ incidentId: incidentDto.incidentId });
     if (!incident) {
       throw new NotFoundException(`Incident ${incidentDto.incidentId} not found`);
     }
+    const user = await this.userService.getUsersByUserId(userId) as User;
     incident.status = incidentDto.status;
+    incident.updatedBy = user;
+    incident.updatedAt = new Date();
     return this.incidentRepo.save(incident);
   }
 
@@ -84,6 +91,20 @@ export class IncidentService {
       });
     } catch (error) {
       throw new InternalServerErrorException('Failed to load incidents ', error);
+    }
+  }
+
+  async getIncidentById(incidentId: string): Promise<Incident> {
+    try {
+      const incident = await this.incidentRepo.findOneBy({ incidentId });
+      if (!incident) {
+        throw new NotFoundException('Incident not found');
+      } 
+      else {
+        return incident;
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to load incident by id', error);
     }
   }
 

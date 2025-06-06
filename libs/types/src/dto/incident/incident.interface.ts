@@ -23,7 +23,6 @@ export interface UpdateIncidentStatusDto {
 
     status: IncidentStatus; // ENUM
     
-    updatedAt: string; // ISO date string
 }
 
 export interface AddCommentDto {
