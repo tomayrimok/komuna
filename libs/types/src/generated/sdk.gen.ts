@@ -32,6 +32,8 @@ import type {
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
+  ShoppingListControllerSearchItemData,
+  ShoppingListControllerSearchItemResponse,
   NotificationControllerRegisterTokenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
@@ -244,6 +246,15 @@ export const shoppingListControllerSyncItems = <ThrowOnError extends boolean = f
       'Content-Type': 'application/json',
       ...options?.headers,
     },
+  });
+};
+
+export const shoppingListControllerSearchItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerSearchItemData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<ShoppingListControllerSearchItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/search-item',
+    ...options,
   });
 };
 

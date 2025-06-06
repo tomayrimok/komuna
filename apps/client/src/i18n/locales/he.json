@@ -81,8 +81,6 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
-    "save": "שמירה",
-    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -161,7 +159,6 @@
             "roommate_description": "זהו קוד להזמנת שותפים לדירה:",
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
-            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "close_btn": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",
@@ -204,6 +201,7 @@
         }
     },
     "shopping": {
+        "search_item": "הוסף פריט...",
         "shopping_list": "רשימת קניות",
         "personal": "רשימה אישית",
         "apartment": "רשימה דירתית",
