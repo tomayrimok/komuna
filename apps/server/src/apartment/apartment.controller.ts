@@ -34,9 +34,10 @@ export class ApartmentController {
       createApartmentData,
       user
     );
+    const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
 
-    const landlordCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+    const landlordCode = isLandlord ? null : generateApartmentCode(ApartmentController.CODE_LENGTH);
 
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
@@ -51,7 +52,6 @@ export class ApartmentController {
     apartment.landlordCode = landlordCode;
     apartment.roommateCode = roommateCode;
 
-    const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
     if (isLandlord) {
       const landlordUser = new User();
       landlordUser.userId = user.userId;
@@ -67,8 +67,8 @@ export class ApartmentController {
       apartment.residents = [userApartment];
     }
 
-    await this.apartmentService.createApartment(apartment);
-    return { landlordCode, roommateCode };
+    const { apartmentId } = await this.apartmentService.createApartment(apartment);
+    return { apartmentId, landlordCode, roommateCode };
   }
 
   private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {

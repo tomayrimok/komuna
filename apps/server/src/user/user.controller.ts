@@ -21,7 +21,7 @@ import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
   private readonly logger = new Logger(UserController.name);
 
   @Post('login')
@@ -127,9 +127,7 @@ export class UserController {
       if (!user || !user.phoneNumber) {
         return { user: null };
       }
-
-      const currentUser = await this.userService.getUserByPhone(user.phoneNumber);
-
+      const currentUser = await this.userService.getUserProfile(user.phoneNumber);
       return { user: currentUser };
     } catch (error) {
       this.logger.error('Error in loginOrCreate:', error);
