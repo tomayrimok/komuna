@@ -26,9 +26,7 @@ export const IncidentMetadataProvider = ({ children }: PropsWithChildren<{ incid
     const [incidentDetails, setIncidentDetails] = useState<IncidentResponseDto>();
 
     const { incidentId } = useParams({ strict: false });
-    console.log('incidentId :', incidentId);
     const { data: incidentDetailsData, isLoading: isIncidentDetailsLoading, isError: isIncidentDetailsError } = useIncidentDetails(incidentId || '');
-    console.log('incidentDetailsData :', incidentDetailsData);
     const { mutate: addEditIncident } = useAddEditIncident();
 
     const { history } = useRouter();
@@ -42,7 +40,6 @@ export const IncidentMetadataProvider = ({ children }: PropsWithChildren<{ incid
 
     const handleSave = () => {
         if (!incidentDetails) return;
-        console.log('incidentDetails :', incidentDetails);
 
         addEditIncident({
             apartmentId: apartmentData?.apartmentId!,
