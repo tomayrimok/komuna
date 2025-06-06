@@ -6,21 +6,18 @@ import {
     Flex,
     Heading,
     Input,
-    NumberInput,
+    Loader,
     Portal,
     Select,
     Stack,
     Text,
     Textarea
 } from "@chakra-ui/react";
-import { ExpenseProvider, useExpense } from "../../context/payments/ExpenseProvider";
-import { withWrappers } from "../../utilities/withWrappers";
-import { useRouter } from "@tanstack/react-router";
-import SelectUserDrawer from "../General/selectResidentDrawer";
-import { useTranslation } from "react-i18next";
-import { IncidentProvider, useIncident } from "../../context/incidents/IncidentProvider";
 import { IncidentUrgency } from "@komuna/types";
+import { useRouter } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { IncidentMetadataProvider, useIncidentMetadata } from "../../context/incidents/incidentMetadataProvider";
+import { withWrappers } from "../../utilities/withWrappers";
 
 const IncidentDetailsPage = () => {
     const {
@@ -45,7 +42,7 @@ const IncidentDetailsPage = () => {
         ]
     });
 
-    if (incidentId && isIncidentDetailsLoading) return <Text>Loading...</Text>;
+    if (incidentId && isIncidentDetailsLoading) return <Loader />;
 
     return (
         <Container maxW="lg" p={8}>
@@ -89,7 +86,6 @@ const IncidentDetailsPage = () => {
                                 value={[incidentDetails?.urgencyLevel || IncidentUrgency.MEDIUM]}
                                 onValueChange={(e) => updateIncidentDetails({ urgencyLevel: e.value[0] as IncidentUrgency })}
                             >
-                                {/* <Select.HiddenSelect /> */}
                                 <Select.Control>
                                     <Select.Trigger>
                                         <Flex alignItems="center" gap={2}>
@@ -122,18 +118,13 @@ const IncidentDetailsPage = () => {
 
 
                     </Stack>
-                    <Flex justifyContent="space-between" gap={3}>
+                    <Flex justifyContent="space-between" gap={3} mt={4}>
                         <Button variant="outline" onClick={() => router.history.back()} size={"lg"}>
                             {t("cancel")}
                         </Button>
                         <Button colorScheme="blue" onClick={handleSave} disabled={buttonDisabled} size={"lg"}>
                             {t("save")}
                         </Button>
-                        {/* {expenseId &&
-                        <Button colorScheme="red" variant="ghost" onClick={handleDelete}>
-                            מחיקת הוצאה
-                        </Button>
-                    } */}
                     </Flex>
                 </Box>
 

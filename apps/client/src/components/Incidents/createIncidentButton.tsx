@@ -27,8 +27,7 @@ const CreateIncidentButton = () => {
             shadow={"md"}
         >
             <IconFlagPlus size={20} />
-            פתיחת תקלה
-            {/* {t('payments.incident.create-incident')} */}
+            {t('incidents.create_incident')}
         </Button>
     )
 

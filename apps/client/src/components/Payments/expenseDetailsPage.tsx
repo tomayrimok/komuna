@@ -5,6 +5,7 @@ import {
     Flex,
     Heading,
     Input,
+    Loader,
     NumberInput,
     Stack,
     Text
@@ -34,7 +35,7 @@ const ExpenseDetailsPage = () => {
 
     const buttonDisabled = !expenseDetails.amount || !expenseDetails.description || isExpenseDetailsLoading || !expenseDetails.paidByUser || isAddEditExpenseLoading;
 
-    if (expenseId && isExpenseDetailsLoading) return <Text>Loading...</Text>;
+    if (expenseId && isExpenseDetailsLoading) return <Loader />;
 
     return (
         <Container maxW="lg" py={8}>

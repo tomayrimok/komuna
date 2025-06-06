@@ -199,6 +199,24 @@
             }
         }
     },
+    "landlord": {
+        "homepage": {
+            "title": "ברוכים הבאים, <b>{{firstName}}!</b>",
+            "leftbar": {
+                "profile_settings": "הגדרות פרופיל",
+                "apartment_settings": "הגדרות דירה",
+                "notifications_settings": "ניהול התראות ואירועים",
+                "app_settings": "הגדרות אפליקציה",
+                "logout": "התנתקות",
+                "change_languege": "שנה שפה"
+            },
+            "navigation": {
+                "home": "בית",
+                "settings": "הגדרות",
+                "incidents": "תקלות"
+            }
+        }
+    },
     "error": {
         "error": "שגיאה",
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית.",
@@ -227,7 +245,14 @@
         "edit_incident": "עריכת תקלה",
         "incident_title": "כותרת",
         "incident_description": "תיאור התקלה",
-        "urgency_level": "רמת דחיפות"
+        "urgency_level": "רמת דחיפות",
+        "incident_saved": "התקלה נשמרה בהצלחה",
+        "update_status": "עדכון סטטוס",
+        "notes_and_updates": "הערות ועדכונים",
+        "add_note": "הוספת הערה...",
+        "open_incidents": "תקלות פתוחות",
+        "solved_incidents": "תקלות שנפתרו",
+        "num_open_incidents": "{{count}} תקלות פתוחות"
     },
     "urgency": {
         "LOW": "דחיפות נמוכה",

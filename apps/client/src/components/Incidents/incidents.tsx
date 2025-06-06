@@ -35,7 +35,7 @@ const Incidents = () => {
                         {unsolvedIncidents.length ?
                             <>
                                 <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                    תקלות פתוחות
+                                    {t("incidents.open_incidents")}
                                 </Text>
                                 <For each={unsolvedIncidents}>
                                     {(item) => <IncidentCard key={item.incidentId} item={item} />}
@@ -46,7 +46,7 @@ const Incidents = () => {
                         {solvedIncidents.length ?
                             <>
                                 <Text fontSize="xl" fontWeight="bold" mb={2} mt={4}>
-                                    תקלות פתורות
+                                    {t("incidents.solved_incidents")}
                                 </Text>
                                 <For each={solvedIncidents}>
                                     {(item) => <IncidentCard key={item.incidentId} item={item} />}

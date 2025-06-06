@@ -56,6 +56,24 @@
             }
         }
     },
+    "landlord": {
+        "homepage": {
+            "title": "Welcome, <b>{{firstName}}!</b>",
+            "leftbar": {
+                "profile_settings": "Profile settings",
+                "apartment_settings": "Apartment settings",
+                "notifications_settings": "Notification & event settings",
+                "app_settings": "App settings",
+                "logout": "Log out",
+                "change_languege": "Change language"
+            },
+            "navigation": {
+                "home": "Home",
+                "settings": "Settings",
+                "incidents": "Incidents"
+            }
+        }
+    },
     "save": "Save",
     "cancel": "Cancel",
     "other-options": "Other Options",
@@ -143,7 +161,14 @@
         "edit_incident": "Edit Incident",
         "incident_title": "Title",
         "incident_description": "Description",
-        "urgency_level": "Urgency Level"
+        "urgency_level": "Urgency Level",
+        "incident_saved": "The incident has been successfully saved",
+        "update_status": "Update Status",
+        "notes_and_updates": "Notes and Updates",
+        "add_note": "Add Note...",
+        "open_incidents": "Open Incidents",
+        "solved_incidents": "Solved Incidents",
+        "num_open_incidents": "{{count}} Open Incidents"
     },
     "urgency": {
         "low": "Low",

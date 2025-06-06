@@ -22,7 +22,7 @@ export const useAddEditIncident = () => {
         mutationFn: postCreateIncident,
         onSuccess: (data, variables) => {
             // navigate({ to:  '/roommate/payments' });
-            toaster.success({ title: 'יאי' });
+            toaster.success({ title: t('incidents.incident_saved') });
             queryClient.invalidateQueries({ queryKey: ["incidents", variables.apartmentId] });
             // queryClient.invalidateQueries({ queryKey: ['incidents', apartmentData?.apartmentId] });
 

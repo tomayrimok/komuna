@@ -8,6 +8,7 @@ import {
     Icon,
     IconButton,
     Input,
+    Loader,
     NumberInput,
     Portal,
     Select,
@@ -45,8 +46,7 @@ const IncidentPage = () => {
 
     const { isRTL } = useIsRTL();
 
-    if (!incidentDetails) return <Text>Loading...</Text>;
-
+    if (!incidentDetails) return <Loader />;
 
     return (
         <Container maxW="lg" p={8}>
@@ -61,17 +61,18 @@ const IncidentPage = () => {
                         </IconButton>
 
                     </Flex>
-
                     <Text>
                         {incidentDetails?.description}
                     </Text>
-                    <IncidentTag value={incidentDetails?.status} data={STATUSES_DATA} />
-                    <IncidentTag value={incidentDetails?.urgencyLevel} data={URGENCY_DATA} />
+                    <Flex mt={3} gap={2} >
+                        <IncidentTag value={incidentDetails?.status} data={STATUSES_DATA} />
+                        <IncidentTag value={incidentDetails?.urgencyLevel} data={URGENCY_DATA} />
+                    </Flex>
                 </Box>
                 <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
-                    <Text fontSize="lg" fontWeight="bold">
-                        עדכון סטטוס
-                    </Text>
+                    <Heading>
+                        {t("incidents.update_status")}
+                    </Heading>
                     <Flex gap={2} mt={3}>
                         {INCIDENT_STATUSES.map((status) => (
                             <Button
@@ -82,15 +83,18 @@ const IncidentPage = () => {
                                 py={0}
                                 px={4}
                             >
+                                <Icon>
+                                    {status.icon}
+                                </Icon>
                                 {t(status.text as any)}
                             </Button>
                         ))}
                     </Flex>
                 </Box>
                 <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
-                    <Text fontSize="lg" fontWeight="bold">
-                        הערות ועדכונים
-                    </Text>
+                    <Heading>
+                        {t("incidents.notes_and_updates")}
+                    </Heading>
                     <Flex direction={"column"} gap={3} mt={3}>
                         {incidentDetails?.comments?.map((comment, index) => (
                             <Box key={index} p={3} borderWidth={1} borderRadius="md" bg="gray.50">
@@ -102,10 +106,12 @@ const IncidentPage = () => {
                             </Box>
                         ))}
                         <Flex alignItems={"center"} gap={2}>
-                            <Input
-                                placeholder="הוסף הערה..."
+                            <Textarea
+                                placeholder={t("incidents.add_note")}
                                 onChange={(e) => setNewComment(e.target.value)}
                                 value={newComment || ''}
+                                rows={1}
+                                resize={"none"}
                             />
                             <Button colorScheme="blue" onClick={addComment}>
                                 <IconSend2 style={{ transform: isRTL ? "scaleX(-1)" : "" }} />

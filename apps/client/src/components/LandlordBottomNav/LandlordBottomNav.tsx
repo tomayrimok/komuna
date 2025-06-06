@@ -39,11 +39,11 @@ const LandlordBottomNav = () => {
     return (
         <Box background="white" w="100%" h="97px" zIndex="1" dir={dir} boxShadow="2xl">
             <Flex justify="space-around" align="center" h="100%" position="relative" zIndex="1">
-                <NavItem icon={IconSettings} label={'הגדרות'} route="/landlord/settings" />
-                <NavItem icon={IconHome} label={t('roommate.homepage.navigation.home')} route="/landlord" />
+                <NavItem icon={IconSettings} label={t('landlord.homepage.navigation.settings')} route="/landlord/settings" />
+                <NavItem icon={IconHome} label={t('landlord.homepage.navigation.home')} route="/landlord" />
                 <NavItem
                     icon={IconMessageCircleExclamation}
-                    label={t('roommate.homepage.navigation.incidents')}
+                    label={t('landlord.homepage.navigation.incidents')}
                     route="/landlord/incidents"
                 />
             </Flex>
