@@ -20,6 +20,7 @@ import {
   apartmentControllerJoinApartment,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
+  shoppingListControllerSearchItem,
   notificationControllerRegisterToken,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
@@ -47,6 +48,7 @@ import type {
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
+  ShoppingListControllerSearchItemData,
   NotificationControllerRegisterTokenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
@@ -615,6 +617,24 @@ export const shoppingListControllerSyncItemsMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const shoppingListControllerSearchItemQueryKey = (options: Options<ShoppingListControllerSearchItemData>) =>
+  createQueryKey('shoppingListControllerSearchItem', options);
+
+export const shoppingListControllerSearchItemOptions = (options: Options<ShoppingListControllerSearchItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerSearchItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerSearchItemQueryKey(options),
+  });
 };
 
 export const notificationControllerRegisterTokenQueryKey = (

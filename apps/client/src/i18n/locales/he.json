@@ -81,8 +81,6 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
-    "save": "שמירה",
-    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -204,6 +202,7 @@
         }
     },
     "shopping": {
+        "search_item": "הוסף פריט...",
         "shopping_list": "רשימת קניות",
         "personal": "רשימה אישית",
         "apartment": "רשימה דירתית",

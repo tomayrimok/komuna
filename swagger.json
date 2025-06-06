@@ -515,6 +515,36 @@
         ]
       }
     },
+    "/api/shopping-list/search-item": {
+      "get": {
+        "operationId": "ShoppingListController_searchItem",
+        "parameters": [
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchGroceryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
     "/api/notification/register-token": {
       "post": {
         "operationId": "NotificationController_registerToken",
@@ -680,11 +710,11 @@
           "name": {
             "type": "string"
           },
-          "isPurchased": {
-            "type": "boolean"
-          },
           "image": {
             "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
           },
           "category": {
             "type": "string"
@@ -716,9 +746,6 @@
       "ShoppingList": {
         "type": "object",
         "properties": {
-          "shoppingListId": {
-            "type": "string"
-          },
           "contextType": {
             "allOf": [
               {
@@ -745,7 +772,6 @@
           }
         },
         "required": [
-          "shoppingListId",
           "contextType",
           "contextId",
           "items",
@@ -1400,6 +1426,51 @@
         "required": [
           "contextType",
           "apartmentId",
+          "items"
+        ]
+      },
+      "GroceryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "formattedPrice": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priceForUnit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "formattedPrice",
+          "image",
+          "description",
+          "category",
+          "priceForUnit"
+        ]
+      },
+      "SearchGroceryResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroceryItem"
+            }
+          }
+        },
+        "required": [
           "items"
         ]
       }
