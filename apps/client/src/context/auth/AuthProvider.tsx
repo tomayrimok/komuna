@@ -11,6 +11,8 @@ type SessionDetails = {
   role: UserRole | null;
 };
 
+const SESSION_DETAILS_STORAGE_KEY = 'sessionDetails';
+
 // Define the context value: auth state + login/logout helpers
 export interface AuthContextValue {
   sessionDetails: SessionDetails;
@@ -38,19 +40,17 @@ export const AuthContext = createContext<AuthContextValue>(defaultAuthContextVal
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
-  const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
-    apartmentId: null,
-    role: null,
-  });
+  const [sessionDetails, setSessionDetails] = useState<SessionDetails>(defaultAuthContextValues.sessionDetails);
 
-  // useEffect(() => {
-  //   if (currentUserDetails) {
-  //     setSessionDetails({
-  //       apartmentId: currentUserDetails.apartments?.[0]?.apartmentId || null,
-  //       role: (currentUserDetails.apartments?.[0]?.role as UserRole) || null,
-  //     });
-  //   }
-  // }, [currentUserDetails]);
+  useEffect(() => {
+    const localStorageSession = localStorage.getItem(SESSION_DETAILS_STORAGE_KEY);
+    if (localStorageSession) setSessionDetails(JSON.parse(localStorageSession));
+  }, []);
+
+  useEffect(() => {
+    if (sessionDetails.apartmentId && sessionDetails.role)
+      localStorage.setItem(SESSION_DETAILS_STORAGE_KEY, JSON.stringify(sessionDetails));
+  }, [sessionDetails]);
 
   const logout = async () => {
     // Clear any stored tokens or session info here
@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error('Logout error:', error);
     }
+    localStorage.removeItem(SESSION_DETAILS_STORAGE_KEY);
     setSessionDetails(defaultAuthContextValues.sessionDetails);
     queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
