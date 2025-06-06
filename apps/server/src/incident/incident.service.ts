@@ -4,6 +4,8 @@ import { Incident, Comment } from './incident.entity';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
 import { AddEditIncidentDto, AddCommentDto, UpdateIncidentDto } from './dto/incident.dto';
+import { NotificationService } from '../notification/notification.service';
+import { UserRole } from '@komuna/types';
 
 @Injectable()
 export class IncidentService {
@@ -14,7 +16,8 @@ export class IncidentService {
     @InjectRepository(Comment)
     private readonly commentRepo: Repository<Comment>,
 
-    private readonly userApartmentService: UserApartmentService
+    private readonly userApartmentService: UserApartmentService,
+    private readonly notificationService: NotificationService, // Assuming you have a NotificationService for handling notifications
   ) { }
 
   async addEditIncident(incidentDto: AddEditIncidentDto, userId: string): Promise<Incident> {
@@ -33,6 +36,7 @@ export class IncidentService {
       reporterId: userId
     });
     try {
+      this.notificationService.sendNotificationToApartment(incidentDto.apartmentId, { notification: { title: 'נוצרה תקלה חדשה', body: incidentDto.title } }, [UserRole.LANDLORD, UserRole.ROOMMATE], userId);
       return await this.incidentRepo.save(newIncident);
     }
     catch (error) {
@@ -62,6 +66,17 @@ export class IncidentService {
       userId: userId,
       message: commentDto.message
     });
+
+    try {
+      this.notificationService.sendNotificationToApartment(
+        incident.apartmentId,
+        { notification: { title: 'תגובה חדשה לתקלה', body: commentDto.message } },
+        [UserRole.LANDLORD, UserRole.ROOMMATE],
+        userId
+      );
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to send notification for new comment', error);
+    }
 
     return this.commentRepo.save(comment);
   }

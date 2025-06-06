@@ -117,13 +117,17 @@ export class NotificationService {
         const apartment = await this.apartmentService.getApartmentWithResidents(apartmentId);
         if (!apartment) return
 
-        const users = apartment.residents?.filter(user =>
+        const userIds = apartment.residents?.filter(user =>
             roles.includes(user.role) && user.userId !== excludeUserId
-        );
+        ).map(user => user.userId) || [];
 
-        for (const user of users) {
+        if (roles.includes(UserRole.LANDLORD) && apartment.landlordUserId && !userIds.includes(apartment.landlordUserId) && apartment.landlordUserId !== excludeUserId) {
+            userIds.push(apartment.landlordUserId);
+        }
+
+        for (const userId of userIds) {
             await this.sendNotification(
-                user.userId,
+                userId,
                 payload
             );
         }
