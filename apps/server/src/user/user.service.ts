@@ -19,7 +19,7 @@ export class UserService {
     @InjectRepository(AuthUser)
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
-  ) {}
+  ) { }
 
   private readonly logger = new Logger(UserService.name);
 
@@ -57,9 +57,19 @@ export class UserService {
   }
 
   async getUserByPhone(phoneNumber: string): Promise<User | null> {
+    const user = await this.userRepo.findOneBy({ phoneNumber });
+
+    if (!user) {
+      this.logger.error(`User with phone number ${phoneNumber} not found`);
+      return null;
+    }
+    return user;
+  }
+
+  async getUserProfile(phoneNumber: string): Promise<User | null> {
     const user = await this.userRepo.findOne({
       where: { phoneNumber },
-      relations: ['apartments', 'apartments.apartment'],
+      relations: ['apartments', 'apartments.apartment', 'landlordApartments'],
     });
 
     if (!user) {

@@ -5,8 +5,6 @@
     },
     "title": "ברוכים הבאים לKomuna",
     "button": "בואו נתחיל",
-    "save": "שמירה",
-    "cancel": "ביטול",
     "other-options": "אפשרויות נוספות",
     "select-roommates": "בחירת שותפים",
     "select-roommate": "בחירת שותף",
@@ -81,6 +79,8 @@
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
+    "save": "שמירה",
+    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -150,20 +150,21 @@
                 "renter_pays": "אני משלם את ועד הבית",
                 "renters_paying_equally": "מתחלקים שווה בשווה",
                 "paying_for_renter": "מישהו אחר משלם את וועד הבית"
-            }
+            },
+            "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו')."
         },
         "share_apartment": {
             "title": "הדירה נוצרה בהצלחה! 🎉",
             "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה!",
             "roommate_description": "זהו קוד להזמנת שותפים לדירה:",
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
-            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "close_btn": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",
+        "save_btn": "שמירה",
         "skip_btn": "דלג"
     },
     "join_existing_apartment": {
@@ -174,7 +175,7 @@
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
-        "create_new_apartment": "יצירת דירה חדשה",
+        "create_new_apartment_btn": "דירה חדשה",
         "leaser": "בעל דירה",
         "renter": "דייר"
     },
@@ -188,7 +189,8 @@
                 "notifications_settings": "ניהול התראות ואירועים",
                 "app_settings": "הגדרות אפליקציה",
                 "logout": "התנתקות",
-                "change_languege": "שנה שפה"
+                "change_languege": "שנה שפה",
+                "select_apartment": "שינוי דירה"
             },
             "navigation": {
                 "tasks": "משימות",
@@ -216,6 +218,15 @@
                 "incidents": "תקלות"
             }
         }
+    },
+    "shopping": {
+        "shopping_list": "רשימת קניות",
+        "personal": "רשימה אישית",
+        "apartment": "רשימה דירתית",
+        "list_is_empty": "רשימת הקניות ריקה",
+        "add_item": "הוספת פריט",
+        "item_name": "שם הפריט",
+        "item_quantity": "כמות"
     },
     "error": {
         "error": "שגיאה",

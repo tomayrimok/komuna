@@ -74,6 +74,15 @@
             }
         }
     },
+    "shopping": {
+        "shopping_list": "Shopping list",
+        "add_item": "Add item",
+        "personal": "Personal list",
+        "apartment": "Apartment list",
+        "list_is_empty": "The list is empty",
+        "item_name": "Item name",
+        "item_quantity": "Item quantity"
+    },
     "save": "Save",
     "cancel": "Cancel",
     "other-options": "Other Options",

@@ -12,6 +12,7 @@ import { ColorModeProvider } from './chakra/ui/color-mode';
 import { Toaster } from './chakra/ui/toaster';
 import { WebView } from './components/WebView';
 import { AuthProvider, defaultAuthContextValues, useAuth } from './context/auth/AuthProvider';
+import { PurchaseProvider } from './context/auth/PurchaseProvider';
 import { useLocaleChange } from './hooks/useLocaleChange';
 import './i18n/';
 import { routeTree } from './routeTree.gen';
@@ -40,6 +41,7 @@ const RouterWrapper = () => {
 
 const AppEntry = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Box
       height="100dvh"
@@ -52,8 +54,10 @@ const AppEntry = () => {
     >
       {isMobile ? (
         <AuthProvider>
-          <RouterWrapper />
-          <Toaster />
+          <PurchaseProvider>
+            <RouterWrapper />
+            <Toaster />
+          </PurchaseProvider>
         </AuthProvider>
       ) : (
         <WebView />
@@ -61,6 +65,18 @@ const AppEntry = () => {
     </Box>
   );
 };
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/firebase-messaging-sw.js')
+      .then(registration => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch(err => {
+        console.error('Service Worker registration failed:', err);
+      });
+  });
+}
 
 const Root = () => {
   const { locale } = useLocaleChange();

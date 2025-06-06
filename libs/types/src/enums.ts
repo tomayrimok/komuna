@@ -16,7 +16,7 @@ export enum IncidentUrgency {
   EXTREME = 'EXTREME',
 }
 
-export enum ShoppingListContextType {
+export enum ContextType {
   APARTMENT = 'APARTMENT',
   USER = 'USER',
 }
