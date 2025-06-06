@@ -5,8 +5,13 @@ import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { Repository } from 'typeorm';
 import { AddEditIncidentDto, AddCommentDto, UpdateIncidentDto } from './dto/incident.dto';
 import { NotificationService } from '../notification/notification.service';
-import { UserRole } from '@komuna/types';
+import { IncidentStatus, UserRole } from '@komuna/types';
 
+const incidentStatusesHe = {
+  [IncidentStatus.IN_PROGRESS]: 'עברה למצב ״בטיפול״',
+  [IncidentStatus.OPEN]: 'חזרה לסטטוס ״פתוח״',
+  [IncidentStatus.SOLVED]: 'נסגרה',
+};
 @Injectable()
 export class IncidentService {
   constructor(
@@ -45,10 +50,18 @@ export class IncidentService {
 
   }
 
-  async updateIncident(incidentDto: UpdateIncidentDto) {
+  async updateIncident(incidentDto: UpdateIncidentDto, userId: string): Promise<Incident> {
     const incident = await this.incidentRepo.findOneBy({ incidentId: incidentDto.incidentId });
     if (!incident) {
       throw new NotFoundException(`Incident ${incidentDto.incidentId} not found`);
+    }
+    if (incident.status !== incidentDto.status) {
+      this.notificationService.sendNotificationToApartment(
+        incident.apartmentId,
+        { notification: { title: 'עדכון תקלה', body: `התקלה ״${incident.title}״ ${incidentStatusesHe[incidentDto.status]}` } },
+        [UserRole.LANDLORD, UserRole.ROOMMATE],
+        userId
+      );
     }
     return this.incidentRepo.save({ ...incident, ...incidentDto });
   }
@@ -80,20 +93,6 @@ export class IncidentService {
 
     return this.commentRepo.save(comment);
   }
-
-  // async getComments(incidentId: string, numOfComments = 10): Promise<Comment[]> {
-  //   if (typeof numOfComments !== 'number') {
-  //     numOfComments = 10;
-  //   }
-
-  //   const comments = await this.commentRepo.find({
-  //     where: { incidentId },
-  //     order: { createdAt: 'DESC' },
-  //     take: numOfComments,
-  //   });
-
-  //   return comments;
-  // }
 
   async getIncidentsByApartment(apartmentId: string): Promise<Incident[]> {
     try {

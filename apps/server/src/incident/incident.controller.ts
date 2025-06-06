@@ -39,8 +39,8 @@ export class IncidentController {
   @Post('update')
   @UseAuth()
   @ApiOkResponse({ type: Incident })
-  async updateIncident(@Body() setIncident: UpdateIncidentDto) {
-    return await this.incidentService.updateIncident(setIncident);
+  async updateIncident(@Body() setIncident: UpdateIncidentDto, @GetUser() user: User) {
+    return await this.incidentService.updateIncident(setIncident, user.userId);
   }
 
   @Post('comment')
