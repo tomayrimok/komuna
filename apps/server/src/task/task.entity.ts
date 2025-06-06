@@ -1,9 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
+import { RecurrenceRuleDto } from '@komuna/types';
+import { User } from '../user/user.entity';
+import { UserCompletionStatus } from './dto/user-completion-status.dto';
 
 @Entity()
 export class Task {
@@ -17,16 +15,30 @@ export class Task {
   title: string;
 
   @Column()
-  description: string;
+  description?: string;
 
-  @Column({ nullable: true })
-  assignedTo?: string;
+  // task.entity.ts
+  @ManyToMany(() => User, { eager: true })
+  @JoinTable()
+  assignedTo: User[];
+
+  @Column('json', { nullable: true })
+  completions: UserCompletionStatus[];
 
   @Column()
-  isCompleted: boolean;
+  dueDate?: Date;
+
+  @Column('time', { nullable: true})
+  dueTime?: string;
 
   @Column()
-  dueDate: Date;
+  isRecurrent: boolean;
+
+  @Column('json', { nullable: true })
+  recurrenceRule?: RecurrenceRuleDto;
+
+  @Column()
+  createdBy: string;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -128,5 +128,32 @@
         "error": "An error occurred",
         "action_failed": "Action failed. Please try again.",
         "incorrect_values": "Incorrect values. Please check and try again."
+    },
+    "task_category": {
+        "title": "Tasks",
+        "task_list": "Your Tasks:",
+        "tasks": {
+            "title": "Task's Name: <b>{{taskName}}</b>",
+            "due_date": "Due To: <b>{{dueDate}}</b>",
+            "descrption": "Description: <b>{{description}}</b>",
+            "assigned_to": "Participants: <b>{{assignedTo}}</b>",
+            "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
+            "assigned_by": "Assigned By: <b>{{createdBy}}</b>"
+        },
+        "buttons": {
+            "done": "Done",
+            "postpone": "Postpone",
+            "didnt_do": "Didnt Do"
+        },
+        "create_task": {
+            "create_task": "Create Task",
+            "title": "Enter Task's Title",
+            "due_date": "Enter Due Date",
+            "description": "Enter Description",
+            "assigned_to": "Assign Members To Task (if none selected, it will be assigned to you)",
+            "recurrence": "Enter Recurrence Rule (e.g., every 2 weeks)",
+            "images": "Upload Images Of The Task (optional)",
+            "due_time": "Enter Due Time (optional)"
+        }
     }
 }

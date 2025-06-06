@@ -216,5 +216,32 @@
         "error": "שגיאה",
         "action_failed": "הפעולה נכשלה. אנא נסה בשנית.",
         "incorrect_values": "הערכים שהוזנו אינם נכונים. יש לבדוק את הערכים ולנסות שוב."
+    },
+    "task_category": {
+        "title": "מטלות",
+        "task_list": "המטלות שלך: ",
+        "tasks": {
+            "title": "שם המטלה: <b>{{taskName}}</b>",
+            "due_date": "לביצוע עד: <b>{{dueDate}}</b>",
+            "descrption": "תיאור: <b>{{description}}</b>",
+            "assigned_to": "שותפים למטלה: <b>{{assignedTo}}</b>",
+            "recurrence": "יש לבצע כל: <b>{{recurrenceRule}}</b>",
+            "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>"
+        },
+        "buttons": {
+            "done": "בוצע",
+            "postpone": "דחייה",
+            "didnt_do": "לא בוצע"
+        },
+        "create_task": {
+            "create_task": "יצירת מטלה",
+            "title": "הכנס כותרת למטלה",
+            "due_date": "הכנס תאריך יעד",
+            "description": "הכנס תיאור",
+            "assigned_to": "שייך שותפים למטלה (אם לא נבחרו שותפים, המטלה תשוייך לך)",
+            "recurrence": "הכנסה חוק חזרתיות (לדוגמא - כל שבועיים)",
+            "images": "העלה תמונות (לא חובה)",
+            "due_time": "הכנס שעת יעד (לא חובה)"
+        }
     }
 }
