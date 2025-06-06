@@ -3,7 +3,7 @@ import { SelectApartment } from '../pages/SelectApartment';
 
 export const Route = createFileRoute('/select-apartment')({
   beforeLoad: ({ context }) => {
-    if (!context.currentUserDetails?.apartments?.length) {
+    if (!context.currentUserDetails?.apartments?.length && !context.currentUserDetails?.landlordApartments?.length) {
       throw redirect({ to: '/new-apartment' });
     }
     if (!context.currentUserDetails) {
