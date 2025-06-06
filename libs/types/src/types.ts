@@ -1,11 +1,11 @@
-import { ShoppingListContextType } from "./enums";
+import { ContextType } from "./enums";
 import { ShoppingListItemWithIdDto, User, UserApartment } from "./generated";
 
 export type ShoppingList = {
 
     shoppingListId: string;
 
-    contextType: ShoppingListContextType;
+    contextType: ContextType;
 
     contextId: string;
 

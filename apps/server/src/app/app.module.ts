@@ -1,26 +1,29 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DebtEdgeModule } from '../debt-edge/debt-edge.module';
-import { UserModule } from '../user/user.module';
-import { ExpenseModule } from '../expense/expense.module';
-import { PaymentModule } from '../payment/payment.module';
-import { ApartmentModule } from '../apartment/apartment.module';
-import { UserApartmentModule } from '../user-apartment/user-apartment.module';
-import { User } from '../user/user.entity';
-import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { Apartment } from '../apartment/apartment.entity';
+import { ApartmentModule } from '../apartment/apartment.module';
 import { DebtEdge } from '../debt-edge/debt-edge.entity';
-import { Expense } from '../expense/expense.entity';
+import { DebtEdgeModule } from '../debt-edge/debt-edge.module';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
+import { Expense } from '../expense/expense.entity';
+import { ExpenseModule } from '../expense/expense.module';
 import { Incident } from '../incident/incident.entity';
+import { NotificationToken } from '../notification/notification-token.entity';
+import { Notification } from '../notification/notification.entity';
+import { NotificationModule } from '../notification/notification.module';
 import { Payment } from '../payment/payment.entity';
+import { PaymentModule } from '../payment/payment.module';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
+import { UserApartment } from '../user-apartment/user-apartment.entity';
+import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { AuthUser } from '../user/auth-user.entity';
 import { ShoppingListModule } from '../shopping-list/shopping-list.module';
+import { User } from '../user/user.entity';
+import { UserModule } from '../user/user.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -41,6 +44,8 @@ import { ShoppingListModule } from '../shopping-list/shopping-list.module';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        NotificationToken,
+        Notification
       ],
       synchronize: true,
     }),
@@ -50,7 +55,8 @@ import { ShoppingListModule } from '../shopping-list/shopping-list.module';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
-    ShoppingListModule
+    ShoppingListModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

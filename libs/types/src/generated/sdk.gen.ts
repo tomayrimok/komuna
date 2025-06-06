@@ -32,6 +32,7 @@ import type {
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
+  NotificationControllerRegisterTokenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -243,5 +244,14 @@ export const shoppingListControllerSyncItems = <ThrowOnError extends boolean = f
       'Content-Type': 'application/json',
       ...options?.headers,
     },
+  });
+};
+
+export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/notification/register-token',
+    ...options,
   });
 };

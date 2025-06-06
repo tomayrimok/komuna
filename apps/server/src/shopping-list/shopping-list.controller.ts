@@ -31,13 +31,13 @@ export class ShoppingListController {
 
     // @Post('clear')
     // @UseAuth()
-    // async clearShoppingList(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
+    // async clearShoppingList(@User() user: UserJwtPayload, @Body('contextType') contextType: ContextType) {
     //     return this.shoppingListService.clearShoppingList(contextType, apartmentId, user.userId);
     // }
 
     // @Post('mark-all-as-purchased')
     // @UseAuth()
-    // async markAllAsPurchased(@User() user: UserJwtPayload, @Body('contextType') contextType: ShoppingListContextType) {
+    // async markAllAsPurchased(@User() user: UserJwtPayload, @Body('contextType') contextType: ContextType) {
     //     return this.shoppingListService.markAllItemsAsPurchased(contextType, apartmentId, user.userId);
     // }
 

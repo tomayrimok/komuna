@@ -1,12 +1,16 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MutationState, useMutationState } from '@tanstack/react-query';
-import { ApartmentTitle } from './ApartmentTitle';
+import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { Alert, Button, Clipboard, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import type { CreateApartmentHttpResponse, Code as CodeType } from '@komuna/types';
+import { useNavigate } from '@tanstack/react-router';
+import { useRolePath } from '../../hooks/useRolePath';
 
 export const ShareApartmentCode: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const rolePath = useRolePath();
 
   return (
     <>
@@ -22,7 +26,9 @@ export const ShareApartmentCode: FC = () => {
       <Button
         size="xl"
         fontSize="2xl"
-        fontWeight="bold">
+        fontWeight="bold"
+        onClick={() => navigate({ to: rolePath })}
+      >
         {t('create_apartment.share_apartment.close_btn')}
       </Button>
     </>
@@ -36,19 +42,22 @@ const Codes: FC = () => {
     filters: { status: "success", mutationKey: ["createApartment"], },
   });
 
-  const getValidCode = (code?: CodeType): string => {
+  const getValidCode = (code?: CodeType, allowNull = false): string | null => {
     if (typeof code === "string") {
       return code;
     }
     else if (typeof code === "number") {
       return code.toString();
     }
+    else if (allowNull && code == null) {
+      return null;
+    }
     throw new Error("Invalid code type");
   }
 
   try {
     const roommateCode = getValidCode(mutationState.data?.roommateCode);
-    const landlordCode = getValidCode(mutationState.data?.landlordCode);
+    const landlordCode = getValidCode(mutationState.data?.landlordCode, true);
 
     return (
       <>
@@ -68,7 +77,8 @@ const Codes: FC = () => {
 
 }
 
-const Code: FC<{ code: string, description: string }> = ({ code, description }) => {
+const Code: FC<{ code: string | null, description: string }> = ({ code, description }) => {
+  if (!code) { return null; }
   return (
     <VStack borderRadius='lg'>
       <Text fontSize="lg" textAlign="center" >

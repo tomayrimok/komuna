@@ -4,7 +4,6 @@ import {
     Loader,
     Text
 } from "@chakra-ui/react";
-import { ShoppingListContextType } from "@komuna/types";
 import { IconShoppingCart } from "@tabler/icons-react";
 import { Reorder } from "framer-motion";
 import { useEffect, useRef } from "react";
@@ -91,34 +90,35 @@ const ShoppingListPage: React.FC = () => {
             </Reorder.Group>
 
 
-            {isFetching ?
-                <Flex
-                    direction="column"
-                    align="center"
-                    justify="center"
-                    h="200px"
-                    color="gray.500"
-                >
-                    <Loader />
-                </Flex>
-                :
-                items.length === 0 && !newItem ? (
+            {
+                isFetching ?
                     <Flex
                         direction="column"
                         align="center"
                         justify="center"
+                        h="200px"
                         color="gray.500"
-                        flexGrow={1}
                     >
-                        <Icon width={16} height={16} mb={3}>
-                            <IconShoppingCart />
-                        </Icon>
-                        <Text mb={3}>
-                            {t('shopping.list_is_empty')}
-                        </Text>
+                        <Loader />
                     </Flex>
-                )
-                    : null
+                    :
+                    items.length === 0 && !newItem ? (
+                        <Flex
+                            direction="column"
+                            align="center"
+                            justify="center"
+                            color="gray.500"
+                            flexGrow={1}
+                        >
+                            <Icon width={16} height={16} mb={3}>
+                                <IconShoppingCart />
+                            </Icon>
+                            <Text mb={3}>
+                                {t('shopping.list_is_empty')}
+                            </Text>
+                        </Flex>
+                    )
+                        : null
             }
         </Flex >
     );

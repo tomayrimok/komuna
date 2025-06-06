@@ -1,4 +1,4 @@
-import { API, ShoppingListContextType } from '@komuna/types';
+import { API, ContextType } from '@komuna/types';
 import React, { createContext, useContext, useState, ReactNode, PropsWithChildren, useEffect } from 'react';
 import { useShoppingListQuery } from '../../hooks/query/useShoppingListQuery';
 import { toaster } from '../../chakra/ui/toaster';
@@ -14,8 +14,8 @@ export interface ShoppingListContextValue {
     isEditDrawerOpen: boolean;
     isFetching: boolean;
     activeSwipe: string | null;
-    contextType: ShoppingListContextType;
     purchaseItems: Set<ShoppingListItemWithIdDto>;
+    contextType: ContextType;
     setItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
     setNewItem: React.Dispatch<React.SetStateAction<Partial<ShoppingListItemWithIdDto> | null>>;
     setEditingItem: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto | null>>;
@@ -27,12 +27,13 @@ export interface ShoppingListContextValue {
     setEditDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setActiveSwipe: React.Dispatch<React.SetStateAction<string | null>>;
     updateItem: (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync?: boolean) => Promise<void>;
-    syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
     updateOrder: (items: ShoppingListItemWithIdDto[]) => Promise<void>;
     togglePurchased: (itemId: string) => Promise<void>;
     setPurchaseItems: React.Dispatch<React.SetStateAction<Set<ShoppingListItemWithIdDto>>>;
-    setContextType: React.Dispatch<React.SetStateAction<ShoppingListContextType>>;
+    setContextType: React.Dispatch<React.SetStateAction<ContextType>>;
     markAllPurchaseItemsAsPurchased: () => Promise<void>;
+    syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
+
 }
 
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
@@ -40,7 +41,7 @@ export const ShoppingListContext = createContext<ShoppingListContextValue | null
 type ShoppingListProviderProps = PropsWithChildren;
 export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children }) => {
 
-    const [contextType, setContextType] = useState<ShoppingListContextType>(ShoppingListContextType.APARTMENT);
+    const [contextType, setContextType] = useState<ContextType>(ContextType.APARTMENT);
 
     const { mutate: getShoppingList, data: shoppingList, isPending } = useShoppingListQuery();
 
