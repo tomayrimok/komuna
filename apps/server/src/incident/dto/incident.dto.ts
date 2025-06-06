@@ -1,4 +1,4 @@
-import { IsUUID, IsString, IsEnum, IsOptional, IsDateString, IsArray } from 'class-validator';
+import { IsUUID, IsString, IsEnum, IsOptional, IsDateString } from 'class-validator';
 import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
 import {

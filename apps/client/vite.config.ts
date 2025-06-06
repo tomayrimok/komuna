@@ -8,6 +8,7 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/client',
+
   server: {
     port: 4200,
     host: 'localhost',
@@ -21,10 +22,7 @@ export default defineConfig(() => ({
   },
   plugins: [
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
-    react({
-      // enable parsing & emitting of TS decorators
-      tsDecorators: true,
-    }),
+    react(),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
