@@ -39,10 +39,10 @@ export const IncidentMetadataProvider = ({ children }: PropsWithChildren<{ incid
 
 
     const handleSave = () => {
-        if (!incidentDetails) return;
+        if (!incidentDetails || !apartmentData?.apartmentId) return;
 
         addEditIncident({
-            apartmentId: apartmentData?.apartmentId!,
+            apartmentId: apartmentData.apartmentId,
             incidentId: incidentDetails.incidentId,
             urgencyLevel: incidentDetails.urgencyLevel || IncidentUrgency.MEDIUM,
             title: incidentDetails.title,

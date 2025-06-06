@@ -54,12 +54,14 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
 
         if (!sync) return;
 
+        if (!incidentDetails?.incidentId) return
+
         await API.incidentControllerUpdateIncident({
             body: {
-                incidentId: incidentDetails?.incidentId!,
-                urgencyLevel: incidentDetails?.urgencyLevel || IncidentUrgency.MEDIUM,
-                title: incidentDetails?.title || '',
-                description: incidentDetails?.description || '',
+                incidentId: incidentDetails.incidentId,
+                urgencyLevel: incidentDetails.urgencyLevel || IncidentUrgency.MEDIUM,
+                title: incidentDetails.title || '',
+                description: incidentDetails.description || '',
                 ...data,
             }
         });
@@ -72,11 +74,11 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
 
     const addComment = async () => {
         const commentText = newComment.trim();
-        if (!commentText) return;
+        if (!commentText || !incidentDetails?.incidentId) return;
 
         const { data } = await API.incidentControllerNewComment({
             body: {
-                incidentId: incidentDetails?.incidentId!,
+                incidentId: incidentDetails.incidentId,
                 message: commentText,
             }
         })
@@ -92,7 +94,7 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
             if (!prevDetails) return prevDetails;
             return {
                 ...prevDetails,
-                incidentId: incidentDetails?.incidentId!,
+                incidentId: incidentDetails.incidentId,
                 comments: [...(prevDetails.comments || []), newCommentData],
             };
         });
