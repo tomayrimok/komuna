@@ -57,7 +57,6 @@ export class IncidentService {
       incidentId: commentDto.incidentId,
       userId: commentDto.userId,
       message: commentDto.message,
-      images: commentDto.images, // optional
     });
 
     return this.commentRepo.save(comment);

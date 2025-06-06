@@ -2,10 +2,6 @@ import { IncidentStatus, IncidentUrgency } from "@komuna/types";
 
 
 export interface CreateIncidentDto {
-
-    userId: string; // UUID
-
-    apartmentId: string; // UUID
     
     incidentName: string;
     
@@ -18,8 +14,6 @@ export interface CreateIncidentDto {
     createdAt: string; // ISO date string
     
     location: string;
-    
-    images?: string[];
 
 }
 
@@ -36,9 +30,6 @@ export interface AddCommentDto {
 
     incidentId: string; //UUID
 
-    userId: string; // UUID
-
     message: string;
 
-    images?: string[];
 }

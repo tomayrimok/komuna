@@ -40,11 +40,6 @@ export class CreateIncidentDto implements CreateIncidentDtoReq {
   @IsString()
   location: string;
 
-  @ApiProperty()
-  @IsString({each: true})
-  @IsArray()
-  @IsOptional()
-  images?: string[];
 }
 
 export class UpdateIncidentStatusDto implements UpdateIncidentStatusDtoReq {
@@ -74,8 +69,4 @@ export class AddCommentDto implements AddCommentDtoReq {
   @IsString()
   message: string;
 
-  @ApiProperty()
-  @IsOptional()
-  @IsString({ each: true })
-  images?: string[];
 }

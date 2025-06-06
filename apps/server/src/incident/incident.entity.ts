@@ -24,9 +24,6 @@ export class Incident {
   @Column()
   description: string;
 
-  @Column('json')
-  images: string[];
-
   @Column({ type: 'enum', enum: IncidentUrgency })
   urgencyLevel: IncidentUrgency;
 
@@ -71,9 +68,6 @@ export class Comment {
 
   @Column()
   incidentId: string;
-
-  @Column('text', { array: true, nullable: true })
-  images?: string[];
 
   @ManyToOne(() => Incident, i => i.comments)
   @JoinColumn({ name: 'incidentId' })
