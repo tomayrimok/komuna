@@ -14,7 +14,7 @@ export interface ShoppingListContextValue {
     isEditDrawerOpen: boolean;
     isFetching: boolean;
     activeSwipe: string | null;
-    purchaseItems: Set<ShoppingListItemWithIdDto>;
+    purchaseItems: ShoppingListItemWithIdDto[];
     contextType: ContextType;
     setItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
     setNewItem: React.Dispatch<React.SetStateAction<Partial<ShoppingListItemWithIdDto> | null>>;
@@ -29,7 +29,7 @@ export interface ShoppingListContextValue {
     updateItem: (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync?: boolean) => Promise<void>;
     updateOrder: (items: ShoppingListItemWithIdDto[]) => Promise<void>;
     togglePurchased: (itemId: string) => Promise<void>;
-    setPurchaseItems: React.Dispatch<React.SetStateAction<Set<ShoppingListItemWithIdDto>>>;
+    setPurchaseItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
     setContextType: React.Dispatch<React.SetStateAction<ContextType>>;
     markAllPurchaseItemsAsPurchased: () => Promise<void>;
     syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
@@ -54,7 +54,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     const [editingItem, setEditingItem] = useState<ShoppingListItemWithIdDto | null>(null);
     const [newItem, setNewItem] = useState<Partial<ShoppingListItemWithIdDto> | null>(null);
     const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
-    const [purchaseItems, setPurchaseItems] = useState<Set<ShoppingListItemWithIdDto>>(new Set());
+    const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemWithIdDto[]>([]);
 
 
     useEffect(() => {
@@ -136,6 +136,9 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
         setItems(updatedItems);
         await syncShoppingList(updatedItems);
+        if (updatedIsPurchased) {
+            setPurchaseItems(prev => prev.filter(p => p.itemId !== itemId));
+        }
     };
 
     const syncShoppingList = async (itemsToSync?: ShoppingListItemWithIdDto[]) => {
@@ -161,7 +164,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     const markAllPurchaseItemsAsPurchased = async () => {
         const updatedItems = items.map(item => {
-            if (purchaseItems.has(item)) {
+            if (purchaseItems.some(p => p.itemId === item.itemId)) {
                 return { ...item, isPurchased: true };
             }
             return item;
@@ -172,7 +175,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         });;
         setItems(updatedItems)
         await syncShoppingList(updatedItems);
-        setPurchaseItems(new Set());
+        setPurchaseItems([]);
     }
 
     return (

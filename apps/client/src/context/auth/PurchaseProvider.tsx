@@ -17,13 +17,15 @@ export const PurchaseProvider: React.ComponentType<PurchaseProviderProps> = ({ c
 
     const toggleItem = (item: ShoppingListItemWithIdDto) => {
         setPurchaseItems(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(item)) {
-                newSet.delete(item);
-            } else {
-                newSet.add(item);
+            const newItems = [...prev];
+            const index = newItems.findIndex(i => i.itemId === item.itemId);
+            if (index > -1) {
+                newItems.splice(index, 1);
             }
-            return newSet;
+            else {
+                newItems.push(item);
+            }
+            return newItems;
         });
     };
 

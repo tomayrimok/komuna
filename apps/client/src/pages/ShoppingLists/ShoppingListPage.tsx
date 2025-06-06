@@ -51,7 +51,7 @@ const ShoppingListPage: React.FC = () => {
     }, [newItem]);
 
     useEffect(() => {
-        setPurchaseItems(new Set());
+        setPurchaseItems([]);
     }, []);
 
 
