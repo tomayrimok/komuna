@@ -1,5 +1,6 @@
 import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
 import { Body, ConflictException, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
@@ -16,7 +17,8 @@ export class ApartmentController {
   private static readonly CODE_LENGTH = 4;
 
   @Get()
-  async getApartmentUsers(@Query('apartmentId') apartmentId: string) {
+  @ApiOkResponse({ type: Apartment })
+  async getApartmentWithResidents(@Query('apartmentId') apartmentId: string): Promise<Apartment> {
     return await this.apartmentService.getApartmentWithResidents(apartmentId);
   }
 
@@ -32,9 +34,10 @@ export class ApartmentController {
       createApartmentData,
       user
     );
+    const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
 
-    const landlordCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
     const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+    const landlordCode = isLandlord ? null : generateApartmentCode(ApartmentController.CODE_LENGTH);
 
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
@@ -49,7 +52,6 @@ export class ApartmentController {
     apartment.landlordCode = landlordCode;
     apartment.roommateCode = roommateCode;
 
-    const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
     if (isLandlord) {
       const landlordUser = new User();
       landlordUser.userId = user.userId;
@@ -65,8 +67,8 @@ export class ApartmentController {
       apartment.residents = [userApartment];
     }
 
-    await this.apartmentService.createApartment(apartment);
-    return { landlordCode, roommateCode };
+    const { apartmentId } = await this.apartmentService.createApartment(apartment);
+    return { apartmentId, landlordCode, roommateCode };
   }
 
   private createHouseCommitteePayerUser(createApartmentData: CreateApartmentDto, renter: User): Apartment["houseCommitteePayerUser"] {

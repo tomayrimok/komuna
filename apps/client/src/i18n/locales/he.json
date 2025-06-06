@@ -3,10 +3,86 @@
         "title": "מצטערים",
         "description": "האתר הזה נתמך רק במכשירים ניידים, אנא פתחו אותו בטלפון על מנת להמשיך."
     },
+    "title": "ברוכים הבאים לKomuna",
     "button": "בואו נתחיל",
+    "save": "שמירה",
+    "cancel": "ביטול",
+    "other-options": "אפשרויות נוספות",
+    "select-roommates": "בחירת שותפים",
+    "select-roommate": "בחירת שותף",
+    "months": {
+        "1": "ינואר",
+        "2": "פברואר",
+        "3": "מרץ",
+        "4": "אפריל",
+        "5": "מאי",
+        "6": "יוני",
+        "7": "יולי",
+        "8": "אוגוסט",
+        "9": "ספטמבר",
+        "10": "אוקטובר",
+        "11": "נובמבר",
+        "12": "דצמבר"
+    },
+    "month-short": {
+        "1": "ינו׳",
+        "2": "פבר׳",
+        "3": "מרץ",
+        "4": "אפר׳",
+        "5": "מאי",
+        "6": "יונ׳",
+        "7": "יול׳",
+        "8": "אוג׳",
+        "9": "ספט׳",
+        "10": "אוק׳",
+        "11": "נוב׳",
+        "12": "דצמ׳"
+    },
+    "payments": {
+        "debt": "יש לך חוב קטן של",
+        "balanced": "הכל מאוזן פה!",
+        "people-owe-you": "איזה כיף! אנשים חייבים לך",
+        "someone-owe-you": "מגיע לך {{amount}}₪ מ{{name}}",
+        "you-owe-to": "קיים חוב בסך {{amount}}₪ ל{{name}}",
+        "settle-up": "יאללה נסגור חשבון",
+        "paid-by": "בוצע תשלום של {{amount}}₪ על ידי {{name}}",
+        "you-paid": "שילמת {{amount}}₪",
+        "you-lent": "שילמת על אחרים\n{{amount}}₪",
+        "you-borrowed": "שילמו עבורך\n{{amount}}₪",
+        "settle-up-title": "עם מי נסגור חשבון?",
+        "you-owe": "יש צורך לשלם\n{{amount}}₪",
+        "owe-you": "מגיע לך\n{{amount}}₪",
+        "payment-title": "בואו נסגור את זה בלחיצה",
+        "payment-made": "התבצע תשלום מ<strong>{{payer}}</strong> ל<strong>{{receiver}}</strong> בסכום של",
+        "settle-up-success": "החוב שולם בהצלחה",
+        "no-debt": "אין חוב",
+        "no-debts": "לא קיימים חובות",
+        "expense": {
+            "select-paid-by": "בחרו על ידי מי ההוצאה שולמה:",
+            "all-expenses": "כל ההוצאות",
+            "no-expenses": "אין הוצאות",
+            "create-expense": "הוספת הוצאה חדשה",
+            "out-of": "{{amount}} מתוך {{total}}",
+            "remaining": "נשארו {{amount}}",
+            "expense-saved": "ההוצאה נשמרה בהצלחה",
+            "split-equal-split-title": "בחירת השותפים שהשתתפו בהוצאה, וחלוקה שווה ביניהם",
+            "split-by-amount-title": "עבור כל שותף, ניתן להכניס את הסכום אותו עליו לשלם",
+            "split-by-percentage-title": "עבור כל שותף, ניתן להכניס את האחוזים מההוצאה אותם עליו לשלם",
+            "split-options": "אפשרויות חלוקה",
+            "edit-expense": "עריכת הוצאה",
+            "expense-description": "תיאור ההוצאה",
+            "expense-amount": "סכום ההוצאה",
+            "paid-by": "שולם על ידי",
+            "and-splits": "ומתחלק",
+            "equally": "בצורה שווה",
+            "unequally": "בצורה לא שווה"
+        }
+    },
     "komuna": "Komuna",
     "catchphrase": "שלום בית בין שותפים",
     "welcome": "ברוכים הבאים!",
+    "save": "שמירה",
+    "cancel": "ביטול",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -76,20 +152,21 @@
                 "renter_pays": "אני משלם את ועד הבית",
                 "renters_paying_equally": "מתחלקים שווה בשווה",
                 "paying_for_renter": "מישהו אחר משלם את וועד הבית"
-            }
+            },
+            "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו')."
         },
         "share_apartment": {
             "title": "הדירה נוצרה בהצלחה! 🎉",
             "description": "כעת תוכלו להזמין את שאר האנשים השייכים לדירה!",
             "roommate_description": "זהו קוד להזמנת שותפים לדירה:",
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
-            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
             "close_btn": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",
+        "save_btn": "שמירה",
         "skip_btn": "דלג"
     },
     "join_existing_apartment": {
@@ -100,7 +177,7 @@
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
-        "create_new_apartment": "יצירת דירה חדשה",
+        "create_new_apartment_btn": "דירה חדשה",
         "leaser": "בעל דירה",
         "renter": "דייר"
     },
@@ -114,7 +191,8 @@
                 "notifications_settings": "ניהול התראות ואירועים",
                 "app_settings": "הגדרות אפליקציה",
                 "logout": "התנתקות",
-                "change_languege": "שנה שפה"
+                "change_languege": "שנה שפה",
+                "select_apartment": "שינוי דירה"
             },
             "navigation": {
                 "tasks": "משימות",
@@ -125,8 +203,19 @@
             }
         }
     },
+    "shopping": {
+        "shopping_list": "רשימת קניות",
+        "personal": "רשימה אישית",
+        "apartment": "רשימה דירתית",
+        "list_is_empty": "רשימת הקניות ריקה",
+        "add_item": "הוספת פריט",
+        "item_name": "שם הפריט",
+        "item_quantity": "כמות"
+    },
     "error": {
-        "action_failed": "הפעולה נכשלה. אנא נסה בשנית."
+        "error": "שגיאה",
+        "action_failed": "הפעולה נכשלה. אנא נסה בשנית.",
+        "incorrect_values": "הערכים שהוזנו אינם נכונים. יש לבדוק את הערכים ולנסות שוב."
     },
     "task_category": {
         "title": "מטלות",
