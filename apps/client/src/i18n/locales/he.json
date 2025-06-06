@@ -159,7 +159,8 @@
             "roommate_description": "זהו קוד להזמנת שותפים לדירה:",
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
-            "close_btn": "מעבר לאפליקציה"
+            "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
+            "to_app": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",

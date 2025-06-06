@@ -44,6 +44,7 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ApartmentControllerJoinApartmentResponse,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
@@ -533,9 +534,13 @@ export const apartmentControllerJoinApartmentOptions = (options?: Options<Apartm
 
 export const apartmentControllerJoinApartmentMutation = (
   options?: Partial<Options<ApartmentControllerJoinApartmentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerJoinApartmentData>> => {
+): UseMutationOptions<
+  ApartmentControllerJoinApartmentResponse,
+  AxiosError<DefaultError>,
+  Options<ApartmentControllerJoinApartmentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    ApartmentControllerJoinApartmentResponse,
     AxiosError<DefaultError>,
     Options<ApartmentControllerJoinApartmentData>
   > = {

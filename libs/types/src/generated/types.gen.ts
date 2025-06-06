@@ -657,8 +657,11 @@ export type ApartmentControllerJoinApartmentData = {
 };
 
 export type ApartmentControllerJoinApartmentResponses = {
-  201: unknown;
+  200: UserApartment;
 };
+
+export type ApartmentControllerJoinApartmentResponse =
+  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
 
 export type ShoppingListControllerGetShoppingListData = {
   body?: never;
