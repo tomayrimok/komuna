@@ -74,6 +74,16 @@
             "done": "Done",
             "postpone": "Postpone",
             "didnt_do": "Didnt Do"
+        },
+        "create_task": {
+            "create_task": "Create Task",
+            "title": "Enter Task's Title",
+            "due_date": "Enter Due Date",
+            "description": "Enter Description",
+            "assigned_to": "Assign Members To Task (if none selected, it will be assigned to you)",
+            "recurrence": "Enter Recurrence Rule (e.g., every 2 weeks)",
+            "images": "Upload Images Of The Task (optional)",
+            "due_time": "Enter Due Time (optional)"
         }
     }
 }

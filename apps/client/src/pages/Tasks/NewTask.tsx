@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Card,
   Field,
@@ -15,6 +14,8 @@ import {
   MenuItem,
 } from "@chakra-ui/menu";
 import { useForm } from "react-hook-form";
+import { useIsRTL } from "../../hooks/useIsRTL";
+import { useTranslation } from "react-i18next";
 
 interface FormValues {
   title: string;
@@ -27,6 +28,9 @@ interface FormValues {
 }
 
 export const NewTask = () => {
+  const { isRTL } = useIsRTL();
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -56,7 +60,7 @@ export const NewTask = () => {
         <Card.Body>
           <Stack>
             <Field.Root invalid={!!errors.title} required>
-              <Field.Label htmlFor="title">Title</Field.Label>
+              <Field.Label htmlFor="title">{t("task_category.create_task.title")}</Field.Label>
               <Input
                 id="title"
                 placeholder="Enter task title"
@@ -70,7 +74,7 @@ export const NewTask = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.dueDate} required>
-              <Field.Label htmlFor="dueDate">Due Date</Field.Label>
+              <Field.Label htmlFor="dueDate">{t("task_category.create_task.due_date")}</Field.Label>
               <Input
                 id="dueDate"
                 type="date"
@@ -85,7 +89,7 @@ export const NewTask = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.dueTime} required>
-              <Field.Label htmlFor="dueTime">Due Time</Field.Label>
+              <Field.Label htmlFor="dueTime">{t("task_category.create_task.due_time")}</Field.Label>
               <Input
                 id="dueTime"
                 type="time"
@@ -100,11 +104,10 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.description}>
               <Field.Label htmlFor="description">
-                Description
+              {t("task_category.create_task.description")}
               </Field.Label>
               <Input
                 id="description"
-                placeholder="Describe the task"
                 {...register("description",
                 )}
               />
@@ -115,7 +118,7 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.assignedTo} required>
               <Field.Label htmlFor="assignedTo">
-                Assigned To
+              {t("task_category.create_task.assigned_to")}
               </Field.Label>
 
               {/* Chakra Menu: Menu + MenuButton + MenuList + MenuItem */}
@@ -149,7 +152,7 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.recurrence}>
               <Field.Label htmlFor="recurrence">
-                Recurrence
+              {t("task_category.create_task.recurrence")}
               </Field.Label>
               <Input
                 id="recurrence"
@@ -169,7 +172,7 @@ export const NewTask = () => {
             colorScheme="blue"
             loading={isSubmitting}
           >
-            Create Task
+            {t("task_category.create_task.create_task")}
           </Button>
         </Card.Footer>
       </Card.Root>
