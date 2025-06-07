@@ -25,4 +25,14 @@ export class UserApartmentService {
 
     return !!resident;
   }
+
+  async getUserApartment(userId: string, apartmentId: string): Promise<UserApartment> {
+    return await this.userApartmentRepo.findOne({
+      where: {
+        userId,
+        apartmentId,
+      },
+      relations: ['apartment'],
+    });
+  }
 }

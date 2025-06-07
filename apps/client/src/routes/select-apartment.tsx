@@ -1,17 +1,29 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { SelectApartment } from '../pages/SelectApartment';
+import { useEffect } from 'react';
+import { useAuth } from '../context/auth/AuthProvider';
 
 export const Route = createFileRoute('/select-apartment')({
   beforeLoad: ({ context }) => {
-    if (
-      (!context.currentUserDetails?.apartments || context.currentUserDetails.apartments.length === 0) &&
-      (!context.currentUserDetails?.landlordApartments || context.currentUserDetails.landlordApartments.length === 0)
-    ) {
-      throw redirect({ to: '/new-apartment' });
-    }
     if (!context.currentUserDetails) {
       throw redirect({ to: '/login' });
     }
   },
-  component: () => <SelectApartment />,
+  component: () => <SelectApartmentPage />,
 });
+
+const SelectApartmentPage = () => {
+  const { currentUserDetails } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUserDetails) {
+      navigate({ to: '/login' });
+    } else if (!currentUserDetails?.apartments?.length && !currentUserDetails?.landlordApartments?.length) {
+      navigate({ to: '/new-apartment' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserDetails]);
+
+  return <SelectApartment />;
+};

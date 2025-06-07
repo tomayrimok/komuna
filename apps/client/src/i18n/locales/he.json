@@ -59,7 +59,7 @@
             "select-paid-by": "בחרו על ידי מי ההוצאה שולמה:",
             "all-expenses": "כל ההוצאות",
             "no-expenses": "אין הוצאות",
-            "create-expense": "הוספת הוצאה חדשה",
+            "create-expense": "יצירת הוצאה חדשה",
             "out-of": "{{amount}} מתוך {{total}}",
             "remaining": "נשארו {{amount}}",
             "expense-saved": "ההוצאה נשמרה בהצלחה",
@@ -81,6 +81,8 @@
     "welcome": "ברוכים הבאים!",
     "save": "שמירה",
     "cancel": "ביטול",
+    "continue": "המשך",
+    "delete": "מחיקה",
     "login": {
         "title": "התחברות",
         "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
@@ -107,6 +109,10 @@
             "description": "{{firstName}}, ברוכים הבאים! אנא בחרו מה ברצונכם לעשות:",
             "create_new_apartment": "יצירת דירה חדשה",
             "join_apartment": "הצטרפות לדירה קיימת"
+        },
+        "has_apartments": {
+            "title": "רוצים להצטרף לדירה נוספת?",
+            "apartments_list": "חזרה לבחירת דירה קיימת"
         }
     },
     "create_apartment": {
@@ -160,7 +166,7 @@
             "landlord_description": "זהו קוד להזמנת בעל הדירה:",
             "error": "לא הצלחנו ליצור את הקוד. אנא נסו שוב מאוחר יותר.",
             "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
-            "close_btn": "מעבר לאפליקציה"
+            "to_app": "מעבר לאפליקציה"
         },
         "continue_btn": "המשך",
         "done_btn": "סיום",
@@ -171,7 +177,9 @@
         "title": "התחברות לדירה קיימת",
         "description": "בקשו מחברכם שיצר את הדירה שישתף עמכם את קוד הדירה, על מנת להתחבר אליה.",
         "join_btn": "התחבר לדירה",
-        "success": "הצטרפתם לדירה בהצלחה!"
+        "success": "הצטרפתם לדירה בהצלחה!",
+        "apartment_already_joined": "שימו לב, אתם כבר שייכים לדירה שאתם מנסים להצטרף אליה.",
+        "apartment_not_found": "הדירה שאתם מנסים להצטרף אליה לא נמצאה."
     },
     "choose_apartment": {
         "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
@@ -190,7 +198,8 @@
                 "app_settings": "הגדרות אפליקציה",
                 "logout": "התנתקות",
                 "change_languege": "שנה שפה",
-                "select_apartment": "שינוי דירה"
+                "select_apartment": "שינוי דירה",
+                "roommates": "רשימת השותפים"
             },
             "navigation": {
                 "tasks": "משימות",
@@ -219,14 +228,27 @@
             }
         }
     },
+    "residents": {
+        "title": "רשימת השותפים",
+        "no-residents": "אין שותפים",
+        "residents_amount": "{{amount}} שותפים",
+        "total_rent": "סך שכר הדירה",
+        "joined_at": "הצטרפ/ה בתאריך",
+        "rent": "שכר הדירה"
+    },
     "shopping": {
+        "search_add_item": "הוסף פריט...",
         "shopping_list": "רשימת קניות",
-        "personal": "רשימה אישית",
-        "apartment": "רשימה דירתית",
-        "list_is_empty": "רשימת הקניות ריקה",
+        "personal": "רשימת קניות אישית",
+        "apartment": "רשימת קניות דירתית",
+        "list_is_empty": "נראה שרשימת הקניות ריקה...",
+        "wanna_buy": "מתחשק לכם לקנות משהו?",
         "add_item": "הוספת פריט",
         "item_name": "שם הפריט",
-        "item_quantity": "כמות"
+        "item_quantity": "כמות",
+        "choose_purchased_items": "בחרו את הפריטים שנרכשו",
+        "search_item": "חיפוש פריט",
+        "make_purchase": "ביצוע רכישה"
     },
     "error": {
         "error": "שגיאה",

@@ -18,6 +18,7 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  apartmentControllerGetRoommates,
   taskControllerCreateTask,
   taskControllerUpdateTaskStatus,
   taskControllerEditTask,
@@ -29,9 +30,10 @@ import {
   incidentControllerUpdateIncident,
   incidentControllerNewComment,
   incidentControllerSetOwnerSeen,
+  notificationControllerRegisterToken,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
-  notificationControllerRegisterToken,
+  shoppingListControllerSearchItem,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -54,6 +56,8 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ApartmentControllerJoinApartmentResponse,
+  ApartmentControllerGetRoommatesData,
   TaskControllerCreateTaskData,
   TaskControllerUpdateTaskStatusData,
   TaskControllerEditTaskData,
@@ -68,10 +72,11 @@ import type {
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
+  NotificationControllerRegisterTokenData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
-  NotificationControllerRegisterTokenData,
+  ShoppingListControllerSearchItemData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -556,9 +561,13 @@ export const apartmentControllerJoinApartmentOptions = (options?: Options<Apartm
 
 export const apartmentControllerJoinApartmentMutation = (
   options?: Partial<Options<ApartmentControllerJoinApartmentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerJoinApartmentData>> => {
+): UseMutationOptions<
+  ApartmentControllerJoinApartmentResponse,
+  AxiosError<DefaultError>,
+  Options<ApartmentControllerJoinApartmentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    ApartmentControllerJoinApartmentResponse,
     AxiosError<DefaultError>,
     Options<ApartmentControllerJoinApartmentData>
   > = {
@@ -572,6 +581,24 @@ export const apartmentControllerJoinApartmentMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const apartmentControllerGetRoommatesQueryKey = (options: Options<ApartmentControllerGetRoommatesData>) =>
+  createQueryKey('apartmentControllerGetRoommates', options);
+
+export const apartmentControllerGetRoommatesOptions = (options: Options<ApartmentControllerGetRoommatesData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerGetRoommates({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerGetRoommatesQueryKey(options),
+  });
 };
 
 export const taskControllerCreateTaskQueryKey = (options: Options<TaskControllerCreateTaskData>) =>
@@ -923,6 +950,47 @@ export const incidentControllerSetOwnerSeenMutation = (
   return mutationOptions;
 };
 
+export const notificationControllerRegisterTokenQueryKey = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => createQueryKey('notificationControllerRegisterToken', options);
+
+export const notificationControllerRegisterTokenOptions = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await notificationControllerRegisterToken({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: notificationControllerRegisterTokenQueryKey(options),
+  });
+};
+
+export const notificationControllerRegisterTokenMutation = (
+  options?: Partial<Options<NotificationControllerRegisterTokenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<NotificationControllerRegisterTokenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await notificationControllerRegisterToken({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const shoppingListControllerGetShoppingListQueryKey = (
   options: Options<ShoppingListControllerGetShoppingListData>
 ) => createQueryKey('shoppingListControllerGetShoppingList', options);
@@ -986,16 +1054,13 @@ export const shoppingListControllerSyncItemsMutation = (
   return mutationOptions;
 };
 
-export const notificationControllerRegisterTokenQueryKey = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => createQueryKey('notificationControllerRegisterToken', options);
+export const shoppingListControllerSearchItemQueryKey = (options: Options<ShoppingListControllerSearchItemData>) =>
+  createQueryKey('shoppingListControllerSearchItem', options);
 
-export const notificationControllerRegisterTokenOptions = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => {
+export const shoppingListControllerSearchItemOptions = (options: Options<ShoppingListControllerSearchItemData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await notificationControllerRegisterToken({
+      const { data } = await shoppingListControllerSearchItem({
         ...options,
         ...queryKey[0],
         signal,
@@ -1003,26 +1068,6 @@ export const notificationControllerRegisterTokenOptions = (
       });
       return data;
     },
-    queryKey: notificationControllerRegisterTokenQueryKey(options),
+    queryKey: shoppingListControllerSearchItemQueryKey(options),
   });
-};
-
-export const notificationControllerRegisterTokenMutation = (
-  options?: Partial<Options<NotificationControllerRegisterTokenData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
-  const mutationOptions: UseMutationOptions<
-    unknown,
-    AxiosError<DefaultError>,
-    Options<NotificationControllerRegisterTokenData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await notificationControllerRegisterToken({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };

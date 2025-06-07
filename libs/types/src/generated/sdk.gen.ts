@@ -28,6 +28,8 @@ import type {
   ApartmentControllerGetApartmentWithResidentsResponse,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ApartmentControllerJoinApartmentResponse,
+  ApartmentControllerGetRoommatesData,
   TaskControllerCreateTaskData,
   TaskControllerUpdateTaskStatusData,
   TaskControllerEditTaskData,
@@ -44,11 +46,13 @@ import type {
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
+  NotificationControllerRegisterTokenData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
-  NotificationControllerRegisterTokenData,
+  ShoppingListControllerSearchItemData,
+  ShoppingListControllerSearchItemResponse,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -235,8 +239,17 @@ export const apartmentControllerCreateApartment = <ThrowOnError extends boolean 
 export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = false>(
   options?: Options<ApartmentControllerJoinApartmentData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).post<ApartmentControllerJoinApartmentResponse, unknown, ThrowOnError>({
     url: '/api/apartment/join/{code}',
+    ...options,
+  });
+};
+
+export const apartmentControllerGetRoommates = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerGetRoommatesData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment/{apartmentId}/roommates',
     ...options,
   });
 };
@@ -364,6 +377,15 @@ export const incidentControllerSetOwnerSeen = <ThrowOnError extends boolean = fa
   });
 };
 
+export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/notification/register-token',
+    ...options,
+  });
+};
+
 export const shoppingListControllerGetShoppingList = <ThrowOnError extends boolean = false>(
   options: Options<ShoppingListControllerGetShoppingListData, ThrowOnError>
 ) => {
@@ -386,11 +408,11 @@ export const shoppingListControllerSyncItems = <ThrowOnError extends boolean = f
   });
 };
 
-export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
-  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
+export const shoppingListControllerSearchItem = <ThrowOnError extends boolean = false>(
+  options: Options<ShoppingListControllerSearchItemData, ThrowOnError>
 ) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/notification/register-token',
+  return (options.client ?? _heyApiClient).get<ShoppingListControllerSearchItemResponse, unknown, ThrowOnError>({
+    url: '/api/shopping-list/search-item',
     ...options,
   });
 };

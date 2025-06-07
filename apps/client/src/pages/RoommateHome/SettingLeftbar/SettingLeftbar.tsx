@@ -1,6 +1,15 @@
 import { Avatar, Button, HStack, Stack, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { IconBellCog, IconHomeCog, IconLogout, IconMenu2, IconSettings, IconUserCog, IconHomeEdit } from '@tabler/icons-react';
+import {
+  IconBellCog,
+  IconHomeCog,
+  IconLogout,
+  IconMenu2,
+  IconSettings,
+  IconUserCog,
+  IconHomeEdit,
+  IconUsersGroup,
+} from '@tabler/icons-react';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { Sidebar } from '../../../components/Sidebar/Sidebar';
 import { LanguegeSelector } from '../../../components/LanguegeSelector';
@@ -45,6 +54,16 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.apartment_settings')}
             </Button>
 
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: '/roommate/residents' })}
+            >
+              <IconUsersGroup />
+              {t('roommate.homepage.leftbar.roommates')}
+            </Button>
+
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconBellCog />
               {t('roommate.homepage.leftbar.notifications_settings')}
@@ -55,7 +74,12 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.app_settings')}
             </Button>
 
-            <Button justifyContent="start" variant="ghost" size="lg" onClick={() => navigate({ to: '/select-apartment' })}>
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: '/select-apartment' })}
+            >
               <IconHomeEdit />
               {t('roommate.homepage.leftbar.select_apartment')}
             </Button>

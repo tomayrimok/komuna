@@ -1,35 +1,44 @@
-import { Box, Button, CloseButton, Drawer, HStack, Icon, Input, InputGroup, Portal, Text, VStack } from "@chakra-ui/react";
-import { useShoppingList } from "../../context/auth/ShoppingListProvider"
-import SelectionCard from "../selectionCard";
-import { IconSearch, IconShoppingBag } from "@tabler/icons-react";
+import { Button, CloseButton, Drawer, Portal, VStack } from "@chakra-ui/react";
+import { IconShoppingBag } from "@tabler/icons-react";
 import { usePurchase } from "../../context/auth/PurchaseProvider";
+import { useShoppingList } from "../../context/auth/ShoppingListProvider";
 import { useFilterList } from "../../hooks/useFilterList";
 import { testInput } from "../../utils/testInput";
 import SearchInput from "../searchInput";
+import SelectionCard from "../selectionCard";
+import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import CreatePurchaseButton from "./createPurchaseButton";
 
 const ShoppingListPurchaseDrawer = () => {
-    const { items } = useShoppingList();
-    const { purchaseItems, toggleItem } = usePurchase();
+    const { items, purchaseItems } = useShoppingList();
+    const { toggleItem } = usePurchase();
+    const { t } = useTranslation();
 
     const { filteredResults, handleChange } = useFilterList(items.filter(item => !item.isPurchased), (list, value) => list.filter(item => testInput(item.name, value)))
 
+    const navigate = useNavigate();
+
+    const handleSave = () => {
+        navigate({ to: "/roommate/payments/create-expense", search: { fromShoppingList: true } });
+    }
+
     return (
         <Drawer.Root placement={"bottom"} >
-            <Drawer.Trigger asChild>
-                <Button size="sm">
-                    ביצוע רכישה
-                </Button>
-            </Drawer.Trigger>
+
+            <CreatePurchaseButton />
             <Portal>
                 <Drawer.Backdrop />
                 <Drawer.Positioner>
                     <Drawer.Content h={"2xl"}>
                         <Drawer.Header>
-                            <Drawer.Title>בחרו את הפריטים שנרכשו</Drawer.Title>
+                            <Drawer.Title>
+                                {t("shopping.choose_purchased_items")}
+                            </Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body>
                             <SearchInput
-                                placeholder="חיפוש פריט"
+                                placeholder={t("shopping.search_item")}
                                 handleChange={handleChange}
                             />
                             <VStack>
@@ -38,7 +47,7 @@ const ShoppingListPurchaseDrawer = () => {
                                         key={item.itemId}
                                         title={item.name}
                                         description={item.category}
-                                        selected={purchaseItems.has(item)}
+                                        selected={purchaseItems.some(i => i.itemId === item.itemId)}
                                         fallbackIcon={<IconShoppingBag />}
                                         onClick={() => toggleItem(item)}
                                     />
@@ -48,12 +57,12 @@ const ShoppingListPurchaseDrawer = () => {
                         <Drawer.Footer justifyContent="space-between">
                             <Drawer.ActionTrigger asChild>
                                 <Button variant="outline">
-                                    ביטול
+                                    {t("cancel")}
                                 </Button>
                             </Drawer.ActionTrigger>
-                            {/* <Button onClick={() => { }}>
-                                המשך
-                            </Button> */}
+                            <Button onClick={handleSave}>
+                                {t("continue")}
+                            </Button>
                         </Drawer.Footer>
                         <Drawer.CloseTrigger asChild>
                             <CloseButton size="sm" />

@@ -81,10 +81,15 @@
         "apartment": "Apartment list",
         "list_is_empty": "The list is empty",
         "item_name": "Item name",
-        "item_quantity": "Item quantity"
+        "item_quantity": "Item quantity",
+        "choose_purchased_items": "Select purchased items",
+        "search_item": "Search item",
+        "make_purchase": "Make purchase"
     },
     "save": "Save",
     "cancel": "Cancel",
+    "continue": "Continue",
+    "delete": "Delete",
     "other-options": "Other Options",
     "select-roommates": "Select Roommates",
     "select-roommate": "Select Roommate",

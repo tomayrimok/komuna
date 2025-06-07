@@ -16,6 +16,7 @@ import { PurchaseProvider } from './context/auth/PurchaseProvider';
 import { useLocaleChange } from './hooks/useLocaleChange';
 import './i18n/';
 import { routeTree } from './routeTree.gen';
+import { ShoppingListProvider } from './context/auth/ShoppingListProvider';
 
 const router = createRouter({
   routeTree,
@@ -54,10 +55,12 @@ const AppEntry = () => {
     >
       {isMobile ? (
         <AuthProvider>
-          <PurchaseProvider>
-            <RouterWrapper />
-            <Toaster />
-          </PurchaseProvider>
+          <ShoppingListProvider>
+            <PurchaseProvider>
+              <RouterWrapper />
+              <Toaster />
+            </PurchaseProvider>
+          </ShoppingListProvider>
         </AuthProvider>
       ) : (
         <WebView />
