@@ -19,7 +19,7 @@ export class UserService {
     @InjectRepository(AuthUser)
     private readonly authUserRepo: Repository<AuthUser>,
     private readonly jwtService: JwtService
-  ) { }
+  ) {}
 
   private readonly logger = new Logger(UserService.name);
 

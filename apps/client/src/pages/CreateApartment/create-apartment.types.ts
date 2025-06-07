@@ -13,4 +13,3 @@ export interface CommonApartmentProps<PageKey extends keyof CreateApartmentDto> 
   aptDetails: CreateApartmentDto;
   updateField: UpdateFieldFn<PageKey, keyof CreateApartmentDto[PageKey]>;
 }
-

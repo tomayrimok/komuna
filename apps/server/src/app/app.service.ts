@@ -4,9 +4,7 @@ import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
-  constructor(
-    private readonly notificationService: NotificationService,
-  ) { }
+  constructor(private readonly notificationService: NotificationService) {}
 
   onModuleInit() {
     // this.testNotificationService();
@@ -25,12 +23,11 @@ export class AppService implements OnModuleInit {
           },
         },
         [UserRole.ROOMMATE]
-      )
+      );
     }, 6000);
   }
 
   async testDebtEdgeService() {
-
     // const aaa = await this.userService.getUserById('9ebd215a-8101-4a5a-96c3-04016aabcd1b');
     // const bbb = await this.userService.createUser({ firstName: 'bbb', lastName: 'bbb', phoneNumber: '054-7654321' });
     // const ccc = await this.userService.createUser({ firstName: 'ccc', lastName: 'ccc', phoneNumber: '054-24232' });

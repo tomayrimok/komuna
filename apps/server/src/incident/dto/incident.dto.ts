@@ -1,14 +1,9 @@
 import { IsUUID, IsString, IsEnum, IsOptional, IsDateString, IsArray } from 'class-validator';
 import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  CreateIncidentDto as CreateIncidentDtoReq,
-  AddCommentDto as AddCommentDtoReq
-} from '@komuna/types';
+import { CreateIncidentDto as CreateIncidentDtoReq, AddCommentDto as AddCommentDtoReq } from '@komuna/types';
 import { Incident } from '../incident.entity';
 import { User } from '../../user/user.entity';
-
-
 
 // export class CreateIncidentDto implements CreateIncidentDtoReq {
 //   status: IncidentStatus;
@@ -87,7 +82,6 @@ export class AddCommentDto implements AddCommentDtoReq {
   images?: string[];
 }
 
-
 export class GetIncidentsDto {
   @ApiProperty()
   @IsUUID()
@@ -123,11 +117,9 @@ export class CommentResponseDto {
 
   @ApiProperty()
   user: User;
-
 }
 
 export class IncidentResponseDto {
-
   @ApiProperty()
   incidentId: string;
 
@@ -173,9 +165,7 @@ export class IncidentResponseDto {
   comments: CommentResponseDto[];
 }
 
-
 export class AddEditIncidentDto {
-
   @ApiProperty({ required: false })
   @IsOptional()
   incidentId: string;
@@ -189,14 +179,15 @@ export class AddEditIncidentDto {
   @IsString()
   description: string;
 
-  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency', enum: IncidentUrgency, enumName: 'IncidentUrgency' })
+  @ApiProperty({
+    description: 'How urgent the incident is. used by Enum IncidentUrgency',
+    enum: IncidentUrgency,
+    enumName: 'IncidentUrgency',
+  })
   @IsEnum(IncidentUrgency)
   urgencyLevel: IncidentUrgency;
 
   @ApiProperty()
   @IsUUID()
   apartmentId: string;
-
-
-
 }

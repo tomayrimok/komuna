@@ -22,11 +22,10 @@ export class IncidentService {
     private readonly commentRepo: Repository<Comment>,
 
     private readonly userApartmentService: UserApartmentService,
-    private readonly notificationService: NotificationService, // Assuming you have a NotificationService for handling notifications
-  ) { }
+    private readonly notificationService: NotificationService // Assuming you have a NotificationService for handling notifications
+  ) {}
 
   async addEditIncident(incidentDto: AddEditIncidentDto, userId: string): Promise<Incident> {
-
     if (incidentDto.incidentId) {
       const existingIncident = await this.incidentRepo.findOneBy({
         incidentId: incidentDto.incidentId,
@@ -38,16 +37,19 @@ export class IncidentService {
 
     const newIncident = this.incidentRepo.create({
       ...incidentDto,
-      reporterId: userId
+      reporterId: userId,
     });
     try {
-      this.notificationService.sendNotificationToApartment(incidentDto.apartmentId, { notification: { title: 'נוצרה תקלה חדשה', body: incidentDto.title } }, [UserRole.LANDLORD, UserRole.ROOMMATE], userId);
+      this.notificationService.sendNotificationToApartment(
+        incidentDto.apartmentId,
+        { notification: { title: 'נוצרה תקלה חדשה', body: incidentDto.title } },
+        [UserRole.LANDLORD, UserRole.ROOMMATE],
+        userId
+      );
       return await this.incidentRepo.save(newIncident);
-    }
-    catch (error) {
+    } catch (error) {
       throw new InternalServerErrorException('Failed to create or update incident', error);
     }
-
   }
 
   async updateIncident(incidentDto: UpdateIncidentDto, userId: string): Promise<Incident> {
@@ -58,7 +60,12 @@ export class IncidentService {
     if (incident.status !== incidentDto.status) {
       this.notificationService.sendNotificationToApartment(
         incident.apartmentId,
-        { notification: { title: 'עדכון תקלה', body: `התקלה ״${incident.title}״ ${incidentStatusesHe[incidentDto.status]}` } },
+        {
+          notification: {
+            title: 'עדכון תקלה',
+            body: `התקלה ״${incident.title}״ ${incidentStatusesHe[incidentDto.status]}`,
+          },
+        },
         [UserRole.LANDLORD, UserRole.ROOMMATE],
         userId
       );
@@ -77,7 +84,7 @@ export class IncidentService {
     const comment = this.commentRepo.create({
       incidentId: commentDto.incidentId,
       userId: userId,
-      message: commentDto.message
+      message: commentDto.message,
     });
 
     try {
@@ -99,7 +106,7 @@ export class IncidentService {
       return await this.incidentRepo.find({
         where: { apartmentId },
         order: { createdAt: 'DESC' },
-        relations: ['reporter', 'comments']
+        relations: ['reporter', 'comments'],
       });
     } catch (error) {
       throw new InternalServerErrorException('Failed to load incidents ', error);
@@ -108,10 +115,7 @@ export class IncidentService {
 
   async setOwnerSeen(incidentId: string, apartmentId: string) {
     try {
-      return this.incidentRepo.update(
-        { incidentId, apartmentId },
-        { seenByManager: true }
-      )
+      return this.incidentRepo.update({ incidentId, apartmentId }, { seenByManager: true });
     } catch (error) {
       throw new InternalServerErrorException('Failed to set owner seen status ', error);
     }

@@ -11,7 +11,7 @@ export class ExpenseService {
     @InjectRepository(Expense)
     private readonly expenseRepo: Repository<Expense>,
     private readonly debtEdgeService: DebtEdgeService
-  ) { }
+  ) {}
 
   // This method creates a new expense and updates the debts of the users involved in the expense.
   // for example, if some member bought groceries for the group, the method will create an expense for this purchase,
@@ -71,7 +71,7 @@ export class ExpenseService {
       order: { createdAt: 'DESC' },
     });
 
-    return expenses.map(expense => ({
+    return expenses.map((expense) => ({
       ...expense,
       splitAmount: expense.splits[userId] ?? 0,
       paidByMe: expense.paidByUser?.userId === userId,

@@ -7,5 +7,5 @@ export const Route = createFileRoute('/landlord/incidents')({
 });
 
 function RouteComponent() {
-  return <IncidentsPage />
+  return <IncidentsPage />;
 }

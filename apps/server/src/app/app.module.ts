@@ -50,7 +50,7 @@ import { AppService } from './app.service';
         Task,
         Comment,
         NotificationToken,
-        Notification
+        Notification,
       ],
       synchronize: true,
     }),
@@ -63,9 +63,9 @@ import { AppService } from './app.service';
     TaskModule,
     IncidentModule,
     ShoppingListModule,
-    NotificationModule
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -56,7 +56,7 @@ export class Incident {
   @ApiProperty({ type: () => [Comment] })
   @OneToMany(() => Comment, (comment) => comment.incident, {
     cascade: true,
-    eager: false
+    eager: false,
   })
   comments: Comment[];
 
@@ -68,7 +68,6 @@ export class Incident {
 
 @Entity()
 export class Comment {
-
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   commentId: string;
@@ -94,11 +93,11 @@ export class Comment {
   images?: string[];
 
   @ApiProperty()
-  @ManyToOne(() => User, user => user.comments, { eager: true })
+  @ManyToOne(() => User, (user) => user.comments, { eager: true })
   @JoinColumn({ name: 'userId' })
   user: string;
 
-  @ManyToOne(() => Incident, i => i.comments)
+  @ManyToOne(() => Incident, (i) => i.comments)
   @JoinColumn({ name: 'incidentId' })
   incident: Incident;
 }

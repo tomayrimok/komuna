@@ -3,13 +3,20 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
 import { User } from '../user/user.entity';
-import { AddCommentDto, AddEditIncidentDto, GetIncidentDto, GetIncidentsDto, IncidentResponseDto, UpdateIncidentDto } from './dto/incident.dto';
+import {
+  AddCommentDto,
+  AddEditIncidentDto,
+  GetIncidentDto,
+  GetIncidentsDto,
+  IncidentResponseDto,
+  UpdateIncidentDto,
+} from './dto/incident.dto';
 import { Comment, Incident } from './incident.entity';
 import { IncidentService } from './incident.service';
 
 @Controller('incident')
 export class IncidentController {
-  constructor(private readonly incidentService: IncidentService) { }
+  constructor(private readonly incidentService: IncidentService) {}
   private readonly logger = new Logger(IncidentController.name);
 
   @Get()
@@ -23,8 +30,7 @@ export class IncidentController {
   @Get('details')
   @UseAuth()
   @ApiOkResponse({ type: IncidentResponseDto })
-  async getIncidentDetails(@Query() query: GetIncidentDto
-  ) {
+  async getIncidentDetails(@Query() query: GetIncidentDto) {
     const { incidentId } = query;
     return await this.incidentService.getIncidentDetails(incidentId);
   }

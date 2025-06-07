@@ -34,4 +34,3 @@ export class CreateUserDto {
   @IsString()
   image?: string;
 }
-

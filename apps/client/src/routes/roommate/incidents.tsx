@@ -6,5 +6,5 @@ export const Route = createFileRoute('/roommate/incidents')({
 });
 
 function RouteComponent() {
-  return <IncidentsPage />
+  return <IncidentsPage />;
 }

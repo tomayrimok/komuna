@@ -7,13 +7,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Task]),
-    UserModule,
-    JwtModule
-  ],
+  imports: [TypeOrmModule.forFeature([Task]), UserModule, JwtModule],
   providers: [TaskService],
   controllers: [TaskController],
-  exports: [TaskService]
+  exports: [TaskService],
 })
 export class TaskModule {}
