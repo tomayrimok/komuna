@@ -30,13 +30,29 @@ import type {
   ApartmentControllerJoinApartmentData,
   ApartmentControllerJoinApartmentResponse,
   ApartmentControllerGetRoommatesData,
+  TaskControllerCreateTaskData,
+  TaskControllerUpdateTaskStatusData,
+  TaskControllerEditTaskData,
+  TaskControllerGetAllTasksData,
+  TaskControllerGetCompletedTasksData,
+  IncidentControllerGetAllIncidentsData,
+  IncidentControllerGetAllIncidentsResponse,
+  IncidentControllerGetIncidentDetailsData,
+  IncidentControllerGetIncidentDetailsResponse,
+  IncidentControllerAddEditIncidentData,
+  IncidentControllerAddEditIncidentResponse,
+  IncidentControllerUpdateIncidentData,
+  IncidentControllerUpdateIncidentResponse,
+  IncidentControllerNewCommentData,
+  IncidentControllerNewCommentResponse,
+  IncidentControllerSetOwnerSeenData,
+  NotificationControllerRegisterTokenData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
   ShoppingListControllerSearchItemData,
   ShoppingListControllerSearchItemResponse,
-  NotificationControllerRegisterTokenData,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -238,6 +254,138 @@ export const apartmentControllerGetRoommates = <ThrowOnError extends boolean = f
   });
 };
 
+export const taskControllerCreateTask = <ThrowOnError extends boolean = false>(
+  options: Options<TaskControllerCreateTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/task/create',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const taskControllerUpdateTaskStatus = <ThrowOnError extends boolean = false>(
+  options: Options<TaskControllerUpdateTaskStatusData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/task/update',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const taskControllerEditTask = <ThrowOnError extends boolean = false>(
+  options: Options<TaskControllerEditTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/task/edit',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const taskControllerGetAllTasks = <ThrowOnError extends boolean = false>(
+  options?: Options<TaskControllerGetAllTasksData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    url: '/api/task/get',
+    ...options,
+  });
+};
+
+export const taskControllerGetCompletedTasks = <ThrowOnError extends boolean = false>(
+  options: Options<TaskControllerGetCompletedTasksData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    url: '/api/task/get-completed',
+    ...options,
+  });
+};
+
+export const incidentControllerGetAllIncidents = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerGetAllIncidentsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<IncidentControllerGetAllIncidentsResponse, unknown, ThrowOnError>({
+    url: '/api/incident',
+    ...options,
+  });
+};
+
+export const incidentControllerGetIncidentDetails = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerGetIncidentDetailsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<IncidentControllerGetIncidentDetailsResponse, unknown, ThrowOnError>({
+    url: '/api/incident/details',
+    ...options,
+  });
+};
+
+export const incidentControllerAddEditIncident = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerAddEditIncidentData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<IncidentControllerAddEditIncidentResponse, unknown, ThrowOnError>({
+    url: '/api/incident/add-edit',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const incidentControllerUpdateIncident = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerUpdateIncidentData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<IncidentControllerUpdateIncidentResponse, unknown, ThrowOnError>({
+    url: '/api/incident/update',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const incidentControllerNewComment = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerNewCommentData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<IncidentControllerNewCommentResponse, unknown, ThrowOnError>({
+    url: '/api/incident/comment',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const incidentControllerSetOwnerSeen = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerSetOwnerSeenData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/incident/owner-seen',
+    ...options,
+  });
+};
+
+export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/notification/register-token',
+    ...options,
+  });
+};
+
 export const shoppingListControllerGetShoppingList = <ThrowOnError extends boolean = false>(
   options: Options<ShoppingListControllerGetShoppingListData, ThrowOnError>
 ) => {
@@ -265,15 +413,6 @@ export const shoppingListControllerSearchItem = <ThrowOnError extends boolean = 
 ) => {
   return (options.client ?? _heyApiClient).get<ShoppingListControllerSearchItemResponse, unknown, ThrowOnError>({
     url: '/api/shopping-list/search-item',
-    ...options,
-  });
-};
-
-export const notificationControllerRegisterToken = <ThrowOnError extends boolean = false>(
-  options?: Options<NotificationControllerRegisterTokenData, ThrowOnError>
-) => {
-  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/notification/register-token',
     ...options,
   });
 };

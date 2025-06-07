@@ -56,6 +56,24 @@
             }
         }
     },
+    "landlord": {
+        "homepage": {
+            "title": "Welcome, <b>{{firstName}}!</b>",
+            "leftbar": {
+                "profile_settings": "Profile settings",
+                "apartment_settings": "Apartment settings",
+                "notifications_settings": "Notification & event settings",
+                "app_settings": "App settings",
+                "logout": "Log out",
+                "change_languege": "Change language"
+            },
+            "navigation": {
+                "home": "Home",
+                "settings": "Settings",
+                "incidents": "Incidents"
+            }
+        }
+    },
     "shopping": {
         "shopping_list": "Shopping list",
         "add_item": "Add item",
@@ -133,5 +151,43 @@
         "error": "An error occurred",
         "action_failed": "Action failed. Please try again.",
         "incorrect_values": "Incorrect values. Please check and try again."
+    },
+    "task_category": {
+        "title": "Tasks",
+        "task_list": "Your Tasks:",
+        "tasks": {
+            "title": "Task's Name: <b>{{taskName}}</b>",
+            "due_date": "Due To: <b>{{dueDate}}</b>",
+            "descrption": "Description: <b>{{description}}</b>",
+            "assigned_to": "Participants: <b>{{assignedTo}}</b>",
+            "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
+            "assigned_by": "Assigned By: <b>{{createdBy}}</b>"
+        },
+        "buttons": {
+            "done": "Done",
+            "postpone": "Postpone",
+            "didnt_do": "Didnt Do"
+        }
+    },
+    "incidents": {
+        "no_incidents": "No incidents",
+        "create_incident": "Create Incident",
+        "edit_incident": "Edit Incident",
+        "incident_title": "Title",
+        "incident_description": "Description",
+        "urgency_level": "Urgency Level",
+        "incident_saved": "The incident has been successfully saved",
+        "update_status": "Update Status",
+        "notes_and_updates": "Notes and Updates",
+        "add_note": "Add Note...",
+        "open_incidents": "Open Incidents",
+        "solved_incidents": "Solved Incidents",
+        "num_open_incidents": "{{count}} Open Incidents"
+    },
+    "urgency": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "extreme": "Extreme"
     }
 }

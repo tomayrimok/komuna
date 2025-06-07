@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import { Box, Button, Container, Flex, Heading, NumberInput, Stack, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Loader, NumberInput, Stack, Text, Textarea } from '@chakra-ui/react';
 import { ExpenseProvider, useExpense } from '../../context/payments/ExpenseProvider';
 import { withWrappers } from '../../utilities/withWrappers';
 import { useRouter } from '@tanstack/react-router';
@@ -31,7 +31,7 @@ const ExpenseDetailsPage = () => {
     !expenseDetails.paidByUser ||
     isAddEditExpenseLoading;
 
-  if (expenseId && isExpenseDetailsLoading) return <Text>Loading...</Text>;
+  if (expenseId && isExpenseDetailsLoading) return <Loader />;
 
   return (
     <Box

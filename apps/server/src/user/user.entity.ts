@@ -4,6 +4,7 @@ import { Expense } from '../expense/expense.entity';
 import { Apartment } from '../apartment/apartment.entity';
 import { DebtEdge } from '../debt-edge/debt-edge.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Comment, Incident } from '../incident/incident.entity';
 
 @Entity()
 export class User {
@@ -54,6 +55,14 @@ export class User {
   @ApiProperty({ type: () => [DebtEdge], description: "User's credits" })
   @OneToMany(() => DebtEdge, (d) => d.toUser)
   credits: DebtEdge[];
+
+  @ApiProperty({ description: 'The comments made by the user', type: () => [Comment] })
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
+
+  @ApiProperty({ description: 'The incidents reported by the user', type: () => [Incident] })
+  @OneToMany(() => Incident, (incident) => incident.reporter)
+  incidents: Incident[];
 
   @CreateDateColumn()
   createdAt: Date;

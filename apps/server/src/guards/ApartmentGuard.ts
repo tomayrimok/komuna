@@ -25,6 +25,7 @@ export class ApartmentAccessGuard implements CanActivate {
     }
 
     // This method should check if the user belongs to that apartment
+    //! It does not check if the user is the landlord!
     const isMember = await this.userApartmentService.isUserInApartment(user.userId, apartmentId);
 
     if (!isMember) {

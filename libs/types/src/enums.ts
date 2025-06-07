@@ -9,9 +9,33 @@ export enum IncidentStatus {
   SOLVED = 'SOLVED',
 }
 
+export enum IncidentUrgency {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  EXTREME = 'EXTREME',
+}
+
 export enum ContextType {
   APARTMENT = 'APARTMENT',
   USER = 'USER',
+}
+
+export enum Frequency {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  YEARLY = 'YEARLY',
+}
+
+export enum WeekDay {
+  SU = 'SU',
+  MO = 'MO',
+  TU = 'TU',
+  WE = 'WE',
+  TH = 'TH',
+  FR = 'FR',
+  SA = 'SA',
 }
 
 //TODO check that this works. It's been moved into common @komuna/types

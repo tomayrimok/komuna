@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 
 const PaymentPage = () => {
 
-    const { t } = useTranslation();
-
     return (
         <Stack
             gap="4"

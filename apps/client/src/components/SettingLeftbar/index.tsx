@@ -10,16 +10,18 @@ import {
   IconHomeEdit,
   IconUsersGroup,
 } from '@tabler/icons-react';
-import { useAuth } from '../../../context/auth/AuthProvider';
-import { Sidebar } from '../../../components/Sidebar/Sidebar';
-import { LanguegeSelector } from '../../../components/LanguegeSelector';
-import { useIsRTL } from '../../../hooks/useIsRTL';
+import { useAuth } from '../../context/auth/AuthProvider';
+import { Sidebar } from './Sidebar/Sidebar';
+import { LanguegeSelector } from '../LanguegeSelector';
+import { useIsRTL } from '../../hooks/useIsRTL';
 import { useNavigate } from '@tanstack/react-router';
+import { UserRole } from '@komuna/types';
 
 export const SettingLeftbar = () => {
-  const { currentUserDetails, logout } = useAuth();
+  const { currentUserDetails, logout, sessionDetails } = useAuth();
   const { dir } = useIsRTL();
   const { t } = useTranslation();
+  const isLandlord = sessionDetails?.role === UserRole.LANDLORD;
   const navigate = useNavigate();
 
   return (
@@ -29,7 +31,7 @@ export const SettingLeftbar = () => {
           <HStack gap="4">
             <Avatar.Root size="lg" shape="full" border="2px solid" borderColor="brand.900">
               <Avatar.Image src={currentUserDetails?.image} />
-              <Avatar.Fallback name="Nue Camp" />
+              <Avatar.Fallback name="avatar" />
             </Avatar.Root>
             <VStack gap="0" alignItems="start">
               <Text color="brand.900" fontSize="xl">
@@ -58,16 +60,18 @@ export const SettingLeftbar = () => {
               justifyContent="start"
               variant="ghost"
               size="lg"
-              onClick={() => navigate({ to: '/roommate/residents' })}
+              onClick={() => navigate({ to: isLandlord ? '/landlord/residents' : '/roommate/residents' })}
             >
               <IconUsersGroup />
               {t('roommate.homepage.leftbar.roommates')}
             </Button>
 
-            <Button justifyContent="start" variant="ghost" size="lg">
-              <IconBellCog />
-              {t('roommate.homepage.leftbar.notifications_settings')}
-            </Button>
+            {!isLandlord && (
+              <Button justifyContent="start" variant="ghost" size="lg">
+                <IconBellCog />
+                {t('roommate.homepage.leftbar.notifications_settings')}
+              </Button>
+            )}
 
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconSettings />

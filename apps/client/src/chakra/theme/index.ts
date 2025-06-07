@@ -24,6 +24,12 @@ const config = defineConfig({
         },
 
       },
+      textarea: {
+        base: {
+          borderRadius: 'xl',
+          background: 'white',
+        },
+      }
     },
     tokens: {
       fonts: {

@@ -10,7 +10,7 @@ export const NewApartment = () => {
   const navigate = useNavigate();
   const { currentUserDetails } = useAuth();
 
-  const hasApartments = currentUserDetails?.apartments.length || currentUserDetails?.landlordApartments.length;
+  const hasApartments = !!currentUserDetails?.apartments.length || !!currentUserDetails?.landlordApartments.length;
   return (
     <ApartmentLayout
       goBack={

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Sheet } from '@silk-hq/components';
 import './sidebar.css';
-import { useIsRTL } from '../../hooks/useIsRTL';
+import { useIsRTL } from '../../../hooks/useIsRTL';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;

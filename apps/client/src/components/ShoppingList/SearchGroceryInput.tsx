@@ -98,7 +98,7 @@ export const SearchGroceryInput = () => {
         backgroundColor="white"
         startElement={isLoading ? <Spinner size="sm" /> : <IconShoppingBagPlus color="currentColor" />}
       >
-        <Input size="lg" value={searchTerm} placeholder={t('shopping.search_item')} />
+        <Input size="lg" value={searchTerm} placeholder={t('shopping.search_add_item')} />
       </InputGroup>
 
       {isOpen && searchTerm.trim() && (
