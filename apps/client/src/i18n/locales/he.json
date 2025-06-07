@@ -230,7 +230,9 @@
     },
     "residents": {
         "title": "רשימת השותפים",
-        "no-residents": "אין שותפים",
+        "landlord_title": "רשימת שוכרים",
+        "no-residents": "נראה שאתם כאן לבד...",
+        "no-residents-description": "כדי לראות כאן אנשים, יש להזמין שותפים לדירה.",
         "residents_amount": "{{amount}} שותפים",
         "total_rent": "סך שכר הדירה",
         "joined_at": "הצטרפ/ה בתאריך",
@@ -273,7 +275,7 @@
         }
     },
     "incidents": {
-        "no_incidents": "אין תקלות",
+        "no_incidents": "החיים יפים, אין תקלות...",
         "create_incident": "יצירת תקלה חדשה",
         "edit_incident": "עריכת תקלה",
         "incident_title": "כותרת",
