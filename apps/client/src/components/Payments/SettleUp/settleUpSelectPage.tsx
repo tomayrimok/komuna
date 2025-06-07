@@ -10,7 +10,7 @@ import { useApartment } from '../../../hooks/useApartment';
 const SettleUpPage = () => {
   const { t } = useTranslation();
   const { currentUserDetails } = useAuth();
-  const { data, isLoading, isError } = useUserBalanceDetails(currentUserDetails!.userId);
+  const { data, isLoading, isError } = useUserBalanceDetails();
   const navigate = useNavigate();
   const { data: apartmentData } = useApartment();
 

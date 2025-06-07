@@ -20,7 +20,7 @@ export const useAddEditExpense = () => {
         queryKey: ['apartmentExpenses', variables.apartmentId, currentUserDetails?.userId],
       });
       queryClient.invalidateQueries({
-        queryKey: ['userBalanceDetails', variables.apartmentId, currentUserDetails?.userId],
+        queryKey: ['userBalanceDetails', variables.apartmentId],
       });
     },
     onError: (error: any) => {

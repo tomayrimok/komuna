@@ -2,8 +2,13 @@ import { Button } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { IconPlus, IconMoneybagPlus } from '@tabler/icons-react';
+import MainButton from '../mainButton';
 
-const CreateExpenseButton = () => {
+interface CreateExpenseButtonProps {
+  isFixed?: boolean;
+}
+
+const CreateExpenseButton: React.FC<CreateExpenseButtonProps> = ({ isFixed = true }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -12,22 +17,10 @@ const CreateExpenseButton = () => {
   };
 
   return (
-    <Button
-      onClick={handleClick}
-      position="fixed"
-      bottom="110px"
-      right={0}
-      left={0}
-      margin="auto"
-      width="fit-content"
-      fontSize={'lg'}
-      fontWeight={'bold'}
-      py={6}
-      shadow={'md'}
-    >
+    <MainButton isFixed={isFixed} onClick={handleClick} >
       <IconMoneybagPlus size={20} />
       {t('payments.expense.create-expense')}
-    </Button>
+    </MainButton>
   );
 };
 

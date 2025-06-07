@@ -20,14 +20,6 @@
         "operationId": "DebtEdgeController_getUserBalanceDetails",
         "parameters": [
           {
-            "name": "userId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "apartmentId",
             "required": true,
             "in": "query",
@@ -60,14 +52,6 @@
       "get": {
         "operationId": "DebtEdgeController_getUserBalance",
         "parameters": [
-          {
-            "name": "userId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "apartmentId",
             "required": true,

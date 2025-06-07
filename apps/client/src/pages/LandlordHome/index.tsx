@@ -1,7 +1,9 @@
-import { Avatar, Box, Button, Card, HStack, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Card, Flex, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { Trans } from 'react-i18next';
-import { useAuth } from '../../context/auth/AuthProvider';
+import CreateIncidentButton from '../../components/Incidents/createIncidentButton';
+import IncidentsNumber from '../../components/Incidents/incidentsNumber';
 import { SettingLeftbar } from '../../components/SettingLeftbar';
+import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 
 const TempFakeCard = () => (
@@ -62,12 +64,16 @@ export const LandlordHome = () => {
         </HStack>
         <SettingLeftbar />
       </HStack>
-
-      <VStack padding="5" gap="10">
-        <TempFakeCard />
-        <TempFakeCard />
-        <TempFakeCard />
+      <VStack padding="5" gap="5">
+        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} shadow="sm">
+          <Image src='/meerkats/incident.png' width={"20vw"} />
+          <Heading fontSize={"xl"}>
+            <IncidentsNumber />
+          </Heading>
+          <CreateIncidentButton isFixed={false} />
+        </Flex>
       </VStack>
-    </Box>
+
+    </Box >
   );
 };

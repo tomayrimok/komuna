@@ -550,7 +550,6 @@ export type DebtEdgeControllerGetUserBalanceDetailsData = {
   body?: never;
   path?: never;
   query: {
-    userId: string;
     apartmentId: string;
   };
   url: '/api/debt-edge/user-balance-details';
@@ -567,7 +566,6 @@ export type DebtEdgeControllerGetUserBalanceData = {
   body?: never;
   path?: never;
   query: {
-    userId: string;
     apartmentId: string;
   };
   url: '/api/debt-edge/user-balance';
