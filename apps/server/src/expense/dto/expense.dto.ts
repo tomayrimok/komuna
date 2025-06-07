@@ -19,6 +19,11 @@ export class AddEditExpenseDto {
   @IsNotEmpty()
   description: string;
 
+  @ApiProperty({ description: 'Extended Description of the expense', required: false })
+  @IsString()
+  @IsOptional()
+  extendedDescription?: string;
+
   @ApiProperty({ description: 'ID of the user who paid for the expense' })
   @IsString()
   @IsNotEmpty()
@@ -64,6 +69,11 @@ export class ApartmentExpensesResponse {
   @ApiProperty({ description: 'Description of the expense' })
   @IsString()
   description: string;
+
+  @ApiProperty({ required: false, description: 'Extended Description of the expense' })
+  @IsString()
+  @IsOptional()
+  extendedDescription?: string;
 
   @ApiProperty({ description: 'ID of the expense' })
   @IsString()

@@ -69,6 +69,7 @@
       "split-options": "אפשרויות חלוקה",
       "edit-expense": "עריכת הוצאה",
       "expense-description": "תיאור ההוצאה",
+      "expense-extended-description": "רשימת הפריטים שנרכשו",
       "expense-amount": "סכום ההוצאה",
       "paid-by": "שולם על ידי",
       "and-splits": "ומתחלק",
@@ -250,7 +251,8 @@
     "item_quantity": "כמות",
     "choose_purchased_items": "בחרו את הפריטים שנרכשו",
     "search_item": "חיפוש פריט",
-    "make_purchase": "ביצוע רכישה"
+    "make_purchase": "ביצוע רכישה",
+    "purchase_made": "רכישה מרשימת הקניות"
   },
   "error": {
     "error": "שגיאה",

@@ -15,6 +15,7 @@ const ExpenseDetailsPage = () => {
     areSplitsValuesEqual,
     setPaidBy,
     setDescription,
+    setExtendedDescription,
     handleSave,
     expenseId,
     isExpenseDetailsLoading,
@@ -38,7 +39,7 @@ const ExpenseDetailsPage = () => {
       bgImage={`url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='40' y='40' font-size='80' fill='rgba(252, 219, 167, 0.37)' transform='rotate(30)'%3E₪%3C/text%3E%3C/svg%3E")`}
       bgRepeat="repeat"
       h="full"
-      pt={7}
+      pt={6}
     >
       <Container maxW="lg" p={8} h="full" display="flex" flexDirection={'column'}>
         <Stack gap={6} flexGrow={1}>
@@ -70,8 +71,7 @@ const ExpenseDetailsPage = () => {
                 </Text>
                 <Textarea
                   fontSize={'lg'}
-                  rows={4}
-                  // placeholder={t("payments.expense.expense-description")}
+                  rows={2}
                   value={expenseDetails.description}
                   onChange={(e) => setDescription(e.target.value)}
                   resize={'none'}
@@ -79,6 +79,22 @@ const ExpenseDetailsPage = () => {
                   alignContent={'end'}
                 />
               </Box>
+              {expenseDetails.extendedDescription ?
+                <Box>
+                  <Text mb={1} fontWeight="bold">
+                    {t('payments.expense.expense-extended-description')}
+                  </Text>
+                  <Textarea
+                    fontSize={'lg'}
+                    maxLines={4}
+                    value={expenseDetails.extendedDescription}
+                    onChange={(e) => setExtendedDescription(e.target.value)}
+                    resize={'none'}
+                    variant={'flushed'}
+                    alignContent={'end'}
+                  />
+                </Box>
+                : null}
 
               <Box>
                 <Text mb={1} fontWeight="bold">
@@ -111,7 +127,7 @@ const ExpenseDetailsPage = () => {
                 </Flex>
               </Box>
 
-              <Flex flexDirection={'column'} alignItems="center" gap={4} flexWrap="wrap" margin={'auto'}>
+              <Flex flexDirection={'column'} alignItems="center" gap={3} flexWrap="wrap" margin={'auto'} pb={2}>
                 <Text fontWeight="bold" fontSize={'sm'}>
                   {t('payments.expense.paid-by')}
                 </Text>

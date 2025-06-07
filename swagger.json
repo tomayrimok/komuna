@@ -917,6 +917,9 @@
             "type": "string",
             "description": "Description of the expense"
           },
+          "extendedDescription": {
+            "type": "string"
+          },
           "amount": {
             "type": "number",
             "description": "Amount of the expense"
@@ -1697,6 +1700,10 @@
             "type": "string",
             "description": "Description of the expense"
           },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended Description of the expense"
+          },
           "expenseId": {
             "type": "string",
             "description": "ID of the expense"
@@ -1759,6 +1766,10 @@
           "description": {
             "type": "string",
             "description": "Description of the expense"
+          },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended Description of the expense"
           },
           "paidById": {
             "type": "string",

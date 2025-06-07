@@ -44,6 +44,7 @@ const ShoppingListPurchaseDrawer = () => {
                     key={item.itemId}
                     title={item.name}
                     description={item.category}
+                    image={item.image}
                     selected={purchaseItems.some((i) => i.itemId === item.itemId)}
                     fallbackIcon={<IconShoppingBag />}
                     onClick={() => toggleItem(item)}
