@@ -46,18 +46,16 @@ export class TaskController {
     if (!task) {
       throw new BadRequestException('Task was not found');
     }
-    task.completions.forEach(participant => {
+    task.completions.forEach((participant) => {
       if (!participant.isCompleted) {
         completedTask = false;
       }
-    })
+    });
     if (!this.taskService.IsUserAParticipant(dto.taskId, userId)) {
       throw new BadRequestException('User is not a participant of the task');
-    }
-    else if (completedTask) {
+    } else if (completedTask) {
       throw new BadRequestException('Task is already completed by all participants');
-    }
-    else {
+    } else {
       try {
         return await this.taskService.updateTaskStatus(task.taskId, userId, dto.isCompleted);
       } catch (error) {
@@ -72,24 +70,22 @@ export class TaskController {
   @Post('edit')
   async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: EditTaskReqDto) {
     const userId = user.userId;
-     const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
-     if (task && userId === task.createdBy) {
-        try {
-          return await this.taskService.editTask(editTaskReqDto.taskId, {...editTaskReqDto})
-        } catch (error) {
-          this.logger.error('Error in editTask:', error.stack);
-          throw new InternalServerErrorException(' Failed to edit task');
-        }
-     }
-     if (!task) {
+    const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
+    if (task && userId === task.createdBy) {
+      try {
+        return await this.taskService.editTask(editTaskReqDto.taskId, { ...editTaskReqDto });
+      } catch (error) {
+        this.logger.error('Error in editTask:', error.stack);
+        throw new InternalServerErrorException(' Failed to edit task');
+      }
+    }
+    if (!task) {
       throw new BadRequestException('Task was not found');
-     }
-     else if (task.createdBy !== userId) {
+    } else if (task.createdBy !== userId) {
       throw new BadRequestException('Only the task creator can edit the task');
-     }
-     else {
+    } else {
       return { success: false };
-     }
+    }
   }
 
   @Get('get')

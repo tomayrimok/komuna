@@ -6,12 +6,11 @@ import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 
 @Controller('notification')
 export class NotificationController {
-    constructor(private readonly notificationService: NotificationService) { }
+  constructor(private readonly notificationService: NotificationService) {}
 
-    @Post('register-token')
-    @UseAuth()
-    registerToken(@User() user: UserJwtPayload, @Body() body: { token: string }) {
-        return this.notificationService.saveToken(user.userId, body.token);
-    }
-
+  @Post('register-token')
+  @UseAuth()
+  registerToken(@User() user: UserJwtPayload, @Body() body: { token: string }) {
+    return this.notificationService.saveToken(user.userId, body.token);
+  }
 }

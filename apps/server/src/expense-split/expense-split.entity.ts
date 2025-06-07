@@ -4,24 +4,23 @@ import { User } from '../user/user.entity';
 
 @Entity()
 export class ExpenseSplit {
-    @PrimaryColumn()
-    expenseId: string;
+  @PrimaryColumn()
+  expenseId: string;
 
-    @PrimaryColumn()
-    userId: string;
+  @PrimaryColumn()
+  userId: string;
 
-    @Column('float')
-    amount: number;
+  @Column('float')
+  amount: number;
 
-    @ManyToOne(() => Expense, expense => expense.splits, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'expenseId' })
-    expense: Expense;
+  @ManyToOne(() => Expense, (expense) => expense.splits, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'expenseId' })
+  expense: Expense;
 
-    @ManyToOne(() => User, { eager: true })
-    @JoinColumn({ name: 'userId' })
-    user: User;
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
+  @CreateDateColumn()
+  createdAt: Date;
 }

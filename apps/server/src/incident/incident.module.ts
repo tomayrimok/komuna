@@ -8,14 +8,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { NotificationModule } from '../notification/notification.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Incident, Comment]),
-    UserApartmentModule,
-    JwtModule,
-    NotificationModule
-  ],
+  imports: [TypeOrmModule.forFeature([Incident, Comment]), UserApartmentModule, JwtModule, NotificationModule],
   controllers: [IncidentController],
   providers: [IncidentService],
   exports: [IncidentService],
 })
-export class IncidentModule { }
+export class IncidentModule {}

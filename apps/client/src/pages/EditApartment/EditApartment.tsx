@@ -1,5 +1,5 @@
-import CreateApartment from "../CreateApartment";
+import CreateApartment from '../CreateApartment';
 
 export const EditApartment = () => {
-  return <CreateApartment isEdit={true} />
-}
+  return <CreateApartment isEdit={true} />;
+};

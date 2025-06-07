@@ -10,7 +10,7 @@ export interface RequestWithUser extends Request {
 
 @Injectable()
 export class ApartmentAccessGuard implements CanActivate {
-  constructor(private readonly userApartmentService: UserApartmentService) { }
+  constructor(private readonly userApartmentService: UserApartmentService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();

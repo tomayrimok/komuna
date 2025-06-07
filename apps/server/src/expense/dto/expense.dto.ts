@@ -48,7 +48,6 @@ export class AddEditExpenseDto {
   splitType: SplitType;
 }
 
-
 export class ApartmentExpensesResponse {
   @ApiProperty({ description: 'ID of the apartment this expense belongs to' })
   @IsString()
@@ -90,5 +89,4 @@ export class ApartmentExpensesResponse {
 
   @ApiProperty({ description: 'Amount the current user needs to pay for this expense', required: false })
   splitAmount?: string;
-
 }

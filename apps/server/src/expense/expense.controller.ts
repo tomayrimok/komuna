@@ -6,7 +6,7 @@ import { Expense } from './expense.entity';
 
 @Controller('expense')
 export class ExpenseController {
-  constructor(private readonly expenseService: ExpenseService) { }
+  constructor(private readonly expenseService: ExpenseService) {}
 
   @Get('apartment-expenses')
   @ApiOkResponse({ type: [ApartmentExpensesResponse] })
@@ -24,7 +24,7 @@ export class ExpenseController {
       amount,
       description,
       paidById,
-      splitType
+      splitType,
     });
   }
 

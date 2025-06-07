@@ -21,19 +21,19 @@ export interface TaskDto {
 }
 
 export class EditTaskReqDto {
-    taskId: string;
+  taskId: string;
 
-    dueDate: string;
+  dueDate: string;
 
-    title: string;
+  title: string;
 
-    description: string;
+  description: string;
 
-    isRecurrent: boolean;
+  isRecurrent: boolean;
 
-    recurrenceRule?: RecurrenceRuleDto;
+  recurrenceRule?: RecurrenceRuleDto;
 
-    assignedTo?: string[];
+  assignedTo?: string[];
 }
 
 export class UpdateTaskStatusReqDto {

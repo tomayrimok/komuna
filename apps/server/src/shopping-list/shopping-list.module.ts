@@ -10,9 +10,6 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [ShoppingListService],
   controllers: [ShoppingListController],
   exports: [ShoppingListService],
-  imports: [
-    TypeOrmModule.forFeature([ShoppingList, ShoppingTemplate]),
-    JwtModule
-  ],
+  imports: [TypeOrmModule.forFeature([ShoppingList, ShoppingTemplate]), JwtModule],
 })
-export class ShoppingListModule { }
+export class ShoppingListModule {}

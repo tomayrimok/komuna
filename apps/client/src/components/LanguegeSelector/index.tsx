@@ -11,11 +11,7 @@ export const LanguegeSelector = () => {
   return (
     <SegmentGroup.Root
       value={currentLang.toUpperCase()}
-      onValueChange={(e) =>
-        i18n.changeLanguage(
-          e.value?.toLowerCase() as (typeof LANGUEGES)[number]
-        )
-      }
+      onValueChange={(e) => i18n.changeLanguage(e.value?.toLowerCase() as (typeof LANGUEGES)[number])}
     >
       <SegmentGroup.Indicator />
       <SegmentGroup.Items items={LANGUEGES.map((lang) => lang.toUpperCase())} />

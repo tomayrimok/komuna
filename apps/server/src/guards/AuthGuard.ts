@@ -5,7 +5,7 @@ import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
 
   // canActivate will be executed whenever a protected route is hit
   async canActivate(context: ExecutionContext): Promise<boolean> {

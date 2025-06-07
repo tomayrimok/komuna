@@ -6,25 +6,23 @@ import { DebtEdgeWithDebtor } from './dto/debt-edge.dto';
 
 @Controller('debt-edge')
 export class DebtEdgeController {
-    constructor(
-        private readonly debtEdgeService: DebtEdgeService,
-    ) { }
+  constructor(private readonly debtEdgeService: DebtEdgeService) {}
 
-    @Get('user-balance-details')
-    @ApiOkResponse({ type: [DebtEdgeWithDebtor] }) // Adjust the type as necessary
-    async getUserBalanceDetails(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
-        return await this.debtEdgeService.getUserBalanceDetails(apartmentId, userId);
-    }
+  @Get('user-balance-details')
+  @ApiOkResponse({ type: [DebtEdgeWithDebtor] }) // Adjust the type as necessary
+  async getUserBalanceDetails(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
+    return await this.debtEdgeService.getUserBalanceDetails(apartmentId, userId);
+  }
 
-    @Get('user-balance')
-    @ApiOkResponse({ type: Number })
-    async getUserBalance(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
-        return await this.debtEdgeService.getUserBalance(apartmentId, userId);
-    }
+  @Get('user-balance')
+  @ApiOkResponse({ type: Number })
+  async getUserBalance(@Query('userId') userId: string, @Query('apartmentId') apartmentId: string) {
+    return await this.debtEdgeService.getUserBalance(apartmentId, userId);
+  }
 
-    @Get('debt-details')
-    @ApiOkResponse({ type: DebtEdge }) // Adjust the type as necessary
-    async getDebtDetails(@Query('debtId') debtId: string) {
-        return await this.debtEdgeService.getDebtDetails(debtId);
-    }
+  @Get('debt-details')
+  @ApiOkResponse({ type: DebtEdge }) // Adjust the type as necessary
+  async getDebtDetails(@Query('debtId') debtId: string) {
+    return await this.debtEdgeService.getDebtDetails(debtId);
+  }
 }

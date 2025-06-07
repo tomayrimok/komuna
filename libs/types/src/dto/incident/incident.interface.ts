@@ -1,35 +1,31 @@
-import { IncidentStatus, IncidentUrgency } from "@komuna/types";
-
+import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 
 export interface CreateIncidentDto {
+  // reporterId: string; // UUID
 
-    // reporterId: string; // UUID
+  apartmentId: string; // UUID
 
-    apartmentId: string; // UUID
+  title: string;
 
-    title: string;
+  description: string;
 
-    description: string;
+  status: IncidentStatus;
 
-    status: IncidentStatus;
+  urgencyLevel: IncidentUrgency;
 
-    urgencyLevel: IncidentUrgency;
+  createdAt: string; // ISO date string
 
-    createdAt: string; // ISO date string
+  // location: string;
 
-    // location: string;
-
-    images?: string[];
-
+  images?: string[];
 }
 
 export interface AddCommentDto {
+  incidentId: string; //UUID
 
-    incidentId: string; //UUID
+  userId: string; // UUID
 
-    userId: string; // UUID
+  message: string;
 
-    message: string;
-
-    images?: string[];
+  images?: string[];
 }
