@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Input, Box, VStack, Text, InputGroup, Spinner, Image, Flex, Stack } from '@chakra-ui/react';
-import { IconSearch } from '@tabler/icons-react';
+import { IconShoppingBagPlus } from '@tabler/icons-react';
 import debounce from 'lodash/debounce';
 import { useTranslation } from 'react-i18next';
 import { API, ApiTypes } from '@komuna/types';
@@ -96,7 +96,7 @@ export const SearchGroceryInput = () => {
         onClick={() => setIsOpen(true)}
         flex="1"
         backgroundColor="white"
-        startElement={isLoading ? <Spinner size="sm" /> : <IconSearch color="currentColor" />}
+        startElement={isLoading ? <Spinner size="sm" /> : <IconShoppingBagPlus color="currentColor" />}
       >
         <Input size="lg" value={searchTerm} placeholder={t('shopping.search_item')} />
       </InputGroup>

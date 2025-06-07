@@ -442,6 +442,29 @@
         ]
       }
     },
+    "/api/apartment/{apartmentId}/roommates": {
+      "get": {
+        "operationId": "ApartmentController_getRoommates",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
     "/api/shopping-list": {
       "get": {
         "operationId": "ShoppingListController_getShoppingList",

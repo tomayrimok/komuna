@@ -33,10 +33,17 @@ export const Login = () => {
 
   useEffect(() => {
     if (currentUserDetails) {
-      navigate({
-        to: '/select-apartment',
-        replace: true,
-      });
+      if (currentUserDetails.apartments.length || currentUserDetails.landlordApartments.length) {
+        navigate({
+          to: '/select-apartment',
+          replace: true,
+        });
+      } else {
+        navigate({
+          to: '/new-apartment',
+          replace: true,
+        });
+      }
     }
   }, [currentUserDetails, navigate, search.redirect]);
 

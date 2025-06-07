@@ -22,7 +22,7 @@ export interface AuthContextValue {
   currentUserDetails?: ApiTypes.User | null;
   refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
-  setSession: (sessionDetails: SessionDetails) => Promise<void>;
+  setSession: (sessionDetails: SessionDetails) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
 }
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
@@ -35,7 +35,7 @@ export const defaultAuthContextValues: AuthContextValue = {
   isRefetching: false,
   logout: () => null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
-  setSession: () => {},
+  setSession: () => Promise.resolve({} as QueryObserverResult<ApiTypes.User | null | undefined, Error>),
 };
 
 export const AuthContext = createContext<AuthContextValue>(defaultAuthContextValues);
@@ -84,7 +84,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const setSession = async (sessionDetails: SessionDetails) => {
     setSessionDetails(sessionDetails);
-    return queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
+    return queryClient.invalidateQueries({
+      queryKey: [AUTH_QUERY_KEY],
+    });
   };
 
   if (isAuthLoading) return <LoadingApp />;

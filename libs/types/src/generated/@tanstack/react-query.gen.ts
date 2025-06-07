@@ -18,6 +18,7 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  apartmentControllerGetRoommates,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
   shoppingListControllerSearchItem,
@@ -45,6 +46,7 @@ import type {
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ApartmentControllerJoinApartmentResponse,
+  ApartmentControllerGetRoommatesData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
@@ -554,6 +556,24 @@ export const apartmentControllerJoinApartmentMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const apartmentControllerGetRoommatesQueryKey = (options: Options<ApartmentControllerGetRoommatesData>) =>
+  createQueryKey('apartmentControllerGetRoommates', options);
+
+export const apartmentControllerGetRoommatesOptions = (options: Options<ApartmentControllerGetRoommatesData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerGetRoommates({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerGetRoommatesQueryKey(options),
+  });
 };
 
 export const shoppingListControllerGetShoppingListQueryKey = (
