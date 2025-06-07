@@ -1,0 +1,76 @@
+import { IsUUID, IsString, IsEnum, IsOptional, IsDateString } from 'class-validator';
+import { IncidentStatus, IncidentUrgency } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+    CreateIncidentDto as CreateIncidentDtoReq,
+    UpdateIncidentStatusDto as UpdateIncidentStatusDtoReq,
+    AddCommentDto as AddCommentDtoReq
+} from '@komuna/types';
+
+export class CreateIncidentDto implements CreateIncidentDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
+
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+
+  @ApiProperty()
+  @IsString()
+  incidentName: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  description: string;
+
+  @ApiProperty({description: 'Status of the incident used by Enum IncidentStatus'})
+  @IsEnum(IncidentStatus)
+  status: IncidentStatus;
+
+  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency' })
+  @IsEnum(IncidentUrgency)
+  urgencyLevel: IncidentUrgency;
+
+  @IsDateString()
+  createdAt: string;
+
+  @ApiProperty({ description: 'Where the incident orccured' })
+  @IsString()
+  location: string;
+
+}
+
+export class UpdateIncidentStatusDto implements UpdateIncidentStatusDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  incidentId: string;
+
+  @ApiProperty()
+  @IsEnum(IncidentStatus)
+  status: IncidentStatus;
+
+  @ApiProperty()
+  @IsDateString()
+  updatedAt: string;
+
+  @ApiProperty()
+  @IsDateString()
+  updatedBy: string;
+}
+
+export class AddCommentDto implements AddCommentDtoReq {
+  @ApiProperty()
+  @IsUUID()
+  incidentId: string;
+
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
+
+  @ApiProperty()
+  @IsString()
+  message: string;
+
+}

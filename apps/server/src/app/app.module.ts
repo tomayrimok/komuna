@@ -7,7 +7,7 @@ import { DebtEdgeModule } from '../debt-edge/debt-edge.module';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
 import { Expense } from '../expense/expense.entity';
 import { ExpenseModule } from '../expense/expense.module';
-import { Incident } from '../incident/incident.entity';
+import { Incident, Comment } from '../incident/incident.entity';
 import { NotificationToken } from '../notification/notification-token.entity';
 import { Notification } from '../notification/notification.entity';
 import { NotificationModule } from '../notification/notification.module';
@@ -24,6 +24,8 @@ import { User } from '../user/user.entity';
 import { UserModule } from '../user/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { IncidentModule } from '../incident/incident.module';
+
 
 @Module({
   imports: [
@@ -44,6 +46,7 @@ import { AppService } from './app.service';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        Comment,
         NotificationToken,
         Notification
       ],
@@ -55,6 +58,8 @@ import { AppService } from './app.service';
     PaymentModule,
     ApartmentModule,
     UserApartmentModule,
+    TaskModule,
+    IncidentModule,
     ShoppingListModule,
     NotificationModule
   ],
