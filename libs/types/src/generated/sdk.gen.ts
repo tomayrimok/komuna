@@ -29,6 +29,7 @@ import type {
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ApartmentControllerJoinApartmentResponse,
+  ApartmentControllerGetRoommatesData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
@@ -224,6 +225,15 @@ export const apartmentControllerJoinApartment = <ThrowOnError extends boolean = 
 ) => {
   return (options?.client ?? _heyApiClient).post<ApartmentControllerJoinApartmentResponse, unknown, ThrowOnError>({
     url: '/api/apartment/join/{code}',
+    ...options,
+  });
+};
+
+export const apartmentControllerGetRoommates = <ThrowOnError extends boolean = false>(
+  options: Options<ApartmentControllerGetRoommatesData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    url: '/api/apartment/{apartmentId}/roommates',
     ...options,
   });
 };

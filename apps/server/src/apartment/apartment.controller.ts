@@ -11,6 +11,7 @@ import { ApartmentService } from './apartment.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 import { JoinApartmentDto } from './dto/join-apartment.dto';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
+import { UseAuthApartment } from '../decorators/UseAuthApartment';
 
 @Controller('apartment')
 export class ApartmentController {
@@ -114,6 +115,12 @@ export class ApartmentController {
     const apartmentDetails = await this.userApartmentService.getUserApartment(user.userId, apartment.apartmentId);
 
     return apartmentDetails;
+  }
+
+  @Get('/:apartmentId/roommates')
+  @UseAuthApartment()
+  async getRoommates(@Param('apartmentId') apartmentId: string) {
+    return this.apartmentService.getApartmentWithResidents(apartmentId);
   }
 
   private addRoommateToApartment(apartment: Apartment, user: User) {

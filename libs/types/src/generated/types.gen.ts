@@ -663,6 +663,19 @@ export type ApartmentControllerJoinApartmentResponses = {
 export type ApartmentControllerJoinApartmentResponse =
   ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
 
+export type ApartmentControllerGetRoommatesData = {
+  body?: never;
+  path: {
+    apartmentId: string;
+  };
+  query?: never;
+  url: '/api/apartment/{apartmentId}/roommates';
+};
+
+export type ApartmentControllerGetRoommatesResponses = {
+  200: unknown;
+};
+
 export type ShoppingListControllerGetShoppingListData = {
   body?: never;
   path?: never;

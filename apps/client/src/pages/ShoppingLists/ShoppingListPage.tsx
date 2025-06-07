@@ -1,5 +1,4 @@
-import { Flex, Icon, Loader, Text } from '@chakra-ui/react';
-import { IconShoppingCart } from '@tabler/icons-react';
+import { Flex, Image, Loader, Text, VStack } from '@chakra-ui/react';
 import { Reorder } from 'framer-motion';
 import { ShoppingListItem } from '../../components/ShoppingList/shoppingListItem';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
@@ -13,11 +12,6 @@ const ShoppingListPage: React.FC = () => {
 
   return (
     <Flex p={8} flexDirection={'column'} py={4} h="100%">
-      <Flex justify="space-between" align="center" mb={4}>
-        <Text fontSize="xl" fontWeight="bold">
-          {t('shopping.shopping_list')}
-        </Text>
-      </Flex>
       <Flex mb={4}>
         <SearchGroceryInput />
       </Flex>
@@ -38,11 +32,14 @@ const ShoppingListPage: React.FC = () => {
         </Flex>
       ) : (
         items.length === 0 && (
-          <Flex direction="column" align="center" justify="center" color="gray.500" flexGrow={1}>
-            <Icon width={16} height={16} mb={3}>
-              <IconShoppingCart />
-            </Icon>
-            <Text mb={3}>{t('shopping.list_is_empty')}</Text>
+          <Flex direction="column" align="center" justify="center" color="brand.900" flexGrow={1}>
+            <Image src="/meerkats/shopping.png" width="50vw" />
+            <VStack gap="2">
+              <Text fontSize="lg" fontWeight="semibold">
+                {t('shopping.list_is_empty')}
+              </Text>
+              <Text fontWeight="semibold">{t('shopping.wanna_buy')}</Text>
+            </VStack>
           </Flex>
         )
       )}
