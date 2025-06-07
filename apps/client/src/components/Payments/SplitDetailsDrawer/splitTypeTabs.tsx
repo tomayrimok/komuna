@@ -1,5 +1,6 @@
 import { Tabs } from "@chakra-ui/react";
-import { SplitType, useExpense } from "../../../context/payments/ExpenseProvider";
+import { useExpense } from "../../../context/payments/ExpenseProvider";
+import { SplitType } from "@komuna/types";
 
 const SplitTypeTabs = () => {
 

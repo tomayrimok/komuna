@@ -1,20 +1,26 @@
+import { useEffect } from 'react';
 import { Flex, Image, Loader, Text, VStack } from '@chakra-ui/react';
 import { Reorder } from 'framer-motion';
 import { ShoppingListItem } from '../../components/ShoppingList/shoppingListItem';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { useTranslation } from 'react-i18next';
+import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingListPurchaseDrawer';
 import { SearchGroceryInput } from '../../components/ShoppingList/SearchGroceryInput';
 
 const ShoppingListPage: React.FC = () => {
-  const { items, updateOrder, openEditDrawer, isShoppingListLoading } = useShoppingList();
-
+  const { items, updateOrder, openEditDrawer, isFetching, setPurchaseItems } = useShoppingList();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    setPurchaseItems([]);
+  }, []);
+
   return (
-    <Flex p={8} flexDirection={'column'} py={4} h="100%">
+    <Flex p={8} flexDirection={'column'} py={4} h="100%" pb={14}>
       <Flex mb={4}>
         <SearchGroceryInput />
       </Flex>
+      <ShoppingListPurchaseDrawer />
 
       <Reorder.Group axis="y" values={items} onReorder={updateOrder}>
         {items.map((item) => {
@@ -26,7 +32,7 @@ const ShoppingListPage: React.FC = () => {
         })}
       </Reorder.Group>
 
-      {isShoppingListLoading ? (
+      {isFetching ? (
         <Flex direction="column" align="center" justify="center" h="200px" color="gray.500">
           <Loader />
         </Flex>

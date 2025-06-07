@@ -12,30 +12,33 @@ export interface ShoppingListContextValue {
   setItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isDrawerOpen: boolean;
+  isEditDrawerOpen: boolean;
+  isFetching: boolean;
+  activeSwipe: string | null;
+  purchaseItems: ShoppingListItemWithIdDto[];
+  contextType: ContextType;
   handleAddItem: (newItem: ShoppingListItemWithIdDto) => Promise<void>;
   handleEditItem: (editingItem: ShoppingListItemWithIdDto) => void;
   handleDeleteItem: (itemId: string) => Promise<void>;
   openEditDrawer: (item: ShoppingListItemWithIdDto) => void;
   setEditDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditDrawerOpen: boolean;
   setActiveSwipe: React.Dispatch<React.SetStateAction<string | null>>;
   updateItem: (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync?: boolean) => Promise<void>;
-  isShoppingListLoading: boolean;
-  activeSwipe: string | null;
   updateOrder: (items: ShoppingListItemWithIdDto[]) => Promise<void>;
   togglePurchased: (itemId: string) => Promise<void>;
-  contextType: ContextType;
+  setPurchaseItems: React.Dispatch<React.SetStateAction<ShoppingListItemWithIdDto[]>>;
+  setContextType: React.Dispatch<React.SetStateAction<ContextType>>;
+  markAllPurchaseItemsAsPurchased: () => Promise<void>;
   syncShoppingList: (items?: ShoppingListItemWithIdDto[]) => Promise<void>;
 }
 
 export const ShoppingListContext = createContext<ShoppingListContextValue | null>(null);
 
-type ShoppingListProviderProps = PropsWithChildren & {
-  contextType: ContextType;
-};
+type ShoppingListProviderProps = PropsWithChildren & {};
 
-export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children, contextType }) => {
-  const { shoppingList, isShoppingListLoading, refetchShoppingList, isFetching } = useShoppingListQuery(contextType);
+export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children }) => {
+  const [contextType, setContextType] = useState<ContextType>(ContextType.APARTMENT);
+  const { refetch: getShoppingList, data: shoppingList, isPending } = useShoppingListQuery(contextType);
 
   const {
     sessionDetails: { apartmentId },
@@ -49,8 +52,8 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
   const [purchaseItems, setPurchaseItems] = useState<ShoppingListItemWithIdDto[]>([]);
 
   useEffect(() => {
-    if (shoppingList && !isFetching) setItems(shoppingList.items);
-  }, [isFetching]);
+    setItems(shoppingList?.items || []);
+  }, [shoppingList]);
 
   const updateItem = async (itemId: string, itemData: Partial<ShoppingListItemWithIdDto>, sync = true) => {
     const updatedItems = items.map((item) => (item.itemId === itemId ? { ...item, ...itemData } : item));
@@ -132,6 +135,9 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
 
     setItems(updatedItems);
     await syncShoppingList(updatedItems);
+    if (updatedIsPurchased) {
+      setPurchaseItems((prev) => prev.filter((p) => p.itemId !== itemId));
+    }
   };
 
   const syncShoppingList = async (itemsToSync?: ShoppingListItemWithIdDto[]) => {
@@ -150,8 +156,26 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         title: 'Error',
         description: 'Failed to sync shopping list',
       });
-      refetchShoppingList();
+      getShoppingList();
     }
+  };
+
+  const markAllPurchaseItemsAsPurchased = async () => {
+    const updatedItems = items
+      .map((item) => {
+        if (purchaseItems.some((p) => p.itemId === item.itemId)) {
+          return { ...item, isPurchased: true };
+        }
+        return item;
+      })
+      .sort((a, b) => {
+        if (a.isPurchased && !b.isPurchased) return 1;
+        if (!a.isPurchased && b.isPurchased) return -1;
+        return 0;
+      });
+    setItems(updatedItems);
+    await syncShoppingList(updatedItems);
+    setPurchaseItems([]);
   };
 
   return (
@@ -169,13 +193,17 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         isEditDrawerOpen,
         setActiveSwipe,
         updateItem,
-        isShoppingListLoading,
+        isFetching: isPending,
         activeSwipe,
         updateOrder,
         togglePurchased,
         handleAddItem,
         contextType,
         syncShoppingList,
+        setPurchaseItems,
+        purchaseItems,
+        setContextType,
+        markAllPurchaseItemsAsPurchased,
       }}
     >
       {children}

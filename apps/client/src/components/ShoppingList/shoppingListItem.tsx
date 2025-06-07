@@ -6,6 +6,7 @@ import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { ShoppingListItemIsUrgent } from './shoppingListItemIsUrgent';
 import { ApiTypes } from '@komuna/types';
 import { GroceryItemCategory } from './GroceryItemCategory';
+import { useTranslation } from 'react-i18next';
 
 interface ShoppingListItemProps {
   item: ApiTypes.ShoppingListItemWithIdDto;
@@ -25,6 +26,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
   const [showRedBg, setShowRedBg] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, syncShoppingList } = useShoppingList();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -84,7 +86,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                 alignItems="center"
                 onClick={onDelete}
               >
-                מחיקה
+                {t('delete')}
               </Container>
             </Box>
 
