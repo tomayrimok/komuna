@@ -78,12 +78,12 @@ export type ShoppingTemplate = {
   [key: string]: unknown;
 };
 
-export type ShoppingListContextType = 'APARTMENT' | 'USER';
+export type ContextType = 'APARTMENT' | 'USER';
 
 export type ShoppingListItemWithIdDto = {
   name: string;
-  isPurchased: boolean;
   image?: string;
+  isPurchased: boolean;
   category?: string;
   isUrgent: boolean;
   amount: number;
@@ -93,8 +93,7 @@ export type ShoppingListItemWithIdDto = {
 };
 
 export type ShoppingList = {
-  shoppingListId: string;
-  contextType: ShoppingListContextType;
+  contextType: ContextType;
   contextId: string;
   items: Array<ShoppingListItemWithIdDto>;
   updatedAt: string;
@@ -428,6 +427,19 @@ export type SyncListDto = {
   items: Array<ShoppingListItemWithIdDto>;
 };
 
+export type GroceryItem = {
+  id: string;
+  formattedPrice: string;
+  image: string;
+  description: string;
+  category: string;
+  priceForUnit: string;
+};
+
+export type SearchGroceryResponse = {
+  items: Array<GroceryItem>;
+};
+
 export type AppControllerGetDataData = {
   body?: never;
   path?: never;
@@ -645,7 +657,23 @@ export type ApartmentControllerJoinApartmentData = {
 };
 
 export type ApartmentControllerJoinApartmentResponses = {
-  201: unknown;
+  200: UserApartment;
+};
+
+export type ApartmentControllerJoinApartmentResponse =
+  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
+
+export type ApartmentControllerGetRoommatesData = {
+  body?: never;
+  path: {
+    apartmentId: string;
+  };
+  query?: never;
+  url: '/api/apartment/{apartmentId}/roommates';
+};
+
+export type ApartmentControllerGetRoommatesResponses = {
+  200: unknown;
 };
 
 export type ShoppingListControllerGetShoppingListData = {
@@ -678,6 +706,22 @@ export type ShoppingListControllerSyncItemsResponses = {
 
 export type ShoppingListControllerSyncItemsResponse =
   ShoppingListControllerSyncItemsResponses[keyof ShoppingListControllerSyncItemsResponses];
+
+export type ShoppingListControllerSearchItemData = {
+  body?: never;
+  path?: never;
+  query: {
+    query: string;
+  };
+  url: '/api/shopping-list/search-item';
+};
+
+export type ShoppingListControllerSearchItemResponses = {
+  200: SearchGroceryResponse;
+};
+
+export type ShoppingListControllerSearchItemResponse =
+  ShoppingListControllerSearchItemResponses[keyof ShoppingListControllerSearchItemResponses];
 
 export type NotificationControllerRegisterTokenData = {
   body?: never;

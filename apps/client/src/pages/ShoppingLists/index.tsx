@@ -1,28 +1,26 @@
-import { Tabs } from "@chakra-ui/react";
-import { IconHome, IconUser } from "@tabler/icons-react";
-import { ContextType } from "@komuna/types";
-import { ShoppingListProvider } from "../../context/auth/ShoppingListProvider";
-import ShoppingListPage from "./ShoppingListPage";
-import { useTranslation } from "react-i18next";
-import { useShoppingList } from "../../context/auth/ShoppingListProvider";
+import { Tabs } from '@chakra-ui/react';
+import { IconHome, IconUser } from '@tabler/icons-react';
+import { ContextType } from '@komuna/types';
+import { useShoppingList } from '../../context/auth/ShoppingListProvider';
+import ShoppingListPage from './ShoppingListPage';
+import { useTranslation } from 'react-i18next';
 
 const CurrentShoppingLists = () => {
-
   const { t } = useTranslation();
   const { contextType, setContextType } = useShoppingList();
 
   return (
-
     <Tabs.Root
-      defaultValue={contextType}
+      value={contextType}
       h="100dvh"
-      display={"flex"}
+      display={'flex'}
       flexDirection="column"
+      size="lg"
+      padding={2}
       onValueChange={(e) => {
         setContextType(e.value as ContextType);
       }}
     >
-
       <Tabs.List>
         <Tabs.Trigger value={ContextType.APARTMENT}>
           <IconHome />
@@ -40,9 +38,7 @@ const CurrentShoppingLists = () => {
       <Tabs.Content value={ContextType.USER} flexGrow={1}>
         <ShoppingListPage />
       </Tabs.Content>
-
     </Tabs.Root>
-
   );
 };
 

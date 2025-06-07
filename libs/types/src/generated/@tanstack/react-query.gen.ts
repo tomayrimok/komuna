@@ -18,8 +18,10 @@ import {
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
+  apartmentControllerGetRoommates,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
+  shoppingListControllerSearchItem,
   notificationControllerRegisterToken,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
@@ -43,9 +45,12 @@ import type {
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
+  ApartmentControllerJoinApartmentResponse,
+  ApartmentControllerGetRoommatesData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
+  ShoppingListControllerSearchItemData,
   NotificationControllerRegisterTokenData,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
@@ -531,9 +536,13 @@ export const apartmentControllerJoinApartmentOptions = (options?: Options<Apartm
 
 export const apartmentControllerJoinApartmentMutation = (
   options?: Partial<Options<ApartmentControllerJoinApartmentData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ApartmentControllerJoinApartmentData>> => {
+): UseMutationOptions<
+  ApartmentControllerJoinApartmentResponse,
+  AxiosError<DefaultError>,
+  Options<ApartmentControllerJoinApartmentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    ApartmentControllerJoinApartmentResponse,
     AxiosError<DefaultError>,
     Options<ApartmentControllerJoinApartmentData>
   > = {
@@ -547,6 +556,24 @@ export const apartmentControllerJoinApartmentMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const apartmentControllerGetRoommatesQueryKey = (options: Options<ApartmentControllerGetRoommatesData>) =>
+  createQueryKey('apartmentControllerGetRoommates', options);
+
+export const apartmentControllerGetRoommatesOptions = (options: Options<ApartmentControllerGetRoommatesData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await apartmentControllerGetRoommates({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: apartmentControllerGetRoommatesQueryKey(options),
+  });
 };
 
 export const shoppingListControllerGetShoppingListQueryKey = (
@@ -610,6 +637,24 @@ export const shoppingListControllerSyncItemsMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const shoppingListControllerSearchItemQueryKey = (options: Options<ShoppingListControllerSearchItemData>) =>
+  createQueryKey('shoppingListControllerSearchItem', options);
+
+export const shoppingListControllerSearchItemOptions = (options: Options<ShoppingListControllerSearchItemData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await shoppingListControllerSearchItem({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: shoppingListControllerSearchItemQueryKey(options),
+  });
 };
 
 export const notificationControllerRegisterTokenQueryKey = (
