@@ -22,11 +22,11 @@ const CurrentShoppingLists = () => {
       }}
     >
       <Tabs.List>
-        <Tabs.Trigger value={ContextType.APARTMENT}>
+        <Tabs.Trigger value={ContextType.APARTMENT} color={'brand.900'}>
           <IconHome />
           {t('shopping.apartment')}
         </Tabs.Trigger>
-        <Tabs.Trigger value={ContextType.USER}>
+        <Tabs.Trigger value={ContextType.USER} color={'brand.900'}>
           <IconUser />
           {t('shopping.personal')}
         </Tabs.Trigger>

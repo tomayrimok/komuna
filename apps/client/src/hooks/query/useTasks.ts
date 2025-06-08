@@ -1,12 +1,11 @@
-import { TaskDto } from '@komuna/types'
 import { ApiClient as API, ApiTypes } from '@komuna/types';
 import { useMutation } from '@tanstack/react-query';
 
-interface GetTask {
+export interface GetTask {
     userId: string;
     apartmentId: string;
 }
-
+/*
 export const GetTasks = async (body: GetTask) => {
     try {
         const { data } = await API.get<GetTask[]>()
@@ -20,3 +19,4 @@ export const GetTasks = async (body: GetTask) => {
 export const CreateTask = async () => {
     return
 }
+    */

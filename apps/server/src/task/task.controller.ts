@@ -39,7 +39,7 @@ export class TaskController {
       ...taskDto,
       createdBy: user.userId,
       apartmentId: user.apartmentId,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
     try {
       const task = await this.taskService.createTask(newTask);
@@ -93,9 +93,7 @@ export class TaskController {
     } else if (task.createdBy !== user.userId) {
       throw new BadRequestException('Only the task creator can edit the task');
     } else {
-    } else {
       return { success: false };
-    }
     }
   }
 

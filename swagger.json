@@ -488,7 +488,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTaskDto"
+                "$ref": "#/components/schemas/CreateTaskReqDto"
               }
             }
           }
@@ -508,7 +508,7 @@
         "operationId": "TaskController_updateTaskStatus",
         "parameters": [
           {
-            "name": "userId",
+            "name": "taskId",
             "required": true,
             "in": "query",
             "schema": {
@@ -539,22 +539,13 @@
     "/api/task/edit": {
       "post": {
         "operationId": "TaskController_editTask",
-        "parameters": [
-          {
-            "name": "userId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTaskDto"
+                "$ref": "#/components/schemas/EditTaskReqResDto"
               }
             }
           }
@@ -572,24 +563,7 @@
     "/api/task/get": {
       "get": {
         "operationId": "TaskController_getAllTasks",
-        "parameters": [
-          {
-            "name": "userId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": ""
@@ -605,7 +579,7 @@
         "operationId": "TaskController_getCompletedTasks",
         "parameters": [
           {
-            "name": "userId",
+            "name": "loadMultiplier",
             "required": true,
             "in": "query",
             "schema": {
@@ -1859,15 +1833,26 @@
           "amount"
         ]
       },
-      "TaskDto": {
+      "CreateTaskReqDto": {
         "type": "object",
         "properties": {}
       },
-      "UpdateTaskReqDto": {
+      "UserCompletionStatus": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "userId",
+          "status"
+        ]
       },
-      "EditTaskReqDto": {
+      "EditTaskReqResDto": {
         "type": "object",
         "properties": {}
       },
