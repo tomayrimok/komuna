@@ -9,15 +9,14 @@ const IncidentsNumber = () => {
 
     const numberOfOpenIncidents = data?.data?.filter((incident) => incident.status !== IncidentStatus.SOLVED).length || 0;
 
-    return (
+    if (isLoading || !data) {
+        return <SkeletonText noOfLines={1} width="50%" m="auto" />;
+    }
 
-        !isLoading && data ? (
-            <Text fontWeight={'bold'} fontSize="xl">
-                {t('incidents.num_open_incidents', { count: numberOfOpenIncidents }) || ''}
-            </Text>
-        ) : (
-            <SkeletonText noOfLines={1} width="50%" m="auto" />
-        )
+    return (
+        <Text fontWeight={'bold'} fontSize="xl">
+            {t('incidents.num_open_incidents', { count: numberOfOpenIncidents }) || ''}
+        </Text>
     );
 };
 
