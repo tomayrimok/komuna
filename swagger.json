@@ -227,6 +227,116 @@
         ]
       }
     },
+    "/api/notification/register-token": {
+      "post": {
+        "operationId": "NotificationController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/apartment": {
+      "get": {
+        "operationId": "ApartmentController_getApartmentWithResidents",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      },
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/{apartmentId}/roommates": {
+      "get": {
+        "operationId": "ApartmentController_getRoommates",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
     "/api/expense/apartment-expenses": {
       "get": {
         "operationId": "ExpenseController_getApartmentExpenses",
@@ -350,102 +460,6 @@
         },
         "tags": [
           "Payment"
-        ]
-      }
-    },
-    "/api/apartment": {
-      "get": {
-        "operationId": "ApartmentController_getApartmentWithResidents",
-        "parameters": [
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Apartment"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      },
-      "post": {
-        "operationId": "ApartmentController_createApartment",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApartmentDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      }
-    },
-    "/api/apartment/join/{code}": {
-      "post": {
-        "operationId": "ApartmentController_joinApartment",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserApartment"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      }
-    },
-    "/api/apartment/{apartmentId}/roommates": {
-      "get": {
-        "operationId": "ApartmentController_getRoommates",
-        "parameters": [
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Apartment"
         ]
       }
     },
@@ -742,20 +756,6 @@
         },
         "tags": [
           "Incident"
-        ]
-      }
-    },
-    "/api/notification/register-token": {
-      "post": {
-        "operationId": "NotificationController_registerToken",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Notification"
         ]
       }
     },
@@ -1662,6 +1662,10 @@
           "user"
         ]
       },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
       "ApartmentExpensesResponse": {
         "type": "object",
         "properties": {
@@ -1803,10 +1807,6 @@
           "toId",
           "amount"
         ]
-      },
-      "CreateApartmentDto": {
-        "type": "object",
-        "properties": {}
       },
       "TaskDto": {
         "type": "object",

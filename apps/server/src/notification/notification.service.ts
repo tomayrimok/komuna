@@ -53,6 +53,10 @@ export class NotificationService {
     return notificationToken?.token;
   }
 
+  async deleteToken(userId: string) {
+    return await this.notificationTokenRepo.delete({ userId });
+  }
+
   async sendTest(toUser: string) {
     return this.sendNotification(toUser, {
       notification: { title: 'Test Notification', body: 'This is a test notification' },
