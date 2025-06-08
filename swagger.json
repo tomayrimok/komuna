@@ -243,6 +243,116 @@
         ]
       }
     },
+    "/api/notification/register-token": {
+      "post": {
+        "operationId": "NotificationController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/apartment": {
+      "get": {
+        "operationId": "ApartmentController_getApartmentWithResidents",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      },
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/{apartmentId}/roommates": {
+      "get": {
+        "operationId": "ApartmentController_getRoommates",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
     "/api/expense/apartment-expenses": {
       "get": {
         "operationId": "ExpenseController_getApartmentExpenses",
@@ -366,159 +476,6 @@
         },
         "tags": [
           "Payment"
-        ]
-      }
-    },
-    "/api/apartment": {
-      "get": {
-        "operationId": "ApartmentController_getApartmentWithResidents",
-        "parameters": [
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Apartment"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      },
-      "post": {
-        "operationId": "ApartmentController_createApartment",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApartmentDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      }
-    },
-    "/api/apartment/join/{code}": {
-      "post": {
-        "operationId": "ApartmentController_joinApartment",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      }
-    },
-    "/api/shopping-list": {
-      "get": {
-        "operationId": "ShoppingListController_getShoppingList",
-        "parameters": [
-          {
-            "name": "contextType",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "APARTMENT",
-                "USER"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShoppingList"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/shopping-list/sync-items": {
-      "post": {
-        "operationId": "ShoppingListController_syncItems",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SyncListDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShoppingList"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "ShoppingList"
-        ]
-      }
-    },
-    "/api/notification/register-token": {
-      "post": {
-        "operationId": "NotificationController_registerToken",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Notification"
         ]
       }
     },
@@ -652,22 +609,6 @@
             "required": true,
             "in": "query",
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "loadMultiplier",
-            "required": true,
-            "in": "query",
-            "schema": {
               "type": "number"
             }
           }
@@ -685,10 +626,29 @@
     "/api/incident": {
       "get": {
         "operationId": "IncidentController_getAllIncidents",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncidentResponseDto"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -696,23 +656,60 @@
         ]
       }
     },
-    "/api/incident/create": {
+    "/api/incident/details": {
+      "get": {
+        "operationId": "IncidentController_getIncidentDetails",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/add-edit": {
       "post": {
-        "operationId": "IncidentController_createIncident",
+        "operationId": "IncidentController_addEditIncident",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateIncidentDto"
+                "$ref": "#/components/schemas/AddEditIncidentDto"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -729,14 +726,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateIncidentStatusDto"
+                "$ref": "#/components/schemas/UpdateIncidentDto"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -759,12 +763,153 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/owner-seen": {
+      "post": {
+        "operationId": "IncidentController_setOwnerSeen",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
           "201": {
             "description": ""
           }
         },
         "tags": [
           "Incident"
+        ]
+      }
+    },
+    "/api/shopping-list": {
+      "get": {
+        "operationId": "ShoppingListController_getShoppingList",
+        "parameters": [
+          {
+            "name": "contextType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "APARTMENT",
+                "USER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/sync-items": {
+      "post": {
+        "operationId": "ShoppingListController_syncItems",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/search-item": {
+      "get": {
+        "operationId": "ShoppingListController_searchItem",
+        "parameters": [
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchGroceryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
         ]
       }
     }
@@ -898,9 +1043,95 @@
           "createdAt"
         ]
       },
+      "IncidentUrgency": {
+        "type": "string",
+        "enum": [
+          "LOW",
+          "MEDIUM",
+          "HIGH",
+          "EXTREME"
+        ]
+      },
+      "IncidentStatus": {
+        "type": "string",
+        "enum": [
+          "OPEN",
+          "IN_PROGRESS",
+          "SOLVED"
+        ]
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "commentId",
+          "message",
+          "userId",
+          "createdAt",
+          "incidentId",
+          "images",
+          "user"
+        ]
+      },
       "Incident": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "urgencyLevel",
+          "status",
+          "comments",
+          "reporter"
+        ]
       },
       "ShoppingTemplate": {
         "type": "object",
@@ -919,11 +1150,11 @@
           "name": {
             "type": "string"
           },
-          "isPurchased": {
-            "type": "boolean"
-          },
           "image": {
             "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
           },
           "category": {
             "type": "string"
@@ -955,9 +1186,6 @@
       "ShoppingList": {
         "type": "object",
         "properties": {
-          "shoppingListId": {
-            "type": "string"
-          },
           "contextType": {
             "allOf": [
               {
@@ -984,7 +1212,6 @@
           }
         },
         "required": [
-          "shoppingListId",
           "contextType",
           "contextId",
           "items",
@@ -1305,6 +1532,20 @@
             "items": {
               "$ref": "#/components/schemas/DebtEdge"
             }
+          },
+          "comments": {
+            "description": "The comments made by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "incidents": {
+            "description": "The incidents reported by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
           }
         },
         "required": [
@@ -1317,7 +1558,9 @@
           "payableRents",
           "expenses",
           "debts",
-          "credits"
+          "credits",
+          "comments",
+          "incidents"
         ]
       },
       "DebtEdgeWithDebtor": {
@@ -1470,6 +1713,10 @@
           "user"
         ]
       },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
       "ApartmentExpensesResponse": {
         "type": "object",
         "properties": {
@@ -1612,9 +1859,218 @@
           "amount"
         ]
       },
-      "CreateApartmentDto": {
+      "TaskDto": {
         "type": "object",
         "properties": {}
+      },
+      "UpdateTaskReqDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "EditTaskReqDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CommentResponseDto": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "commentId",
+          "incidentId",
+          "userId",
+          "message",
+          "createdAt",
+          "user"
+        ]
+      },
+      "IncidentResponseDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "reporterId": {
+            "type": "string"
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "seenByManager": {
+            "type": "boolean"
+          },
+          "managerResponse": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "apartmentId",
+          "title",
+          "description",
+          "images",
+          "urgencyLevel",
+          "reporterId",
+          "reporter",
+          "status",
+          "seenByManager",
+          "managerResponse",
+          "updatedAt",
+          "createdAt",
+          "comments"
+        ]
+      },
+      "AddEditIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "description": "How urgent the incident is. used by Enum IncidentUrgency",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "urgencyLevel",
+          "apartmentId"
+        ]
+      },
+      "UpdateIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "images": {
+            "description": "List of image URLs related to the incident",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "incidentId"
+        ]
+      },
+      "AddCommentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "images": {
+            "description": "List of image URLs related to the comment",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "message"
+        ]
       },
       "SyncListDto": {
         "type": "object",
@@ -1642,160 +2098,50 @@
           "items"
         ]
       },
-      "RecurrenceRuleDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateTaskDto": {
+      "GroceryItem": {
         "type": "object",
         "properties": {
-          "title": {
+          "id": {
+            "type": "string"
+          },
+          "formattedPrice": {
+            "type": "string"
+          },
+          "image": {
             "type": "string"
           },
           "description": {
             "type": "string"
           },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "category": {
+            "type": "string"
           },
-          "completions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
+          "priceForUnit": {
+            "type": "string"
           }
         },
         "required": [
-          "title",
+          "id",
+          "formattedPrice",
+          "image",
           "description",
-          "assignedTo",
-          "completions",
-          "dueDate",
-          "dueTime",
-          "isRecurrent",
-          "recurrenceRule"
+          "category",
+          "priceForUnit"
         ]
       },
-      "UserCompletionStatus": {
+      "SearchGroceryResponse": {
         "type": "object",
         "properties": {
-          "taskId": {
-            "type": "string"
-          },
-          "apartmentId": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "boolean"
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroceryItem"
+            }
           }
         },
         "required": [
-          "taskId",
-          "apartmentId",
-          "userId",
-          "status"
+          "items"
         ]
-      },
-      "EditTaskDto": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "completions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "taskId",
-          "title",
-          "description",
-          "assignedTo",
-          "completions",
-          "dueDate",
-          "dueTime",
-          "isRecurrent",
-          "recurrenceRule"
-        ]
-      },
-      "CreateIncidentDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateIncidentStatusDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "AddCommentDto": {
-        "type": "object",
-        "properties": {}
       }
     }
   }

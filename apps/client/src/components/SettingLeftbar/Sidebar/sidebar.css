@@ -1,0 +1,18 @@
+.sidebar-view {
+  /* SELF-LAYOUT */
+  z-index: 1;
+  direction: ltr;
+  height: calc(var(--silk-100-lvh-dvh-pct));
+}
+
+.sidebar-content {
+  /* SELF-LAYOUT */
+  width: min(90vw, 325px);
+
+  /* APPEARANCE */
+  background-color: white;
+  box-shadow: var(--shadow-4);
+
+  /* INNER-LAYOUT */
+  display: grid;
+}

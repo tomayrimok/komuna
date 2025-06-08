@@ -14,6 +14,7 @@ export class UserApartmentService {
     return await this.userApartmentRepo.save(userApartment);
   }
 
+  //! It does not check if the user is the landlord!
   async isUserInApartment(userId: string, apartmentId: string): Promise<boolean> {
     const resident = await this.userApartmentRepo.findOne({
       where: {
@@ -23,5 +24,15 @@ export class UserApartmentService {
     });
 
     return !!resident;
+  }
+
+  async getUserApartment(userId: string, apartmentId: string): Promise<UserApartment> {
+    return await this.userApartmentRepo.findOne({
+      where: {
+        userId,
+        apartmentId,
+      },
+      relations: ['apartment'],
+    });
   }
 }

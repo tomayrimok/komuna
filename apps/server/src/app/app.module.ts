@@ -7,7 +7,8 @@ import { DebtEdgeModule } from '../debt-edge/debt-edge.module';
 import { ExpenseSplit } from '../expense-split/expense-split.entity';
 import { Expense } from '../expense/expense.entity';
 import { ExpenseModule } from '../expense/expense.module';
-import { Incident, Comment } from '../incident/incident.entity';
+import { Comment, Incident } from '../incident/incident.entity';
+import { IncidentModule } from '../incident/incident.module';
 import { NotificationToken } from '../notification/notification-token.entity';
 import { Notification } from '../notification/notification.entity';
 import { NotificationModule } from '../notification/notification.module';
@@ -16,11 +17,10 @@ import { PaymentModule } from '../payment/payment.module';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
+import { TaskModule } from '../task/task.module';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { AuthUser } from '../user/auth-user.entity';
-import { TaskModule } from '../task/task.module';
-import { IncidentModule } from '../incident/incident.module';
 
 import { ShoppingListModule } from '../shopping-list/shopping-list.module';
 import { User } from '../user/user.entity';
@@ -31,8 +31,9 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
+      // url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
       type: 'postgres',
+      url: process.env.DATABASE_URL,
       // logging: true,
       entities: [
         User,
@@ -49,7 +50,7 @@ import { AppService } from './app.service';
         Task,
         Comment,
         NotificationToken,
-        Notification
+        Notification,
       ],
       synchronize: true,
     }),
@@ -62,9 +63,9 @@ import { AppService } from './app.service';
     TaskModule,
     IncidentModule,
     ShoppingListModule,
-    NotificationModule
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

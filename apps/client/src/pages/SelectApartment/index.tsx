@@ -16,16 +16,17 @@ export const SelectApartment = () => {
   const handleClick = (apartmentId: string, role: UserRole) => {
     setSessionDetails(() => ({ apartmentId, role }));
     navigate({ to: `/${role.toLowerCase()}` });
-  }
+  };
 
   return (
     <ApartmentLayout
       goBack={sessionDetails.role ? () => navigate({ to: rolePath }) : undefined}
-      logout={!sessionDetails.role}>
-      <Text textAlign='center' fontSize="2xl" fontWeight="bold" >
+      logout={!sessionDetails.role}
+    >
+      <Text textAlign="center" fontSize="2xl" fontWeight="bold">
         {t('choose_apartment.title')}
       </Text>
-      <Box position="relative" maxH="55vh" overflowY="auto">
+      <Box position="relative" height="55vh" maxH="55vh">
         <VStack
           maxH="55vh"
           width="100vw"
@@ -33,23 +34,24 @@ export const SelectApartment = () => {
           overflowY="auto"
           scrollBehavior="smooth"
           bgGradient="linear(to-t, white, transparent)"
-          gap='6'>
-          {currentUserDetails?.landlordApartments.map((apartment) =>
+          gap="6"
+        >
+          {currentUserDetails?.landlordApartments.map((apartment) => (
             <ApartmentCard
               key={apartment.apartmentId}
               apartment={apartment}
               role={UserRole.LANDLORD}
               handleClick={handleClick}
             />
-          )}
-          {currentUserDetails?.apartments.map((apartment) =>
+          ))}
+          {currentUserDetails?.apartments.map((apartment) => (
             <ApartmentCard
               key={apartment.apartment.apartmentId}
               apartment={apartment.apartment}
               role={UserRole.ROOMMATE}
               handleClick={handleClick}
             />
-          )}
+          ))}
         </VStack>
         <Box
           position="absolute"
@@ -58,19 +60,22 @@ export const SelectApartment = () => {
           right="0"
           height="5vh"
           pointerEvents="none"
-          backgroundImage='linear-gradient(to top, {colors.brand.10}, transparent)'
+          backgroundImage="linear-gradient(to top, {colors.brand.10}, transparent)"
         />
       </Box>
       <Button
         size="xl"
         fontSize="2xl"
         fontWeight="bold"
-        position='fixed'
-        bottom='5vh'
-        backgroundColor='transparent'
-        onClick={() => { navigate({ to: '/new-apartment' }); }}>
+        position="fixed"
+        bottom="5vh"
+        backgroundColor="transparent"
+        onClick={() => {
+          navigate({ to: '/new-apartment' });
+        }}
+      >
         + {t('choose_apartment.create_new_apartment_btn')}
       </Button>
-    </ApartmentLayout >
+    </ApartmentLayout>
   );
 };

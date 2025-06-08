@@ -16,6 +16,7 @@ import { PurchaseProvider } from './context/auth/PurchaseProvider';
 import { useLocaleChange } from './hooks/useLocaleChange';
 import './i18n/';
 import { routeTree } from './routeTree.gen';
+import { ShoppingListProvider } from './context/auth/ShoppingListProvider';
 
 const router = createRouter({
   routeTree,
@@ -54,10 +55,12 @@ const AppEntry = () => {
     >
       {isMobile ? (
         <AuthProvider>
-          <PurchaseProvider>
-            <RouterWrapper />
-            <Toaster />
-          </PurchaseProvider>
+          <ShoppingListProvider>
+            <PurchaseProvider>
+              <RouterWrapper />
+              <Toaster />
+            </PurchaseProvider>
+          </ShoppingListProvider>
         </AuthProvider>
       ) : (
         <WebView />
@@ -68,11 +71,12 @@ const AppEntry = () => {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
-      .then(registration => {
+    navigator.serviceWorker
+      .register('/firebase-messaging-sw.js')
+      .then((registration) => {
         console.log('Service Worker registered:', registration);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Service Worker registration failed:', err);
       });
   });

@@ -1,26 +1,31 @@
-import { Button, Image, Text, VStack } from '@chakra-ui/react';
+import { Button, Image, Link, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useNavigate } from '@tanstack/react-router';
 import ApartmentLayout from './ApartmentLayout';
+import { IconArrowRight } from '@tabler/icons-react';
 
 export const NewApartment = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUserDetails } = useAuth();
 
+  const hasApartments = !!currentUserDetails?.apartments.length || !!currentUserDetails?.landlordApartments.length;
   return (
     <ApartmentLayout
       goBack={
-        currentUserDetails?.apartments
-        && currentUserDetails.apartments.length > 0
-        && (() => navigate({ to: '/select-apartment' }))}>
+        currentUserDetails?.apartments && currentUserDetails.apartments.length > 0
+          ? () => navigate({ to: '/select-apartment' })
+          : undefined
+      }
+    >
       <VStack>
         <Text fontSize="2xl" fontWeight="bold">
-          {t('select_apartment.no_apartments.title')}
+          {hasApartments ? t('select_apartment.has_apartments.title') : t('select_apartment.no_apartments.title')}
         </Text>
         <Text fontSize="lg">
-          {t('select_apartment.no_apartments.description', { firstName: currentUserDetails?.firstName })}
+          {!hasApartments &&
+            t('select_apartment.no_apartments.description', { firstName: currentUserDetails?.firstName })}
         </Text>
       </VStack>
       <VStack gap="12">
@@ -30,7 +35,10 @@ export const NewApartment = () => {
             size="xl"
             fontSize="2xl"
             fontWeight="bold"
-            onClick={() => { navigate({ to: '/join-apartment' }); }}>
+            onClick={() => {
+              navigate({ to: '/join-apartment' });
+            }}
+          >
             {t('select_apartment.no_apartments.join_apartment')}
           </Button>
         </VStack>
@@ -40,11 +48,28 @@ export const NewApartment = () => {
             size="xl"
             fontSize="2xl"
             fontWeight="bold"
-            onClick={() => { navigate({ to: '/create-apartment' }); }}>
+            onClick={() => {
+              navigate({ to: '/create-apartment' });
+            }}
+          >
             {t('select_apartment.no_apartments.create_new_apartment')}
           </Button>
         </VStack>
+        {hasApartments && (
+          <Link
+            fontSize="lg"
+            textDecoration="underline"
+            fontWeight="bold"
+            color="brand.900"
+            onClick={() => {
+              navigate({ to: '/select-apartment' });
+            }}
+          >
+            <IconArrowRight />
+            {t('select_apartment.has_apartments.apartments_list')}
+          </Link>
+        )}
       </VStack>
-    </ApartmentLayout >
+    </ApartmentLayout>
   );
 };

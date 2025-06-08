@@ -4,6 +4,6 @@ import { ExpenseSplitController } from './expense-split.controller';
 
 @Module({
   providers: [ExpenseSplitService],
-  controllers: [ExpenseSplitController]
+  controllers: [ExpenseSplitController],
 })
 export class ExpenseSplitModule {}

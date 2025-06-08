@@ -32,48 +32,38 @@ interface CreateApartmentFormProps {
 
 const INITIAL_APT_DETAILS: CreateApartmentDto = {
   apartmentInfo: {
-    name: "",
-    address: "",
-    city: "",
+    name: '',
+    address: '',
+    city: '',
     role: UserRole.ROOMMATE,
   },
   apartmentSettings: {
     contractEndDate: undefined,
-    contractUrl: "",
+    contractUrl: '',
     rent: undefined,
     billsDetails: {
-      electricity: "",
-      water: "",
-      internet: "",
-      gas: "",
+      electricity: '',
+      water: '',
+      internet: '',
+      gas: '',
     },
   },
   renterSettings: {
     rent: undefined,
-    payableByUserId: "",
+    payableByUserId: '',
     houseCommitteeRent: undefined,
     houseCommitteePayerUserId: RENTER_PAYMENT_WAYS.RENTER,
   },
-}
+};
 
 const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState, isEdit }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
-      return <ApartmentInfo
-        aptDetails={aptDetails}
-        updateField={setPageState("apartmentInfo")}
-      />;
+      return <ApartmentInfo aptDetails={aptDetails} updateField={setPageState('apartmentInfo')} />;
     case CreateApartmentPages.ApartmentSettings:
-      return <ApartmentSettings
-        aptDetails={aptDetails}
-        updateField={setPageState("apartmentSettings")}
-      />;
+      return <ApartmentSettings aptDetails={aptDetails} updateField={setPageState('apartmentSettings')} />;
     case CreateApartmentPages.RenterSettings:
-      return <RenterSettings
-        aptDetails={aptDetails}
-        updateField={setPageState("renterSettings")}
-        isEdit={isEdit}
-      />;
+      return <RenterSettings aptDetails={aptDetails} updateField={setPageState('renterSettings')} isEdit={isEdit} />;
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
     case CreateApartmentPages.GoToApp:
@@ -83,14 +73,13 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
   }
 };
 
-
 interface CreateApartmentProps {
   isEdit?: boolean;
 }
 
 /**
-* Wraps the CreateApartmentForm in a layout with a back button.
-*/
+ * Wraps the CreateApartmentForm in a layout with a back button.
+ */
 const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   const [page, setPage] = useState<CreateApartmentPages>(CreateApartmentPages.ApartmentInfo);
   const [aptDetails, setsAptDetails] = useState<CreateApartmentDto>(INITIAL_APT_DETAILS);
@@ -108,27 +97,32 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
     onError: () => {
       toaster.create({
         title: t('error.action_failed'),
-        type: 'error'
+        type: 'error',
       });
     },
   });
 
-  const [showSkipBtn, showContinueBtn] = useMemo(() => [
-    !isEdit && (page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings),
-    page !== CreateApartmentPages.ShareApartmentCode
-  ], [isEdit, page]);
+  const [showSkipBtn, showContinueBtn] = useMemo(
+    () => [
+      !isEdit && (page === CreateApartmentPages.ApartmentSettings || page === CreateApartmentPages.RenterSettings),
+      page !== CreateApartmentPages.ShareApartmentCode,
+    ],
+    [isEdit, page]
+  );
 
   const updateFieldOfPage: UpdateFieldOfPageFn = (page) => (field, value) => {
     setsAptDetails((currState) => ({
       ...currState,
       [page]: {
-        ...(currState[page]),
+        ...currState[page],
         [field]: value,
       },
     }));
   };
 
-  const incPage = () => { setPage(p => p + 1); }
+  const incPage = () => {
+    setPage((p) => p + 1);
+  };
 
   const handleOnClick = () => {
     if (
@@ -139,7 +133,7 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
       return;
     }
     incPage();
-  }
+  };
 
   /**
    * Goes back one page, unless on the first page, in which case it navigates to the select apartment page.
@@ -153,8 +147,7 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   };
 
   return (
-    <ApartmentLayout
-      goBack={page !== CreateApartmentPages.ShareApartmentCode ? (() => goPageBack(page)) : undefined}>
+    <ApartmentLayout goBack={page !== CreateApartmentPages.ShareApartmentCode ? () => goPageBack(page) : undefined}>
       <CreateApartmentForm
         page={page}
         aptDetails={aptDetails}
@@ -162,28 +155,23 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
         isEdit={isEdit || false}
       />
       <HStack gap="30px">
-        {showSkipBtn && <Button
-          size="xl"
-          fontSize="2xl"
-          fontWeight="bold"
-          backgroundColor="transparent"
-          onClick={handleOnClick}
-        >
-          {t('create_apartment.skip_btn')}
-        </Button>}
-        {showContinueBtn && <Button
-          size="xl"
-          fontSize="2xl"
-          fontWeight="bold"
-          onClick={handleOnClick}
-        >
-          {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
+        {showSkipBtn && (
+          <Button size="xl" fontSize="2xl" fontWeight="bold" backgroundColor="transparent" onClick={handleOnClick}>
+            {t('create_apartment.skip_btn')}
+          </Button>
+        )}
+        {showContinueBtn && (
+          <Button size="xl" fontSize="2xl" fontWeight="bold" onClick={handleOnClick}>
+            {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
             (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
-            ? isEdit ? t('create_apartment.save_btn') : t('create_apartment.done_btn')
-            : t('create_apartment.continue_btn')}
-        </Button>}
+              ? isEdit
+                ? t('create_apartment.save_btn')
+                : t('create_apartment.done_btn')
+              : t('create_apartment.continue_btn')}
+          </Button>
+        )}
       </HStack>
-    </ApartmentLayout >
+    </ApartmentLayout>
   );
 };
 

@@ -1,26 +1,19 @@
-import {
-    Entity,
-    Column,
-    UpdateDateColumn,
-    CreateDateColumn,
-    PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, Column, UpdateDateColumn, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class NotificationToken {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ unique: true })
+  userId: string;
 
-    @Column({ unique: true })
-    userId: string;
+  @Column()
+  token: string;
 
-    @Column()
-    token: string;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 }

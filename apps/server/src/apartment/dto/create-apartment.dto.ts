@@ -31,7 +31,8 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
 class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   @IsOptional()
   @IsDate()
-  @Transform(({ value }) => { // The client sends a string in the format 'dd/mm/yyyy'
+  @Transform(({ value }) => {
+    // The client sends a string in the format 'dd/mm/yyyy'
     if (typeof value === 'string') {
       const [day, month, year] = value.split('/').map(Number);
       return new Date(year, month - 1, day);

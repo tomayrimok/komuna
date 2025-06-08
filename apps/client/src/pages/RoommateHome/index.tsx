@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, HStack, Text, VStack } from '@chakra-ui/react';
 import { Trans } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
-import { SettingLeftbar } from './SettingLeftbar/SettingLeftbar';
+import { SettingLeftbar } from '../../components/SettingLeftbar';
 import { useIsRTL } from '../../hooks/useIsRTL';
 
 const TempFakeCard = () => (

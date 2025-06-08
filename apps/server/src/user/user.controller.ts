@@ -18,10 +18,14 @@ import { isValidPhoneNumber } from 'libphonenumber-js/max';
 import { CreateUserDto } from './dto/user.dto';
 import { UserCreatedResponseDto, UserResponseDto } from './dto/user.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { NotificationService } from '../notification/notification.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly notificationService: NotificationService, // Assuming you have a NotificationService for sending SMS
+  ) { }
   private readonly logger = new Logger(UserController.name);
 
   @Post('login')
@@ -142,13 +146,15 @@ export class UserController {
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
+  @UseAuth()
+  logout(@Res({ passthrough: true }) res: Response, @User() user: UserJwtPayload) {
     res.clearCookie('Authentication', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/', // ensure this matches the cookie path
     });
+    this.notificationService.deleteToken(user.userId);
     return { message: 'Logged out successfully' };
   }
 }

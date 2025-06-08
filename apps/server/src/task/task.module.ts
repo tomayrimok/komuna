@@ -17,6 +17,6 @@ import { UserApartmentModule } from '../user-apartment/user-apartment.module';
   ],
   providers: [TaskService],
   controllers: [TaskController],
-  exports: [TaskService]
+  exports: [TaskService],
 })
 export class TaskModule {}

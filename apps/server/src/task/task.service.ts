@@ -11,7 +11,7 @@ export class TaskService {
   constructor(
     @InjectRepository(Task)
     private readonly taskRepo: Repository<Task>,
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {}
 
   async createTask(taskDto: CreateTaskDto) {
@@ -39,7 +39,7 @@ export class TaskService {
       throw new BadRequestException('Task was not found');
     }
     if (!editTaskDto.assignedTo) {
-      throw new BadRequestException('Must have at least one assigned user')
+      throw new BadRequestException('Must have at least one assigned user');
     }
     const users = editTaskDto.assignedTo
       ? await this.userService.getUsersByUserId(editTaskDto.assignedTo)

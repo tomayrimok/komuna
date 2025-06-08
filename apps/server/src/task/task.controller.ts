@@ -93,7 +93,9 @@ export class TaskController {
     } else if (task.createdBy !== user.userId) {
       throw new BadRequestException('Only the task creator can edit the task');
     } else {
+    } else {
       return { success: false };
+    }
     }
   }
 

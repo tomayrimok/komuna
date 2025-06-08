@@ -11,6 +11,8 @@ type SessionDetails = {
   role: UserRole | null;
 };
 
+const SESSION_DETAILS_STORAGE_KEY = 'sessionDetails';
+
 // Define the context value: auth state + login/logout helpers
 export interface AuthContextValue {
   sessionDetails: SessionDetails;
@@ -20,6 +22,7 @@ export interface AuthContextValue {
   currentUserDetails?: ApiTypes.User | null;
   refetchAuth?: (options?: RefetchOptions) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
   logout: () => void;
+  setSession: (sessionDetails: SessionDetails) => Promise<QueryObserverResult<ApiTypes.User | null | undefined, Error>>;
 }
 export const defaultAuthContextValues: AuthContextValue = {
   sessionDetails: {
@@ -27,10 +30,12 @@ export const defaultAuthContextValues: AuthContextValue = {
     role: null,
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
-  setSessionDetails: () => { },
+  setSessionDetails: () => {},
   isAuthLoading: true,
   isRefetching: false,
   logout: () => null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- Context init
+  setSession: () => Promise.resolve({} as QueryObserverResult<ApiTypes.User | null | undefined, Error>),
 };
 
 export const AuthContext = createContext<AuthContextValue>(defaultAuthContextValues);
@@ -38,19 +43,17 @@ export const AuthContext = createContext<AuthContextValue>(defaultAuthContextVal
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { currentUserDetails, isAuthLoading, isRefetching, refetchAuth } = useAuthQuery();
-  const [sessionDetails, setSessionDetails] = useState<SessionDetails>({
-    apartmentId: null,
-    role: null,
-  });
+  const [sessionDetails, setSessionDetails] = useState<SessionDetails>(defaultAuthContextValues.sessionDetails);
 
-  // useEffect(() => {
-  //   if (currentUserDetails) {
-  //     setSessionDetails({
-  //       apartmentId: currentUserDetails.apartments?.[0]?.apartmentId || null,
-  //       role: (currentUserDetails.apartments?.[0]?.role as UserRole) || null,
-  //     });
-  //   }
-  // }, [currentUserDetails]);
+  useEffect(() => {
+    const localStorageSession = localStorage.getItem(SESSION_DETAILS_STORAGE_KEY);
+    if (localStorageSession) setSessionDetails(JSON.parse(localStorageSession));
+  }, []);
+
+  useEffect(() => {
+    if (sessionDetails.apartmentId && sessionDetails.role)
+      localStorage.setItem(SESSION_DETAILS_STORAGE_KEY, JSON.stringify(sessionDetails));
+  }, [sessionDetails]);
 
   const logout = async () => {
     // Clear any stored tokens or session info here
@@ -59,6 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error('Logout error:', error);
     }
+    localStorage.removeItem(SESSION_DETAILS_STORAGE_KEY);
     setSessionDetails(defaultAuthContextValues.sessionDetails);
     queryClient.setQueryData([AUTH_QUERY_KEY], null);
   };
@@ -70,13 +74,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log('Message received while active. ', payload);
       toaster.create({
         meta: { closable: true },
-        type: "info",
+        type: 'info',
         title: payload.notification?.title,
         description: payload.notification?.body,
-        duration: 5000
+        duration: 5000,
       });
     });
   }, []);
+
+  const setSession = async (sessionDetails: SessionDetails) => {
+    setSessionDetails(sessionDetails);
+    return queryClient.invalidateQueries({
+      queryKey: [AUTH_QUERY_KEY],
+    });
+  };
 
   if (isAuthLoading) return <LoadingApp />;
   return (
@@ -89,13 +100,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         currentUserDetails,
         logout,
         refetchAuth,
+        setSession,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

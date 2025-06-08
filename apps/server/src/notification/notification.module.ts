@@ -9,14 +9,14 @@ import { ApartmentModule } from '../apartment/apartment.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-    imports: [
-        JwtModule,
-        TypeOrmModule.forFeature([NotificationToken, Notification]),
-        ApartmentModule,
-        ScheduleModule.forRoot(),
-    ],
-    providers: [NotificationService],
-    controllers: [NotificationController],
-    exports: [NotificationService],
+  imports: [
+    JwtModule,
+    TypeOrmModule.forFeature([NotificationToken, Notification]),
+    ApartmentModule,
+    ScheduleModule.forRoot(),
+  ],
+  providers: [NotificationService],
+  controllers: [NotificationController],
+  exports: [NotificationService],
 })
-export class NotificationModule { }
+export class NotificationModule {}
