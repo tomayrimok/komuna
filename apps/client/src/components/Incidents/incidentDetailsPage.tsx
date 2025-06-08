@@ -26,7 +26,7 @@ const IncidentDetailsPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const buttonDisabled = !incidentDetails?.title || isIncidentDetailsLoading;
+  const buttonDisabled = !incidentDetails?.title || !incidentDetails.description || isIncidentDetailsLoading;
 
   const urgencyLevels = createListCollection({
     items: [
