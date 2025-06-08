@@ -55,7 +55,7 @@ export const RoommateHome = () => {
       </Box>
 
       <VStack padding="7" gap="5" mt={"120px"}>
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} shadow="sm">
+        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
           <Image src='/meerkats/dealers.png' width={"30vw"} />
           <Heading fontSize={"xl"} textAlign={"center"}>
             <BalanceText />
@@ -63,7 +63,7 @@ export const RoommateHome = () => {
           <CreateExpenseButton isFixed={false} />
         </Flex>
 
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} shadow="sm">
+        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
           <Image src='/meerkats/incident.png' width={"20vw"} />
           <Heading fontSize={"xl"} >
             <IncidentsNumber />
@@ -71,7 +71,7 @@ export const RoommateHome = () => {
           <CreateIncidentButton isFixed={false} />
         </Flex>
 
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} shadow="sm">
+        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
           <Image src='/meerkats/shopping.png' width={"20vw"} />
           <Heading fontSize={"xl"}>
             <ShoppingListItemsNumber />
