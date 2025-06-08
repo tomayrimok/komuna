@@ -3,8 +3,13 @@ import { IconFlagPlus } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
+import MainButton from '../mainButton';
 
-const CreateIncidentButton = () => {
+interface CreateIncidentButtonProps {
+  isFixed?: boolean;
+}
+
+const CreateIncidentButton: React.FC<CreateIncidentButtonProps> = ({ isFixed = true }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {
@@ -16,22 +21,10 @@ const CreateIncidentButton = () => {
   };
 
   return (
-    <Button
-      onClick={handleClick}
-      position="fixed"
-      bottom="110px"
-      right={0}
-      left={0}
-      margin="auto"
-      width="fit-content"
-      fontSize={'lg'}
-      fontWeight={'bold'}
-      py={6}
-      shadow={'md'}
-    >
+    <MainButton onClick={handleClick} isFixed={isFixed}>
       <IconFlagPlus size={20} />
       {t('incidents.create_incident')}
-    </Button>
+    </MainButton>
   );
 };
 

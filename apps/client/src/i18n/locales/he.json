@@ -250,7 +250,8 @@
     "item_quantity": "כמות",
     "choose_purchased_items": "בחרו את הפריטים שנרכשו",
     "search_item": "חיפוש פריט",
-    "make_purchase": "ביצוע רכישה"
+    "make_purchase": "ביצוע רכישה",
+    "num_unpurchased_items": "{{count}} פריטים ממתינים לרכישה"
   },
   "error": {
     "error": "שגיאה",
