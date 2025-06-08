@@ -54,7 +54,7 @@ export class NotificationService {
   }
 
   async deleteToken(userId: string) {
-    this.notificationTokenRepo.delete({ userId });
+    return await this.notificationTokenRepo.delete({ userId });
   }
 
   async sendTest(toUser: string) {
