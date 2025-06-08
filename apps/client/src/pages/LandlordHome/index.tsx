@@ -5,6 +5,7 @@ import IncidentsNumber from '../../components/Incidents/incidentsNumber';
 import { SettingLeftbar } from '../../components/SettingLeftbar';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
+import { HomeCard } from '../../components/homeCard';
 
 const TempFakeCard = () => (
   <Card.Root variant="elevated">
@@ -65,13 +66,11 @@ export const LandlordHome = () => {
         <SettingLeftbar />
       </HStack>
       <VStack padding="5" gap="5">
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} shadow="sm">
-          <Image src='/meerkats/incident.png' width={"20vw"} />
-          <Heading fontSize={"xl"}>
-            <IncidentsNumber />
-          </Heading>
-          <CreateIncidentButton isFixed={false} />
-        </Flex>
+        <HomeCard
+          image={<Image src='/meerkats/incident.png' width={"20vw"} />}
+          text={<IncidentsNumber />}
+          button={<CreateIncidentButton isFixed={false} />}
+        />
       </VStack>
 
     </Box >

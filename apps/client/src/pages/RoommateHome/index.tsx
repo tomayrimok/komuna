@@ -9,6 +9,7 @@ import { ShoppingListItemsNumber } from '../../components/ShoppingList/shoppingL
 import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingListPurchaseDrawer';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
+import { HomeCard } from '../../components/homeCard';
 
 
 export const RoommateHome = () => {
@@ -55,29 +56,24 @@ export const RoommateHome = () => {
       </Box>
 
       <VStack padding="7" gap="5" mt={"120px"}>
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
-          <Image src='/meerkats/dealers.png' width={"30vw"} />
-          <Heading fontSize={"xl"} textAlign={"center"}>
-            <BalanceText />
-          </Heading>
-          <CreateExpenseButton isFixed={false} />
-        </Flex>
+        <HomeCard
+          image={<Image src='/meerkats/dealers.png' width={"30vw"} />}
+          text={<BalanceText />}
+          button={<CreateExpenseButton isFixed={false} />}
+        />
 
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
-          <Image src='/meerkats/incident.png' width={"20vw"} />
-          <Heading fontSize={"xl"} >
-            <IncidentsNumber />
-          </Heading>
-          <CreateIncidentButton isFixed={false} />
-        </Flex>
+        <HomeCard
+          image={<Image src='/meerkats/incident.png' width={"20vw"} />}
+          text={<IncidentsNumber />}
+          button={<CreateIncidentButton isFixed={false} />}
+        />
 
-        <Flex gap={3} p={8} w="full" borderRadius={"4xl"} direction={"column"} alignItems={"center"} backgroundColor={"white"} borderWidth={1}>
-          <Image src='/meerkats/shopping.png' width={"20vw"} />
-          <Heading fontSize={"xl"}>
-            <ShoppingListItemsNumber />
-          </Heading>
-          <ShoppingListPurchaseDrawer isFixed={false} />
-        </Flex>
+        <HomeCard
+          image={<Image src='/meerkats/shopping.png' width={"20vw"} />}
+          text={<ShoppingListItemsNumber />}
+          button={<ShoppingListPurchaseDrawer isFixed={false} />}
+        />
+
       </VStack>
     </Box>
   );
