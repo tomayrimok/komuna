@@ -79,7 +79,7 @@ const ExpenseDetailsPage = () => {
                   alignContent={'end'}
                 />
               </Box>
-              {expenseDetails.extendedDescription ?
+              {typeof expenseDetails.extendedDescription === 'string' ?
                 <Box>
                   <Text mb={1} fontWeight="bold">
                     {t('payments.expense.expense-extended-description')}
