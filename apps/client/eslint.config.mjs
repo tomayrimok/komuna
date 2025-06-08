@@ -5,7 +5,7 @@ export default [
   ...baseConfig,
   ...nx.configs['flat/react'],
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: [],
     // Override or add rules here
     rules: {
       '@typescript-eslint/no-empty-interface': 'off',
@@ -14,3 +14,4 @@ export default [
     },
   },
 ];
+// '**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'
