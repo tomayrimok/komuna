@@ -3,10 +3,11 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
 import { Trans } from 'react-i18next';
 import { useIsRTL } from '../../hooks/useIsRTL';
+import { Task } from './Task';
 import { NewTask } from './NewTask';
 import { useState, useEffect } from 'react';
 import { CreateTaskReqDto as TaskStruct } from '@komuna/types';
-//import { GetTasks } from '../../hooks/query/useTasks';
+import { GetTasks } from '../../hooks/query/useTasks';
 
 
 
@@ -17,7 +18,7 @@ export function TasksHome() {
     const [completedTasks, setCompletedTasks] = useState<TaskStruct[] | null>(null);
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
     const userId = currentUserDetails?.userId || '';
-    //const apartmentId = currentUserDetails?.apartmentId || '';
+    const apartmentId = currentUserDetails?.apartments || '';
 
     return (
         <Box
@@ -87,11 +88,11 @@ export function TasksHome() {
                         components={{ b: <b /> }}
                     />
                 </Text>
-                <NewTask />
-                <NewTask />
-                <NewTask />
-                <NewTask />
-                <NewTask />
+                <Task />
+                <Task />
+                <Task />
+                <Task />
+                <Task />
                 <Button
                     width={"50%"}
                     height={"75px"}
@@ -135,21 +136,3 @@ export function TasksHome() {
         </Box>
     );
 }
-
-
-
-
-
-/*
-preview:
-    title
-    due date
-    description
-
-full:
-    title
-    due date
-    description
-    assigned to
-    every...
-*/
