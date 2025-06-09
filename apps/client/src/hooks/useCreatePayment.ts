@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postCreatePayment } from '../api/createPayment';
 import { useNavigate } from '@tanstack/react-router';
-import { toaster } from '../chakra/ui/toaster';
 import { useTranslation } from 'react-i18next';
+import { postCreatePayment } from '../api/createPayment';
+import { toaster } from '../chakra/ui/toaster';
 import { useAuth } from '../context/auth/AuthProvider';
 
 export const useCreatePayment = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { currentUserDetails } = useAuth();
 
   return useMutation({
     mutationFn: postCreatePayment,
@@ -17,7 +16,7 @@ export const useCreatePayment = () => {
       navigate({ to: '/roommate/payments' });
       toaster.success({ title: t('payments.settle-up-success') });
       queryClient.invalidateQueries({
-        queryKey: ['userBalanceDetails', variables.apartmentId, currentUserDetails?.userId],
+        queryKey: ['userBalanceDetails', variables.apartmentId],
       });
     },
     onError: (error: any) => {

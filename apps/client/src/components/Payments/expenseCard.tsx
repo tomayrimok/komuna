@@ -40,8 +40,8 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
             borderColor={'gray.300'}
             borderRadius="xl"
             color="gray.500"
-            width="40px"
-            height="40px"
+            minWidth="40px"
+            minHeight="40px"
           >
             💰
           </Flex>
@@ -53,9 +53,9 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
               {item.paidByMe
                 ? t('payments.you-paid', { amount: roundUpToXDigits(item.amount) })
                 : t('payments.paid-by', {
-                    amount: roundUpToXDigits(item.amount),
-                    name: `${item.paidByUser.firstName} ${item.paidByUser.lastName[0]}`,
-                  })}
+                  amount: roundUpToXDigits(item.amount),
+                  name: `${item.paidByUser.firstName} ${item.paidByUser.lastName[0]}`,
+                })}
             </Box>
           </Flex>
           <Box
@@ -67,8 +67,8 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ item }) => {
           >
             {item.paidByMe
               ? t('payments.you-lent', {
-                  amount: roundUpToXDigits(item.amount - Number(item.splitAmount)).toLocaleString(),
-                })
+                amount: roundUpToXDigits(item.amount - Number(item.splitAmount)).toLocaleString(),
+              })
               : t('payments.you-borrowed', { amount: roundUpToXDigits(item.splitAmount ?? 0).toLocaleString() })}
           </Box>
 

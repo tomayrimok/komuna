@@ -6,7 +6,7 @@ import { Expense } from './expense.entity';
 
 @Controller('expense')
 export class ExpenseController {
-  constructor(private readonly expenseService: ExpenseService) {}
+  constructor(private readonly expenseService: ExpenseService) { }
 
   @Get('apartment-expenses')
   @ApiOkResponse({ type: [ApartmentExpensesResponse] })
@@ -16,16 +16,7 @@ export class ExpenseController {
 
   @Post('add-edit-expense')
   async addEditExpense(@Body() body: AddEditExpenseDto) {
-    const { expenseId, apartmentId, splits, amount, description, paidById, splitType } = body;
-    return await this.expenseService.addEditExpense({
-      expenseId,
-      apartmentId,
-      splits,
-      amount,
-      description,
-      paidById,
-      splitType,
-    });
+    return await this.expenseService.addEditExpense(body);
   }
 
   @Get('expense-details')

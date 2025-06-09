@@ -15,6 +15,7 @@ export type Expense = {
    * Description of the expense
    */
   description: string;
+  extendedDescription?: string;
   /**
    * Amount of the expense
    */
@@ -375,6 +376,10 @@ export type ApartmentExpensesResponse = {
    */
   description: string;
   /**
+   * Extended Description of the expense
+   */
+  extendedDescription?: string;
+  /**
    * ID of the expense
    */
   expenseId: string;
@@ -415,6 +420,10 @@ export type AddEditExpenseDto = {
    * Description of the expense
    */
   description: string;
+  /**
+   * Extended Description of the expense
+   */
+  extendedDescription?: string;
   /**
    * ID of the user who paid for the expense
    */
@@ -550,7 +559,6 @@ export type DebtEdgeControllerGetUserBalanceDetailsData = {
   body?: never;
   path?: never;
   query: {
-    userId: string;
     apartmentId: string;
   };
   url: '/api/debt-edge/user-balance-details';
@@ -567,7 +575,6 @@ export type DebtEdgeControllerGetUserBalanceData = {
   body?: never;
   path?: never;
   query: {
-    userId: string;
     apartmentId: string;
   };
   url: '/api/debt-edge/user-balance';

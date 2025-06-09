@@ -10,7 +10,11 @@ import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import CreatePurchaseButton from './createPurchaseButton';
 
-const ShoppingListPurchaseDrawer = () => {
+interface ShoppingListPurchaseDrawerProps {
+  isFixed?: boolean;
+}
+
+const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({ isFixed = true }) => {
   const { items, purchaseItems } = useShoppingList();
   const { toggleItem } = usePurchase();
   const { t } = useTranslation();
@@ -28,7 +32,7 @@ const ShoppingListPurchaseDrawer = () => {
 
   return (
     <Drawer.Root placement={'bottom'}>
-      <CreatePurchaseButton />
+      <CreatePurchaseButton isFixed={isFixed} />
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
@@ -44,6 +48,7 @@ const ShoppingListPurchaseDrawer = () => {
                     key={item.itemId}
                     title={item.name}
                     description={item.category}
+                    image={item.image}
                     selected={purchaseItems.some((i) => i.itemId === item.itemId)}
                     fallbackIcon={<IconShoppingBag />}
                     onClick={() => toggleItem(item)}

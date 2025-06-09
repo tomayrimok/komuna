@@ -34,7 +34,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       border={selected ? '1.5px solid {colors.brand.600}' : '1.5px solid transparent'}
     >
       <Flex direction="row" gap="3" alignItems="center">
-        <Avatar.Root size="lg" shape="full">
+        <Avatar.Root size="lg" shape="full" backgroundColor={image ? 'transparent' : undefined}>
           <Avatar.Image src={image} alt={title} />
           {fallbackIcon ? <Avatar.Fallback>{fallbackIcon}</Avatar.Fallback> : <Avatar.Fallback name={title} />}
         </Avatar.Root>
