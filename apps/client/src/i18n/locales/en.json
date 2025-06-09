@@ -85,7 +85,8 @@
     "choose_purchased_items": "Select purchased items",
     "search_item": "Search item",
     "make_purchase": "Make purchase",
-    "purchase_made": "Purchase made from a shopping list"
+    "purchase_made": "Purchase made from a shopping list",
+    "num_unpurchased_items": "{{count}} items waiting to be purchased"
   },
   "save": "Save",
   "cancel": "Cancel",
