@@ -264,6 +264,7 @@
     "title": "מטלות",
     "task_list": "המטלות שלך: ",
     "tasks": {
+      "create_task": "יצירת מטלה",
       "title": "שם המטלה: <b>{{taskName}}</b>",
       "due_date": "לביצוע עד: <b>{{dueDate}}</b>",
       "descrption": "תיאור: <b>{{description}}</b>",
@@ -305,6 +306,18 @@
     "open_incidents": "תקלות פתוחות",
     "solved_incidents": "תקלות שנפתרו",
     "num_open_incidents": "{{count}} תקלות פתוחות"
+  },
+  "tasks": {
+    "no_tasks": "יפה! אין משימה באופק",
+    "create_task": "יצירת משימה חדשה",
+    "edit_task": "עריכת משימה",
+    "task_title": "כותרת",
+    "task_description": "תיאור המשימה",
+    "task_saved": "המשימה נשמרה בהצלחה",
+    "notes_and_updates": "הערות ועדכונים",
+    "open_tasks": "משימות פתוחות",
+    "solved_tasks": "משימות שנפתרו",
+    "num_open_tasks": "{{count}} משימות פתוחות"
   },
   "urgency": {
     "LOW": "דחיפות נמוכה",
