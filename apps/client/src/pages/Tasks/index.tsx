@@ -1,16 +1,18 @@
 import { Box, Button, HStack, Text, VStack, Dialog, Portal, CloseButton } from '@chakra-ui/react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { LogoutButton } from '../../components/LogoutButton';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { Task } from './Task';
 import { NewTask } from './NewTask';
+import { NewTaskTest } from './NewTaskTest';
 import { useState, useEffect } from 'react';
 import { CreateTaskReqDto as TaskStruct } from '@komuna/types';
 
 export function TasksHome() {
     const { sessionDetails, currentUserDetails } = useAuth();
     const { isRTL } = useIsRTL();
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [completedTasks, setCompletedTasks] = useState<TaskStruct[] | null>(null);
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
@@ -40,7 +42,7 @@ export function TasksHome() {
                 borderBottomStartRadius="none"
                 align={"center"}
             >
-                <Box w="100%" position="relative" marginTop={"20px"}>
+                <Box w="100%" position="relative" marginTop={"20px"} marginBottom={"20px"}>
                     {/* Absolutely center the title */}
                     <Text
                         position="absolute"
@@ -61,7 +63,7 @@ export function TasksHome() {
                     {/* Position the button at the right edge */}
                     <Button
                         position="absolute"
-                        left="0"
+                        left="25px"
                         top="50%"
                         transform="translateY(-50%)"
                         borderRadius="3em"
@@ -92,10 +94,11 @@ export function TasksHome() {
                 <Task />
                 <Button
                     width={"50%"}
-                    height={"75px"}
+                    height={"50px"}
                     onClick={() => setCompletedTasksCounter(prev => prev + 1)}
+                    fontWeight={"bold"}
                 >
-                    Load Completed Tasks
+                    {t("task_category.load_tasks")}
                 </Button>
             </VStack>
 
@@ -111,9 +114,8 @@ export function TasksHome() {
                 <Portal>
                     <Dialog.Backdrop />
                     <Dialog.Positioner>
-                        <Dialog.Content>
+                        <Dialog.Content backgroundColor={"brand.10"}>
                             <Dialog.Header>
-                                <Dialog.Title>Create a New Task</Dialog.Title>
                                 <Dialog.CloseTrigger>
                                     <CloseButton />
                                 </Dialog.CloseTrigger>

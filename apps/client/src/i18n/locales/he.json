@@ -277,15 +277,19 @@
       "didnt_do": "לא בוצע"
     },
     "create_task": {
-            "create_task": "יצירת מטלה",
+            "create_task": "יצירת מטלה חדשה",
+            "task_name": "שם המטלה",
             "title": "הכנס כותרת למטלה",
             "due_date": "הכנס תאריך יעד",
-            "description": "הכנס תיאור",
+            "description_placeholder": "הכנס תיאור",
+            "description": "תיאור",
             "assigned_to": "שייך שותפים למטלה (אם לא נבחרו שותפים, המטלה תשוייך לך)",
-            "recurrence": "הכנסה חוק חזרתיות (לדוגמא - כל שבועיים)",
+            "recurrence": "חזרתיות",
+            "recurrence_placeholder": "הכנסה חוק חזרתיות (לדוגמא - כל שבועיים)",
             "images": "העלה תמונות (לא חובה)",
             "due_time": "הכנס שעת יעד (לא חובה)"
-        }
+        },
+        "load_tasks": "טען מטלות שהושלמו"
   },
   "incidents": {
     "no_incidents": "החיים יפים, אין תקלות...",

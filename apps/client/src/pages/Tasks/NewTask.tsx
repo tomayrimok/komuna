@@ -6,6 +6,8 @@ import {
   Stack,
   Button,
   Portal,
+  Text,
+  HStack,
 } from "@chakra-ui/react";
 import {
   Menu,
@@ -104,7 +106,7 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.description}>
               <Field.Label htmlFor="description">
-              {t("task_category.create_task.description")}
+                {t("task_category.create_task.description")}
               </Field.Label>
               <Input
                 id="description"
@@ -118,7 +120,7 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.assignedTo} required>
               <Field.Label htmlFor="assignedTo">
-              {t("task_category.create_task.assigned_to")}
+                {t("task_category.create_task.assigned_to")}
               </Field.Label>
 
               {/* Chakra Menu: Menu + MenuButton + MenuList + MenuItem */}
@@ -136,11 +138,11 @@ export const NewTask = () => {
                 <Portal>
                   <MenuList zIndex={"10000"} background={"white"} paddingX={"10px"}>
                     {/* TODO add API call to get all users and list them as MenuItem */}
-                    <MenuItem value="new-txt">New Text File</MenuItem>
-                    <MenuItem value="new-file">New File…</MenuItem>
-                    <MenuItem value="new-win">New Window</MenuItem>
-                    <MenuItem value="open-file">Open File…</MenuItem>
-                    <MenuItem value="export">Export</MenuItem>
+                    <MenuItem value="new-txt">Noam</MenuItem>
+                    <MenuItem value="new-file">Tom</MenuItem>
+                    <MenuItem value="new-win">Shani</MenuItem>
+                    <MenuItem value="open-file">Adi</MenuItem>
+                    <MenuItem value="export">Liad</MenuItem>
                   </MenuList>
                 </Portal>
               </Menu>
@@ -152,16 +154,19 @@ export const NewTask = () => {
 
             <Field.Root invalid={!!errors.recurrence}>
               <Field.Label htmlFor="recurrence">
-              {t("task_category.create_task.recurrence")}
+                {t("task_category.create_task.recurrence")}
               </Field.Label>
-              <Input
-                id="recurrence"
-                placeholder="e.g. Every Monday"
-                {...register("recurrence")}
-              />
-              <Field.ErrorText>
-                {errors.recurrence?.message}
-              </Field.ErrorText>
+              <HStack>
+                <Input
+                  id="recurrence"
+                  placeholder="e.g. Every Monday"
+                  {...register("recurrence")}
+                />
+                <Text>Every</Text>
+                <Field.ErrorText>
+                  {errors.recurrence?.message}
+                </Field.ErrorText>
+              </HStack>
             </Field.Root>
           </Stack>
         </Card.Body>

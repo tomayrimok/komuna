@@ -14,7 +14,7 @@ export const Task = () => {
             outline="3px ridge"
             borderRadius="2rem"
             outlineColor="brand.800"
-            width="90%"
+            width="100%"
             backgroundColor="brand.500"
             display="flex"
             flexDirection="column"
@@ -81,7 +81,7 @@ export const Task = () => {
             <Card.Footer marginRight={"-10px"} marginBottom={"-10px"}>
                 <Button width={"33%"} height={"50px"} border={"2px solid"}>
                     <Text
-                        fontSize="2xl"
+                        fontSize="xl"
                         fontWeight="bold"
                         color="brand.900"
                         textAlign={isRTL ? "right" : "left"}
@@ -94,7 +94,7 @@ export const Task = () => {
                 </Button>
                 <Button width={"33%"} height={"50px"} border={"2px solid"}>
                     <Text
-                        fontSize="2xl"
+                        fontSize="xl"
                         fontWeight="bold"
                         color="brand.900"
                         textAlign={isRTL ? "right" : "left"}
@@ -107,7 +107,7 @@ export const Task = () => {
                 </Button>
                 <Button width={"33%"} height={"50px"} border={"2px solid"}>
                     <Text
-                        fontSize="2xl"
+                        fontSize="xl"
                         fontWeight="bold"
                         color="brand.900"
                         textAlign={isRTL ? "right" : "left"}
