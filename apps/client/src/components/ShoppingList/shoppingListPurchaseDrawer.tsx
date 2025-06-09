@@ -48,6 +48,7 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
                     key={item.itemId}
                     title={item.name}
                     description={item.category}
+                    image={item.image}
                     selected={purchaseItems.some((i) => i.itemId === item.itemId)}
                     fallbackIcon={<IconShoppingBag />}
                     onClick={() => toggleItem(item)}

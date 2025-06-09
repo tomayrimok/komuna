@@ -17,6 +17,10 @@ export class Expense {
   @Column()
   description: string;
 
+  @ApiProperty({ required: false })
+  @Column({ nullable: true })
+  extendedDescription?: string;
+
   @ApiProperty({ description: 'Amount of the expense' })
   @Column('float')
   amount: number;

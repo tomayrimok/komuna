@@ -52,6 +52,7 @@ type ExpenseContextValue = {
     remaining: string;
   };
   isAddEditExpenseLoading?: boolean;
+  setExtendedDescription: (extendedDescription: string) => void;
 };
 
 export const ExpenseContext = createContext<ExpenseContextValue | null>(null);
@@ -90,7 +91,8 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
 
   useEffect(() => {
     if (fromShoppingList) {
-      setDescription(purchaseItems.length > 0 ? purchaseItems.map((item) => '- ' + item.name).join('\n') : '');
+      setDescription(t('shopping.purchase_made'));
+      setExtendedDescription(purchaseItems.length > 0 ? purchaseItems.map((item) => '- ' + item.name).join('\n') : '');
     }
   }, [fromShoppingList]);
 
@@ -260,6 +262,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
       expenseId: expenseDetails.expenseId,
       amount: expenseDetails.amount,
       description: expenseDetails.description,
+      extendedDescription: expenseDetails.extendedDescription,
       paidById: expenseDetails.paidById,
       apartmentId: apartmentData.apartmentId,
       splits,
@@ -276,6 +279,10 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
 
   const setDescription = (description: string) => {
     setExpenseDetails((prev) => ({ ...prev, description }));
+  };
+
+  const setExtendedDescription = (extendedDescription: string) => {
+    setExpenseDetails((prev) => ({ ...prev, extendedDescription }));
   };
 
   const setPaidBy = (paidByUser: User) => {
@@ -309,6 +316,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
         handleCancel,
         setPaidBy,
         setDescription,
+        setExtendedDescription,
         expenseId,
         isExpenseDetailsLoading,
         expenseDetails,
