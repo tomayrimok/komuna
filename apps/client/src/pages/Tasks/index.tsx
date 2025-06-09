@@ -7,18 +7,15 @@ import { Task } from './Task';
 import { NewTask } from './NewTask';
 import { useState, useEffect } from 'react';
 import { CreateTaskReqDto as TaskStruct } from '@komuna/types';
-import { GetTasks } from '../../hooks/query/useTasks';
-
-
 
 export function TasksHome() {
-    const { currentUserDetails } = useAuth();
+    const { sessionDetails, currentUserDetails } = useAuth();
     const { isRTL } = useIsRTL();
     const [open, setOpen] = useState(false);
     const [completedTasks, setCompletedTasks] = useState<TaskStruct[] | null>(null);
     const [completedTasksCounter, setCompletedTasksCounter] = useState<number>(0);
     const userId = currentUserDetails?.userId || '';
-    const apartmentId = currentUserDetails?.apartments || '';
+    const apartmentId = sessionDetails.apartmentId || '';
 
     return (
         <Box
