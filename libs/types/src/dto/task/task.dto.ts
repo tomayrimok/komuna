@@ -1,4 +1,4 @@
-import { RecurrenceRuleDto } from '../recurrence-rule.dto';
+import type { RecurrenceRuleDto } from '../recurrence-rule.dto';
 
 export class CreateTaskReqDto {
   title: string;
@@ -6,8 +6,6 @@ export class CreateTaskReqDto {
   description?: string;
 
   assignedTo: string[];
-
-  completions: UserCompletionStatus[];
 
   isRecurrent: boolean;
 
@@ -34,7 +32,7 @@ export class EditTaskReqResDto {
   recurrenceRule?: RecurrenceRuleDto;
 }
 
-export interface UserCompletionStatus {  
+export interface UserCompletionStatus {
   userId: string;
 
   status: boolean;

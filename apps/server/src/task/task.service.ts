@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
+import { Brackets } from 'typeorm';
 
 @Injectable()
 export class TaskService {
@@ -12,7 +13,7 @@ export class TaskService {
     @InjectRepository(Task)
     private readonly taskRepo: Repository<Task>,
     private readonly userService: UserService
-  ) {}
+  ) { }
 
   async createTask(taskDto: CreateTaskDto) {
     // If there are multiple userIds, save them as an array, else save the single
@@ -57,7 +58,7 @@ export class TaskService {
     if (getCompletedTasks) {
       return this.taskRepo.find({
         where: {
-          createdBy: userId,
+          createdByUserId: userId,
           apartmentId,
           completions: { userId, status: true },
         },
@@ -69,16 +70,42 @@ export class TaskService {
     return this.taskRepo
       .createQueryBuilder('task')
       .leftJoinAndSelect('task.assignedTo', 'user')
-      .where(
-        '(task.createdBy = :userId AND task.apartmentId = :apartmentId) OR ' +
-          '(task.apartmentId = :apartmentId AND user.userId = :userId)',
-        { userId, apartmentId }
+      .select([
+        'task.taskId',
+        'task.apartmentId',
+        'task.title',
+        'task.description',
+        'task.dueDate',
+        'task.dueTime',
+        'task.isRecurrent',
+        'task.createdByUserId',
+        'task.createdAt',
+        'user.userId',
+        'user.firstName',
+        'user.lastName',
+        'user.phoneNumber',
+        'user.image',
+        'user.createdAt'
+      ])
+      .where('task.apartmentId = :apartmentId')
+      .andWhere(
+        new Brackets(qb => {
+          qb.where('task.createdByUserId = :userId').orWhere('user.userId = :userId');
+        })
       )
-      .andWhere('task.dueDate >= :currentDate OR task.isRecurrent = TRUE', { currentDate: new Date().toISOString() })
+      .andWhere(new Brackets(qb => {
+        qb.where('task.dueDate >= :currentDate')
+          .orWhere('task.isRecurrent = TRUE');
+      }))
+      .setParameters({
+        userId,
+        apartmentId,
+        currentDate: new Date().toISOString(),
+      })
       .orderBy('task.dueDate', 'DESC')
-      .distinct(true) // ensure each task appears only once
-      .skip(skip) // OFFSET skip
-      .take(take) // LIMIT take
+      .distinct(true)
+      .skip(skip)
+      .take(take)
       .getMany();
   }
 

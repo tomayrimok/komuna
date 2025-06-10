@@ -1,22 +1,28 @@
+import { EditTaskReqResDto } from '@komuna/types';
 import {
   BadRequestException,
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   InternalServerErrorException,
   Logger,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
-  DefaultValuePipe,
-  ParseIntPipe,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { UserCompletionStatus } from './dto/user-completion-status.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { UseAuth } from '../decorators/UseAuth';
+import { UseAuthApartment } from '../decorators/UseAuthApartment';
 import { User } from '../decorators/User';
-import { CreateTaskReqDto, EditTaskReqResDto } from '@komuna/types';
-import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
+import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
+import { TaskResDto } from './dto/task-response.dto';
+import { CreateTaskDto, EditTaskDto } from './dto/task.dto';
+import { UserCompletionStatus } from './dto/user-completion-status.dto';
+import { TaskService } from './task.service';
 
 @Controller('task')
 export class TaskController {
@@ -24,11 +30,13 @@ export class TaskController {
     private readonly taskService: TaskService,
     private readonly userApartmentService: UserApartmentService,
     private readonly userService: UserService
-  ) {}
+  ) { }
   private readonly logger = new Logger(TaskController.name);
 
   @Post('create')
-  async createTask(@User() user: UserJwtPayload, @Body() taskDto: CreateTaskReqDto) {
+  @UseAuth()
+  @ApiOkResponse({ type: TaskResDto })
+  async createTask(@User() user: UserJwtPayload, @Body() taskDto: CreateTaskDto) {
     // TODO add validation
     //TODO make sure assigned users belong to the apartment
     if (!this.userApartmentService.isUserInApartment(user.userId, user.apartmentId)) {
@@ -37,13 +45,13 @@ export class TaskController {
     }
     const newTask = {
       ...taskDto,
-      createdBy: user.userId,
+      createdByUserId: user.userId,
       apartmentId: user.apartmentId,
       createdAt: new Date(),
     };
     try {
       const task = await this.taskService.createTask(newTask);
-      return { success: true, task };
+      return task;
     } catch (error) {
       this.logger.error('Error in createTask:', error.stack);
       throw new InternalServerErrorException('Failed to create task', {
@@ -78,9 +86,11 @@ export class TaskController {
 
   // Only task owner can edit the task.
   @Post('edit')
-  async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: EditTaskReqResDto) {
+  @UseAuthApartment()
+  @ApiOkResponse({ type: TaskResDto })
+  async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: EditTaskDto) {
     const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
-    if (task && user.userId === task.createdBy) {
+    if (task && user.userId === task.createdByUserId) {
       try {
         return await this.taskService.editTask(editTaskReqDto.taskId, { ...editTaskReqDto });
       } catch (error) {
@@ -90,26 +100,51 @@ export class TaskController {
     }
     if (!task) {
       throw new BadRequestException('Task was not found');
-    } else if (task.createdBy !== user.userId) {
+    } else if (task.createdByUserId !== user.userId) {
       throw new BadRequestException('Only the task creator can edit the task');
     } else {
-      return { success: false };
+      throw new InternalServerErrorException();
     }
   }
 
-  @Get('get')
-  async getAllTasks(@User() user: UserJwtPayload) {
+  @Get(':apartmentId')
+  @ApiOkResponse({ type: [TaskResDto] })
+  @UseAuthApartment()
+  async getAllTasks(@Param('apartmentId') apartmentId: string, @User() user: UserJwtPayload) {
     try {
-      const tasks = await this.taskService.getTask(user.userId, user.apartmentId);
+      const tasks = await this.taskService.getTask(user.userId, apartmentId);
       if (!tasks) {
         throw new BadRequestException('No tasks found for the given user and apartment');
       }
-      return { success: true, tasks };
+      console.log('tasks: ', tasks);
+      return tasks;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
+      this.logger.error(error);
     }
+  }
+
+  @Get('get-by-id/:apartmentId')
+  @UseAuthApartment()
+  @ApiOkResponse({ type: TaskResDto })
+  async getTaskById(
+    @Query('taskId') taskId: string,
+    @Param('apartmentId') apartmentId: string,
+    @User() user: UserJwtPayload
+  ) {
+    const task = await this.taskService.getTaskById(taskId);
+    if (!task) {
+      throw new BadRequestException('Task was not found');
+    }
+    if (task.apartmentId !== user.apartmentId) {
+      throw new BadRequestException('Task does not belong to the user\'s apartment');
+    }
+    if (task.createdByUserId !== user.userId && !this.taskService.IsUserAParticipant(taskId, user.userId)) {
+      throw new BadRequestException('User is not a participant of the task');
+    }
+    return task;
   }
 
   @Get('get-completed')
@@ -123,6 +158,6 @@ export class TaskController {
     const take = pageSize;
 
     const tasks = await this.taskService.getTask(user.userId, user.apartmentId, true, skip, take);
-    return { success: true, tasks };
+    return tasks;
   }
 }
