@@ -3,7 +3,7 @@ import { API, type ApiTypes } from '../../../../../libs/types/src';
 import { useAuth } from '../../context/auth/AuthProvider';
 
 const fetchTasks = async (apartmentId: string): Promise<ApiTypes.TaskResDto[] | undefined> => {
-  const response = await API.taskControllerGetAllTasks({ path: { apartmentId } });
+  const response = await API.taskControllerGetAllTasks({ query: { apartmentId } });
   return response.data;
 }
 

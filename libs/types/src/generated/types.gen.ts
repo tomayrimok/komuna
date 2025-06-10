@@ -945,11 +945,11 @@ export type TaskControllerEditTaskResponse = TaskControllerEditTaskResponses[key
 
 export type TaskControllerGetAllTasksData = {
   body?: never;
-  path: {
+  path?: never;
+  query: {
     apartmentId: string;
   };
-  query?: never;
-  url: '/api/task/{apartmentId}';
+  url: '/api/task';
 };
 
 export type TaskControllerGetAllTasksResponses = {

@@ -94,15 +94,15 @@ export class TaskService {
         'user.createdAt'
       ])
       .where('task.apartmentId = :apartmentId')
-      .andWhere(
-        new Brackets(qb => {
-          qb.where('task.createdByUserId = :userId').orWhere('user.userId = :userId');
-        })
-      )
-      .andWhere(new Brackets(qb => {
-        qb.where('task.dueDate >= :currentDate')
-          .orWhere('task.isRecurrent = TRUE');
-      }))
+      // .andWhere(
+      //   new Brackets(qb => {
+      //     qb.where('task.createdByUserId = :userId').orWhere('user.userId = :userId');
+      //   })
+      // )
+      // .andWhere(new Brackets(qb => {
+      //   qb.where('task.dueDate >= :currentDate')
+      //     .orWhere('task.isRecurrent = TRUE');
+      // }))
       .setParameters({
         userId,
         apartmentId,

@@ -311,7 +311,7 @@ export const taskControllerGetAllTasks = <ThrowOnError extends boolean = false>(
   options: Options<TaskControllerGetAllTasksData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).get<TaskControllerGetAllTasksResponse, unknown, ThrowOnError>({
-    url: '/api/task/{apartmentId}',
+    url: '/api/task',
     ...options,
   });
 };

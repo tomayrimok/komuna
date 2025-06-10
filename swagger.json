@@ -558,14 +558,14 @@
         ]
       }
     },
-    "/api/task/{apartmentId}": {
+    "/api/task": {
       "get": {
         "operationId": "TaskController_getAllTasks",
         "parameters": [
           {
             "name": "apartmentId",
             "required": true,
-            "in": "path",
+            "in": "query",
             "schema": {
               "type": "string"
             }
