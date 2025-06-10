@@ -31,10 +31,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             key={task.taskId}
             position={'relative'}
             overflow={'hidden'}
-        // ps={'10px'}
         >
-            {/* <UrgencyIndication task={task} /> */}
-
             <Container p={5}>
                 <Flex direction={'column'} gap={2} mb={2}>
                     <Text fontSize="lg" fontWeight="bold">
@@ -65,11 +62,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                         </Box>
                       ))}
                     </Flex>
-                    {/* <Flex mt={2} gap={2}>
-                        <IncidentTag value={task.status} data={STATUSES_DATA} />
-            {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
-                        <IncidentTag value={task.urgencyLevel} data={URGENCY_DATA} />
-                    </Flex> */}
                 </Flex>
             </Container>
 
