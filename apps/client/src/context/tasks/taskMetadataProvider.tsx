@@ -54,7 +54,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       dueTime: taskDetails.dueTime,
       isRecurrent: taskDetails.isRecurrent,
       recurrenceRule: taskDetails.recurrenceRule,
-      apartmentId: apartmentData.apartmentId!,
+      apartmentId: apartmentData.apartmentId,
     });
 
     history.back();
