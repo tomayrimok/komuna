@@ -19,7 +19,7 @@ import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
 import { TaskResDto } from './dto/task-response.dto';
-import { CreateTaskDto, EditTaskDto } from './dto/task.dto';
+import { CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { TaskService } from './task.service';
 
@@ -44,9 +44,7 @@ export class TaskController {
     }
     const newTask = {
       ...taskDto,
-      createdByUserId: user.userId,
-      apartmentId: user.apartmentId,
-      createdAt: new Date(),
+      createdByUserId: user.userId
     };
     try {
       const task = await this.taskService.createTask(newTask);
@@ -87,7 +85,7 @@ export class TaskController {
   @Post('edit')
   @UseAuthApartment()
   @ApiOkResponse({ type: TaskResDto })
-  async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: EditTaskDto) {
+  async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: UpdateTaskDto) {
     const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
     if (task && user.userId === task.createdByUserId) {
       try {
@@ -127,7 +125,7 @@ export class TaskController {
 
   @Get('get-by-id')
   @UseAuthApartment()
-  @ApiOkResponse({ type: TaskResDto })
+  @ApiOkResponse({ type: TaskResponseDto })
   async getTaskById(
     @Query('taskId') taskId: string,
     @Query('apartmentId') apartmentId: string,

@@ -15,10 +15,10 @@ export class Task {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   description?: string;
 
-  @Column()
+  @Column({ nullable: true })
   dueDate?: Date;
 
   @Column('json', { nullable: true })
@@ -27,7 +27,7 @@ export class Task {
   @Column('time', { nullable: true })
   dueTime?: string;
 
-  @Column()
+  @Column({ default: false })
   isRecurrent: boolean;
 
   @Column('json', { nullable: true })

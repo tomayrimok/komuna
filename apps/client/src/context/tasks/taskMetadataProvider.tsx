@@ -1,20 +1,19 @@
 import { useParams, useRouter } from '@tanstack/react-router';
-import { IncidentResponseDto } from 'libs/types/src/generated';
+import { IncidentResponseDto, TaskResponseDto } from 'libs/types/src/generated';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useAddEditIncident } from '../../hooks/query/useAddEditIncident';
 import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
 import { useApartment } from '../../hooks/useApartment';
 import { useAddTask } from '../../hooks/query/useAddEditTask';
 import { useTaskDetails } from '../../hooks/query/useTaskDetails';
-import { EditTaskReqResDto } from '@komuna/types';
 
 type TaskMetadataContextValue = {
-  taskDetails?: EditTaskReqResDto;
+  taskDetails?: TaskResponseDto;
   isTaskDetailsLoading: boolean;
   isTaskDetailsError: boolean;
   taskId?: string;
   handleSave?: () => void;
-  updateTaskDetails: (data: Partial<EditTaskReqResDto>) => void;
+  updateTaskDetails: (data: Partial<TaskResponseDto>) => void;
 };
 
 export const TaskMetadataContext = createContext<TaskMetadataContextValue | null>(null);
@@ -22,7 +21,7 @@ export const TaskMetadataContext = createContext<TaskMetadataContextValue | null
 export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: string }>) => {
   const { data: apartmentData, isLoading: isApartmentDataLoading, isError: isApartmentDataError } = useApartment();
 
-  const [taskDetails, setTaskDetails] = useState<EditTaskReqResDto>();
+  const [taskDetails, setTaskDetails] = useState<TaskResponseDto>();
 
   const { taskId } = useParams({ strict: false });
   const {
@@ -36,7 +35,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
 
   useEffect(() => {
     if (!taskDetailsData) return;
-    setTaskDetails(taskDetailsData as EditTaskReqResDto);
+    setTaskDetails(taskDetailsData);
   }, [taskDetailsData]);
 
   const handleSave = () => {
@@ -50,22 +49,23 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
     addTask({
       title: taskDetails.title,
       description: taskDetails.description,
-      assignedTo: taskDetails.assignedTo,
-      dueDate: taskDetails.dueDate?.toISOString(),
+      assignedTo: taskDetails.assignedTo || [],
+      dueDate: taskDetails.dueDate?.toString(),
       dueTime: taskDetails.dueTime,
       isRecurrent: taskDetails.isRecurrent,
       recurrenceRule: taskDetails.recurrenceRule,
+      apartmentId: apartmentData.apartmentId!,
     });
 
     history.back();
   };
 
-  const updateTaskDetails = (data: Partial<EditTaskReqResDto>) => {
+  const updateTaskDetails = (data: Partial<TaskResponseDto>) => {
     setTaskDetails((prevDetails) => {
       return {
         ...prevDetails,
         ...data,
-      } as EditTaskReqResDto;
+      } as TaskResponseDto;
     });
   };
 

@@ -477,6 +477,7 @@ export type RecurrenceRuleDto = {
 
 export type CreateTaskDto = {
   title: string;
+  apartmentId: string;
   description?: string;
   /**
    * An object containing { userId, IsCompleted } for each assigned user.
@@ -493,7 +494,7 @@ export type CreateTaskDto = {
   /**
    * Indicates wheter the task is recurring
    */
-  isRecurrent: boolean;
+  isRecurrent?: boolean;
   /**
    * RecurrenceRule is defined as a repetetive time-frame class object
    */
@@ -506,7 +507,7 @@ export type UserCompletionStatus = {
 };
 
 export type TaskResDto = {
-  taskId?: string;
+  taskId: string;
   title?: string;
   description?: string;
   /**
@@ -533,8 +534,8 @@ export type TaskResDto = {
   apartmentId: string;
 };
 
-export type EditTaskDto = {
-  taskId?: string;
+export type UpdateTaskDto = {
+  taskId: string;
   title?: string;
   description?: string;
   /**
@@ -556,6 +557,33 @@ export type EditTaskDto = {
   isRecurrent?: boolean;
   /**
    * RecurrenceRule is defined as a repetetive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
+};
+
+export type TaskResponseDto = {
+  taskId: string;
+  title: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<string>;
+  completions?: Array<UserCompletionStatus>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates whether the task is recurring
+   */
+  isRecurrent: boolean;
+  /**
+   * RecurrenceRule is defined as a repetitive time-frame class object
    */
   recurrenceRule?: RecurrenceRuleDto;
 };
@@ -910,7 +938,7 @@ export type TaskControllerUpdateTaskStatusResponses = {
 };
 
 export type TaskControllerEditTaskData = {
-  body: EditTaskDto;
+  body: UpdateTaskDto;
   path?: never;
   query?: never;
   url: '/api/task/edit';
@@ -949,7 +977,7 @@ export type TaskControllerGetTaskByIdData = {
 };
 
 export type TaskControllerGetTaskByIdResponses = {
-  200: TaskResDto;
+  200: TaskResponseDto;
 };
 
 export type TaskControllerGetTaskByIdResponse =

@@ -32,7 +32,7 @@ export const useEditTask = () => {
   const { t } = useTranslation();
 
   return useMutation({
-    mutationFn: async (data: ApiTypes.EditTaskDto) => {
+    mutationFn: async (data: ApiTypes.UpdateTaskDto) => {
       const response = await API.taskControllerEditTask({ body: data, throwOnError: true });
       return response.data;
     },

@@ -2,7 +2,6 @@ import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, 
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserCompletionStatus } from './user-completion-status.dto';
-import { CreateTaskReqDto, EditTaskReqResDto } from '@komuna/types';
 import { PartialType } from '@nestjs/swagger';
 import { RecurrenceRuleDto } from '../../recurrence-rule/recurrence-rule.dto';
 
@@ -13,6 +12,10 @@ export class CreateTaskDto {
   @IsString()
   title: string;
 
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
@@ -20,12 +23,11 @@ export class CreateTaskDto {
 
   @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
   @IsOptional()
-  @IsUUID()
   @IsArray()
   @Type(() => String)
   assignedTo: string[];
 
-  @ApiProperty({ description: 'ISO date string for when the task is due', required: false })
+  @ApiProperty({ description: 'ISO date string for when the task is due', required: false, type: () => Date })
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
@@ -35,8 +37,9 @@ export class CreateTaskDto {
   @IsOptional()
   dueTime?: string;
 
-  @ApiProperty({ description: 'Indicates wheter the task is recurring' })
+  @ApiProperty({ description: 'Indicates wheter the task is recurring', required: false })
   @IsBoolean()
+  @IsOptional()
   isRecurrent: boolean;
 
   @ApiProperty({
@@ -50,40 +53,43 @@ export class CreateTaskDto {
   @Type(() => RecurrenceRuleDto)
   recurrenceRule?: RecurrenceRuleDto;
 }
-class _EditTaskDto {
+export class UpdateTaskDto {
   @ApiProperty()
   @IsUUID()
   taskId: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   title: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   description: string;
 
-  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false })
   @IsOptional()
-  @IsUUID()
   assignedTo: string[];
 
-  @ApiProperty({ type: [UserCompletionStatus] })
+  @ApiProperty({ type: [UserCompletionStatus], required: false })
   @Type(() => UserCompletionStatus)
   @IsArray()
+  @IsOptional()
   completions: UserCompletionStatus[];
 
-  @ApiProperty({ description: 'ISO date string for when the task is due' })
+  @ApiProperty({ description: 'ISO date string for when the task is due', required: false })
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
 
-  @ApiProperty({ description: 'ISO time string for when the task is due' })
+  @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
   @IsString()
   @IsOptional()
   dueTime?: string;
 
-  @ApiProperty({ description: 'Indicates wheter the task is recurring' })
+  @ApiProperty({ description: 'Indicates wheter the task is recurring', required: false })
+  @IsOptional()
   @IsBoolean()
   isRecurrent: boolean;
 
@@ -98,4 +104,39 @@ class _EditTaskDto {
   @Type(() => RecurrenceRuleDto)
   recurrenceRule?: RecurrenceRuleDto;
 }
-export class EditTaskDto extends PartialType(_EditTaskDto) { }
+// export class EditTaskDto extends PartialType(_EditTaskDto) { }
+
+
+export class TaskResponseDto {
+  @ApiProperty()
+  taskId: string;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty({ required: false })
+  description?: string;
+
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false })
+  assignedTo?: string[];
+
+  @ApiProperty({ type: [UserCompletionStatus], required: false })
+  completions?: UserCompletionStatus[];
+
+  @ApiProperty({ description: 'ISO date string for when the task is due', required: false, type: () => Date })
+  dueDate?: Date;
+
+  @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
+  dueTime?: string;
+
+  @ApiProperty({ description: 'Indicates whether the task is recurring' })
+  isRecurrent: boolean;
+
+  @ApiProperty({
+    description: 'RecurrenceRule is defined as a repetitive time-frame class object',
+    example: '{"frequency": "weekly", "time": "10:00" }',
+    required: false,
+    type: () => RecurrenceRuleDto
+  })
+  recurrenceRule?: RecurrenceRuleDto;
+}

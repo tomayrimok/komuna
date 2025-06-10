@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { EditTaskDto } from "./task.dto";
+import { UpdateTaskDto } from "./task.dto";
 
-export class TaskResDto extends EditTaskDto {
+export class TaskResDto extends UpdateTaskDto {
   @ApiProperty()
   apartmentId: string;
 }

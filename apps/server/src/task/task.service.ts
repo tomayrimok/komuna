@@ -2,10 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { Repository } from 'typeorm';
-import { CreateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
 import { Brackets } from 'typeorm';
+import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TaskService {
@@ -34,7 +34,7 @@ export class TaskService {
     return this.taskRepo.save(task);
   }
 
-  async editTask(taskId: string, editTaskDto: Partial<CreateTaskDto>) {
+  async editTask(taskId: string, editTaskDto: UpdateTaskDto) {
     const task = await this.taskRepo.findOneBy({ taskId });
     if (!task) {
       throw new BadRequestException('Task was not found');

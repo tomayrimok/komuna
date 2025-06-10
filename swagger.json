@@ -536,7 +536,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTaskDto"
+                "$ref": "#/components/schemas/UpdateTaskDto"
               }
             }
           }
@@ -618,7 +618,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TaskResDto"
+                  "$ref": "#/components/schemas/TaskResponseDto"
                 }
               }
             }
@@ -1977,6 +1977,9 @@
           "title": {
             "type": "string"
           },
+          "apartmentId": {
+            "type": "string"
+          },
           "description": {
             "type": "string"
           },
@@ -2012,8 +2015,8 @@
         },
         "required": [
           "title",
-          "assignedTo",
-          "isRecurrent"
+          "apartmentId",
+          "assignedTo"
         ]
       },
       "UserCompletionStatus": {
@@ -2083,10 +2086,11 @@
           }
         },
         "required": [
+          "taskId",
           "apartmentId"
         ]
       },
-      "EditTaskDto": {
+      "UpdateTaskDto": {
         "type": "object",
         "properties": {
           "taskId": {
@@ -2133,7 +2137,64 @@
               }
             ]
           }
-        }
+        },
+        "required": [
+          "taskId"
+        ]
+      },
+      "TaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserCompletionStatus"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates whether the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetitive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "title",
+          "isRecurrent"
+        ]
       },
       "CommentResponseDto": {
         "type": "object",
