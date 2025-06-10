@@ -29,6 +29,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
     isLoading: isTaskDetailsLoading,
     isError: isTaskDetailsError,
   } = useTaskDetails(taskId || '');
+
   const { mutate: addEditTask } = useAddEditTask();
 
   const { history } = useRouter();
@@ -47,10 +48,11 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
     }
 
     addEditTask({
+      taskId: taskDetails.taskId,
       title: taskDetails.title,
       description: taskDetails.description,
       // assignedTo: taskDetails.assignedTo || [],
-      dueDate: taskDetails.dueDate?.toString(),
+      dueDate: taskDetails.dueDate,
       dueTime: taskDetails.dueTime,
       // isRecurrent: taskDetails.isRecurrent,
       // recurrenceRule: taskDetails.recurrenceRule,

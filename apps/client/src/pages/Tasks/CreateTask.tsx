@@ -51,15 +51,15 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('task_category.create_task.assigned_to')}
+                {t('task_category.create_task.due_date')}
               </Text>
               <Input
                 type="date"
                 fontSize={'lg'}
                 min={new Date().toISOString().split('T')[0]}
-                value={taskDetails?.description || ''}
+                value={taskDetails?.dueDate ? new Date(taskDetails?.dueDate).toISOString().split('T')[0] : ''}
                 resize={'none'}
-                onChange={(e) => updateTaskDetails({ dueDate: new Date(e.target.value) })}
+                onChange={(e) => updateTaskDetails({ dueDate: e.target.value })}
                 variant={'flushed'}
 
               />

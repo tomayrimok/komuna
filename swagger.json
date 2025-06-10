@@ -483,7 +483,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TaskResDto"
+                  "$ref": "#/components/schemas/TaskResponseDto"
                 }
               }
             }
@@ -547,7 +547,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TaskResDto"
+                  "$ref": "#/components/schemas/TaskResponseDto"
                 }
               }
             }
@@ -579,7 +579,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TaskResDto"
+                    "$ref": "#/components/schemas/TaskResponseDto"
                   }
                 }
               }
@@ -2020,114 +2020,6 @@
           "count"
         ]
       },
-      "TaskResDto": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "completions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserCompletionStatus"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
-          },
-          "apartmentId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "taskId",
-          "apartmentId"
-        ]
-      },
-      "UpdateTaskDto": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "completions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserCompletionStatus"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "taskId"
-        ]
-      },
       "TaskResponseDto": {
         "type": "object",
         "properties": {
@@ -2180,6 +2072,58 @@
           "taskId",
           "title",
           "isRecurrent"
+        ]
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserCompletionStatus"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId"
         ]
       },
       "CommentResponseDto": {

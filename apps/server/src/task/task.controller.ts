@@ -18,7 +18,6 @@ import { User } from '../decorators/User';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
-import { TaskResDto } from './dto/task-response.dto';
 import { AddEditTaskDto, CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { TaskService } from './task.service';
@@ -34,7 +33,7 @@ export class TaskController {
 
   @Post('add-edit')
   @UseAuth()
-  @ApiOkResponse({ type: TaskResDto })
+  @ApiOkResponse({ type: TaskResponseDto })
   async createTask(@User() user: UserJwtPayload, @Body() taskDto: AddEditTaskDto) {
     // TODO add validation
     //TODO make sure assigned users belong to the apartment
@@ -81,7 +80,7 @@ export class TaskController {
   // Only task owner can edit the task.
   @Post('edit')
   @UseAuthApartment()
-  @ApiOkResponse({ type: TaskResDto })
+  @ApiOkResponse({ type: TaskResponseDto })
   async editTask(@User() user: UserJwtPayload, @Body() editTaskReqDto: UpdateTaskDto) {
     const task = await this.taskService.getTaskById(editTaskReqDto.taskId);
     if (task && user.userId === task.createdByUserId) {
@@ -103,14 +102,14 @@ export class TaskController {
 
   @Get()
   @UseAuth()
-  @ApiOkResponse({ type: [TaskResDto] })
+  @ApiOkResponse({ type: [TaskResponseDto] })
   async getAllTasks(@Query('apartmentId') apartmentId: string, @User() user: UserJwtPayload) {
     try {
       const tasks = await this.taskService.getTask(user.userId, apartmentId);
       if (!tasks) {
         throw new BadRequestException('No tasks found for the given user and apartment');
       }
-      console.log('tasks: ', tasks);
+      // console.log('tasks: ', tasks);
       return tasks;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -132,7 +131,7 @@ export class TaskController {
     if (!task) {
       throw new BadRequestException('Task was not found');
     }
-    if (task.apartmentId !== user.apartmentId) {
+    if (task.apartmentId !== apartmentId) {
       throw new BadRequestException('Task does not belong to the user\'s apartment');
     }
     return task;

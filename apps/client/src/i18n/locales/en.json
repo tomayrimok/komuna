@@ -175,7 +175,7 @@
       "create_task": "Create Task",
       "task_name": "Task Name",
       "title": "Enter Task's Title",
-      "due_date": "Enter Due Date",
+      "due_date": "Due Date",
       "description_placeholder": "Enter Description",
       "description": "Description",
       "assigned_to": "Assign Members To Task (if none selected, it will be assigned to you)",

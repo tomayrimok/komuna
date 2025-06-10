@@ -3,12 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useTasks } from '../../hooks/query/useTasks';
 import TaskCard from './TaskCard';
-import type { ApiTypes } from '@komuna/types';
-
-const TASKS = [{ taskId: '', title: 'לטאטא', description: 'יש הרבהה לטאטא', assignedTo: ['שני קהתי', 'נטע טי', 'נעם משה',], dueDate: '', dueTime: '', createdBy: 'שני קהתי', createdAt: '', },
-{ taskId: '', title: 'לטאטא', description: 'יש הרבהה לטאטא', assignedTo: ['שני קהתי', 'נטע טי', 'נעם משה',], dueDate: '', dueTime: '', createdBy: 'שני קהתי', createdAt: '', },
-{ taskId: '', title: 'לטאטא', description: 'יש הרבהה לטאטא', assignedTo: ['שני קהתי', 'נטע טי', 'נעם משה',], dueDate: '', dueTime: '', createdBy: 'שני קהתי', createdAt: '', },
-{ taskId: '', title: 'לטאטא', description: 'יש הרבהה לטאטא', assignedTo: ['שני קהתי', 'נטע טי', 'נעם משה',], dueDate: '', dueTime: '', createdBy: 'שני קהתי', createdAt: '', },];
 
 const Tasks = () => {
   const { data: tasks, isLoading } = useTasks();
@@ -23,15 +17,15 @@ const Tasks = () => {
             <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="15vh">
               <Image src="/meerkats/relaxing.png" width="80vw" />
               <Text fontSize="xl" fontWeight="bold" mb={2}>
-              {t('tasks.create_task')}
+                {t('tasks.create_task')}
               </Text>
             </Flex>
           )
           : (
             <>
-              <Text fontSize="xl" fontWeight="bold" mb={2}>
+              {/* <Text fontSize="xl" fontWeight="bold" mb={2}>
               {t('tasks.solved_tasks')}
-              </Text>
+              </Text> */}
               <For each={tasks}>{(task) => <TaskCard key={task.taskId} task={task} />}</For>
             </>
           )

@@ -22,7 +22,7 @@ const CreateTaskButton: React.FC<CreateTaskButtonProps> = ({ isFixed = true }) =
   return (
     <MainButton onClick={handleClick} isFixed={isFixed}>
       <IconFlagPlus size={20} />
-      {t('incidents.create_incident')}
+      {t('tasks.create_task')}
     </MainButton>
   );
 };

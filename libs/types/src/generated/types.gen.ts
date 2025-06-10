@@ -499,9 +499,9 @@ export type RecurrenceRuleDto = {
   count: number;
 };
 
-export type TaskResDto = {
+export type TaskResponseDto = {
   taskId: string;
-  title?: string;
+  title: string;
   description?: string;
   /**
    * An object containing { userId, IsCompleted } for each assigned user.
@@ -517,14 +517,13 @@ export type TaskResDto = {
    */
   dueTime?: string;
   /**
-   * Indicates wheter the task is recurring
+   * Indicates whether the task is recurring
    */
-  isRecurrent?: boolean;
+  isRecurrent: boolean;
   /**
-   * RecurrenceRule is defined as a repetetive time-frame class object
+   * RecurrenceRule is defined as a repetitive time-frame class object
    */
   recurrenceRule?: RecurrenceRuleDto;
-  apartmentId: string;
 };
 
 export type UpdateTaskDto = {
@@ -550,33 +549,6 @@ export type UpdateTaskDto = {
   isRecurrent?: boolean;
   /**
    * RecurrenceRule is defined as a repetetive time-frame class object
-   */
-  recurrenceRule?: RecurrenceRuleDto;
-};
-
-export type TaskResponseDto = {
-  taskId: string;
-  title: string;
-  description?: string;
-  /**
-   * An object containing { userId, IsCompleted } for each assigned user.
-   */
-  assignedTo?: Array<string>;
-  completions?: Array<UserCompletionStatus>;
-  /**
-   * ISO date string for when the task is due
-   */
-  dueDate?: string;
-  /**
-   * ISO time string for when the task is due
-   */
-  dueTime?: string;
-  /**
-   * Indicates whether the task is recurring
-   */
-  isRecurrent: boolean;
-  /**
-   * RecurrenceRule is defined as a repetitive time-frame class object
    */
   recurrenceRule?: RecurrenceRuleDto;
 };
@@ -911,7 +883,7 @@ export type TaskControllerCreateTaskData = {
 };
 
 export type TaskControllerCreateTaskResponses = {
-  200: TaskResDto;
+  200: TaskResponseDto;
 };
 
 export type TaskControllerCreateTaskResponse =
@@ -938,7 +910,7 @@ export type TaskControllerEditTaskData = {
 };
 
 export type TaskControllerEditTaskResponses = {
-  200: TaskResDto;
+  200: TaskResponseDto;
 };
 
 export type TaskControllerEditTaskResponse = TaskControllerEditTaskResponses[keyof TaskControllerEditTaskResponses];
@@ -953,7 +925,7 @@ export type TaskControllerGetAllTasksData = {
 };
 
 export type TaskControllerGetAllTasksResponses = {
-  200: Array<TaskResDto>;
+  200: Array<TaskResponseDto>;
 };
 
 export type TaskControllerGetAllTasksResponse =

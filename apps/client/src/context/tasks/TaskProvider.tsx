@@ -1,13 +1,13 @@
 import { createContext, useContext } from "react";
-import type { TaskResDto } from "../../../../../libs/types/src/generated";
+import type { TaskResponseDto } from "../../../../../libs/types/src/generated";
 
 type TaskContextValue = {
-  taskDetails?: TaskResDto;
+  taskDetails?: TaskResponseDto;
   isTaskDetailsLoading: boolean;
   isTaskDetailsError: boolean;
   taskId?: string;
   handleSave?: () => void;
-  updateTaskDetails: (data: Partial<TaskResDto>) => void;
+  updateTaskDetails: (data: Partial<TaskResponseDto>) => void;
 };
 
 export const TaskContext = createContext<TaskContextValue | null>(null);

@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Icon, Text } from '@chakra-ui/react';
 import { IconUser } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { IncidentResponseDto } from 'libs/types/src/generated';
+import { IncidentResponseDto, TaskResponseDto } from 'libs/types/src/generated';
 import { useAuth } from '../../context/auth/AuthProvider';
 // import DateText from '../dateText';
 // import { STATUSES_DATA } from './consts/statuses.data';
@@ -10,7 +10,7 @@ import { useAuth } from '../../context/auth/AuthProvider';
 // import UrgencyIndication from './urgencyIndication';
 
 interface TaskCardProps {
-    task: any;
+    task: TaskResponseDto;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
@@ -26,12 +26,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             backgroundColor={'white'}
             borderWidth={1}
             borderRadius={'xl'}
-            onClick={() => navigate({ to: `/${role?.toLowerCase()}/incident/${task.incidentId}` })}
+            onClick={() => navigate({ to: `/${role?.toLowerCase()}/tasks/details/${task.taskId}` })}
             width="100%"
-            key={task.incidentId}
+            key={task.taskId}
             position={'relative'}
             overflow={'hidden'}
-            ps={'10px'}
+        // ps={'10px'}
         >
             {/* <UrgencyIndication task={task} /> */}
 
@@ -45,28 +45,14 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                             {task.description}
                         </Text>
                     )}
-                    <Flex mt={2} gap={2}>
-                        {/* <IncidentTag value={task.status} data={STATUSES_DATA} />
-            {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null} */}
-                        {/* <IncidentTag value={task.urgencyLevel} data={URGENCY_DATA} /> */}
-                    </Flex>
+                    {/* <Flex mt={2} gap={2}>
+                        <IncidentTag value={task.status} data={STATUSES_DATA} />
+            {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
+                        <IncidentTag value={task.urgencyLevel} data={URGENCY_DATA} />
+                    </Flex> */}
                 </Flex>
             </Container>
 
-            <hr />
-            <Container p={5}>
-                <Flex direction={'row'} justifyContent={'space-between'} w="full">
-                    <Flex fontSize="sm" color="gray.500" alignItems={'center'} gap={1}>
-                        <Icon size={'sm'}>
-                            <IconUser />
-                        </Icon>
-                        {task.createdBy}
-                    </Flex>
-                    <Text fontSize="sm" direction={'l'} color={'gray.500'}>
-                        {/* <DateText date={task.createdAt} /> */}
-                    </Text>
-                </Flex>
-            </Container>
         </Box>
     );
 };
