@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { Trans } from 'react-i18next';
 import CreateIncidentButton from '../../components/Incidents/createIncidentButton';
 import IncidentsNumber from '../../components/Incidents/incidentsNumber';
@@ -10,6 +10,8 @@ import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingLi
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
+import { TasksNumber } from '../Tasks/components/TasksNumber';
+import { CreateTaskButton } from '../Tasks/components/CreateTaskButton';
 
 
 export const RoommateHome = () => {
@@ -72,6 +74,12 @@ export const RoommateHome = () => {
           image={<Image src='/meerkats/shopping.png' width={"20vw"} />}
           text={<ShoppingListItemsNumber />}
           button={<ShoppingListPurchaseDrawer isFixed={false} />}
+        />
+
+        <HomeCard
+          image={<Image src='/meerkats/dishes.png' width={"20vw"} />}
+          text={<TasksNumber />}
+          button={<CreateTaskButton isFixed={false} />}
         />
 
       </VStack>
