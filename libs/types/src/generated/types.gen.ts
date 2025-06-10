@@ -500,6 +500,11 @@ export type CreateTaskDto = {
   recurrenceRule?: RecurrenceRuleDto;
 };
 
+export type UserCompletionStatus = {
+  userId: string;
+  status: boolean;
+};
+
 export type TaskResDto = {
   taskId?: string;
   title?: string;
@@ -508,7 +513,7 @@ export type TaskResDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<string>;
-  completions?: Array<string>;
+  completions?: Array<UserCompletionStatus>;
   /**
    * ISO date string for when the task is due
    */
@@ -528,11 +533,6 @@ export type TaskResDto = {
   apartmentId: string;
 };
 
-export type UserCompletionStatus = {
-  userId: string;
-  status: boolean;
-};
-
 export type EditTaskDto = {
   taskId?: string;
   title?: string;
@@ -541,7 +541,7 @@ export type EditTaskDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<string>;
-  completions?: Array<string>;
+  completions?: Array<UserCompletionStatus>;
   /**
    * ISO date string for when the task is due
    */

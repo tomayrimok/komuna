@@ -16,7 +16,7 @@ const CreateTaskButton: React.FC<CreateTaskButtonProps> = ({ isFixed = true }) =
   } = useAuth();
 
   const handleClick = () => {
-    navigate({ to: `/${role?.toLowerCase()}/tasks/create-task` });
+    navigate({ to: `/${role?.toLowerCase()}/tasks/details` });
   };
 
   return (

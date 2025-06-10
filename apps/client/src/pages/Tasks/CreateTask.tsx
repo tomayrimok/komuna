@@ -6,8 +6,8 @@ import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskM
 import { withWrappers } from '../../utilities/withWrappers';
 
 const TasksDetailsPage = () => {
-  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails } =
-    useTaskMetadata();
+
+  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails } = useTaskMetadata();
 
   const router = useRouter();
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('incidents.incident_description')}
+                {t('tasks.task_description')}
               </Text>
               <Textarea
                 fontSize={'lg'}
@@ -51,9 +51,20 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('incidents.urgency_level')}
+                {t('tasks.due_date')}
               </Text>
+              <Input
+                type="date"
+                fontSize={'lg'}
+                min={new Date().toISOString().split('T')[0]}
+                value={taskDetails?.description || ''}
+                resize={'none'}
+                onChange={(e) => updateTaskDetails({ dueDate: new Date(e.target.value) })}
+                variant={'flushed'}
+
+              />
             </Box>
+
           </Stack>
           <Flex justifyContent="space-between" gap={3} mt={4}>
             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>

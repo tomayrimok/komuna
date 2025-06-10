@@ -68,7 +68,7 @@ class _EditTaskDto {
   @IsUUID()
   assignedTo: string[];
 
-  @ApiProperty()
+  @ApiProperty({ type: [UserCompletionStatus] })
   @Type(() => UserCompletionStatus)
   @IsArray()
   completions: UserCompletionStatus[];

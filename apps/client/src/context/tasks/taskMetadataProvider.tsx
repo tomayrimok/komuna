@@ -1,4 +1,3 @@
-import { IncidentUrgency, type EditTaskReqResDto } from '@komuna/types';
 import { useParams, useRouter } from '@tanstack/react-router';
 import { IncidentResponseDto } from 'libs/types/src/generated';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
 import { useApartment } from '../../hooks/useApartment';
 import { useAddTask } from '../../hooks/query/useAddEditTask';
 import { useTaskDetails } from '../../hooks/query/useTaskDetails';
+import { EditTaskReqResDto } from '@komuna/types';
 
 type TaskMetadataContextValue = {
   taskDetails?: EditTaskReqResDto;
@@ -36,7 +36,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
 
   useEffect(() => {
     if (!taskDetailsData) return;
-    setTaskDetails(taskDetailsData);
+    setTaskDetails(taskDetailsData as EditTaskReqResDto);
   }, [taskDetailsData]);
 
   const handleSave = () => {
@@ -54,7 +54,6 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       dueDate: taskDetails.dueDate?.toISOString(),
       dueTime: taskDetails.dueTime,
       isRecurrent: taskDetails.isRecurrent,
-      //@ts-expect-error -- gen api types don't seem in sync with the backend
       recurrenceRule: taskDetails.recurrenceRule,
     });
 

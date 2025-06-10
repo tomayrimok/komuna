@@ -18,16 +18,11 @@ export class Task {
   @Column()
   description?: string;
 
-  // task.entity.ts
-  @ManyToMany(() => User, { eager: true })
-  @JoinTable()
-  assignedTo: User[];
+  @Column()
+  dueDate?: Date;
 
   @Column('json', { nullable: true })
   completions: UserCompletionStatus[];
-
-  @Column()
-  dueDate?: Date;
 
   @Column('time', { nullable: true })
   dueTime?: string;
@@ -48,4 +43,9 @@ export class Task {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  // task.entity.ts
+  @ManyToMany(() => User, { eager: true })
+  @JoinTable()
+  assignedTo: User[];
 }

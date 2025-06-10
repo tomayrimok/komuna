@@ -2016,6 +2016,21 @@
           "isRecurrent"
         ]
       },
+      "UserCompletionStatus": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "userId",
+          "status"
+        ]
+      },
       "TaskResDto": {
         "type": "object",
         "properties": {
@@ -2038,7 +2053,7 @@
           "completions": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserCompletionStatus"
             }
           },
           "dueDate": {
@@ -2071,21 +2086,6 @@
           "apartmentId"
         ]
       },
-      "UserCompletionStatus": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "userId",
-          "status"
-        ]
-      },
       "EditTaskDto": {
         "type": "object",
         "properties": {
@@ -2108,7 +2108,7 @@
           "completions": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserCompletionStatus"
             }
           },
           "dueDate": {
