@@ -121,6 +121,11 @@ export class TaskResponseDto {
   @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false, type: () => [User] })
   assignedTo?: User[];
 
+  @ApiProperty({
+    description: 'The user who created the task',
+    type: () => User,
+  })
+  createdBy: User;
 
   @ApiProperty({ type: [UserCompletionStatus], required: false })
   completions?: UserCompletionStatus[];

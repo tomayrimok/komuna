@@ -182,6 +182,7 @@
       "assigned_to": "Assign Roommates To Task",
       "recurrence": "Recurrence",
       "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
+      "created_by": "Created By",
       "images": "Upload Images Of The Task (optional)",
       "due_time": "Enter Due Time (optional)"
     },

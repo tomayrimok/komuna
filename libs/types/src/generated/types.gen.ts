@@ -511,6 +511,10 @@ export type TaskResponseDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<User>;
+  /**
+   * The user who created the task
+   */
+  createdBy: User;
   completions?: Array<UserCompletionStatus>;
   /**
    * ISO date string for when the task is due

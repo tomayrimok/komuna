@@ -114,6 +114,17 @@ const TasksDetailsPage = () => {
 
             </Box>
 
+            {taskDetails?.createdBy && (
+              <Flex justifyContent="flex-start" mt={4} gap={3}>
+                <Text mb={1} fontWeight="bold">
+                  {t('task_category.create_task.created_by')}
+                </Text>
+                <Text color="gray.600" fontSize="md" mb={2}>
+                  {`${taskDetails.createdBy.firstName} ${taskDetails.createdBy.lastName || ''}`}
+                </Text>
+              </Flex>
+            )}
+
           </Stack>
           <Flex justifyContent="space-between" gap={3} mt={4}>
             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>

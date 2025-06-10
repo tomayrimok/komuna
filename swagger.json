@@ -2046,6 +2046,14 @@
               "$ref": "#/components/schemas/User"
             }
           },
+          "createdBy": {
+            "description": "The user who created the task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
           "completions": {
             "type": "array",
             "items": {
@@ -2078,6 +2086,7 @@
         "required": [
           "taskId",
           "title",
+          "createdBy",
           "isRecurrent"
         ]
       },
