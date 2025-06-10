@@ -23,14 +23,14 @@ const Tasks = () => {
             <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="15vh">
               <Image src="/meerkats/relaxing.png" width="80vw" />
               <Text fontSize="xl" fontWeight="bold" mb={2}>
-                {t('incidents.no_incidents')}
+              {t('tasks.create_task')}
               </Text>
             </Flex>
           )
           : (
             <>
               <Text fontSize="xl" fontWeight="bold" mb={2}>
-                {t('incidents.open_incidents')}
+              {t('tasks.solved_tasks')}
               </Text>
               <For each={tasks}>{(task) => <TaskCard key={task.taskId} task={task} />}</For>
             </>

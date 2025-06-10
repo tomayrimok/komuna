@@ -15,7 +15,7 @@ const TasksNumber = () => {
 
     return (
         <Text fontWeight={'bold'} fontSize="xl">
-            {t('incidents.num_open_incidents', { count: numberOfOpenIncidents }) || ''}
+            {t('tasks.num_open_tasks', { count: numberOfOpenIncidents }) || ''}
         </Text>
     );
 };
