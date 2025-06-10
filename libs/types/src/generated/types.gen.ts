@@ -242,6 +242,10 @@ export type DebtEdge = {
   toUser: User;
 };
 
+export type Task = {
+  createdBy: User;
+};
+
 export type User = {
   userId: string;
   firstName: string;
@@ -283,6 +287,10 @@ export type User = {
    * The incidents reported by the user
    */
   incidents: Array<Incident>;
+  /**
+   * The tasks created by the user
+   */
+  createdTasks: Array<Task>;
 };
 
 export type DebtEdgeWithDebtor = {
@@ -356,6 +364,10 @@ export type CreateUserDto = {
 
 export type UserResponseDto = {
   user: User | null;
+};
+
+export type CreateApartmentDto = {
+  [key: string]: unknown;
 };
 
 export type ApartmentExpensesResponse = {
@@ -451,19 +463,102 @@ export type CreatePaymentDto = {
   amount: number;
 };
 
-export type CreateApartmentDto = {
-  [key: string]: unknown;
+export type RecurrenceRuleDto = {
+  frequency: {
+    [key: string]: unknown;
+  };
+  interval: number;
+  byWeekDay: Array<string>;
+  until: string;
+  count: number;
 };
 
-export type TaskDto = {
-  [key: string]: unknown;
+export type CreateTaskDto = {
+  title: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo: Array<string>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates wheter the task is recurring
+   */
+  isRecurrent: boolean;
+  /**
+   * RecurrenceRule is defined as a repetetive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
 };
 
-export type UpdateTaskReqDto = {
-  [key: string]: unknown;
+export type TaskResDto = {
+  taskId?: string;
+  title?: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<string>;
+  completions?: Array<string>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates wheter the task is recurring
+   */
+  isRecurrent?: boolean;
+  /**
+   * RecurrenceRule is defined as a repetetive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
+  apartmentId: string;
 };
 
-export type EditTaskReqDto = {
+export type UserCompletionStatus = {
+  userId: string;
+  status: boolean;
+};
+
+export type EditTaskDto = {
+  taskId?: string;
+  title?: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<string>;
+  completions?: Array<string>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates wheter the task is recurring
+   */
+  isRecurrent?: boolean;
+  /**
+   * RecurrenceRule is defined as a repetetive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
+};
+
+export type EditTaskReqResDto = {
   [key: string]: unknown;
 };
 
@@ -666,6 +761,71 @@ export type UserControllerLogoutResponses = {
   201: unknown;
 };
 
+export type NotificationControllerRegisterTokenData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/notification/register-token';
+};
+
+export type NotificationControllerRegisterTokenResponses = {
+  201: unknown;
+};
+
+export type ApartmentControllerGetApartmentWithResidentsData = {
+  body?: never;
+  path?: never;
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerGetApartmentWithResidentsResponses = {
+  200: Apartment;
+};
+
+export type ApartmentControllerGetApartmentWithResidentsResponse =
+  ApartmentControllerGetApartmentWithResidentsResponses[keyof ApartmentControllerGetApartmentWithResidentsResponses];
+
+export type ApartmentControllerCreateApartmentData = {
+  body: CreateApartmentDto;
+  path?: never;
+  query?: never;
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerCreateApartmentResponses = {
+  201: unknown;
+};
+
+export type ApartmentControllerJoinApartmentData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/apartment/join/{code}';
+};
+
+export type ApartmentControllerJoinApartmentResponses = {
+  200: UserApartment;
+};
+
+export type ApartmentControllerJoinApartmentResponse =
+  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
+
+export type ApartmentControllerGetRoommatesData = {
+  body?: never;
+  path: {
+    apartmentId: string;
+  };
+  query?: never;
+  url: '/api/apartment/{apartmentId}/roommates';
+};
+
+export type ApartmentControllerGetRoommatesResponses = {
+  200: unknown;
+};
+
 export type ExpenseControllerGetApartmentExpensesData = {
   body?: never;
   path?: never;
@@ -724,75 +884,26 @@ export type PaymentControllerCreatePaymentResponses = {
 export type PaymentControllerCreatePaymentResponse =
   PaymentControllerCreatePaymentResponses[keyof PaymentControllerCreatePaymentResponses];
 
-export type ApartmentControllerGetApartmentWithResidentsData = {
-  body?: never;
-  path?: never;
-  query: {
-    apartmentId: string;
-  };
-  url: '/api/apartment';
-};
-
-export type ApartmentControllerGetApartmentWithResidentsResponses = {
-  200: Apartment;
-};
-
-export type ApartmentControllerGetApartmentWithResidentsResponse =
-  ApartmentControllerGetApartmentWithResidentsResponses[keyof ApartmentControllerGetApartmentWithResidentsResponses];
-
-export type ApartmentControllerCreateApartmentData = {
-  body: CreateApartmentDto;
-  path?: never;
-  query?: never;
-  url: '/api/apartment';
-};
-
-export type ApartmentControllerCreateApartmentResponses = {
-  201: unknown;
-};
-
-export type ApartmentControllerJoinApartmentData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/apartment/join/{code}';
-};
-
-export type ApartmentControllerJoinApartmentResponses = {
-  200: UserApartment;
-};
-
-export type ApartmentControllerJoinApartmentResponse =
-  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
-
-export type ApartmentControllerGetRoommatesData = {
-  body?: never;
-  path: {
-    apartmentId: string;
-  };
-  query?: never;
-  url: '/api/apartment/{apartmentId}/roommates';
-};
-
-export type ApartmentControllerGetRoommatesResponses = {
-  200: unknown;
-};
-
 export type TaskControllerCreateTaskData = {
-  body: TaskDto;
+  body: CreateTaskDto;
   path?: never;
   query?: never;
   url: '/api/task/create';
 };
 
 export type TaskControllerCreateTaskResponses = {
-  201: unknown;
+  200: TaskResDto;
 };
 
+export type TaskControllerCreateTaskResponse =
+  TaskControllerCreateTaskResponses[keyof TaskControllerCreateTaskResponses];
+
 export type TaskControllerUpdateTaskStatusData = {
-  body: UpdateTaskReqDto;
+  body: UserCompletionStatus;
   path?: never;
-  query?: never;
+  query: {
+    taskId: string;
+  };
   url: '/api/task/update';
 };
 
@@ -801,26 +912,46 @@ export type TaskControllerUpdateTaskStatusResponses = {
 };
 
 export type TaskControllerEditTaskData = {
-  body: EditTaskReqDto;
+  body: EditTaskDto;
   path?: never;
   query?: never;
   url: '/api/task/edit';
 };
 
 export type TaskControllerEditTaskResponses = {
-  201: unknown;
+  200: TaskResDto;
 };
+
+export type TaskControllerEditTaskResponse = TaskControllerEditTaskResponses[keyof TaskControllerEditTaskResponses];
 
 export type TaskControllerGetAllTasksData = {
   body?: never;
-  path?: never;
+  path: {
+    apartmentId: string;
+  };
   query?: never;
-  url: '/api/task/get';
+  url: '/api/task/{apartmentId}';
 };
 
 export type TaskControllerGetAllTasksResponses = {
   200: unknown;
 };
+
+export type TaskControllerGetTaskByIdData = {
+  body?: never;
+  path: {
+    taskId: string;
+  };
+  query?: never;
+  url: '/api/task/get-by-id/{taskId}';
+};
+
+export type TaskControllerGetTaskByIdResponses = {
+  200: EditTaskReqResDto;
+};
+
+export type TaskControllerGetTaskByIdResponse =
+  TaskControllerGetTaskByIdResponses[keyof TaskControllerGetTaskByIdResponses];
 
 export type TaskControllerGetCompletedTasksData = {
   body?: never;
@@ -920,17 +1051,6 @@ export type IncidentControllerSetOwnerSeenData = {
 };
 
 export type IncidentControllerSetOwnerSeenResponses = {
-  201: unknown;
-};
-
-export type NotificationControllerRegisterTokenData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/notification/register-token';
-};
-
-export type NotificationControllerRegisterTokenResponses = {
   201: unknown;
 };
 

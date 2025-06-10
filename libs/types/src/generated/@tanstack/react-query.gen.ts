@@ -11,18 +11,20 @@ import {
   userControllerGetCurrentUserProfile,
   userControllerCreateUser,
   userControllerLogout,
-  expenseControllerGetApartmentExpenses,
-  expenseControllerAddEditExpense,
-  expenseControllerGetExpenseDetails,
-  paymentControllerCreatePayment,
+  notificationControllerRegisterToken,
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
   apartmentControllerGetRoommates,
+  expenseControllerGetApartmentExpenses,
+  expenseControllerAddEditExpense,
+  expenseControllerGetExpenseDetails,
+  paymentControllerCreatePayment,
   taskControllerCreateTask,
   taskControllerUpdateTaskStatus,
   taskControllerEditTask,
   taskControllerGetAllTasks,
+  taskControllerGetTaskById,
   taskControllerGetCompletedTasks,
   incidentControllerGetAllIncidents,
   incidentControllerGetIncidentDetails,
@@ -30,7 +32,6 @@ import {
   incidentControllerUpdateIncident,
   incidentControllerNewComment,
   incidentControllerSetOwnerSeen,
-  notificationControllerRegisterToken,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
   shoppingListControllerSearchItem,
@@ -48,20 +49,24 @@ import type {
   UserControllerCreateUserData,
   UserControllerCreateUserResponse,
   UserControllerLogoutData,
-  ExpenseControllerGetApartmentExpensesData,
-  ExpenseControllerAddEditExpenseData,
-  ExpenseControllerGetExpenseDetailsData,
-  PaymentControllerCreatePaymentData,
-  PaymentControllerCreatePaymentResponse,
+  NotificationControllerRegisterTokenData,
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ApartmentControllerJoinApartmentResponse,
   ApartmentControllerGetRoommatesData,
+  ExpenseControllerGetApartmentExpensesData,
+  ExpenseControllerAddEditExpenseData,
+  ExpenseControllerGetExpenseDetailsData,
+  PaymentControllerCreatePaymentData,
+  PaymentControllerCreatePaymentResponse,
   TaskControllerCreateTaskData,
+  TaskControllerCreateTaskResponse,
   TaskControllerUpdateTaskStatusData,
   TaskControllerEditTaskData,
+  TaskControllerEditTaskResponse,
   TaskControllerGetAllTasksData,
+  TaskControllerGetTaskByIdData,
   TaskControllerGetCompletedTasksData,
   IncidentControllerGetAllIncidentsData,
   IncidentControllerGetIncidentDetailsData,
@@ -72,7 +77,6 @@ import type {
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
-  NotificationControllerRegisterTokenData,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
@@ -363,16 +367,16 @@ export const userControllerLogoutMutation = (
   return mutationOptions;
 };
 
-export const expenseControllerGetApartmentExpensesQueryKey = (
-  options: Options<ExpenseControllerGetApartmentExpensesData>
-) => createQueryKey('expenseControllerGetApartmentExpenses', options);
+export const notificationControllerRegisterTokenQueryKey = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => createQueryKey('notificationControllerRegisterToken', options);
 
-export const expenseControllerGetApartmentExpensesOptions = (
-  options: Options<ExpenseControllerGetApartmentExpensesData>
+export const notificationControllerRegisterTokenOptions = (
+  options?: Options<NotificationControllerRegisterTokenData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerGetApartmentExpenses({
+      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...queryKey[0],
         signal,
@@ -380,98 +384,20 @@ export const expenseControllerGetApartmentExpensesOptions = (
       });
       return data;
     },
-    queryKey: expenseControllerGetApartmentExpensesQueryKey(options),
+    queryKey: notificationControllerRegisterTokenQueryKey(options),
   });
 };
 
-export const expenseControllerAddEditExpenseQueryKey = (options: Options<ExpenseControllerAddEditExpenseData>) =>
-  createQueryKey('expenseControllerAddEditExpense', options);
-
-export const expenseControllerAddEditExpenseOptions = (options: Options<ExpenseControllerAddEditExpenseData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerAddEditExpense({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: expenseControllerAddEditExpenseQueryKey(options),
-  });
-};
-
-export const expenseControllerAddEditExpenseMutation = (
-  options?: Partial<Options<ExpenseControllerAddEditExpenseData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ExpenseControllerAddEditExpenseData>> => {
+export const notificationControllerRegisterTokenMutation = (
+  options?: Partial<Options<NotificationControllerRegisterTokenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
   const mutationOptions: UseMutationOptions<
     unknown,
     AxiosError<DefaultError>,
-    Options<ExpenseControllerAddEditExpenseData>
+    Options<NotificationControllerRegisterTokenData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await expenseControllerAddEditExpense({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const expenseControllerGetExpenseDetailsQueryKey = (options: Options<ExpenseControllerGetExpenseDetailsData>) =>
-  createQueryKey('expenseControllerGetExpenseDetails', options);
-
-export const expenseControllerGetExpenseDetailsOptions = (options: Options<ExpenseControllerGetExpenseDetailsData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerGetExpenseDetails({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: expenseControllerGetExpenseDetailsQueryKey(options),
-  });
-};
-
-export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
-  createQueryKey('paymentControllerCreatePayment', options);
-
-export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await paymentControllerCreatePayment({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: paymentControllerCreatePaymentQueryKey(options),
-  });
-};
-
-export const paymentControllerCreatePaymentMutation = (
-  options?: Partial<Options<PaymentControllerCreatePaymentData>>
-): UseMutationOptions<
-  PaymentControllerCreatePaymentResponse,
-  AxiosError<DefaultError>,
-  Options<PaymentControllerCreatePaymentData>
-> => {
-  const mutationOptions: UseMutationOptions<
-    PaymentControllerCreatePaymentResponse,
-    AxiosError<DefaultError>,
-    Options<PaymentControllerCreatePaymentData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await paymentControllerCreatePayment({
+      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -601,6 +527,125 @@ export const apartmentControllerGetRoommatesOptions = (options: Options<Apartmen
   });
 };
 
+export const expenseControllerGetApartmentExpensesQueryKey = (
+  options: Options<ExpenseControllerGetApartmentExpensesData>
+) => createQueryKey('expenseControllerGetApartmentExpenses', options);
+
+export const expenseControllerGetApartmentExpensesOptions = (
+  options: Options<ExpenseControllerGetApartmentExpensesData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerGetApartmentExpenses({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerGetApartmentExpensesQueryKey(options),
+  });
+};
+
+export const expenseControllerAddEditExpenseQueryKey = (options: Options<ExpenseControllerAddEditExpenseData>) =>
+  createQueryKey('expenseControllerAddEditExpense', options);
+
+export const expenseControllerAddEditExpenseOptions = (options: Options<ExpenseControllerAddEditExpenseData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerAddEditExpense({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerAddEditExpenseQueryKey(options),
+  });
+};
+
+export const expenseControllerAddEditExpenseMutation = (
+  options?: Partial<Options<ExpenseControllerAddEditExpenseData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ExpenseControllerAddEditExpenseData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ExpenseControllerAddEditExpenseData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await expenseControllerAddEditExpense({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const expenseControllerGetExpenseDetailsQueryKey = (options: Options<ExpenseControllerGetExpenseDetailsData>) =>
+  createQueryKey('expenseControllerGetExpenseDetails', options);
+
+export const expenseControllerGetExpenseDetailsOptions = (options: Options<ExpenseControllerGetExpenseDetailsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerGetExpenseDetails({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerGetExpenseDetailsQueryKey(options),
+  });
+};
+
+export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
+  createQueryKey('paymentControllerCreatePayment', options);
+
+export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await paymentControllerCreatePayment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: paymentControllerCreatePaymentQueryKey(options),
+  });
+};
+
+export const paymentControllerCreatePaymentMutation = (
+  options?: Partial<Options<PaymentControllerCreatePaymentData>>
+): UseMutationOptions<
+  PaymentControllerCreatePaymentResponse,
+  AxiosError<DefaultError>,
+  Options<PaymentControllerCreatePaymentData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    PaymentControllerCreatePaymentResponse,
+    AxiosError<DefaultError>,
+    Options<PaymentControllerCreatePaymentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await paymentControllerCreatePayment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const taskControllerCreateTaskQueryKey = (options: Options<TaskControllerCreateTaskData>) =>
   createQueryKey('taskControllerCreateTask', options);
 
@@ -621,9 +666,13 @@ export const taskControllerCreateTaskOptions = (options: Options<TaskControllerC
 
 export const taskControllerCreateTaskMutation = (
   options?: Partial<Options<TaskControllerCreateTaskData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerCreateTaskData>> => {
+): UseMutationOptions<
+  TaskControllerCreateTaskResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerCreateTaskData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    TaskControllerCreateTaskResponse,
     AxiosError<DefaultError>,
     Options<TaskControllerCreateTaskData>
   > = {
@@ -697,8 +746,16 @@ export const taskControllerEditTaskOptions = (options: Options<TaskControllerEdi
 
 export const taskControllerEditTaskMutation = (
   options?: Partial<Options<TaskControllerEditTaskData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> => {
-  const mutationOptions: UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> = {
+): UseMutationOptions<
+  TaskControllerEditTaskResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerEditTaskData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    TaskControllerEditTaskResponse,
+    AxiosError<DefaultError>,
+    Options<TaskControllerEditTaskData>
+  > = {
     mutationFn: async (localOptions) => {
       const { data } = await taskControllerEditTask({
         ...options,
@@ -711,10 +768,10 @@ export const taskControllerEditTaskMutation = (
   return mutationOptions;
 };
 
-export const taskControllerGetAllTasksQueryKey = (options?: Options<TaskControllerGetAllTasksData>) =>
+export const taskControllerGetAllTasksQueryKey = (options: Options<TaskControllerGetAllTasksData>) =>
   createQueryKey('taskControllerGetAllTasks', options);
 
-export const taskControllerGetAllTasksOptions = (options?: Options<TaskControllerGetAllTasksData>) => {
+export const taskControllerGetAllTasksOptions = (options: Options<TaskControllerGetAllTasksData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await taskControllerGetAllTasks({
@@ -726,6 +783,24 @@ export const taskControllerGetAllTasksOptions = (options?: Options<TaskControlle
       return data;
     },
     queryKey: taskControllerGetAllTasksQueryKey(options),
+  });
+};
+
+export const taskControllerGetTaskByIdQueryKey = (options: Options<TaskControllerGetTaskByIdData>) =>
+  createQueryKey('taskControllerGetTaskById', options);
+
+export const taskControllerGetTaskByIdOptions = (options: Options<TaskControllerGetTaskByIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerGetTaskById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerGetTaskByIdQueryKey(options),
   });
 };
 
@@ -940,47 +1015,6 @@ export const incidentControllerSetOwnerSeenMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await incidentControllerSetOwnerSeen({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const notificationControllerRegisterTokenQueryKey = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => createQueryKey('notificationControllerRegisterToken', options);
-
-export const notificationControllerRegisterTokenOptions = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await notificationControllerRegisterToken({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: notificationControllerRegisterTokenQueryKey(options),
-  });
-};
-
-export const notificationControllerRegisterTokenMutation = (
-  options?: Partial<Options<NotificationControllerRegisterTokenData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
-  const mutationOptions: UseMutationOptions<
-    unknown,
-    AxiosError<DefaultError>,
-    Options<NotificationControllerRegisterTokenData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...localOptions,
         throwOnError: true,
