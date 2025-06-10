@@ -19,7 +19,7 @@ import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
 import { TaskResDto } from './dto/task-response.dto';
-import { CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
+import { AddEditTaskDto, CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { TaskService } from './task.service';
 
@@ -32,22 +32,19 @@ export class TaskController {
   ) { }
   private readonly logger = new Logger(TaskController.name);
 
-  @Post('create')
+  @Post('add-edit')
   @UseAuth()
   @ApiOkResponse({ type: TaskResDto })
-  async createTask(@User() user: UserJwtPayload, @Body() taskDto: CreateTaskDto) {
+  async createTask(@User() user: UserJwtPayload, @Body() taskDto: AddEditTaskDto) {
     // TODO add validation
     //TODO make sure assigned users belong to the apartment
     if (!this.userApartmentService.isUserInApartment(user.userId, taskDto.apartmentId)) {
       this.logger.error('User is not a resident of the apartment');
       throw new BadRequestException('User is not a resident of the apartment');
     }
-    const newTask = {
-      ...taskDto,
-      createdByUserId: user.userId
-    };
+
     try {
-      const task = await this.taskService.createTask(newTask);
+      const task = await this.taskService.addEditTask(taskDto, user.userId)
       return task;
     } catch (error) {
       this.logger.error('Error in createTask:', error.stack);
@@ -104,10 +101,10 @@ export class TaskController {
     }
   }
 
-  @Get(':apartmentId')
+  @Get()
+  @UseAuth()
   @ApiOkResponse({ type: [TaskResDto] })
-  @UseAuthApartment()
-  async getAllTasks(@Param('apartmentId') apartmentId: string, @User() user: UserJwtPayload) {
+  async getAllTasks(@Query('apartmentId') apartmentId: string, @User() user: UserJwtPayload) {
     try {
       const tasks = await this.taskService.getTask(user.userId, apartmentId);
       if (!tasks) {
@@ -124,7 +121,7 @@ export class TaskController {
   }
 
   @Get('get-by-id')
-  @UseAuthApartment()
+  @UseAuth()
   @ApiOkResponse({ type: TaskResponseDto })
   async getTaskById(
     @Query('taskId') taskId: string,
@@ -137,9 +134,6 @@ export class TaskController {
     }
     if (task.apartmentId !== user.apartmentId) {
       throw new BadRequestException('Task does not belong to the user\'s apartment');
-    }
-    if (task.createdByUserId !== user.userId && !this.taskService.IsUserAParticipant(taskId, user.userId)) {
-      throw new BadRequestException('User is not a participant of the task');
     }
     return task;
   }

@@ -140,3 +140,37 @@ export class TaskResponseDto {
   })
   recurrenceRule?: RecurrenceRuleDto;
 }
+
+export class AddEditTaskDto {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  taskId: string;
+
+  @ApiProperty()
+  @IsString()
+  title: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @ApiProperty({ description: 'ISO date string for when the task is due', required: false })
+  @IsDateString()
+  @IsOptional()
+  dueDate?: Date;
+
+  @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
+  @IsString()
+  @IsOptional()
+  dueTime?: string;
+
+  @ApiProperty({ description: 'Indicates wheter the task is recurring', required: false })
+  @IsOptional()
+  @IsBoolean()
+  isRecurrent: boolean;
+
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+}

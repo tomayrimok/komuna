@@ -463,7 +463,7 @@
         ]
       }
     },
-    "/api/task/create": {
+    "/api/task/add-edit": {
       "post": {
         "operationId": "TaskController_createTask",
         "parameters": [],
@@ -472,7 +472,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTaskDto"
+                "$ref": "#/components/schemas/AddEditTaskDto"
               }
             }
           }
@@ -1918,6 +1918,55 @@
           "amount"
         ]
       },
+      "AddEditTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "apartmentId"
+        ]
+      },
+      "UserCompletionStatus": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "userId",
+          "status"
+        ]
+      },
       "Frequency": {
         "type": "string",
         "enum": [
@@ -1969,69 +2018,6 @@
           "frequency",
           "until",
           "count"
-        ]
-      },
-      "CreateTaskDto": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "apartmentId": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "title",
-          "apartmentId",
-          "assignedTo"
-        ]
-      },
-      "UserCompletionStatus": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "userId",
-          "status"
         ]
       },
       "TaskResDto": {

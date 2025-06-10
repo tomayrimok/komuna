@@ -272,7 +272,7 @@ export const taskControllerCreateTask = <ThrowOnError extends boolean = false>(
   options: Options<TaskControllerCreateTaskData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).post<TaskControllerCreateTaskResponse, unknown, ThrowOnError>({
-    url: '/api/task/create',
+    url: '/api/task/add-edit',
     ...options,
     headers: {
       'Content-Type': 'application/json',

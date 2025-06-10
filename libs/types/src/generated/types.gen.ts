@@ -463,26 +463,10 @@ export type CreatePaymentDto = {
   amount: number;
 };
 
-export type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
-
-export type WeekDay = 'SU' | 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA';
-
-export type RecurrenceRuleDto = {
-  frequency: Frequency;
-  interval?: number;
-  byWeekDay?: Array<WeekDay>;
-  until: string;
-  count: number;
-};
-
-export type CreateTaskDto = {
+export type AddEditTaskDto = {
+  taskId?: string;
   title: string;
-  apartmentId: string;
   description?: string;
-  /**
-   * An object containing { userId, IsCompleted } for each assigned user.
-   */
-  assignedTo: Array<string>;
   /**
    * ISO date string for when the task is due
    */
@@ -495,15 +479,24 @@ export type CreateTaskDto = {
    * Indicates wheter the task is recurring
    */
   isRecurrent?: boolean;
-  /**
-   * RecurrenceRule is defined as a repetetive time-frame class object
-   */
-  recurrenceRule?: RecurrenceRuleDto;
+  apartmentId: string;
 };
 
 export type UserCompletionStatus = {
   userId: string;
   status: boolean;
+};
+
+export type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+
+export type WeekDay = 'SU' | 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA';
+
+export type RecurrenceRuleDto = {
+  frequency: Frequency;
+  interval?: number;
+  byWeekDay?: Array<WeekDay>;
+  until: string;
+  count: number;
 };
 
 export type TaskResDto = {
@@ -911,10 +904,10 @@ export type PaymentControllerCreatePaymentResponse =
   PaymentControllerCreatePaymentResponses[keyof PaymentControllerCreatePaymentResponses];
 
 export type TaskControllerCreateTaskData = {
-  body: CreateTaskDto;
+  body: AddEditTaskDto;
   path?: never;
   query?: never;
-  url: '/api/task/create';
+  url: '/api/task/add-edit';
 };
 
 export type TaskControllerCreateTaskResponses = {

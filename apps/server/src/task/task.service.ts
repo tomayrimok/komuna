@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
 import { Brackets } from 'typeorm';
-import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { AddEditTaskDto, CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TaskService {
@@ -15,17 +15,23 @@ export class TaskService {
     private readonly userService: UserService
   ) { }
 
-  async createTask(taskDto: CreateTaskDto) {
-    // If there are multiple userIds, save them as an array, else save the single
-    // element as an 1-D array
-    const users = await this.userService.getUsersByUserId(taskDto.assignedTo);
+  async addEditTask(taskDto: AddEditTaskDto, userId: string): Promise<Task> {
+    if (taskDto.taskId) {
+      const existingTask = await this.taskRepo.findOneBy({
+        taskId: taskDto.taskId,
+        apartmentId: taskDto.apartmentId,
+      });
 
-    const task = this.taskRepo.create({
+      if (existingTask) return this.taskRepo.save({ ...existingTask, ...taskDto });
+    }
+
+    const newTask = this.taskRepo.create({
       ...taskDto,
-      assignedTo: Array.isArray(users) ? users : [users],
+      createdByUserId: userId,
     });
 
-    return this.taskRepo.save(task);
+    return await this.taskRepo.save(newTask);
+
   }
 
   async updateTaskStatus(taskId: string, userId: string, status: boolean) {

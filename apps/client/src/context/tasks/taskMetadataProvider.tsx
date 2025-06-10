@@ -4,7 +4,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { useAddEditIncident } from '../../hooks/query/useAddEditIncident';
 import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
 import { useApartment } from '../../hooks/useApartment';
-import { useAddTask } from '../../hooks/query/useAddEditTask';
+import { useAddEditTask } from '../../hooks/query/useAddEditTask';
 import { useTaskDetails } from '../../hooks/query/useTaskDetails';
 
 type TaskMetadataContextValue = {
@@ -29,7 +29,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
     isLoading: isTaskDetailsLoading,
     isError: isTaskDetailsError,
   } = useTaskDetails(taskId || '');
-  const { mutate: addTask } = useAddTask();
+  const { mutate: addEditTask } = useAddEditTask();
 
   const { history } = useRouter();
 
@@ -46,15 +46,15 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       // TODO
     }
 
-    addTask({
+    addEditTask({
       title: taskDetails.title,
       description: taskDetails.description,
-      assignedTo: taskDetails.assignedTo || [],
+      // assignedTo: taskDetails.assignedTo || [],
       dueDate: taskDetails.dueDate?.toString(),
       dueTime: taskDetails.dueTime,
-      isRecurrent: taskDetails.isRecurrent,
-      recurrenceRule: taskDetails.recurrenceRule,
-      apartmentId: apartmentData.apartmentId,
+      // isRecurrent: taskDetails.isRecurrent,
+      // recurrenceRule: taskDetails.recurrenceRule,
+      apartmentId: apartmentData.apartmentId!,
     });
 
     history.back();
