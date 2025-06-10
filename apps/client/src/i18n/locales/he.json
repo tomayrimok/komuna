@@ -8,6 +8,7 @@
   "other-options": "אפשרויות נוספות",
   "select-roommates": "בחירת שותפים",
   "select-roommate": "בחירת שותף",
+  "add-roommates": "הוספת שותפים",
   "months": {
     "1": "ינואר",
     "2": "פברואר",
@@ -284,7 +285,7 @@
       "due_date": "תאריך יעד (לא חובה)",
       "description_placeholder": "הכנס תיאור",
       "description": "תיאור",
-      "assigned_to": "שייך שותפים למטלה (אם לא נבחרו שותפים, המטלה תשוייך לך)",
+      "assigned_to": "שייך שותפים למטלה",
       "recurrence": "חזרתיות",
       "recurrence_placeholder": "הכנסה חוק חזרתיות (לדוגמא - כל שבועיים)",
       "images": "העלה תמונות (לא חובה)",

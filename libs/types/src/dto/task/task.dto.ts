@@ -1,11 +1,11 @@
-import { RecurrenceRuleDto } from "../../generated";
+import { RecurrenceRuleDto, User } from "../../generated";
 
 export class CreateTaskReqDto {
   title: string;
 
   description?: string;
 
-  assignedTo: string[];
+  assignedTo: User[];
 
   isRecurrent: boolean;
 

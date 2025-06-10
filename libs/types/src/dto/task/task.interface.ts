@@ -1,4 +1,4 @@
-import { RecurrenceRuleDto } from "../../generated";
+import { RecurrenceRuleDto, User } from "../../generated";
 
 export interface TaskDto {
   apartmentId: string;
@@ -7,7 +7,7 @@ export interface TaskDto {
 
   description: string;
 
-  assignedTo: string[];
+  assignedTo: User[];
 
   isCompleted: boolean;
 
@@ -33,7 +33,7 @@ export class EditTaskReqDto {
 
   recurrenceRule?: RecurrenceRuleDto;
 
-  assignedTo?: string[];
+  assignedTo?: User[];
 }
 
 export class UpdateTaskStatusReqDto {

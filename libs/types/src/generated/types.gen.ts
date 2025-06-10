@@ -480,6 +480,10 @@ export type AddEditTaskDto = {
    */
   isRecurrent?: boolean;
   apartmentId: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<User>;
 };
 
 export type UserCompletionStatus = {
@@ -506,7 +510,7 @@ export type TaskResponseDto = {
   /**
    * An object containing { userId, IsCompleted } for each assigned user.
    */
-  assignedTo?: Array<string>;
+  assignedTo?: Array<User>;
   completions?: Array<UserCompletionStatus>;
   /**
    * ISO date string for when the task is due
@@ -533,7 +537,7 @@ export type UpdateTaskDto = {
   /**
    * An object containing { userId, IsCompleted } for each assigned user.
    */
-  assignedTo?: Array<string>;
+  assignedTo?: Array<User>;
   completions?: Array<UserCompletionStatus>;
   /**
    * ISO date string for when the task is due

@@ -95,6 +95,7 @@
   "other-options": "Other Options",
   "select-roommates": "Select Roommates",
   "select-roommate": "Select Roommate",
+  "add-roommates": "Add Roommates",
   "months": {
     "1": "January",
     "2": "February",
@@ -178,7 +179,7 @@
       "due_date": "Due Date",
       "description_placeholder": "Enter Description",
       "description": "Description",
-      "assigned_to": "Assign Members To Task (if none selected, it will be assigned to you)",
+      "assigned_to": "Assign Roommates To Task",
       "recurrence": "Recurrence",
       "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
       "images": "Upload Images Of The Task (optional)",

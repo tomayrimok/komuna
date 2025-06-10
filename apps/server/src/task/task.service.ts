@@ -49,7 +49,7 @@ export class TaskService {
       throw new BadRequestException('Must have at least one assigned user');
     }
     const users = editTaskDto.assignedTo
-      ? await this.userService.getUsersByUserId(editTaskDto.assignedTo)
+      ? await this.userService.getUsersByUserId(editTaskDto.assignedTo.map((user) => user.userId))
       : task.assignedTo;
 
     const updateTask = {

@@ -1,5 +1,5 @@
 import { useParams, useRouter } from '@tanstack/react-router';
-import { IncidentResponseDto, TaskResponseDto } from 'libs/types/src/generated';
+import { IncidentResponseDto, TaskResponseDto, User } from 'libs/types/src/generated';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useAddEditIncident } from '../../hooks/query/useAddEditIncident';
 import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
@@ -14,6 +14,7 @@ type TaskMetadataContextValue = {
   taskId?: string;
   handleSave?: () => void;
   updateTaskDetails: (data: Partial<TaskResponseDto>) => void;
+  toggleAssignedTo: (user: User) => void;
 };
 
 export const TaskMetadataContext = createContext<TaskMetadataContextValue | null>(null);
@@ -51,7 +52,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       taskId: taskDetails.taskId,
       title: taskDetails.title,
       description: taskDetails.description,
-      // assignedTo: taskDetails.assignedTo || [],
+      assignedTo: taskDetails.assignedTo || [],
       dueDate: taskDetails.dueDate,
       dueTime: taskDetails.dueTime,
       // isRecurrent: taskDetails.isRecurrent,
@@ -71,6 +72,25 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
     });
   };
 
+  const toggleAssignedTo = (user: User) => {
+    setTaskDetails((prevDetails) => {
+      const assignedTo = prevDetails?.assignedTo || [];
+      const userIndex = assignedTo.findIndex((u) => u.userId === user.userId);
+      if (userIndex > -1) {
+        // User already assigned, remove them
+        assignedTo.splice(userIndex, 1);
+      } else {
+        // User not assigned, add them
+        assignedTo.push(user);
+      }
+      return {
+        ...prevDetails,
+        assignedTo,
+      } as TaskResponseDto;
+    }
+    );
+  };
+
   return (
     <TaskMetadataContext.Provider
       value={{
@@ -80,12 +100,14 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
         taskId,
         handleSave,
         updateTaskDetails,
+        toggleAssignedTo
       }}
     >
       {children}
     </TaskMetadataContext.Provider>
   );
 };
+
 
 export const useTaskMetadata = () => {
   const context = useContext(TaskMetadataContext);

@@ -1,18 +1,20 @@
-import { Box, Button, Container, Flex, Heading, Input, Loader, Stack, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Icon, Input, Loader, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { IncidentMetadataProvider } from '../../context/incidents/incidentMetadataProvider';
 import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
 import { withWrappers } from '../../utilities/withWrappers';
+import SelectUserDrawer from '../../components/General/selectResidentDrawer';
+import { IconPlus, IconX } from '@tabler/icons-react';
 
 const TasksDetailsPage = () => {
 
-  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails } = useTaskMetadata();
+  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails, toggleAssignedTo } = useTaskMetadata();
 
   const router = useRouter();
   const { t } = useTranslation();
 
-  const buttonDisabled = !taskDetails?.title || !taskDetails.description || isTaskDetailsLoading;
+  const buttonDisabled = !taskDetails?.title || isTaskDetailsLoading;
 
   if (taskId && isTaskDetailsLoading) return <Loader />;
 
@@ -63,6 +65,53 @@ const TasksDetailsPage = () => {
                 variant={'flushed'}
 
               />
+            </Box>
+
+            <Box>
+              <Text mb={1} fontWeight="bold">
+                {t('task_category.create_task.assigned_to')}
+              </Text>
+              <Flex
+                flexWrap={'wrap'}
+                gap={2}>
+                {taskDetails?.assignedTo?.map((user) => (
+                  <TagRoot key={user.userId} p={3} py={2} fontSize={"md"} borderRadius={'md'} variant={"outline"}>
+                    <TagLabel fontSize="md"> {user.firstName} {user.lastName} </TagLabel>
+                    <TagCloseTrigger onClick={() => toggleAssignedTo(user)}>
+                      <Button size={"2xs"} borderRadius={'full'} p={0} variant={"subtle"} ms={2}>
+                        <IconX />
+                      </Button>
+                    </TagCloseTrigger>
+                  </TagRoot>
+                ))}
+                <SelectUserDrawer
+                  size="lg"
+                  onSelect={(user) => toggleAssignedTo(user)}
+                  multiple
+                  selected={taskDetails?.assignedTo?.map(u => u.userId) || []}
+                  trigger={
+                    <Button
+                      p={3}
+                      fontSize={"md"}
+                      borderRadius={'md'}
+                      variant={"subtle"}
+                    // mt={3}
+                    // size="2xl"
+                    // px={4}
+                    // py={1}
+                    // h="unset"
+                    // variant={'surface'}
+                    // color="brand.800"
+                    >
+                      <Icon size={"sm"}>
+                        <IconPlus />
+                      </Icon>
+                      {t('add-roommates')}
+                    </Button>
+                  }
+                />
+              </Flex>
+
             </Box>
 
           </Stack>

@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserCompletionStatus } from './user-completion-status.dto';
 import { PartialType } from '@nestjs/swagger';
 import { RecurrenceRuleDto } from '../../recurrence-rule/recurrence-rule.dto';
+import { User } from '../../user/user.entity';
 
 
 // Both for request and response, Create and Edit DTOs
@@ -21,11 +22,11 @@ export class CreateTaskDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.' })
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', type: () => [User] })
   @IsOptional()
   @IsArray()
-  @Type(() => String)
-  assignedTo: string[];
+  @Type(() => User)
+  assignedTo: User[];
 
   @ApiProperty({ description: 'ISO date string for when the task is due', required: false, type: () => Date })
   @IsDateString()
@@ -68,9 +69,9 @@ export class UpdateTaskDto {
   @IsOptional()
   description: string;
 
-  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false })
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false, type: () => [User] })
   @IsOptional()
-  assignedTo: string[];
+  assignedTo: User[];
 
   @ApiProperty({ type: [UserCompletionStatus], required: false })
   @Type(() => UserCompletionStatus)
@@ -117,8 +118,9 @@ export class TaskResponseDto {
   @ApiProperty({ required: false })
   description?: string;
 
-  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false })
-  assignedTo?: string[];
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false, type: () => [User] })
+  assignedTo?: User[];
+
 
   @ApiProperty({ type: [UserCompletionStatus], required: false })
   completions?: UserCompletionStatus[];
@@ -173,4 +175,11 @@ export class AddEditTaskDto {
   @ApiProperty()
   @IsUUID()
   apartmentId: string;
+
+  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false, type: () => [User] })
+  @IsOptional()
+  @IsArray()
+  @Type(() => User)
+  assignedTo?: User[];
+
 }

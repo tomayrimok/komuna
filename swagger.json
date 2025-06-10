@@ -1945,6 +1945,13 @@
           },
           "apartmentId": {
             "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
           }
         },
         "required": [
@@ -2036,7 +2043,7 @@
             "description": "An object containing { userId, IsCompleted } for each assigned user.",
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/User"
             }
           },
           "completions": {
@@ -2090,7 +2097,7 @@
             "description": "An object containing { userId, IsCompleted } for each assigned user.",
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/User"
             }
           },
           "completions": {
