@@ -45,6 +45,26 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                             {task.description}
                         </Text>
                     )}
+                    <Flex gap={2} flexWrap="wrap" mt={2}>
+                      {task.assignedTo?.map((user) => (
+                        <Box
+                          key={user.userId}
+                          display="flex"
+                          alignItems="center"
+                          px={3}
+                          py={1}
+                          borderRadius="full"
+                          backgroundColor="gray.100"
+                          fontSize="sm"
+                          fontWeight="medium"
+                          color="gray.700"
+                          boxShadow="sm"
+                        >
+                          <Icon as={IconUser} boxSize={4} mr={1} />
+                          {user.firstName} {user.lastName[0]}.
+                        </Box>
+                      ))}
+                    </Flex>
                     {/* <Flex mt={2} gap={2}>
                         <IncidentTag value={task.status} data={STATUSES_DATA} />
             {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
