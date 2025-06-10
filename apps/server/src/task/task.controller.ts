@@ -38,7 +38,7 @@ export class TaskController {
   async createTask(@User() user: UserJwtPayload, @Body() taskDto: CreateTaskDto) {
     // TODO add validation
     //TODO make sure assigned users belong to the apartment
-    if (!this.userApartmentService.isUserInApartment(user.userId, user.apartmentId)) {
+    if (!this.userApartmentService.isUserInApartment(user.userId, taskDto.apartmentId)) {
       this.logger.error('User is not a resident of the apartment');
       throw new BadRequestException('User is not a resident of the apartment');
     }
