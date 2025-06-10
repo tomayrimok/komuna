@@ -573,7 +573,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskResDto"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -581,14 +591,22 @@
         ]
       }
     },
-    "/api/task/get-by-id/{taskId}": {
+    "/api/task/get-by-id": {
       "get": {
         "operationId": "TaskController_getTaskById",
         "parameters": [
           {
             "name": "taskId",
             "required": true,
-            "in": "path",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -600,7 +618,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EditTaskReqResDto"
+                  "$ref": "#/components/schemas/TaskResDto"
                 }
               }
             }
@@ -1900,11 +1918,36 @@
           "amount"
         ]
       },
+      "Frequency": {
+        "type": "string",
+        "enum": [
+          "DAILY",
+          "WEEKLY",
+          "MONTHLY",
+          "YEARLY"
+        ]
+      },
+      "WeekDay": {
+        "type": "string",
+        "enum": [
+          "SU",
+          "MO",
+          "TU",
+          "WE",
+          "TH",
+          "FR",
+          "SA"
+        ]
+      },
       "RecurrenceRuleDto": {
         "type": "object",
         "properties": {
           "frequency": {
-            "type": "object"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Frequency"
+              }
+            ]
           },
           "interval": {
             "type": "number"
@@ -1912,7 +1955,7 @@
           "byWeekDay": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/WeekDay"
             }
           },
           "until": {
@@ -1924,8 +1967,6 @@
         },
         "required": [
           "frequency",
-          "interval",
-          "byWeekDay",
           "until",
           "count"
         ]
@@ -2093,10 +2134,6 @@
             ]
           }
         }
-      },
-      "EditTaskReqResDto": {
-        "type": "object",
-        "properties": {}
       },
       "CommentResponseDto": {
         "type": "object",

@@ -1,19 +1,19 @@
 import { IsEnum, IsInt, IsOptional, IsArray, Min, IsDateString } from 'class-validator';
-import { Frequency, WeekDay, type RecurrenceRule } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Frequency, RecurrenceRule, WeekDay } from '@komuna/types';
 
-export class RecurrenceRuleDto implements RecurrenceRule {
-  @ApiProperty()
+export class RecurrenceRuleDto {
+  @ApiProperty({ enum: Frequency, enumName: 'Frequency' })
   @IsEnum(Frequency)
   frequency: Frequency;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number, required: false })
   @IsOptional()
   @IsInt()
   @Min(1)
   interval?: number; // every $interval $frequency
 
-  @ApiProperty()
+  @ApiProperty({ type: [WeekDay], enum: WeekDay, enumName: 'WeekDay', required: false })
   @IsOptional()
   @IsArray()
   @IsEnum(WeekDay, { each: true })

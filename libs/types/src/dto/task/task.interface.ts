@@ -1,4 +1,4 @@
-import { RecurrenceRuleDto } from '@komuna/types';
+import { RecurrenceRuleDto } from "../../generated";
 
 export interface TaskDto {
   apartmentId: string;

@@ -1,4 +1,4 @@
-import type { RecurrenceRuleDto } from '../recurrence-rule.dto';
+import { RecurrenceRuleDto } from "../../generated";
 
 export class CreateTaskReqDto {
   title: string;

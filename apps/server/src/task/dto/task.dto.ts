@@ -1,14 +1,14 @@
 import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
-import { RecurrenceRuleDto } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserCompletionStatus } from './user-completion-status.dto';
 import { CreateTaskReqDto, EditTaskReqResDto } from '@komuna/types';
 import { PartialType } from '@nestjs/swagger';
+import { RecurrenceRuleDto } from '../../recurrence-rule/recurrence-rule.dto';
 
 
 // Both for request and response, Create and Edit DTOs
-export class CreateTaskDto implements CreateTaskReqDto {
+export class CreateTaskDto {
   @ApiProperty()
   @IsString()
   title: string;
@@ -43,13 +43,14 @@ export class CreateTaskDto implements CreateTaskReqDto {
     description: 'RecurrenceRule is defined as a repetetive time-frame class object',
     example: '{"frequency": "weekly", "time": "10:00" }',
     required: false,
+    type: () => RecurrenceRuleDto
   })
   @IsOptional()
   @ValidateNested()
   @Type(() => RecurrenceRuleDto)
   recurrenceRule?: RecurrenceRuleDto;
 }
-class _EditTaskDto implements EditTaskReqResDto {
+class _EditTaskDto {
   @ApiProperty()
   @IsUUID()
   taskId: string;
@@ -88,11 +89,13 @@ class _EditTaskDto implements EditTaskReqResDto {
 
   @ApiProperty({
     description: 'RecurrenceRule is defined as a repetetive time-frame class object',
-    example: '{"frequency": "weekly", "time": "10:00" }'
+    example: '{"frequency": "weekly", "time": "10:00" }',
+    type: () => RecurrenceRuleDto,
+    required: false
   })
   @IsOptional()
   @ValidateNested()
   @Type(() => RecurrenceRuleDto)
   recurrenceRule?: RecurrenceRuleDto;
 }
-export class EditTaskDto extends PartialType(_EditTaskDto) {}
+export class EditTaskDto extends PartialType(_EditTaskDto) { }

@@ -463,12 +463,14 @@ export type CreatePaymentDto = {
   amount: number;
 };
 
+export type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+
+export type WeekDay = 'SU' | 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA';
+
 export type RecurrenceRuleDto = {
-  frequency: {
-    [key: string]: unknown;
-  };
-  interval: number;
-  byWeekDay: Array<string>;
+  frequency: Frequency;
+  interval?: number;
+  byWeekDay?: Array<WeekDay>;
   until: string;
   count: number;
 };
@@ -556,10 +558,6 @@ export type EditTaskDto = {
    * RecurrenceRule is defined as a repetetive time-frame class object
    */
   recurrenceRule?: RecurrenceRuleDto;
-};
-
-export type EditTaskReqResDto = {
-  [key: string]: unknown;
 };
 
 export type CommentResponseDto = {
@@ -934,20 +932,24 @@ export type TaskControllerGetAllTasksData = {
 };
 
 export type TaskControllerGetAllTasksResponses = {
-  200: unknown;
+  200: Array<TaskResDto>;
 };
+
+export type TaskControllerGetAllTasksResponse =
+  TaskControllerGetAllTasksResponses[keyof TaskControllerGetAllTasksResponses];
 
 export type TaskControllerGetTaskByIdData = {
   body?: never;
-  path: {
+  path?: never;
+  query: {
     taskId: string;
+    apartmentId: string;
   };
-  query?: never;
-  url: '/api/task/get-by-id/{taskId}';
+  url: '/api/task/get-by-id';
 };
 
 export type TaskControllerGetTaskByIdResponses = {
-  200: EditTaskReqResDto;
+  200: TaskResDto;
 };
 
 export type TaskControllerGetTaskByIdResponse =

@@ -1,4 +1,3 @@
-import { EditTaskReqResDto } from '@komuna/types';
 import {
   BadRequestException,
   Body,
@@ -126,12 +125,12 @@ export class TaskController {
     }
   }
 
-  @Get('get-by-id/:apartmentId')
+  @Get('get-by-id')
   @UseAuthApartment()
   @ApiOkResponse({ type: TaskResDto })
   async getTaskById(
     @Query('taskId') taskId: string,
-    @Param('apartmentId') apartmentId: string,
+    @Query('apartmentId') apartmentId: string,
     @User() user: UserJwtPayload
   ) {
     const task = await this.taskService.getTaskById(taskId);

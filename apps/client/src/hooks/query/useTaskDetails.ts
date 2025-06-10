@@ -10,8 +10,7 @@ export const useTaskDetails = (taskId: string) => {
 
   return useQuery({
     queryKey: ['taskDetails', taskId],
-    // TODO: Get the type workkkk!
-    queryFn: async () => API.taskControllerGetTaskById({ path: { taskId, apartmentId } }),
+    queryFn: async () => API.taskControllerGetTaskById({ query: { taskId, apartmentId: apartmentId! } }),
     refetchOnWindowFocus: false,
     enabled: !!taskId,
   });

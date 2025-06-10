@@ -37,6 +37,7 @@ import type {
   TaskControllerEditTaskData,
   TaskControllerEditTaskResponse,
   TaskControllerGetAllTasksData,
+  TaskControllerGetAllTasksResponse,
   TaskControllerGetTaskByIdData,
   TaskControllerGetTaskByIdResponse,
   TaskControllerGetCompletedTasksData,
@@ -309,7 +310,7 @@ export const taskControllerEditTask = <ThrowOnError extends boolean = false>(
 export const taskControllerGetAllTasks = <ThrowOnError extends boolean = false>(
   options: Options<TaskControllerGetAllTasksData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).get<TaskControllerGetAllTasksResponse, unknown, ThrowOnError>({
     url: '/api/task/{apartmentId}',
     ...options,
   });
@@ -319,7 +320,7 @@ export const taskControllerGetTaskById = <ThrowOnError extends boolean = false>(
   options: Options<TaskControllerGetTaskByIdData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).get<TaskControllerGetTaskByIdResponse, unknown, ThrowOnError>({
-    url: '/api/task/get-by-id/{taskId}',
+    url: '/api/task/get-by-id',
     ...options,
   });
 };

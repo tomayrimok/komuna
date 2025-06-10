@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn } from 'typeorm';
-import { RecurrenceRuleDto } from '@komuna/types';
 import { User } from '../user/user.entity';
 import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { RecurrenceRuleDto } from '../recurrence-rule/recurrence-rule.dto';
 
 @Entity()
 export class Task {

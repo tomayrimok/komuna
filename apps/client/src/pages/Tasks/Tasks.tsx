@@ -11,10 +11,8 @@ const TASKS = [{ taskId: '', title: 'לטאטא', description: 'יש הרבהה 
 { taskId: '', title: 'לטאטא', description: 'יש הרבהה לטאטא', assignedTo: ['שני קהתי', 'נטע טי', 'נעם משה',], dueDate: '', dueTime: '', createdBy: 'שני קהתי', createdAt: '', },];
 
 const Tasks = () => {
-  const { data, isLoading } = useTasks();
+  const { data: tasks, isLoading } = useTasks();
   //TODO: Get the type to work! So `tasks` is typed as `ApiTypes.Task[]`
-  const tasks = data as ApiTypes.TaskResDto[] | undefined;
-  console.log('useTasks().data: ', data);
   const { t } = useTranslation();
 
   return (
