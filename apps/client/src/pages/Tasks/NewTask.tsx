@@ -79,7 +79,8 @@ export const NewTask = () => {
               <Field.Label htmlFor="dueDate">{t("task_category.create_task.due_date")}</Field.Label>
               <Input
                 id="dueDate"
-                type="date"
+                textAlign={"left"}
+                placeholder="DD-MM-YYYY"
                 min={todayLocal}
                 {...register("dueDate", {
                   required: "Due date is required",
@@ -128,10 +129,13 @@ export const NewTask = () => {
                 <MenuButton
                   as={Button}
                   variant="outline"
-                  size="sm"
-                  right={"50%"}
+                  size="md"
+                  right={"73%"}
+                  mt={"-10px"}
+                  fontWeight={"bold"}
+                  borderColor={"brand.900"}
                 >
-                  Open
+                  Choose
                 </MenuButton>
 
                 {/* Wrap MenuList in Portal so it renders at document.body */}
@@ -162,7 +166,7 @@ export const NewTask = () => {
                   placeholder="e.g. Every Monday"
                   {...register("recurrence")}
                 />
-                <Text>Every</Text>
+                <Text left={"10%"}>Every</Text>
                 <Field.ErrorText>
                   {errors.recurrence?.message}
                 </Field.ErrorText>
