@@ -27,7 +27,7 @@ const TasksDetailsPage = () => {
           <Stack gap={4}>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('tasks.task_title')}
+                {t('task_category.create_task.task_name')}
               </Text>
               <Input
                 fontSize={'lg'}
@@ -38,7 +38,7 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('tasks.task_description')}
+                {t('task_category.create_task.description')}
               </Text>
               <Textarea
                 fontSize={'lg'}
@@ -51,7 +51,7 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('tasks.due_date')}
+                {t('task_category.create_task.assigned_to')}
               </Text>
               <Input
                 type="date"
