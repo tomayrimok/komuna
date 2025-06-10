@@ -2,7 +2,7 @@ import { Box, Button, Container, Flex, Heading, Input, Loader, Stack, Text, Text
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { IncidentMetadataProvider } from '../../context/incidents/incidentMetadataProvider';
-import { useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
+import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
 import { withWrappers } from '../../utilities/withWrappers';
 
 const TasksDetailsPage = () => {
@@ -69,4 +69,4 @@ const TasksDetailsPage = () => {
   );
 };
 
-export default withWrappers(TasksDetailsPage, [IncidentMetadataProvider]);
+export default withWrappers(TasksDetailsPage, [TaskMetadataProvider]);

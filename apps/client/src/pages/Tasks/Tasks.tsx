@@ -12,7 +12,6 @@ const TASKS = [{ taskId: '', title: 'לטאטא', description: 'יש הרבהה 
 
 const Tasks = () => {
   const { data: tasks, isLoading } = useTasks();
-  //TODO: Get the type to work! So `tasks` is typed as `ApiTypes.Task[]`
   const { t } = useTranslation();
 
   return (
