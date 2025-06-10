@@ -1,61 +1,38 @@
-import {
-  Box,
-  Button,
-  Container,
-  createListCollection,
-  Flex,
-  Heading,
-  Input,
-  Loader,
-  Portal,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
-import { IncidentUrgency } from '@komuna/types';
+import { Box, Button, Container, Flex, Heading, Input, Loader, Stack, Text, Textarea } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { IncidentMetadataProvider, useIncidentMetadata } from '../../context/incidents/incidentMetadataProvider';
+import { IncidentMetadataProvider } from '../../context/incidents/incidentMetadataProvider';
+import { useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
 import { withWrappers } from '../../utilities/withWrappers';
 
 const TasksDetailsPage = () => {
-  const { incidentDetails, handleSave, incidentId, isIncidentDetailsLoading, updateIncidentDetails } =
-    useIncidentMetadata();
+  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails } =
+    useTaskMetadata();
 
   const router = useRouter();
   const { t } = useTranslation();
 
-  const buttonDisabled = !incidentDetails?.title || !incidentDetails.description || isIncidentDetailsLoading;
+  const buttonDisabled = !taskDetails?.title || !taskDetails.description || isTaskDetailsLoading;
 
-  const urgencyLevels = createListCollection({
-    items: [
-      { value: IncidentUrgency.LOW, label: t('urgency.LOW'), color: 'green.500' },
-      { value: IncidentUrgency.MEDIUM, label: t('urgency.MEDIUM'), color: 'yellow.500' },
-      { value: IncidentUrgency.HIGH, label: t('urgency.HIGH'), color: 'red.500' },
-      { value: IncidentUrgency.EXTREME, label: t('urgency.EXTREME'), color: 'red.700' },
-    ],
-  });
-
-  if (incidentId && isIncidentDetailsLoading) return <Loader />;
+  if (taskId && isTaskDetailsLoading) return <Loader />;
 
   return (
     <Container maxW="lg" p={8}>
       <Stack gap={6}>
         <Heading size="lg" textAlign="center">
-          {incidentId ? t('incidents.edit_incident') : t('incidents.create_incident')}
+          {taskId ? t('tasks.edit_task') : t('tasks.create_task')}
         </Heading>
 
         <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
           <Stack gap={4}>
             <Box>
               <Text mb={1} fontWeight="bold">
-                {t('incidents.incident_title')}
+                {t('tasks.task_title')}
               </Text>
               <Input
                 fontSize={'lg'}
-                value={incidentDetails?.title || ''}
-                onChange={(e) => updateIncidentDetails({ title: e.target.value })}
+                value={taskDetails?.title || ''}
+                onChange={(e) => updateTaskDetails({ title: e.target.value })}
                 variant={'flushed'}
               />
             </Box>
@@ -65,9 +42,9 @@ const TasksDetailsPage = () => {
               </Text>
               <Textarea
                 fontSize={'lg'}
-                value={incidentDetails?.description || ''}
+                value={taskDetails?.description || ''}
                 resize={'none'}
-                onChange={(e) => updateIncidentDetails({ description: e.target.value })}
+                onChange={(e) => updateTaskDetails({ description: e.target.value })}
                 variant={'flushed'}
                 alignContent={'end'}
               />
@@ -76,48 +53,6 @@ const TasksDetailsPage = () => {
               <Text mb={1} fontWeight="bold">
                 {t('incidents.urgency_level')}
               </Text>
-              <Select.Root
-                collection={urgencyLevels}
-                value={[incidentDetails?.urgencyLevel || IncidentUrgency.MEDIUM]}
-                onValueChange={(e) => updateIncidentDetails({ urgencyLevel: e.value[0] as IncidentUrgency })}
-              >
-                <Select.Control>
-                  <Select.Trigger>
-                    <Flex alignItems="center" gap={2}>
-                      <Box
-                        backgroundColor={
-                          incidentDetails?.urgencyLevel
-                            ? urgencyLevels.find(incidentDetails.urgencyLevel)?.color
-                            : 'yellow.500'
-                        }
-                        borderRadius="full"
-                        h={4}
-                        w={4}
-                      />
-
-                      <Select.ValueText placeholder="Select framework" />
-                    </Flex>
-                  </Select.Trigger>
-                  <Select.IndicatorGroup>
-                    <Select.Indicator />
-                  </Select.IndicatorGroup>
-                </Select.Control>
-                <Portal>
-                  <Select.Positioner>
-                    <Select.Content>
-                      {urgencyLevels.items.map((urgency) => (
-                        <Select.Item item={urgency} key={urgency.value}>
-                          <Flex alignItems={'center'} gap={2}>
-                            <Box backgroundColor={urgency.color} borderRadius="full" h={4} w={4} />
-                            {urgency.label}
-                          </Flex>
-                          <Select.ItemIndicator />
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
-                </Portal>
-              </Select.Root>
             </Box>
           </Stack>
           <Flex justifyContent="space-between" gap={3} mt={4}>

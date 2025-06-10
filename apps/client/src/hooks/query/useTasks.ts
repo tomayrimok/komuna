@@ -1,22 +1,14 @@
-import { ApiClient as API, ApiTypes } from '@komuna/types';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { API, type ApiTypes } from '../../../../../libs/types/src';
+import { useAuth } from '../../context/auth/AuthProvider';
 
-export interface GetTask {
-    userId: string;
-    apartmentId: string;
-}
-/*
-export const GetTasks = async (body: GetTask) => {
-    try {
-        const { data } = await API.get<GetTask[]>()
-        return data;
-    } catch (error) {
-        console.error('Error fetching tasks:', error);
-        throw error;
-    }
-}
+export const useTasks = () => {
+  const { sessionDetails: { apartmentId }, } = useAuth();
 
-export const CreateTask = async () => {
-    return
-}
-    */
+  return useQuery({
+    queryKey: ['tasks', apartmentId],
+    queryFn: async () => apartmentId != null && API.taskControllerGetAllTasks({ path: { apartmentId } }),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
+};
