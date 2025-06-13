@@ -15,10 +15,10 @@ export const useAddEditTask = () => {
       const response = await API.taskControllerCreateTask({ body: data, throwOnError: true });
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       navigate({ to: '/roommate/tasks' });
       toaster.success({ title: t('task_category.create_task.success') });
-      queryClient.invalidateQueries({ queryKey: ['tasks', data.apartmentId] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', variables.apartmentId] });
     },
     onError: () => {
       toaster.error({ title: t('error.action_failed') });

@@ -33,7 +33,8 @@ import type {
   PaymentControllerCreatePaymentResponse,
   TaskControllerCreateTaskData,
   TaskControllerCreateTaskResponse,
-  TaskControllerUpdateTaskStatusData,
+  TaskControllerUpdateTaskCompletionData,
+  TaskControllerUpdateTaskCompletionResponse,
   TaskControllerEditTaskData,
   TaskControllerEditTaskResponse,
   TaskControllerGetAllTasksData,
@@ -281,16 +282,12 @@ export const taskControllerCreateTask = <ThrowOnError extends boolean = false>(
   });
 };
 
-export const taskControllerUpdateTaskStatus = <ThrowOnError extends boolean = false>(
-  options: Options<TaskControllerUpdateTaskStatusData, ThrowOnError>
+export const taskControllerUpdateTaskCompletion = <ThrowOnError extends boolean = false>(
+  options?: Options<TaskControllerUpdateTaskCompletionData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
-    url: '/api/task/update',
+  return (options?.client ?? _heyApiClient).post<TaskControllerUpdateTaskCompletionResponse, unknown, ThrowOnError>({
+    url: '/api/task/update-completion',
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
   });
 };
 

@@ -463,6 +463,8 @@ export type CreatePaymentDto = {
   amount: number;
 };
 
+export type TaskType = 'GROUP' | 'PERSONAL';
+
 export type AddEditTaskDto = {
   taskId?: string;
   title: string;
@@ -471,6 +473,10 @@ export type AddEditTaskDto = {
    * ISO date string for when the task is due
    */
   dueDate?: string;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
   /**
    * ISO time string for when the task is due
    */
@@ -484,11 +490,6 @@ export type AddEditTaskDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<User>;
-};
-
-export type UserCompletionStatus = {
-  userId: string;
-  status: boolean;
 };
 
 export type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
@@ -511,7 +512,11 @@ export type TaskResponseDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<User>;
-  completions?: Array<UserCompletionStatus>;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
+  completions?: Array<string>;
   /**
    * ISO date string for when the task is due
    */
@@ -524,6 +529,8 @@ export type TaskResponseDto = {
    * Indicates whether the task is recurring
    */
   isRecurrent: boolean;
+  isCompletedByMe: boolean;
+  isCompletedByAll: boolean;
   /**
    * RecurrenceRule is defined as a repetitive time-frame class object
    */
@@ -538,11 +545,15 @@ export type UpdateTaskDto = {
    * An object containing { userId, IsCompleted } for each assigned user.
    */
   assignedTo?: Array<User>;
-  completions?: Array<UserCompletionStatus>;
+  completions: Array<string>;
   /**
    * ISO date string for when the task is due
    */
   dueDate?: string;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
   /**
    * ISO time string for when the task is due
    */
@@ -893,18 +904,19 @@ export type TaskControllerCreateTaskResponses = {
 export type TaskControllerCreateTaskResponse =
   TaskControllerCreateTaskResponses[keyof TaskControllerCreateTaskResponses];
 
-export type TaskControllerUpdateTaskStatusData = {
-  body: UserCompletionStatus;
+export type TaskControllerUpdateTaskCompletionData = {
+  body?: never;
   path?: never;
-  query: {
-    taskId: string;
-  };
-  url: '/api/task/update';
+  query?: never;
+  url: '/api/task/update-completion';
 };
 
-export type TaskControllerUpdateTaskStatusResponses = {
-  201: unknown;
+export type TaskControllerUpdateTaskCompletionResponses = {
+  200: TaskResponseDto;
 };
+
+export type TaskControllerUpdateTaskCompletionResponse =
+  TaskControllerUpdateTaskCompletionResponses[keyof TaskControllerUpdateTaskCompletionResponses];
 
 export type TaskControllerEditTaskData = {
   body: UpdateTaskDto;

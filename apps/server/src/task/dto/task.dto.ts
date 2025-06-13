@@ -1,59 +1,11 @@
-import { IsUUID, IsString, IsBoolean, IsDateString, IsOptional, ValidateNested, IsArray } from 'class-validator';
-import { Type } from 'class-transformer';
+import { TaskType } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserCompletionStatus } from './user-completion-status.dto';
-import { PartialType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsDateString, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 import { RecurrenceRuleDto } from '../../recurrence-rule/recurrence-rule.dto';
 import { User } from '../../user/user.entity';
 
 
-// Both for request and response, Create and Edit DTOs
-export class CreateTaskDto {
-  @ApiProperty()
-  @IsString()
-  title: string;
-
-  @ApiProperty()
-  @IsUUID()
-  apartmentId: string;
-
-  @ApiProperty({ required: false })
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', type: () => [User] })
-  @IsOptional()
-  @IsArray()
-  @Type(() => User)
-  assignedTo: User[];
-
-  @ApiProperty({ description: 'ISO date string for when the task is due', required: false, type: () => Date })
-  @IsDateString()
-  @IsOptional()
-  dueDate?: Date;
-
-  @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
-  @IsString()
-  @IsOptional()
-  dueTime?: string;
-
-  @ApiProperty({ description: 'Indicates wheter the task is recurring', required: false })
-  @IsBoolean()
-  @IsOptional()
-  isRecurrent: boolean;
-
-  @ApiProperty({
-    description: 'RecurrenceRule is defined as a repetetive time-frame class object',
-    example: '{"frequency": "weekly", "time": "10:00" }',
-    required: false,
-    type: () => RecurrenceRuleDto
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RecurrenceRuleDto)
-  recurrenceRule?: RecurrenceRuleDto;
-}
 export class UpdateTaskDto {
   @ApiProperty()
   @IsUUID()
@@ -73,16 +25,20 @@ export class UpdateTaskDto {
   @IsOptional()
   assignedTo: User[];
 
-  @ApiProperty({ type: [UserCompletionStatus], required: false })
-  @Type(() => UserCompletionStatus)
+  @ApiProperty({ type: [String] })
   @IsArray()
   @IsOptional()
-  completions: UserCompletionStatus[];
+  completions: string[];
 
   @ApiProperty({ description: 'ISO date string for when the task is due', required: false })
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
+
+  @ApiProperty({ description: 'Task type', enum: TaskType, enumName: 'TaskType' })
+  @IsOptional()
+  @IsString()
+  taskType?: TaskType;
 
   @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
   @IsString()
@@ -121,9 +77,11 @@ export class TaskResponseDto {
   @ApiProperty({ description: 'An object containing { userId, IsCompleted } for each assigned user.', required: false, type: () => [User] })
   assignedTo?: User[];
 
+  @ApiProperty({ description: 'Task type', enum: TaskType, enumName: 'TaskType' })
+  taskType: TaskType;
 
-  @ApiProperty({ type: [UserCompletionStatus], required: false })
-  completions?: UserCompletionStatus[];
+  @ApiProperty({ type: [String], required: false })
+  completions?: string[];
 
   @ApiProperty({ description: 'ISO date string for when the task is due', required: false, type: () => Date })
   dueDate?: Date;
@@ -161,6 +119,11 @@ export class AddEditTaskDto {
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
+
+  @ApiProperty({ description: 'Task type', enum: TaskType, enumName: 'TaskType' })
+  @IsOptional()
+  @IsString()
+  taskType?: TaskType;
 
   @ApiProperty({ description: 'ISO time string for when the task is due', required: false })
   @IsString()

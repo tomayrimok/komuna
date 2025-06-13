@@ -1,11 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from './task.entity';
 import { Repository } from 'typeorm';
-import { UserCompletionStatus } from './dto/user-completion-status.dto';
 import { UserService } from '../user/user.service';
-import { Brackets } from 'typeorm';
-import { AddEditTaskDto, CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { AddEditTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { Task } from './task.entity';
 
 @Injectable()
 export class TaskService {
@@ -34,11 +32,11 @@ export class TaskService {
 
   }
 
-  async updateTaskStatus(taskId: string, userId: string, status: boolean) {
-    const task = await this.taskRepo.findOneBy({ taskId });
-    task.completions.find((c) => c.userId === userId).status = status;
-    return this.taskRepo.save(task);
-  }
+  // async updateTaskStatus(taskId: string, userId: string, status: boolean) {
+  //   const task = await this.taskRepo.findOneBy({ taskId });
+  //   task.completions.find((c) => c.userId === userId).status = status;
+  //   return this.taskRepo.save(task);
+  // }
 
   async editTask(taskId: string, editTaskDto: UpdateTaskDto) {
     const task = await this.taskRepo.findOneBy({ taskId });
@@ -60,13 +58,11 @@ export class TaskService {
     return this.taskRepo.update(taskId, updateTask);
   }
 
-  async getTask(userId: string, apartmentId: string, getCompletedTasks?: boolean, skip?: number, take?: number) {
+  async getTasks(userId: string, apartmentId: string, getCompletedTasks?: boolean, skip?: number, take?: number) {
     if (getCompletedTasks) {
       return this.taskRepo.find({
         where: {
-          createdByUserId: userId,
           apartmentId,
-          completions: { userId, status: true },
         },
         skip,
         take,
@@ -76,40 +72,27 @@ export class TaskService {
     return this.taskRepo
       .createQueryBuilder('task')
       .leftJoinAndSelect('task.assignedTo', 'user')
+      .where('task.apartmentId = :apartmentId')
       .select([
         'task.taskId',
-        'task.apartmentId',
         'task.title',
         'task.description',
         'task.dueDate',
-        'task.dueTime',
-        'task.isRecurrent',
-        'task.createdByUserId',
         'task.createdAt',
+        'task.createdByUserId',
+        'task.completions',
         'user.userId',
         'user.firstName',
         'user.lastName',
-        'user.phoneNumber',
         'user.image',
-        'user.createdAt'
       ])
-      .where('task.apartmentId = :apartmentId')
-      // .andWhere(
-      //   new Brackets(qb => {
-      //     qb.where('task.createdByUserId = :userId').orWhere('user.userId = :userId');
-      //   })
-      // )
-      // .andWhere(new Brackets(qb => {
-      //   qb.where('task.dueDate >= :currentDate')
-      //     .orWhere('task.isRecurrent = TRUE');
-      // }))
       .setParameters({
         userId,
         apartmentId,
         currentDate: new Date().toISOString(),
       })
-      .orderBy('task.dueDate', 'DESC')
-      .distinct(true)
+      // .orderBy('task.dueDate', 'DESC')
+      // .addOrderBy('task.createdAt', 'DESC')
       .skip(skip)
       .take(take)
       .getMany();
@@ -123,21 +106,16 @@ export class TaskService {
 
   async setTaskCompletion(taskId: string, userId: string, isCompleted: boolean) {
     const task = await this.taskRepo.findOne({
-      where: { taskId },
-      relations: ['completions'],
+      where: { taskId }
     });
 
-    if (task) {
-      const completion = task.completions.find((c) => c.userId === userId);
-      if (completion) {
-        completion.status = isCompleted;
-      } else {
-        task.completions.push({ userId, status: isCompleted } as UserCompletionStatus);
-      }
-      return await this.taskRepo.save(task);
-    }
+    if (!task) throw new BadRequestException('Task not found');
 
-    throw new Error('Task not found');
+    if (isCompleted) task.completions.push(userId);
+    else task.completions = task.completions.filter((c) => c !== userId);
+
+    return await this.taskRepo.save(task);
+
   }
 
   async getTasksByApartmentId(apartmentId: string) {

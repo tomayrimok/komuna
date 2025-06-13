@@ -11,11 +11,3 @@ export class CreateTaskReqDto {
 
   recurrenceRule?: RecurrenceRuleDto;
 }
-
-
-
-export interface UserCompletionStatus {
-  userId: string;
-
-  status: boolean;
-}

@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from '../user/user.entity';
-import { UserCompletionStatus } from './dto/user-completion-status.dto';
+import { TaskType } from '@komuna/types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { RecurrenceRuleDto } from '../recurrence-rule/recurrence-rule.dto';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Task {
@@ -21,8 +21,11 @@ export class Task {
   @Column({ nullable: true })
   dueDate?: Date;
 
-  @Column('json', { nullable: true })
-  completions: UserCompletionStatus[];
+  @Column({ type: 'enum', enum: TaskType, default: TaskType.GROUP })
+  taskType?: TaskType;
+
+  @Column({ type: 'text', array: true, default: [] })
+  completions: string[];
 
   @Column('time', { nullable: true })
   dueTime?: string;

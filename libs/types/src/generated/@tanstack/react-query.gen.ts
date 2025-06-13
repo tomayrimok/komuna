@@ -21,7 +21,7 @@ import {
   expenseControllerGetExpenseDetails,
   paymentControllerCreatePayment,
   taskControllerCreateTask,
-  taskControllerUpdateTaskStatus,
+  taskControllerUpdateTaskCompletion,
   taskControllerEditTask,
   taskControllerGetAllTasks,
   taskControllerGetTaskById,
@@ -62,7 +62,8 @@ import type {
   PaymentControllerCreatePaymentResponse,
   TaskControllerCreateTaskData,
   TaskControllerCreateTaskResponse,
-  TaskControllerUpdateTaskStatusData,
+  TaskControllerUpdateTaskCompletionData,
+  TaskControllerUpdateTaskCompletionResponse,
   TaskControllerEditTaskData,
   TaskControllerEditTaskResponse,
   TaskControllerGetAllTasksData,
@@ -688,13 +689,15 @@ export const taskControllerCreateTaskMutation = (
   return mutationOptions;
 };
 
-export const taskControllerUpdateTaskStatusQueryKey = (options: Options<TaskControllerUpdateTaskStatusData>) =>
-  createQueryKey('taskControllerUpdateTaskStatus', options);
+export const taskControllerUpdateTaskCompletionQueryKey = (options?: Options<TaskControllerUpdateTaskCompletionData>) =>
+  createQueryKey('taskControllerUpdateTaskCompletion', options);
 
-export const taskControllerUpdateTaskStatusOptions = (options: Options<TaskControllerUpdateTaskStatusData>) => {
+export const taskControllerUpdateTaskCompletionOptions = (
+  options?: Options<TaskControllerUpdateTaskCompletionData>
+) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await taskControllerUpdateTaskStatus({
+      const { data } = await taskControllerUpdateTaskCompletion({
         ...options,
         ...queryKey[0],
         signal,
@@ -702,20 +705,24 @@ export const taskControllerUpdateTaskStatusOptions = (options: Options<TaskContr
       });
       return data;
     },
-    queryKey: taskControllerUpdateTaskStatusQueryKey(options),
+    queryKey: taskControllerUpdateTaskCompletionQueryKey(options),
   });
 };
 
-export const taskControllerUpdateTaskStatusMutation = (
-  options?: Partial<Options<TaskControllerUpdateTaskStatusData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerUpdateTaskStatusData>> => {
+export const taskControllerUpdateTaskCompletionMutation = (
+  options?: Partial<Options<TaskControllerUpdateTaskCompletionData>>
+): UseMutationOptions<
+  TaskControllerUpdateTaskCompletionResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerUpdateTaskCompletionData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    TaskControllerUpdateTaskCompletionResponse,
     AxiosError<DefaultError>,
-    Options<TaskControllerUpdateTaskStatusData>
+    Options<TaskControllerUpdateTaskCompletionData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await taskControllerUpdateTaskStatus({
+      const { data } = await taskControllerUpdateTaskCompletion({
         ...options,
         ...localOptions,
         throwOnError: true,

@@ -6,6 +6,7 @@ import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
 import { useApartment } from '../../hooks/useApartment';
 import { useAddEditTask } from '../../hooks/query/useAddEditTask';
 import { useTaskDetails } from '../../hooks/query/useTaskDetails';
+import { TaskType } from '@komuna/types';
 
 type TaskMetadataContextValue = {
   taskDetails?: TaskResponseDto;
@@ -54,6 +55,7 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       description: taskDetails.description,
       assignedTo: taskDetails.assignedTo || [],
       dueDate: taskDetails.dueDate,
+      taskType: taskDetails.taskType,
       dueTime: taskDetails.dueTime,
       // isRecurrent: taskDetails.isRecurrent,
       // recurrenceRule: taskDetails.recurrenceRule,

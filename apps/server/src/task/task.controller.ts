@@ -6,10 +6,9 @@ import {
   Get,
   InternalServerErrorException,
   Logger,
-  Param,
   ParseIntPipe,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
@@ -18,8 +17,7 @@ import { User } from '../decorators/User';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
-import { AddEditTaskDto, CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
-import { UserCompletionStatus } from './dto/user-completion-status.dto';
+import { AddEditTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
@@ -53,29 +51,40 @@ export class TaskController {
     }
   }
 
-  // Task participants can only update the task's status
-  @Post('update')
-  async updateTaskStatus(
+  @Post('update-completion')
+  @UseAuth()
+  @ApiOkResponse({ type: TaskResponseDto })
+  async updateTaskCompletion(
     @User() user: UserJwtPayload,
-    @Body() dto: UserCompletionStatus,
-    @Query('taskId') taskId: string
+    @Body() dto: { taskId: string; isCompleted: boolean }
   ) {
-    const task = await this.taskService.getTaskById(taskId);
-    if (!task) {
-      throw new BadRequestException('Task was not found');
-    } else if (!this.taskService.IsUserAParticipant(taskId, user.userId)) {
-      throw new BadRequestException('User is not a participant of the task');
-    } else {
-      try {
-        return await this.taskService.updateTaskStatus(taskId, user.userId, dto.status);
-      } catch (error) {
-        this.logger.error('Error in updateTaskStatus:', error.stack);
-        throw new InternalServerErrorException('Failed to update task status', {
-          description: 'לא הצלחנו לעדכן את המשימה. אנא נסו בשנית',
-        });
-      }
-    }
+    return await this.taskService.setTaskCompletion(dto.taskId, user.userId, dto.isCompleted);
   }
+
+
+  // // Task participants can only update the task's status
+  // @Post('update')
+  // async updateTaskStatus(
+  //   @User() user: UserJwtPayload,
+  //   @Body() dto: UserCompletionStatus,
+  //   @Query('taskId') taskId: string
+  // ) {
+  //   const task = await this.taskService.getTaskById(taskId);
+  //   if (!task) {
+  //     throw new BadRequestException('Task was not found');
+  //   } else if (!this.taskService.IsUserAParticipant(taskId, user.userId)) {
+  //     throw new BadRequestException('User is not a participant of the task');
+  //   } else {
+  //     try {
+  //       return await this.taskService.updateTaskStatus(taskId, user.userId, dto.status);
+  //     } catch (error) {
+  //       this.logger.error('Error in updateTaskStatus:', error.stack);
+  //       throw new InternalServerErrorException('Failed to update task status', {
+  //         description: 'לא הצלחנו לעדכן את המשימה. אנא נסו בשנית',
+  //       });
+  //     }
+  //   }
+  // }
 
   // Only task owner can edit the task.
   @Post('edit')
@@ -105,7 +114,7 @@ export class TaskController {
   @ApiOkResponse({ type: [TaskResponseDto] })
   async getAllTasks(@Query('apartmentId') apartmentId: string, @User() user: UserJwtPayload) {
     try {
-      const tasks = await this.taskService.getTask(user.userId, apartmentId);
+      const tasks = await this.taskService.getTasks(user.userId, apartmentId);
       if (!tasks) {
         throw new BadRequestException('No tasks found for the given user and apartment');
       }
@@ -147,7 +156,7 @@ export class TaskController {
     const skip = loadMultiplier * pageSize;
     const take = pageSize;
 
-    const tasks = await this.taskService.getTask(user.userId, user.apartmentId, true, skip, take);
+    const tasks = await this.taskService.getTasks(user.userId, user.apartmentId, true, skip, take);
     return tasks;
   }
 }

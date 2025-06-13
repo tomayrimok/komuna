@@ -1,13 +1,13 @@
-import { Box, Container, Flex, Icon, Text } from '@chakra-ui/react';
-import { IconUser } from '@tabler/icons-react';
+import { Avatar, Box, Button, Container, Flex, Icon, Text } from '@chakra-ui/react';
+import { TaskType } from '@komuna/types';
+import { IconCheck, IconReload } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { IncidentResponseDto, TaskResponseDto } from 'libs/types/src/generated';
+import { AnimatePresence, motion } from 'framer-motion';
+import { TaskResponseDto } from 'libs/types/src/generated';
+import { useMemo } from 'react';
+import { Tooltip } from '../../chakra/ui/tooltip';
 import { useAuth } from '../../context/auth/AuthProvider';
-// import DateText from '../dateText';
-// import { STATUSES_DATA } from './consts/statuses.data';
-// import IncidentTag from './incidentTag';
-// import NumberOfComments from './numberOfComments';
-// import UrgencyIndication from './urgencyIndication';
+import { useUpdateTaskCompletion } from '../../hooks/useUpdateTaskCompletion';
 
 interface TaskCardProps {
     task: TaskResponseDto;
@@ -15,45 +15,108 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     const navigate = useNavigate();
+    const { currentUserDetails } = useAuth();
 
-    // const numberOfComments = task.comments?.length || 0;
-    const {
-        sessionDetails: { role },
-    } = useAuth();
+    const { mutate: updateTaskCompletion } = useUpdateTaskCompletion();
+
+    const displayStatusButton = useMemo(() => {
+        const assignedToCurrentUser = task.assignedTo?.some(user => user.userId === currentUserDetails?.userId);
+        const isGroupTask = task.taskType === TaskType.GROUP;
+        return (assignedToCurrentUser || isGroupTask || (task.assignedTo?.length || 0) > 0);
+    }, [task]);
+
+    const isNotCompletedByCurrentUser = !task.completions?.some(completion => completion === currentUserDetails?.userId);
+
+    const handleClickDone = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        updateTaskCompletion({ taskId: task.taskId, isCompleted: true });
+        // api call to mark task as done
+    };
+
+    const handleClickNotDone = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        updateTaskCompletion({ taskId: task.taskId, isCompleted: false });
+        // api call to mark task as not done
+    };
 
     return (
-        <Box
-            backgroundColor={'white'}
-            borderWidth={1}
-            borderRadius={'xl'}
-            onClick={() => navigate({ to: `/${role?.toLowerCase()}/tasks/details/${task.taskId}` })}
-            width="100%"
-            key={task.taskId}
-            position={'relative'}
-            overflow={'hidden'}
-        // ps={'10px'}
-        >
-            {/* <UrgencyIndication task={task} /> */}
+        <AnimatePresence>
+            <motion.div
+                key={task.taskId}
+                layout
+                initial={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+            >
+                <Box
+                    backgroundColor={'white'}
+                    borderWidth={1}
+                    borderRadius={'xl'}
+                    onClick={() => navigate({ to: `/roommate/tasks/details/${task.taskId}` })}
+                    width="100%"
+                    key={task.taskId}
+                    position={'relative'}
+                    overflow={'hidden'}
+                >
 
-            <Container p={5}>
-                <Flex direction={'column'} gap={2} mb={2}>
-                    <Text fontSize="lg" fontWeight="bold">
-                        {task.title}
-                    </Text>
-                    {task.description && (
-                        <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
-                            {task.description}
-                        </Text>
-                    )}
-                    {/* <Flex mt={2} gap={2}>
-                        <IncidentTag value={task.status} data={STATUSES_DATA} />
-            {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
-                        <IncidentTag value={task.urgencyLevel} data={URGENCY_DATA} />
-                    </Flex> */}
-                </Flex>
-            </Container>
+                    <Container p={5}>
+                        <Flex direction={'column'} gap={2}>
+                            <Text fontSize="lg" fontWeight="bold">
+                                {task.title}
+                            </Text>
+                            {task.description && (
+                                <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
+                                    {task.description}
+                                </Text>
+                            )}
+                        </Flex>
+                        <Flex mt={3}>
+                            <Flex justifyContent={'space-between'} w="full">
+                                <Flex>
+                                    {task.assignedTo?.map((user, i) => (
+                                        <Avatar.Root ms={i ? -3 : 0} size="sm" shape="full" zIndex={task.assignedTo!.length - i} border="3px solid white" key={user.userId}>
+                                            <Tooltip content={`${user.firstName} ${user.lastName}`} key={user.userId}>
+                                                <Avatar.Image src={user.image} alt={user.firstName} />
+                                            </Tooltip>
+                                            <Avatar.Fallback name={`${user.firstName} ${user.lastName}`} />
+                                        </Avatar.Root>
+                                    ))}
+                                </Flex>
+                                {displayStatusButton &&
+                                    isNotCompletedByCurrentUser ?
+                                    <Button
+                                        onClick={handleClickDone}
+                                        size={'sm'}
+                                        variant="subtle"
+                                        colorPalette="green"
+                                    >
+                                        <Icon>
+                                            <IconCheck />
+                                        </Icon>
+                                        סימון כבוצע
+                                    </Button>
+                                    :
+                                    <Button
+                                        size={'sm'}
+                                        variant="subtle"
+                                        colorPalette="gray"
+                                        onClick={handleClickNotDone}
+                                    >
+                                        <Icon>
+                                            <IconReload />
+                                        </Icon>
+                                        סימון כלא בוצע
+                                    </Button>
 
-        </Box>
+                                }
+                            </Flex>
+
+                        </Flex>
+                    </Container>
+
+                </Box>
+            </motion.div>
+        </AnimatePresence>
     );
 };
 

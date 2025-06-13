@@ -41,9 +41,3 @@ export class UpdateTaskStatusReqDto {
 
   isCompleted?: boolean;
 }
-
-export interface UserCompletionStatus {
-  userId: string;
-
-  isCompleted: boolean;
-}

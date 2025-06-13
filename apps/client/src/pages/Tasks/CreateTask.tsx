@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Heading, Icon, Input, Loader, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Icon, Input, Loader, RadioGroup, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea, VStack } from '@chakra-ui/react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { IncidentMetadataProvider } from '../../context/incidents/incidentMetadataProvider';
@@ -6,6 +6,7 @@ import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskM
 import { withWrappers } from '../../utilities/withWrappers';
 import SelectUserDrawer from '../../components/General/selectResidentDrawer';
 import { IconPlus, IconX } from '@tabler/icons-react';
+import { TaskType } from '@komuna/types';
 
 const TasksDetailsPage = () => {
 
@@ -63,7 +64,6 @@ const TasksDetailsPage = () => {
                 resize={'none'}
                 onChange={(e) => updateTaskDetails({ dueDate: e.target.value })}
                 variant={'flushed'}
-
               />
             </Box>
 
@@ -73,11 +73,13 @@ const TasksDetailsPage = () => {
               </Text>
               <Flex
                 flexWrap={'wrap'}
-                gap={2}>
+                gap={2}
+                mt={2}
+              >
                 {taskDetails?.assignedTo?.map((user) => (
                   <TagRoot key={user.userId} p={3} py={2} fontSize={"md"} borderRadius={'md'} variant={"outline"}>
                     <TagLabel fontSize="md"> {user.firstName} {user.lastName} </TagLabel>
-                    <TagCloseTrigger onClick={() => toggleAssignedTo(user)}>
+                    <TagCloseTrigger asChild onClick={() => toggleAssignedTo(user)}>
                       <Button size={"2xs"} borderRadius={'full'} p={0} variant={"subtle"} ms={2}>
                         <IconX />
                       </Button>
@@ -95,13 +97,6 @@ const TasksDetailsPage = () => {
                       fontSize={"md"}
                       borderRadius={'md'}
                       variant={"subtle"}
-                    // mt={3}
-                    // size="2xl"
-                    // px={4}
-                    // py={1}
-                    // h="unset"
-                    // variant={'surface'}
-                    // color="brand.800"
                     >
                       <Icon size={"sm"}>
                         <IconPlus />
@@ -111,7 +106,42 @@ const TasksDetailsPage = () => {
                   }
                 />
               </Flex>
+            </Box>
+            <Box>
+              <Text mb={1} fontWeight="bold">
+                סוג מטלה
+              </Text>
+              <Box>
+                <RadioGroup.Root variant={"subtle"} value={taskDetails?.taskType || TaskType.GROUP} onValueChange={(e) => updateTaskDetails({ taskType: e.value as TaskType })}>
+                  <VStack alignItems={'start'} >
+                    <RadioGroup.Item value={TaskType.GROUP}>
+                      <RadioGroup.ItemHiddenInput />
+                      <RadioGroup.ItemIndicator />
+                      <RadioGroup.ItemText display={'flex'} gap={1}>
+                        <Text>
+                          קבוצתית
+                        </Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>
+                          (שותף אחד מסמן שהמטלה הושלמה עבור כולם)
+                        </Text>
+                      </RadioGroup.ItemText>
+                    </RadioGroup.Item>
+                    <RadioGroup.Item value={TaskType.PERSONAL}>
+                      <RadioGroup.ItemHiddenInput />
+                      <RadioGroup.ItemIndicator />
+                      <RadioGroup.ItemText display={'flex'} gap={1}>
+                        <Text>
+                          אישית
+                        </Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>
+                          (כל שותף מסמן שהמטלה הושלמה עבורו)
+                        </Text>
+                      </RadioGroup.ItemText>
+                    </RadioGroup.Item>
+                  </VStack>
+                </RadioGroup.Root>
 
+              </Box>
             </Box>
 
           </Stack>
@@ -124,8 +154,8 @@ const TasksDetailsPage = () => {
             </Button>
           </Flex>
         </Box>
-      </Stack>
-    </Container>
+      </Stack >
+    </Container >
   );
 };
 
