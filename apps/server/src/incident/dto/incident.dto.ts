@@ -5,34 +5,34 @@ import { CreateIncidentDto as CreateIncidentDtoReq, AddCommentDto as AddCommentD
 import { Incident } from '../incident.entity';
 import { User } from '../../user/user.entity';
 
-// export class CreateIncidentDto implements CreateIncidentDtoReq {
-//   status: IncidentStatus;
-//   createdAt: string;
-//   reporterId: string;
+export class CreateIncidentDto implements CreateIncidentDtoReq {
+  status: IncidentStatus;
+  createdAt: string;
+  reporterId: string;
 
-//   @ApiProperty()
-//   @IsUUID()
-//   apartmentId: string;
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
 
-//   @ApiProperty()
-//   @IsString()
-//   title: string;
+  @ApiProperty()
+  @IsString()
+  title: string;
 
-//   @ApiProperty()
-//   @IsOptional()
-//   @IsString()
-//   description: string;
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  description: string;
 
-//   @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency', enum: IncidentUrgency, enumName: 'IncidentUrgency' })
-//   @IsEnum(IncidentUrgency)
-//   urgencyLevel: IncidentUrgency;
+  @ApiProperty({ description: 'How urgent the incident is. used by Enum IncidentUrgency', enum: IncidentUrgency, enumName: 'IncidentUrgency' })
+  @IsEnum(IncidentUrgency)
+  urgencyLevel: IncidentUrgency;
 
-//   @ApiProperty({ required: false, type: [String], description: 'List of image URLs related to the incident' })
-//   @IsString({ each: true })
-//   @IsArray()
-//   @IsOptional()
-//   images?: string[];
-// }
+  @ApiProperty({ required: false, type: [String], description: 'List of image URLs related to the incident' })
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  images?: string[];
+}
 
 export class UpdateIncidentDto {
   @ApiProperty()

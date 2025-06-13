@@ -95,6 +95,7 @@
   "other-options": "Other Options",
   "select-roommates": "Select Roommates",
   "select-roommate": "Select Roommate",
+  "add-roommates": "Add Roommates",
   "months": {
     "1": "January",
     "2": "February",
@@ -170,7 +171,22 @@
       "done": "Done",
       "postpone": "Postpone",
       "didnt_do": "Didnt Do"
-    }
+    },
+    "create_task": {
+      "create_task": "Create Task",
+      "task_name": "Task Name",
+      "title": "Enter Task's Title",
+      "due_date": "Due Date",
+      "description_placeholder": "Enter Description",
+      "description": "Description",
+      "assigned_to": "Assign Roommates To Task",
+      "recurrence": "Recurrence",
+      "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
+      "created_by": "Created By",
+      "images": "Upload Images Of The Task (optional)",
+      "due_time": "Enter Due Time (optional)"
+    },
+    "load_tasks": "Load Completed Tasks"
   },
   "incidents": {
     "no_incidents": "No incidents",

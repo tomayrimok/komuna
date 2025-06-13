@@ -1,10 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from './task.entity';
 import { Repository } from 'typeorm';
-import { TaskDto } from '@komuna/types';
-import { UserCompletionStatus } from '@komuna/types';
 import { UserService } from '../user/user.service';
+import { AddEditTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { Task } from './task.entity';
 
 @Injectable()
 export class TaskService {
@@ -12,28 +11,34 @@ export class TaskService {
     @InjectRepository(Task)
     private readonly taskRepo: Repository<Task>,
     private readonly userService: UserService
-  ) {}
+  ) { }
 
-  async createTask(taskDto: TaskDto) {
-    // If there are multiple userIds, save them as an array, else save the single
-    // element as an 1-D array
-    const users = await this.userService.getUsersByUserId(taskDto.assignedTo);
+  async addEditTask(taskDto: AddEditTaskDto, userId: string): Promise<Task> {
+    if (taskDto.taskId) {
+      const existingTask = await this.taskRepo.findOneBy({
+        taskId: taskDto.taskId,
+        apartmentId: taskDto.apartmentId,
+      });
 
-    const task = this.taskRepo.create({
+      if (existingTask) return this.taskRepo.save({ ...existingTask, ...taskDto });
+    }
+
+    const newTask = this.taskRepo.create({
       ...taskDto,
-      assignedTo: Array.isArray(users) ? users : [users],
+      createdByUserId: userId,
     });
 
-    return this.taskRepo.save(task);
+    return await this.taskRepo.save(newTask);
+
   }
 
-  async updateTaskStatus(taskId: string, userId: string, isCompleted: boolean) {
-    const task = await this.taskRepo.findOneBy({ taskId });
-    task.completions.find((c) => c.userId === userId).isCompleted = isCompleted;
-    return this.taskRepo.save(task);
-  }
+  // async updateTaskStatus(taskId: string, userId: string, status: boolean) {
+  //   const task = await this.taskRepo.findOneBy({ taskId });
+  //   task.completions.find((c) => c.userId === userId).status = status;
+  //   return this.taskRepo.save(task);
+  // }
 
-  async editTask(taskId: string, editTaskDto: Partial<TaskDto>) {
+  async editTask(taskId: string, editTaskDto: UpdateTaskDto) {
     const task = await this.taskRepo.findOneBy({ taskId });
     if (!task) {
       throw new BadRequestException('Task was not found');
@@ -42,7 +47,7 @@ export class TaskService {
       throw new BadRequestException('Must have at least one assigned user');
     }
     const users = editTaskDto.assignedTo
-      ? await this.userService.getUsersByUserId(editTaskDto.assignedTo)
+      ? await this.userService.getUsersByUserId(editTaskDto.assignedTo.map((user) => user.userId))
       : task.assignedTo;
 
     const updateTask = {
@@ -53,13 +58,11 @@ export class TaskService {
     return this.taskRepo.update(taskId, updateTask);
   }
 
-  async getTask(userId: string, apartmentId: string, getCompletedTasks?: boolean, skip?: number, take?: number) {
+  async getTasks(userId: string, apartmentId: string, getCompletedTasks?: boolean, skip?: number, take?: number) {
     if (getCompletedTasks) {
       return this.taskRepo.find({
         where: {
-          createdBy: userId,
           apartmentId,
-          completions: { userId, isCompleted: true },
         },
         skip,
         take,
@@ -69,42 +72,53 @@ export class TaskService {
     return this.taskRepo
       .createQueryBuilder('task')
       .leftJoinAndSelect('task.assignedTo', 'user')
-      .where(
-        '(task.createdBy = :userId AND task.apartmentId = :apartmentId) OR ' +
-          '(task.apartmentId = :apartmentId AND user.userId = :userId)',
-        { userId, apartmentId }
-      )
-      .andWhere('task.dueDate >= :currentDate OR task.isRecurrent = TRUE', { currentDate: new Date().toISOString() })
-      .orderBy('task.dueDate', 'DESC')
-      .distinct(true) // ensure each task appears only once
-      .skip(skip) // OFFSET skip
-      .take(take) // LIMIT take
+      .where('task.apartmentId = :apartmentId')
+      .select([
+        'task.taskId',
+        'task.title',
+        'task.description',
+        'task.dueDate',
+        'task.createdAt',
+        'task.createdByUserId',
+        'task.completions',
+        'user.userId',
+        'user.firstName',
+        'user.lastName',
+        'user.image',
+      ])
+      .setParameters({
+        userId,
+        apartmentId,
+        currentDate: new Date().toISOString(),
+      })
+      // .orderBy('task.dueDate', 'DESC')
+      // .addOrderBy('task.createdAt', 'DESC')
+      .skip(skip)
+      .take(take)
       .getMany();
   }
 
   async getTaskById(taskId: string) {
     return await this.taskRepo.findOne({
       where: { taskId },
+      relations: {
+        createdBy: true,
+      },
     });
   }
 
   async setTaskCompletion(taskId: string, userId: string, isCompleted: boolean) {
     const task = await this.taskRepo.findOne({
-      where: { taskId },
-      relations: ['completions'],
+      where: { taskId }
     });
 
-    if (task) {
-      const completion = task.completions.find((c) => c.userId === userId);
-      if (completion) {
-        completion.isCompleted = isCompleted;
-      } else {
-        task.completions.push({ userId, isCompleted } as UserCompletionStatus);
-      }
-      return await this.taskRepo.save(task);
-    }
+    if (!task) throw new BadRequestException('Task not found');
 
-    throw new Error('Task not found');
+    if (isCompleted) task.completions.push(userId);
+    else task.completions = task.completions.filter((c) => c !== userId);
+
+    return await this.taskRepo.save(task);
+
   }
 
   async getTasksByApartmentId(apartmentId: string) {

@@ -16,6 +16,11 @@ export enum IncidentUrgency {
   EXTREME = 'EXTREME',
 }
 
+export enum TaskType {
+  GROUP = 'GROUP',
+  PERSONAL = 'PERSONAL'
+}
+
 export enum ContextType {
   APARTMENT = 'APARTMENT',
   USER = 'USER',

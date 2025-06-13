@@ -23,11 +23,13 @@ export const IncidentMetadataProvider = ({ children }: PropsWithChildren<{ incid
   const [incidentDetails, setIncidentDetails] = useState<IncidentResponseDto>();
 
   const { incidentId } = useParams({ strict: false });
+
   const {
     data: incidentDetailsData,
     isLoading: isIncidentDetailsLoading,
     isError: isIncidentDetailsError,
   } = useIncidentDetails(incidentId || '');
+
   const { mutate: addEditIncident } = useAddEditIncident();
 
   const { history } = useRouter();

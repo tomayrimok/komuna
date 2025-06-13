@@ -242,6 +242,10 @@ export type DebtEdge = {
   toUser: User;
 };
 
+export type Task = {
+  createdBy: User;
+};
+
 export type User = {
   userId: string;
   firstName: string;
@@ -283,6 +287,10 @@ export type User = {
    * The incidents reported by the user
    */
   incidents: Array<Incident>;
+  /**
+   * The tasks created by the user
+   */
+  createdTasks: Array<Task>;
 };
 
 export type DebtEdgeWithDebtor = {
@@ -356,6 +364,10 @@ export type CreateUserDto = {
 
 export type UserResponseDto = {
   user: User | null;
+};
+
+export type CreateApartmentDto = {
+  [key: string]: unknown;
 };
 
 export type ApartmentExpensesResponse = {
@@ -451,20 +463,109 @@ export type CreatePaymentDto = {
   amount: number;
 };
 
-export type CreateApartmentDto = {
-  [key: string]: unknown;
+export type TaskType = 'GROUP' | 'PERSONAL';
+
+export type AddEditTaskDto = {
+  taskId?: string;
+  title: string;
+  description?: string;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates wheter the task is recurring
+   */
+  isRecurrent?: boolean;
+  apartmentId: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<User>;
 };
 
-export type TaskDto = {
-  [key: string]: unknown;
+export type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+
+export type WeekDay = 'SU' | 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA';
+
+export type RecurrenceRuleDto = {
+  frequency: Frequency;
+  interval?: number;
+  byWeekDay?: Array<WeekDay>;
+  until: string;
+  count: number;
 };
 
-export type UpdateTaskReqDto = {
-  [key: string]: unknown;
+export type TaskResponseDto = {
+  taskId: string;
+  title: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<User>;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
+  completions?: Array<string>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates whether the task is recurring
+   */
+  isRecurrent: boolean;
+  isCompletedByMe: boolean;
+  isCompletedByAll: boolean;
+  /**
+   * RecurrenceRule is defined as a repetitive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
 };
 
-export type EditTaskReqDto = {
-  [key: string]: unknown;
+export type UpdateTaskDto = {
+  taskId: string;
+  title?: string;
+  description?: string;
+  /**
+   * An object containing { userId, IsCompleted } for each assigned user.
+   */
+  assignedTo?: Array<User>;
+  completions: Array<string>;
+  /**
+   * ISO date string for when the task is due
+   */
+  dueDate?: string;
+  /**
+   * Task type
+   */
+  taskType: TaskType;
+  /**
+   * ISO time string for when the task is due
+   */
+  dueTime?: string;
+  /**
+   * Indicates wheter the task is recurring
+   */
+  isRecurrent?: boolean;
+  /**
+   * RecurrenceRule is defined as a repetetive time-frame class object
+   */
+  recurrenceRule?: RecurrenceRuleDto;
 };
 
 export type CommentResponseDto = {
@@ -666,6 +767,71 @@ export type UserControllerLogoutResponses = {
   201: unknown;
 };
 
+export type NotificationControllerRegisterTokenData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/notification/register-token';
+};
+
+export type NotificationControllerRegisterTokenResponses = {
+  201: unknown;
+};
+
+export type ApartmentControllerGetApartmentWithResidentsData = {
+  body?: never;
+  path?: never;
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerGetApartmentWithResidentsResponses = {
+  200: Apartment;
+};
+
+export type ApartmentControllerGetApartmentWithResidentsResponse =
+  ApartmentControllerGetApartmentWithResidentsResponses[keyof ApartmentControllerGetApartmentWithResidentsResponses];
+
+export type ApartmentControllerCreateApartmentData = {
+  body: CreateApartmentDto;
+  path?: never;
+  query?: never;
+  url: '/api/apartment';
+};
+
+export type ApartmentControllerCreateApartmentResponses = {
+  201: unknown;
+};
+
+export type ApartmentControllerJoinApartmentData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/api/apartment/join/{code}';
+};
+
+export type ApartmentControllerJoinApartmentResponses = {
+  200: UserApartment;
+};
+
+export type ApartmentControllerJoinApartmentResponse =
+  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
+
+export type ApartmentControllerGetRoommatesData = {
+  body?: never;
+  path: {
+    apartmentId: string;
+  };
+  query?: never;
+  url: '/api/apartment/{apartmentId}/roommates';
+};
+
+export type ApartmentControllerGetRoommatesResponses = {
+  200: unknown;
+};
+
 export type ExpenseControllerGetApartmentExpensesData = {
   body?: never;
   path?: never;
@@ -724,103 +890,79 @@ export type PaymentControllerCreatePaymentResponses = {
 export type PaymentControllerCreatePaymentResponse =
   PaymentControllerCreatePaymentResponses[keyof PaymentControllerCreatePaymentResponses];
 
-export type ApartmentControllerGetApartmentWithResidentsData = {
-  body?: never;
-  path?: never;
-  query: {
-    apartmentId: string;
-  };
-  url: '/api/apartment';
-};
-
-export type ApartmentControllerGetApartmentWithResidentsResponses = {
-  200: Apartment;
-};
-
-export type ApartmentControllerGetApartmentWithResidentsResponse =
-  ApartmentControllerGetApartmentWithResidentsResponses[keyof ApartmentControllerGetApartmentWithResidentsResponses];
-
-export type ApartmentControllerCreateApartmentData = {
-  body: CreateApartmentDto;
-  path?: never;
-  query?: never;
-  url: '/api/apartment';
-};
-
-export type ApartmentControllerCreateApartmentResponses = {
-  201: unknown;
-};
-
-export type ApartmentControllerJoinApartmentData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/apartment/join/{code}';
-};
-
-export type ApartmentControllerJoinApartmentResponses = {
-  200: UserApartment;
-};
-
-export type ApartmentControllerJoinApartmentResponse =
-  ApartmentControllerJoinApartmentResponses[keyof ApartmentControllerJoinApartmentResponses];
-
-export type ApartmentControllerGetRoommatesData = {
-  body?: never;
-  path: {
-    apartmentId: string;
-  };
-  query?: never;
-  url: '/api/apartment/{apartmentId}/roommates';
-};
-
-export type ApartmentControllerGetRoommatesResponses = {
-  200: unknown;
-};
-
 export type TaskControllerCreateTaskData = {
-  body: TaskDto;
+  body: AddEditTaskDto;
   path?: never;
   query?: never;
-  url: '/api/task/create';
+  url: '/api/task/add-edit';
 };
 
 export type TaskControllerCreateTaskResponses = {
-  201: unknown;
+  200: TaskResponseDto;
 };
 
-export type TaskControllerUpdateTaskStatusData = {
-  body: UpdateTaskReqDto;
+export type TaskControllerCreateTaskResponse =
+  TaskControllerCreateTaskResponses[keyof TaskControllerCreateTaskResponses];
+
+export type TaskControllerUpdateTaskCompletionData = {
+  body?: never;
   path?: never;
   query?: never;
-  url: '/api/task/update';
+  url: '/api/task/update-completion';
 };
 
-export type TaskControllerUpdateTaskStatusResponses = {
-  201: unknown;
+export type TaskControllerUpdateTaskCompletionResponses = {
+  200: TaskResponseDto;
 };
+
+export type TaskControllerUpdateTaskCompletionResponse =
+  TaskControllerUpdateTaskCompletionResponses[keyof TaskControllerUpdateTaskCompletionResponses];
 
 export type TaskControllerEditTaskData = {
-  body: EditTaskReqDto;
+  body: UpdateTaskDto;
   path?: never;
   query?: never;
   url: '/api/task/edit';
 };
 
 export type TaskControllerEditTaskResponses = {
-  201: unknown;
+  200: TaskResponseDto;
 };
+
+export type TaskControllerEditTaskResponse = TaskControllerEditTaskResponses[keyof TaskControllerEditTaskResponses];
 
 export type TaskControllerGetAllTasksData = {
   body?: never;
   path?: never;
-  query?: never;
-  url: '/api/task/get';
+  query: {
+    apartmentId: string;
+  };
+  url: '/api/task';
 };
 
 export type TaskControllerGetAllTasksResponses = {
-  200: unknown;
+  200: Array<TaskResponseDto>;
 };
+
+export type TaskControllerGetAllTasksResponse =
+  TaskControllerGetAllTasksResponses[keyof TaskControllerGetAllTasksResponses];
+
+export type TaskControllerGetTaskByIdData = {
+  body?: never;
+  path?: never;
+  query: {
+    taskId: string;
+    apartmentId: string;
+  };
+  url: '/api/task/get-by-id';
+};
+
+export type TaskControllerGetTaskByIdResponses = {
+  200: TaskResponseDto;
+};
+
+export type TaskControllerGetTaskByIdResponse =
+  TaskControllerGetTaskByIdResponses[keyof TaskControllerGetTaskByIdResponses];
 
 export type TaskControllerGetCompletedTasksData = {
   body?: never;
@@ -920,17 +1062,6 @@ export type IncidentControllerSetOwnerSeenData = {
 };
 
 export type IncidentControllerSetOwnerSeenResponses = {
-  201: unknown;
-};
-
-export type NotificationControllerRegisterTokenData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/notification/register-token';
-};
-
-export type NotificationControllerRegisterTokenResponses = {
   201: unknown;
 };
 
