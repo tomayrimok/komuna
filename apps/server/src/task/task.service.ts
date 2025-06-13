@@ -101,6 +101,9 @@ export class TaskService {
   async getTaskById(taskId: string) {
     return await this.taskRepo.findOne({
       where: { taskId },
+      relations: {
+        createdBy: true,
+      },
     });
   }
 

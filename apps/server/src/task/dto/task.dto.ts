@@ -80,6 +80,12 @@ export class TaskResponseDto {
   @ApiProperty({ description: 'Task type', enum: TaskType, enumName: 'TaskType' })
   taskType: TaskType;
 
+  @ApiProperty({
+    description: 'The user who created the task',
+    type: () => User,
+  })
+  createdBy: User;
+
   @ApiProperty({ type: [String], required: false })
   completions?: string[];
 

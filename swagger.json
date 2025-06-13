@@ -2035,384 +2035,392 @@
               "$ref": "#/components/schemas/User"
             }
           },
+<<<<<<< HEAD
           "taskType": {
             "description": "Task type",
             "allOf": [
               {
                 "$ref": "#/components/schemas/TaskType"
-              }
-            ]
-          },
-          "completions": {
-            "type": "array",
-            "items": {
-              "type": "string"
+=======
+          "createdBy": {
+                  "description": "The user who created the task",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User"
+>>>>>>> f6c3a67310475f0dc9db22b807958187eaa9b00f
+                    }
+                  ]
+                },
+                "completions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "dueDate": {
+                  "format": "date-time",
+                  "type": "string",
+                  "description": "ISO date string for when the task is due"
+                },
+                "dueTime": {
+                  "type": "string",
+                  "description": "ISO time string for when the task is due"
+                },
+                "isRecurrent": {
+                  "type": "boolean",
+                  "description": "Indicates whether the task is recurring"
+                },
+                "recurrenceRule": {
+                  "description": "RecurrenceRule is defined as a repetitive time-frame class object",
+                  "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RecurrenceRuleDto"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "taskId",
+                "title",
+                "taskType",
+                "isRecurrent"
+              ]
+            },
+            "UpdateTaskDto": {
+              "type": "object",
+              "properties": {
+                "taskId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "assignedTo": {
+                  "description": "An object containing { userId, IsCompleted } for each assigned user.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                },
+                "completions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "dueDate": {
+                  "format": "date-time",
+                  "type": "string",
+                  "description": "ISO date string for when the task is due"
+                },
+                "taskType": {
+                  "description": "Task type",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskType"
+                    }
+                  ]
+                },
+                "dueTime": {
+                  "type": "string",
+                  "description": "ISO time string for when the task is due"
+                },
+                "isRecurrent": {
+                  "type": "boolean",
+                  "description": "Indicates wheter the task is recurring"
+                },
+                "recurrenceRule": {
+                  "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+                  "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RecurrenceRuleDto"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "taskId",
+                "completions",
+                "taskType"
+              ]
+            },
+            "CommentResponseDto": {
+              "type": "object",
+              "properties": {
+                "commentId": {
+                  "type": "string"
+                },
+                "incidentId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "user": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "required": [
+                "commentId",
+                "incidentId",
+                "userId",
+                "message",
+                "createdAt",
+                "user"
+              ]
+            },
+            "IncidentResponseDto": {
+              "type": "object",
+              "properties": {
+                "incidentId": {
+                  "type": "string"
+                },
+                "apartmentId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "urgencyLevel": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IncidentUrgency"
+                    }
+                  ]
+                },
+                "reporterId": {
+                  "type": "string"
+                },
+                "reporter": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "status": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IncidentStatus"
+                    }
+                  ]
+                },
+                "seenByManager": {
+                  "type": "boolean"
+                },
+                "managerResponse": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "createdAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "comments": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentResponseDto"
+                  }
+                }
+              },
+              "required": [
+                "incidentId",
+                "apartmentId",
+                "title",
+                "description",
+                "images",
+                "urgencyLevel",
+                "reporterId",
+                "reporter",
+                "status",
+                "seenByManager",
+                "managerResponse",
+                "updatedAt",
+                "createdAt",
+                "comments"
+              ]
+            },
+            "AddEditIncidentDto": {
+              "type": "object",
+              "properties": {
+                "incidentId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "urgencyLevel": {
+                  "description": "How urgent the incident is. used by Enum IncidentUrgency",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IncidentUrgency"
+                    }
+                  ]
+                },
+                "apartmentId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "description",
+                "urgencyLevel",
+                "apartmentId"
+              ]
+            },
+            "UpdateIncidentDto": {
+              "type": "object",
+              "properties": {
+                "incidentId": {
+                  "type": "string"
+                },
+                "status": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IncidentStatus"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "urgencyLevel": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IncidentUrgency"
+                    }
+                  ]
+                },
+                "images": {
+                  "description": "List of image URLs related to the incident",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "incidentId"
+              ]
+            },
+            "AddCommentDto": {
+              "type": "object",
+              "properties": {
+                "incidentId": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "images": {
+                  "description": "List of image URLs related to the comment",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "incidentId",
+                "message"
+              ]
+            },
+            "SyncListDto": {
+              "type": "object",
+              "properties": {
+                "contextType": {
+                  "type": "string",
+                  "enum": [
+                    "APARTMENT",
+                    "USER"
+                  ]
+                },
+                "apartmentId": {
+                  "type": "string"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+                  }
+                }
+              },
+              "required": [
+                "contextType",
+                "apartmentId",
+                "items"
+              ]
+            },
+            "GroceryItem": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "formattedPrice": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "priceForUnit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "formattedPrice",
+                "image",
+                "description",
+                "category",
+                "priceForUnit"
+              ]
+            },
+            "SearchGroceryResponse": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroceryItem"
+                  }
+                }
+              },
+              "required": [
+                "items"
+              ]
             }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates whether the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetitive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
           }
-        },
-        "required": [
-          "taskId",
-          "title",
-          "taskType",
-          "isRecurrent"
-        ]
-      },
-      "UpdateTaskDto": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "description": "An object containing { userId, IsCompleted } for each assigned user.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/User"
-            }
-          },
-          "completions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "dueDate": {
-            "format": "date-time",
-            "type": "string",
-            "description": "ISO date string for when the task is due"
-          },
-          "taskType": {
-            "description": "Task type",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/TaskType"
-              }
-            ]
-          },
-          "dueTime": {
-            "type": "string",
-            "description": "ISO time string for when the task is due"
-          },
-          "isRecurrent": {
-            "type": "boolean",
-            "description": "Indicates wheter the task is recurring"
-          },
-          "recurrenceRule": {
-            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
-            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecurrenceRuleDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "taskId",
-          "completions",
-          "taskType"
-        ]
-      },
-      "CommentResponseDto": {
-        "type": "object",
-        "properties": {
-          "commentId": {
-            "type": "string"
-          },
-          "incidentId": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "required": [
-          "commentId",
-          "incidentId",
-          "userId",
-          "message",
-          "createdAt",
-          "user"
-        ]
-      },
-      "IncidentResponseDto": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "apartmentId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "urgencyLevel": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IncidentUrgency"
-              }
-            ]
-          },
-          "reporterId": {
-            "type": "string"
-          },
-          "reporter": {
-            "$ref": "#/components/schemas/User"
-          },
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IncidentStatus"
-              }
-            ]
-          },
-          "seenByManager": {
-            "type": "boolean"
-          },
-          "managerResponse": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "comments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommentResponseDto"
-            }
-          }
-        },
-        "required": [
-          "incidentId",
-          "apartmentId",
-          "title",
-          "description",
-          "images",
-          "urgencyLevel",
-          "reporterId",
-          "reporter",
-          "status",
-          "seenByManager",
-          "managerResponse",
-          "updatedAt",
-          "createdAt",
-          "comments"
-        ]
-      },
-      "AddEditIncidentDto": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "urgencyLevel": {
-            "description": "How urgent the incident is. used by Enum IncidentUrgency",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IncidentUrgency"
-              }
-            ]
-          },
-          "apartmentId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "title",
-          "description",
-          "urgencyLevel",
-          "apartmentId"
-        ]
-      },
-      "UpdateIncidentDto": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IncidentStatus"
-              }
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "urgencyLevel": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IncidentUrgency"
-              }
-            ]
-          },
-          "images": {
-            "description": "List of image URLs related to the incident",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "incidentId"
-        ]
-      },
-      "AddCommentDto": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "images": {
-            "description": "List of image URLs related to the comment",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "incidentId",
-          "message"
-        ]
-      },
-      "SyncListDto": {
-        "type": "object",
-        "properties": {
-          "contextType": {
-            "type": "string",
-            "enum": [
-              "APARTMENT",
-              "USER"
-            ]
-          },
-          "apartmentId": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
-            }
-          }
-        },
-        "required": [
-          "contextType",
-          "apartmentId",
-          "items"
-        ]
-      },
-      "GroceryItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "formattedPrice": {
-            "type": "string"
-          },
-          "image": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "priceForUnit": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "formattedPrice",
-          "image",
-          "description",
-          "category",
-          "priceForUnit"
-        ]
-      },
-      "SearchGroceryResponse": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GroceryItem"
-            }
-          }
-        },
-        "required": [
-          "items"
-        ]
+        }
       }
-    }
-  }
-}

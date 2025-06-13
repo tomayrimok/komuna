@@ -22,10 +22,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     const displayStatusButton = useMemo(() => {
         const assignedToCurrentUser = task.assignedTo?.some(user => user.userId === currentUserDetails?.userId);
         const isGroupTask = task.taskType === TaskType.GROUP;
-        return (assignedToCurrentUser || isGroupTask || (task.assignedTo?.length || 0) > 0);
+        return (assignedToCurrentUser || isGroupTask || (task.assignedTo?.length === 0));
     }, [task]);
 
-    const isNotCompletedByCurrentUser = !task.completions?.some(completion => completion === currentUserDetails?.userId);
+    const showDoneButton = ((!task.completions?.some(completion => completion === currentUserDetails?.userId)) || (task.completions?.length === 0 && task.assignedTo?.length === 0))
+    console.log('showDoneButton :', showDoneButton);
 
     const handleClickDone = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -83,31 +84,31 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                                     ))}
                                 </Flex>
                                 {displayStatusButton &&
-                                    isNotCompletedByCurrentUser ?
-                                    <Button
-                                        onClick={handleClickDone}
-                                        size={'sm'}
-                                        variant="subtle"
-                                        colorPalette="green"
-                                    >
-                                        <Icon>
-                                            <IconCheck />
-                                        </Icon>
-                                        סימון כבוצע
-                                    </Button>
-                                    :
-                                    <Button
-                                        size={'sm'}
-                                        variant="subtle"
-                                        colorPalette="gray"
-                                        onClick={handleClickNotDone}
-                                    >
-                                        <Icon>
-                                            <IconReload />
-                                        </Icon>
-                                        סימון כלא בוצע
-                                    </Button>
-
+                                    (showDoneButton ?
+                                        <Button
+                                            onClick={handleClickDone}
+                                            size={'sm'}
+                                            variant="subtle"
+                                            colorPalette="green"
+                                        >
+                                            <Icon>
+                                                <IconCheck />
+                                            </Icon>
+                                            סימון כבוצע
+                                        </Button>
+                                        :
+                                        <Button
+                                            size={'sm'}
+                                            variant="subtle"
+                                            colorPalette="gray"
+                                            onClick={handleClickNotDone}
+                                        >
+                                            <Icon>
+                                                <IconReload />
+                                            </Icon>
+                                            סימון כלא בוצע
+                                        </Button>
+                                    )
                                 }
                             </Flex>
 
