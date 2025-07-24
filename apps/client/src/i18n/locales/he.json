@@ -265,11 +265,11 @@
     "title": "מטלות",
     "task_list": "המטלות שלך: ",
     "tasks": {
-      "create_task": "יצירת מטלה",
-      "title": "שם המטלה: <b>{{taskName}}</b>",
+      "create_task": "יצירת משימה",
+      "title": "שם המשימה: <b>{{taskName}}</b>",
       "due_date": "לביצוע עד: <b>{{dueDate}}</b>",
       "descrption": "תיאור: <b>{{description}}</b>",
-      "assigned_to": "שותפים למטלה: <b>{{assignedTo}}</b>",
+      "assigned_to": "שותפים למשימה: <b>{{assignedTo}}</b>",
       "recurrence": "יש לבצע כל: <b>{{recurrenceRule}}</b>",
       "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>"
     },
@@ -279,13 +279,13 @@
       "didnt_do": "לא בוצע"
     },
     "create_task": {
-      "create_task": "יצירת מטלה חדשה",
-      "task_name": "שם המטלה",
-      "title": "הכנס כותרת למטלה",
+      "create_task": "יצירת משימה חדשה",
+      "task_name": "שם המשימה",
+      "title": "הכנס כותרת למשימה",
       "due_date": "תאריך יעד (לא חובה)",
       "description_placeholder": "הכנס תיאור",
       "description": "תיאור",
-      "assigned_to": "שייך שותפים למטלה",
+      "assigned_to": "שייך שותפים למשימה",
       "recurrence": "חזרתיות",
       "recurrence_placeholder": "הכנסה חוק חזרתיות (לדוגמא - כל שבועיים)",
       "created_by": "נוצר ע\"י",

@@ -1,13 +1,15 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Spinner } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
 interface MainButtonProps extends PropsWithChildren {
     isLight?: boolean;
     isFixed?: boolean;
+    bottom?: string;
     onClick?: () => void;
+    loading?: boolean;
 }
 
-const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true, onClick, children }) => {
+const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true, bottom = "110px", onClick, children, loading = false }) => {
 
     return (
         <Button
@@ -17,10 +19,11 @@ const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true
             fontWeight={'bold'}
             py={6}
             shadow={'md'}
+            loading={loading}
             {...(isFixed ? {
                 position: 'fixed',
                 margin: "auto",
-                bottom: "110px",
+                bottom: bottom,
                 right: 0,
                 left: 0
             } : {})}

@@ -17,19 +17,19 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, role, handleCl
       size="xl"
       fontSize="2xl"
       fontWeight="bold"
-      h="23vh"
-      maxWidth={255}
-      variant="outline"
+      h="200px"
+      width={"250px"}
       border="1px solid"
       backgroundColor="transparent"
       whiteSpace="normal"
       wordBreak="break-word"
       onClick={() => handleClick(apartment.apartmentId, role)}
+      bg={"white"}
     >
-      <VStack width={225}>
+      <VStack width={"100%"} justifyContent={"space-between"}>
         <Image h="60px" src="/detailed_icons/apartment.png" />
         <Text>{apartment.address + ' ' + apartment.city}</Text>
-        <Text>({role === UserRole.ROOMMATE ? t('choose_apartment.renter') : t('choose_apartment.leaser')})</Text>
+        <Text fontSize="md">({role === UserRole.ROOMMATE ? t('choose_apartment.renter') : t('choose_apartment.leaser')})</Text>
       </VStack>
     </Button>
   );

@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, HStack } from '@chakra-ui/react';
+import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
@@ -148,29 +148,31 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
 
   return (
     <ApartmentLayout goBack={page !== CreateApartmentPages.ShareApartmentCode ? () => goPageBack(page) : undefined}>
-      <CreateApartmentForm
-        page={page}
-        aptDetails={aptDetails}
-        setPageState={updateFieldOfPage}
-        isEdit={isEdit || false}
-      />
-      <HStack gap="30px">
-        {showSkipBtn && (
-          <Button size="xl" fontSize="2xl" fontWeight="bold" backgroundColor="transparent" onClick={handleOnClick}>
-            {t('create_apartment.skip_btn')}
-          </Button>
-        )}
-        {showContinueBtn && (
-          <Button size="xl" fontSize="2xl" fontWeight="bold" onClick={handleOnClick}>
-            {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
-            (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
-              ? isEdit
-                ? t('create_apartment.save_btn')
-                : t('create_apartment.done_btn')
-              : t('create_apartment.continue_btn')}
-          </Button>
-        )}
-      </HStack>
+      <VStack flexGrow={1} overflow={"auto"} width="100vw" paddingY={"30px"} paddingX={"25px"} >
+        <CreateApartmentForm
+          page={page}
+          aptDetails={aptDetails}
+          setPageState={updateFieldOfPage}
+          isEdit={isEdit || false}
+        />
+        <HStack gap="30px">
+          {showSkipBtn && (
+            <Button size="xl" fontSize="2xl" fontWeight="bold" backgroundColor="transparent" onClick={handleOnClick}>
+              {t('create_apartment.skip_btn')}
+            </Button>
+          )}
+          {showContinueBtn && (
+            <Button size="xl" fontSize="2xl" fontWeight="bold" onClick={handleOnClick}>
+              {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
+                (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
+                ? isEdit
+                  ? t('create_apartment.save_btn')
+                  : t('create_apartment.done_btn')
+                : t('create_apartment.continue_btn')}
+            </Button>
+          )}
+        </HStack>
+      </VStack>
     </ApartmentLayout>
   );
 };

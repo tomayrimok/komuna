@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
-import { Button, PinInput, Spacer } from '@chakra-ui/react';
+import { Button, PinInput, Spacer, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { times } from 'lodash';
 import { useNavigate } from '@tanstack/react-router';
@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { UserRole } from 'libs/types/src/enums';
 import { ApiTypes } from '@komuna/types';
+import MainButton from '../../components/mainButton';
 
 const JoinApartment = () => {
   const [pincode, setPincode] = useState(['', '', '', '']);
@@ -63,36 +64,37 @@ const JoinApartment = () => {
         navigate({ to: '/new-apartment' });
       }}
     >
-      <ApartmentTitle
-        title={t('join_existing_apartment.title')}
-        description={t('join_existing_apartment.description')}
-      />
-      <PinInput.Root
-        otp
-        autoFocus
-        value={pincode}
-        onValueChange={(e) => setPincode(e.value)}
-        size="2xl"
-        variant="outline"
+      <VStack flexGrow={1} overflow={"auto"} width="100vw" paddingY={"35px"} paddingX={"25px"} >
+        <ApartmentTitle
+          title={t('join_existing_apartment.title')}
+          description={t('join_existing_apartment.description')}
+        />
+        <PinInput.Root
+          otp
+          autoFocus
+          value={pincode}
+          onValueChange={(e) => setPincode(e.value)}
+          size="2xl"
+          variant="outline"
+          mt={"30px"}
         // onValueComplete={(details) => ({ code: details.valueAsString })}
-      >
-        <PinInput.HiddenInput />
-        <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
-          {times(4, (i) => (
-            <PinInput.Input key={i} index={i} background="white" fontSize="40px" />
-          ))}
-        </PinInput.Control>
-      </PinInput.Root>
-      <Spacer />
-      <Button
-        size="xl"
-        fontSize="2xl"
-        fontWeight="bold"
-        loading={joinApartmentMutation.isPending}
-        onClick={() => joinApartmentMutation.mutate(pincode.join(''))}
-      >
-        {t('join_existing_apartment.join_btn')}
-      </Button>
+        >
+          <PinInput.HiddenInput />
+          <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
+            {times(4, (i) => (
+              <PinInput.Input key={i} index={i} background="white" fontSize="40px" />
+            ))}
+          </PinInput.Control>
+        </PinInput.Root>
+        <Spacer />
+        <MainButton
+          bottom="20px"
+          loading={joinApartmentMutation.isPending}
+          onClick={() => joinApartmentMutation.mutate(pincode.join(''))}
+        >
+          {t('join_existing_apartment.join_btn')}
+        </MainButton>
+      </VStack>
     </ApartmentLayout>
   );
 };

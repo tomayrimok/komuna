@@ -1,4 +1,4 @@
-import { Button, Text, VStack, Box } from '@chakra-ui/react';
+import { Button, Text, VStack, Box, Flex } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
@@ -6,6 +6,7 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import { UserRole } from '@komuna/types';
 import ApartmentCard from './ApartmentCard';
 import { useRolePath } from '../../hooks/useRolePath';
+import MainButton from '../../components/mainButton';
 
 export const SelectApartment = () => {
   const { currentUserDetails, sessionDetails, setSessionDetails } = useAuth();
@@ -23,35 +24,46 @@ export const SelectApartment = () => {
       goBack={sessionDetails.role ? () => navigate({ to: rolePath }) : undefined}
       logout={!sessionDetails.role}
     >
-      <Text textAlign="center" fontSize="2xl" fontWeight="bold">
-        {t('choose_apartment.title')}
-      </Text>
-      <Box position="relative" height="55vh" maxH="55vh">
-        <VStack
-          maxH="55vh"
-          width="100vw"
-          maxWidth="100vw"
-          overflowY="auto"
-          scrollBehavior="smooth"
-          bgGradient="linear(to-t, white, transparent)"
-          gap="6"
-        >
-          {currentUserDetails?.landlordApartments.map((apartment) => (
-            <ApartmentCard
-              key={apartment.apartmentId}
-              apartment={apartment}
-              role={UserRole.LANDLORD}
-              handleClick={handleClick}
-            />
-          ))}
-          {currentUserDetails?.apartments.map((apartment) => (
-            <ApartmentCard
-              key={apartment.apartment.apartmentId}
-              apartment={apartment.apartment}
-              role={UserRole.ROOMMATE}
-              handleClick={handleClick}
-            />
-          ))}
+      <Flex position={"relative"} flexGrow={1} overflow={"hidden"} marginBottom={"90px"}>
+        <VStack flexGrow={1} alignItems={"center"} paddingTop={"35px"} overflow={"auto"} width="100vw">
+          <Text paddingX={"25px"} textAlign="center" fontSize="2xl" fontWeight="bold" marginBottom={"20px"}>
+            {t('choose_apartment.title')}
+          </Text>
+          {/* <Box position="relative" flexGrow={1} overflow={"auto"}> */}
+          <VStack
+            width="100vw"
+            maxWidth="100vw"
+            bgGradient="linear(to-t, white, transparent)"
+            gap="6"
+            position="relative"
+          >
+            {currentUserDetails?.landlordApartments.map((apartment) => (
+              <ApartmentCard
+                key={apartment.apartmentId}
+                apartment={apartment}
+                role={UserRole.LANDLORD}
+                handleClick={handleClick}
+              />
+            ))}
+            {currentUserDetails?.apartments.map((apartment) => (
+              <ApartmentCard
+                key={apartment.apartment.apartmentId}
+                apartment={apartment.apartment}
+                role={UserRole.ROOMMATE}
+                handleClick={handleClick}
+              />
+            ))}
+          </VStack>
+          {/* </Box> */}
+          <MainButton
+            isFixed={true}
+            bottom="20px"
+            onClick={() => {
+              navigate({ to: '/new-apartment' });
+            }}
+          >
+            + {t('choose_apartment.create_new_apartment_btn')}
+          </MainButton>
         </VStack>
         <Box
           position="absolute"
@@ -62,20 +74,7 @@ export const SelectApartment = () => {
           pointerEvents="none"
           backgroundImage="linear-gradient(to top, {colors.brand.10}, transparent)"
         />
-      </Box>
-      <Button
-        size="xl"
-        fontSize="2xl"
-        fontWeight="bold"
-        position="fixed"
-        bottom="5vh"
-        backgroundColor="transparent"
-        onClick={() => {
-          navigate({ to: '/new-apartment' });
-        }}
-      >
-        + {t('choose_apartment.create_new_apartment_btn')}
-      </Button>
+      </Flex>
     </ApartmentLayout>
   );
 };

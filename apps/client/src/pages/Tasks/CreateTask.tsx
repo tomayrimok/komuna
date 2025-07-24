@@ -109,12 +109,12 @@ const TasksDetailsPage = () => {
             </Box>
             <Box>
               <Text mb={1} fontWeight="bold">
-                סוג מטלה
+                סוג משימה
               </Text>
               <Box>
                 <RadioGroup.Root variant={"subtle"} value={taskDetails?.taskType || TaskType.GROUP} onValueChange={(e) => updateTaskDetails({ taskType: e.value as TaskType })}>
                   <VStack alignItems={'start'} >
-                    <RadioGroup.Item value={TaskType.GROUP}>
+                    <RadioGroup.Item value={TaskType.GROUP} alignItems={'start'}>
                       <RadioGroup.ItemHiddenInput />
                       <RadioGroup.ItemIndicator />
                       <RadioGroup.ItemText display={'flex'} gap={1}>
@@ -122,11 +122,11 @@ const TasksDetailsPage = () => {
                           קבוצתית
                         </Text>
                         <Text fontSize={'sm'} color={'gray.500'}>
-                          (שותף אחד מסמן שהמטלה הושלמה עבור כולם)
+                          (שותף אחד מסמן שהמשימה הושלמה עבור כולם)
                         </Text>
                       </RadioGroup.ItemText>
                     </RadioGroup.Item>
-                    <RadioGroup.Item value={TaskType.PERSONAL}>
+                    <RadioGroup.Item value={TaskType.PERSONAL} alignItems={'start'}>
                       <RadioGroup.ItemHiddenInput />
                       <RadioGroup.ItemIndicator />
                       <RadioGroup.ItemText display={'flex'} gap={1}>
@@ -134,7 +134,7 @@ const TasksDetailsPage = () => {
                           אישית
                         </Text>
                         <Text fontSize={'sm'} color={'gray.500'}>
-                          (כל שותף מסמן שהמטלה הושלמה עבורו)
+                          (כל שותף מסמן שהמשימה הושלמה עבורו)
                         </Text>
                       </RadioGroup.ItemText>
                     </RadioGroup.Item>
@@ -143,17 +143,6 @@ const TasksDetailsPage = () => {
 
               </Box>
             </Box>
-
-            {taskDetails?.createdBy && (
-              <Flex justifyContent="flex-start" mt={4} gap={3}>
-                <Text mb={1} fontWeight="bold">
-                  {t('task_category.create_task.created_by')}
-                </Text>
-                <Text color="gray.600" fontSize="md" mb={2}>
-                  {`${taskDetails.createdBy.firstName} ${taskDetails.createdBy.lastName || ''}`}
-                </Text>
-              </Flex>
-            )}
 
           </Stack>
           <Flex justifyContent="space-between" gap={3} mt={4}>
