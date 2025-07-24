@@ -110,7 +110,7 @@ export class TaskResponseDto {
 export class AddEditTaskDto {
   @ApiProperty({ required: false })
   @IsOptional()
-  taskId: string;
+  taskId?: string;
 
   @ApiProperty()
   @IsString()
@@ -139,7 +139,7 @@ export class AddEditTaskDto {
   @ApiProperty({ description: 'Indicates wheter the task is recurring', required: false })
   @IsOptional()
   @IsBoolean()
-  isRecurrent: boolean;
+  isRecurrent?: boolean;
 
   @ApiProperty()
   @IsUUID()

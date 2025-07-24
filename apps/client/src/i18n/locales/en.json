@@ -42,7 +42,7 @@
       "leftbar": {
         "profile_settings": "Profile settings",
         "apartment_settings": "Apartment settings",
-        "notifications_settings": "Notification & event settings",
+        "notifications_settings": "Task Templates & Notifications",
         "app_settings": "App settings",
         "logout": "Log out",
         "change_languege": "Change language"

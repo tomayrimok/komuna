@@ -67,7 +67,12 @@ export const SettingLeftbar = () => {
             </Button>
 
             {!isLandlord && (
-              <Button justifyContent="start" variant="ghost" size="lg">
+              <Button
+                justifyContent="start"
+                variant="ghost"
+                size="lg"
+                onClick={() => navigate({ to: '/roommate/general-tasks' })}
+              >
                 <IconBellCog />
                 {t('roommate.homepage.leftbar.notifications_settings')}
               </Button>

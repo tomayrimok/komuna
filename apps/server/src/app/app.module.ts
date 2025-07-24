@@ -18,6 +18,8 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { TaskModule } from '../task/task.module';
+import { GeneralTask } from '../general-task/general-task.entity';
+import { GeneralTaskModule } from '../general-task/general-task.module';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { AuthUser } from '../user/auth-user.entity';
@@ -47,6 +49,7 @@ import { AppService } from './app.service';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        GeneralTask,
         Comment,
         NotificationToken,
         Notification,
@@ -63,8 +66,9 @@ import { AppService } from './app.service';
     IncidentModule,
     ShoppingListModule,
     NotificationModule,
+    GeneralTaskModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

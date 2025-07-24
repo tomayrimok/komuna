@@ -98,6 +98,16 @@ export class TaskService {
       .getMany();
   }
 
+  async findTaskByTitleAndDate(apartmentId: string, title: string, dueDate: Date): Promise<Task | null> {
+    return this.taskRepo.findOne({
+      where: {
+        apartmentId,
+        title,
+        dueDate,
+      },
+    });
+  }
+
   async getTaskById(taskId: string) {
     return await this.taskRepo.findOne({
       where: { taskId },

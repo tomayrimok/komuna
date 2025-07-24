@@ -929,6 +929,166 @@
           "ShoppingList"
         ]
       }
+    },
+    "/api/general-task/create": {
+      "post": {
+        "operationId": "GeneralTaskController_createGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/update": {
+      "put": {
+        "operationId": "GeneralTaskController_updateGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTasks",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/{id}": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTaskById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "GeneralTaskController_deleteGeneralTask",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/generate-tasks": {
+      "post": {
+        "operationId": "GeneralTaskController_manuallyGenerateTasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
     }
   },
   "info": {
@@ -2420,6 +2580,186 @@
         },
         "required": [
           "items"
+        ]
+      },
+      "CreateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          }
+        },
+        "required": [
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "apartmentId"
+        ]
+      },
+      "GeneralTaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "lastGeneratedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the last task was generated from this template"
+          },
+          "nextGenerationAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the next task should be generated"
+          },
+          "createdBy": {
+            "description": "The user who created this general task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalTaskId",
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "isActive",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "generalTaskId"
         ]
       }
     }

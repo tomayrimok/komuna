@@ -516,6 +516,10 @@ export type TaskResponseDto = {
    * Task type
    */
   taskType: TaskType;
+  /**
+   * The user who created the task
+   */
+  createdBy: User;
   completions?: Array<string>;
   /**
    * ISO date string for when the task is due
@@ -529,8 +533,6 @@ export type TaskResponseDto = {
    * Indicates whether the task is recurring
    */
   isRecurrent: boolean;
-  isCompletedByMe: boolean;
-  isCompletedByAll: boolean;
   /**
    * RecurrenceRule is defined as a repetitive time-frame class object
    */
