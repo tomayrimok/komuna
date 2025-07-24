@@ -45,7 +45,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
               {item.description}
             </Text>
           )}
-          <Flex mt={2} gap={2}>
+          <Flex mt={2} gap={2} alignItems={'center'}>
             <IncidentTag value={item.status} data={STATUSES_DATA} />
             {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
             {/* <IncidentTag value={item.urgencyLevel} data={URGENCY_DATA} /> */}

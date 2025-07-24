@@ -23,8 +23,7 @@ export class GeneralTaskService {
         const generalTask = this.generalTaskRepo.create({
             ...dto,
             createdByUserId: userId,
-            nextGenerationAt,
-            defaultDueTime: dto.defaultDueTime ? dto.defaultDueTime : undefined
+            nextGenerationAt
         });
 
         return await this.generalTaskRepo.save(generalTask);

@@ -2720,6 +2720,9 @@
           "generalTaskId": {
             "type": "string"
           },
+          "apartmentId": {
+            "type": "string"
+          },
           "title": {
             "type": "string"
           },

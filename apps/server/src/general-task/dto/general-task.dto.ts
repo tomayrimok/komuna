@@ -55,6 +55,11 @@ export class UpdateGeneralTaskDto {
     generalTaskId: string;
 
     @ApiProperty({ required: false })
+    @IsOptional()
+    @IsUUID()
+    apartmentId?: string;
+
+    @ApiProperty({ required: false })
     @IsString()
     @IsOptional()
     title?: string;
