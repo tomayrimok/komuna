@@ -1,4 +1,4 @@
-import { Avatar, Box, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, HStack, Image, Text, VStack, Button } from '@chakra-ui/react';
 import { Trans } from 'react-i18next';
 import CreateIncidentButton from '../../components/Incidents/createIncidentButton';
 import IncidentsNumber from '../../components/Incidents/incidentsNumber';
@@ -12,11 +12,14 @@ import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
 import { TasksNumber } from '../Tasks/components/TasksNumber';
 import { CreateTaskButton } from '../Tasks/components/CreateTaskButton';
+import { useNavigate } from '@tanstack/react-router';
+import MainButton from '../../components/mainButton';
 
 
 export const RoommateHome = () => {
   const { currentUserDetails } = useAuth();
   const { isRTL } = useIsRTL();
+  const navigate = useNavigate();
 
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
 
@@ -58,6 +61,29 @@ export const RoommateHome = () => {
       </Box>
 
       <VStack padding="7" gap="5" mt={"120px"}>
+        <HomeCard
+          image={
+            <Box
+              fontSize="6xl"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mb={2}
+            >
+              ✨
+            </Box>
+          }
+          text={<Text>גלו את הפיצ'רים של קומונה</Text>}
+          button={
+            <MainButton
+              isFixed={false}
+              onClick={() => navigate({ to: '/onboarding/features' })}
+            >
+              צפו בהדרכה 🚀
+            </MainButton>
+          }
+        />
+
         <HomeCard
           image={<Image src='/meerkats/dealers.png' width={"30vw"} />}
           text={<BalanceText />}

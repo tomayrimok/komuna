@@ -6,6 +6,7 @@ import { SettingLeftbar } from '../../components/SettingLeftbar';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
+import { useNavigate } from '@tanstack/react-router';
 
 const TempFakeCard = () => (
   <Card.Root variant="elevated">
@@ -30,6 +31,7 @@ const TempFakeCard = () => (
 export const LandlordHome = () => {
   const { currentUserDetails } = useAuth();
   const { isRTL } = useIsRTL();
+  const navigate = useNavigate();
 
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
   return (
@@ -66,6 +68,36 @@ export const LandlordHome = () => {
         <SettingLeftbar />
       </HStack>
       <VStack padding="5" gap="5">
+        <HomeCard
+          image={
+            <Box
+              fontSize="6xl"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mb={2}
+            >
+              ✨
+            </Box>
+          }
+          text={<Text>גלו מה אתה יכולים לעשות עם קומונה</Text>}
+          button={
+            <Button
+              colorScheme="purple"
+              size="lg"
+              borderRadius="xl"
+              onClick={() => navigate({ to: '/onboarding/features' })}
+              _hover={{
+                transform: 'translateY(-2px)',
+                shadow: 'lg'
+              }}
+              transition="all 0.2s"
+            >
+              צפו בהדרכה 🚀
+            </Button>
+          }
+        />
+
         <HomeCard
           image={<Image src='/meerkats/incident.png' width={"20vw"} />}
           text={<IncidentsNumber />}
