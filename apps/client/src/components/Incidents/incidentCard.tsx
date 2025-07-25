@@ -32,6 +32,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
       position={'relative'}
       overflow={'hidden'}
       ps={'10px'}
+      cursor={'pointer'}
     >
       <UrgencyIndication item={item} />
 
