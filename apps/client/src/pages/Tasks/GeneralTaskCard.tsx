@@ -30,7 +30,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
     };
 
     return (
-        <Card.Root key={task.generalTaskId} onClick={() => handleEditTask(task)}>
+        <Card.Root key={task.generalTaskId} onClick={() => handleEditTask(task)} cursor={'pointer'}>
             <Card.Header>
                 <HStack justifyContent={'space-between'}>
                     <Text fontSize="lg" fontWeight="semibold">
