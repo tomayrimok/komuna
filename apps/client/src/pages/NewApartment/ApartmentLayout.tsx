@@ -1,13 +1,14 @@
 import { PropsWithChildren } from 'react';
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, BoxProps, Stack, StackProps, VStack } from '@chakra-ui/react';
 import { BackNavigationBar } from '../../components/BackNavigationBar';
 import { LogoutButton } from '../../components/LogoutButton';
-interface ApartmentLayoutProps extends PropsWithChildren {
+interface ApartmentLayoutProps extends PropsWithChildren, StackProps {
   logout?: boolean;
   goBack?: () => void;
+  containerProps?: BoxProps;
 }
 
-export const ApartmentLayout = ({ goBack, logout = false, children }: ApartmentLayoutProps) => {
+export const ApartmentLayout = ({ goBack, logout = false, children, containerProps, ...props }: ApartmentLayoutProps) => {
   return (
     <Box backgroundColor="brand.500" display="flex" flexDirection="column" overflow={"hidden"}>
       {goBack && <BackNavigationBar onGoBack={goBack} />}
@@ -18,7 +19,6 @@ export const ApartmentLayout = ({ goBack, logout = false, children }: ApartmentL
       )}
       <VStack
         marginTop={goBack ? '20px' : '80px'}
-        paddingX="25px"
         backgroundColor="brand.10"
         flex="1"
         gap="16"
@@ -27,9 +27,11 @@ export const ApartmentLayout = ({ goBack, logout = false, children }: ApartmentL
         borderBottomStartRadius="none"
         flexGrow={1}
         overflow={"hidden"}
+        {...props as any}
       >
-        {children}
-
+        <Stack gap={4} w="full" p={"25px"} overflow={"auto"} {...containerProps as any}>
+          {children}
+        </Stack>
       </VStack>
     </Box>
   );

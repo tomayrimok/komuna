@@ -19,7 +19,7 @@ export const GoBackButton = ({ onGoBack, iconDirection = 'left', ...rest }: GoBa
 
   if (!canGoBack) return null;
   return (
-    <IconButton aria-label="back" size="2xl" onClick={goBack} {...rest}>
+    <IconButton aria-label="back" size="2xl" onClick={goBack} me={-3} {...rest} >
       {iconDirection === 'left' ? <IconArrowLeft width={44} /> : <IconArrowRight width={44} />}
     </IconButton>
   );

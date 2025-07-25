@@ -64,37 +64,38 @@ const JoinApartment = () => {
         navigate({ to: '/new-apartment' });
       }}
     >
-      <VStack flexGrow={1} overflow={"auto"} width="100vw" paddingY={"35px"} paddingX={"25px"} >
-        <ApartmentTitle
-          title={t('join_existing_apartment.title')}
-          description={t('join_existing_apartment.description')}
-        />
-        <PinInput.Root
-          otp
-          autoFocus
-          value={pincode}
-          onValueChange={(e) => setPincode(e.value)}
-          size="2xl"
-          variant="outline"
-          mt={"30px"}
-        // onValueComplete={(details) => ({ code: details.valueAsString })}
-        >
-          <PinInput.HiddenInput />
-          <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
-            {times(4, (i) => (
-              <PinInput.Input key={i} index={i} background="white" fontSize="40px" />
-            ))}
-          </PinInput.Control>
-        </PinInput.Root>
-        <Spacer />
-        <MainButton
-          bottom="20px"
-          loading={joinApartmentMutation.isPending}
-          onClick={() => joinApartmentMutation.mutate(pincode.join(''))}
-        >
-          {t('join_existing_apartment.join_btn')}
-        </MainButton>
-      </VStack>
+      <ApartmentTitle
+        title={t('join_existing_apartment.title')}
+        description={t('join_existing_apartment.description')}
+      />
+      <PinInput.Root
+        otp
+        autoFocus
+        value={pincode}
+        onValueChange={(e) => setPincode(e.value)}
+        size="2xl"
+        variant="outline"
+        mt={"30px"}
+        w="full"
+        display="flex"
+        justifyContent="center"
+      // onValueComplete={(details) => ({ code: details.valueAsString })}
+      >
+        <PinInput.HiddenInput />
+        <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
+          {times(4, (i) => (
+            <PinInput.Input key={i} index={i} background="white" fontSize="40px" />
+          ))}
+        </PinInput.Control>
+      </PinInput.Root>
+      <Spacer />
+      <MainButton
+        bottom="20px"
+        loading={joinApartmentMutation.isPending}
+        onClick={() => joinApartmentMutation.mutate(pincode.join(''))}
+      >
+        {t('join_existing_apartment.join_btn')}
+      </MainButton>
     </ApartmentLayout>
   );
 };
