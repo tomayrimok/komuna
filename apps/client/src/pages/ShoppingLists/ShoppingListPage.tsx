@@ -16,7 +16,7 @@ const ShoppingListPage: React.FC = () => {
   }, []);
 
   return (
-    <Flex p={8} flexDirection={'column'} py={4} h="100%" pb={14}>
+    <Flex p={4} flexDirection={'column'} py={4} h="100%" pb={14}>
       <Flex mb={4}>
         <SearchGroceryInput />
       </Flex>
