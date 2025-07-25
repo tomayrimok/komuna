@@ -20,7 +20,7 @@ const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true
             py={6}
             shadow={'md'}
             loading={loading}
-            zIndex={1000}
+            zIndex={1}
             {...(isFixed ? {
                 position: 'fixed',
                 margin: "auto",
