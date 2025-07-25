@@ -4,7 +4,8 @@ import { Repository, LessThanOrEqual } from 'typeorm';
 import { GeneralTask } from './general-task.entity';
 import { CreateGeneralTaskDto, UpdateGeneralTaskDto } from './dto/general-task.dto';
 import { TaskService } from '../task/task.service';
-import { Frequency } from '@komuna/types';
+import { NotificationService } from '../notification/notification.service';
+import { Frequency, TaskType, UserRole } from '@komuna/types';
 import { addDays, addWeeks, addMonths, addYears, startOfDay, format } from 'date-fns';
 
 @Injectable()
@@ -14,7 +15,8 @@ export class GeneralTaskService {
     constructor(
         @InjectRepository(GeneralTask)
         private readonly generalTaskRepo: Repository<GeneralTask>,
-        private readonly taskService: TaskService
+        private readonly taskService: TaskService,
+        private readonly notificationService: NotificationService
     ) { }
 
     async createGeneralTask(dto: CreateGeneralTaskDto, userId: string): Promise<GeneralTask> {
@@ -26,7 +28,26 @@ export class GeneralTaskService {
             nextGenerationAt
         });
 
-        return await this.generalTaskRepo.save(generalTask);
+        const savedTask = await this.generalTaskRepo.save(generalTask);
+
+        // Send notification about new general task template creation
+        try {
+            this.notificationService.sendNotificationToApartment(
+                dto.apartmentId,
+                {
+                    notification: {
+                        title: 'תבנית משימה חדשה נוצרה',
+                        body: dto.title
+                    }
+                },
+                [UserRole.ROOMMATE],
+                userId
+            );
+        } catch (error) {
+            console.error('Failed to send general task creation notification:', error);
+        }
+
+        return savedTask;
     }
 
     async updateGeneralTask(dto: UpdateGeneralTaskDto): Promise<GeneralTask> {
@@ -45,7 +66,25 @@ export class GeneralTaskService {
         }
 
         const updatedTask = { ...existingTask, ...dto, nextGenerationAt };
-        return await this.generalTaskRepo.save(updatedTask);
+        const savedTask = await this.generalTaskRepo.save(updatedTask);
+
+        // Send notification about general task template update
+        try {
+            this.notificationService.sendNotificationToApartment(
+                existingTask.apartmentId,
+                {
+                    notification: {
+                        title: 'תבנית משימה עודכנה',
+                        body: dto.title
+                    }
+                },
+                [UserRole.ROOMMATE]
+            );
+        } catch (error) {
+            console.error('Failed to send general task update notification:', error);
+        }
+
+        return savedTask;
     }
 
     async getGeneralTasks(apartmentId: string): Promise<GeneralTask[]> {
@@ -117,6 +156,22 @@ export class GeneralTaskService {
             }, generalTask.createdByUserId);
 
             this.logger.log(`Generated task "${generalTask.title}" for ${format(dueDate, 'yyyy-MM-dd')}`);
+
+            // Send notification about automatically generated task
+            try {
+                this.notificationService.sendNotificationToApartment(
+                    generalTask.apartmentId,
+                    {
+                        notification: {
+                            title: 'משימה חדשה נוצרה אוטומטית',
+                            body: `${generalTask.title} - ${format(dueDate, 'dd/MM/yyyy')}`
+                        }
+                    },
+                    [UserRole.ROOMMATE]
+                );
+            } catch (error) {
+                console.error('Failed to send auto-generated task notification:', error);
+            }
         }
 
         // Update the general task's generation timestamps

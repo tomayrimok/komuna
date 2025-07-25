@@ -7,12 +7,14 @@ import { GeneralTaskController } from './general-task.controller';
 import { GeneralTaskSchedulerService } from './general-task-scheduler.service';
 import { TaskModule } from '../task/task.module';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([GeneralTask]),
         TaskModule,
         UserApartmentModule,
+        NotificationModule,
         JwtModule,
     ],
     providers: [GeneralTaskService, GeneralTaskSchedulerService],

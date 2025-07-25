@@ -86,7 +86,6 @@ export class TaskController {
   //   }
   // }
 
-  // Only task owner can edit the task.
   @Post('edit')
   @UseAuthApartment()
   @ApiOkResponse({ type: TaskResponseDto })
@@ -102,8 +101,6 @@ export class TaskController {
     }
     if (!task) {
       throw new BadRequestException('Task was not found');
-    } else if (task.createdByUserId !== user.userId) {
-      throw new BadRequestException('Only the task creator can edit the task');
     } else {
       throw new InternalServerErrorException();
     }

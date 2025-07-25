@@ -63,10 +63,6 @@ export class GeneralTaskController {
             throw new BadRequestException('General task not found');
         }
 
-        if (existingTask.createdByUserId !== user.userId) {
-            throw new BadRequestException('Only the task creator can edit the general task');
-        }
-
         try {
             const updatedTask = await this.generalTaskService.updateGeneralTask(dto);
             return updatedTask;
@@ -127,10 +123,6 @@ export class GeneralTaskController {
 
         if (!generalTask) {
             throw new BadRequestException('General task not found');
-        }
-
-        if (generalTask.createdByUserId !== user.userId) {
-            throw new BadRequestException('Only the task creator can delete the general task');
         }
 
         try {

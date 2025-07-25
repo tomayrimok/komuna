@@ -7,6 +7,7 @@ import { withWrappers } from '../../utilities/withWrappers';
 import SelectUserDrawer from '../../components/General/selectResidentDrawer';
 import { IconPlus, IconX } from '@tabler/icons-react';
 import { TaskType } from '@komuna/types';
+import { toLocalDateString, parseDate } from '../../utils/dateUtils';
 
 const TasksDetailsPage = () => {
 
@@ -81,8 +82,8 @@ const TasksDetailsPage = () => {
                 <Input
                   type="date"
                   fontSize={'lg'}
-                  min={new Date().toISOString().split('T')[0]}
-                  value={taskDetails?.dueDate ? new Date(taskDetails?.dueDate).toISOString().split('T')[0] : ''}
+                  min={toLocalDateString(new Date())}
+                  value={taskDetails?.dueDate ? toLocalDateString(parseDate(taskDetails.dueDate)) : ''}
                   resize={'none'}
                   onChange={(e) => updateTaskDetails({ dueDate: e.target.value })}
                   variant={'flushed'}

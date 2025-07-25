@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTasks } from '../../hooks/query/useTasks';
 import TaskCard from './TaskCard';
 import { useAuth } from '../../context/auth/AuthProvider';
+import { parseDate } from '../../utils/dateUtils';
 
 const Tasks = () => {
   const { data: tasks, isLoading } = useTasks();
@@ -35,8 +36,8 @@ const Tasks = () => {
     }
 
     // Priority 3: Sort by due date if both tasks have the same completion status
-    const aDate = a.dueDate ? new Date(a.dueDate) : null;
-    const bDate = b.dueDate ? new Date(b.dueDate) : null;
+    const aDate = a.dueDate ? parseDate(a.dueDate) : null;
+    const bDate = b.dueDate ? parseDate(b.dueDate) : null;
 
     // Tasks with due dates come before tasks without due dates
     if (aDate && !bDate) return -1;

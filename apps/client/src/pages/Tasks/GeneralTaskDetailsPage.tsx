@@ -215,6 +215,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                     סוג המשימה
                                 </Field.Label>
                                 <Select.Root
+                                    key={formData.taskType?.toString()}
                                     collection={taskTypeOptions}
                                     value={[formData.taskType.toString()]}
                                     onValueChange={(e) => setFormData({ ...formData, taskType: e.value[0] as TaskType })}
@@ -255,7 +256,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                         <NumberInput.Input />
                                     </NumberInput.Root>
                                     <Select.Root
-                                        key={formData.frequency.toString()}
+                                        key={formData.frequency?.toString()}
                                         collection={frequencyOptions}
                                         value={[formData.frequency.toString()]}
                                         onValueChange={(e) => setFormData({ ...formData, frequency: e.value[0] as Frequency })}

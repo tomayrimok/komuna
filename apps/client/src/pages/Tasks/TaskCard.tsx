@@ -5,6 +5,7 @@ import { TaskResponseDto } from 'libs/types/src/generated';
 import DueDate from './DueDate';
 import TaskCompletionButton from './TaskCompletionButton';
 import TaskRoommates from './TaskRoommates';
+import { parseDate } from '../../utils/dateUtils';
 
 interface TaskCardProps {
     task: TaskResponseDto;
@@ -40,7 +41,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                                 <Text fontSize="lg" fontWeight="bold">
                                     {task.title}
                                 </Text>
-                                {task.dueDate && <DueDate dueDate={new Date(task.dueDate)} />}
+                                {task.dueDate && <DueDate dueDate={parseDate(task.dueDate)} />}
                             </Flex>
                             {task.description && (
                                 <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>

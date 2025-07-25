@@ -1,15 +1,16 @@
 import { HStack, Icon } from "@chakra-ui/react";
 import { IconClock } from "@tabler/icons-react";
+import { isToday, isPast as isDatePast, isFuture as isDateFuture, isTomorrow } from "../../utils/dateUtils";
 
 interface DueDateProps {
     dueDate: Date;
 }
 
 const DueDate: React.FC<DueDateProps> = ({ dueDate }) => {
-
-    const today = new Date();
-    const isFuture = dueDate > today;
-    const isPast = dueDate < today;
+    const isPast = isDatePast(dueDate);
+    const isFuture = isDateFuture(dueDate);
+    const today = isToday(dueDate);
+    const tomorrow = isTomorrow(dueDate);
     const formattedDateNoYear = dueDate.toLocaleDateString("he-IL", { month: 'short', day: 'numeric' });
 
     return (
@@ -17,7 +18,7 @@ const DueDate: React.FC<DueDateProps> = ({ dueDate }) => {
             <Icon size={"sm"}>
                 <IconClock />
             </Icon>
-            {isFuture || isPast ? formattedDateNoYear : 'היום'}
+            {today ? 'היום' : tomorrow ? 'מחר' : formattedDateNoYear}
         </HStack>
     );
 }
