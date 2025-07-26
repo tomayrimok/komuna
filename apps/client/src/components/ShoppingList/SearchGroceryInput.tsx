@@ -5,11 +5,13 @@ import debounce from 'lodash/debounce';
 import { useTranslation } from 'react-i18next';
 import { API, ApiTypes } from '@komuna/types';
 import ShoppingListItemDetailsDrawer from './shoppingListItemDetailsDrawer';
-import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { GroceryItemCategory } from './GroceryItemCategory';
 
-export const SearchGroceryInput = () => {
-  const { handleAddItem } = useShoppingList();
+interface SearchGroceryInputProps {
+  handleAddItem: (item: ApiTypes.ShoppingListItemWithIdDto) => void;
+}
+
+export const SearchGroceryInput = ({ handleAddItem }: SearchGroceryInputProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<ApiTypes.GroceryItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,6 +86,7 @@ export const SearchGroceryInput = () => {
       image: suggestion.image,
       category: suggestion.category,
       isPurchased: false,
+      itemId: '',
     });
     // Here you can add additional logic when a suggestion is selected
   };

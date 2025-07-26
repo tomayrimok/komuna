@@ -1,83 +1,32 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { GeneralTaskResponseDto, CreateGeneralTaskDto, UpdateGeneralTaskDto } from '@komuna/types';
-
-// Note: This will need to be replaced with the actual API client once generated
-const API_BASE_URL = '/api';
+import axios from 'axios';
 
 const fetchGeneralTasks = async (apartmentId: string): Promise<GeneralTaskResponseDto[]> => {
-    const response = await fetch(`${API_BASE_URL}/general-task?apartmentId=${apartmentId}`, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json',
-        },
-    });
+    const response = await axios.get(`/api/general-task?apartmentId=${apartmentId}`);
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch general tasks');
-    }
-
-    return response.json();
+    return response.data;
 };
 
 const createGeneralTask = async (dto: CreateGeneralTaskDto): Promise<GeneralTaskResponseDto> => {
-    const response = await fetch(`${API_BASE_URL}/general-task/create`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dto),
-    });
+    const response = await axios.post(`/api/general-task/create`, dto);
 
-    if (!response.ok) {
-        throw new Error('Failed to create general task');
-    }
-
-    return response.json();
+    return response.data;
 };
 
 const updateGeneralTask = async (dto: UpdateGeneralTaskDto): Promise<GeneralTaskResponseDto> => {
-    const response = await fetch(`${API_BASE_URL}/general-task/update`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dto),
-    });
+    const response = await axios.put(`/api/general-task/update`, dto);
 
-    if (!response.ok) {
-        throw new Error('Failed to update general task');
-    }
-
-    return response.json();
+    return response.data;
 };
 
 const deleteGeneralTask = async (generalTaskId: string): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/general-task/${generalTaskId}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to delete general task');
-    }
+    await axios.delete(`/api/general-task/${generalTaskId}`);
 };
 
 const manuallyGenerateTasks = async (): Promise<void> => {
-    const response = await fetch(`${API_BASE_URL}/general-task/generate-tasks`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to generate tasks');
-    }
+    await axios.post(`/api/general-task/generate-tasks`);
 };
 
 export const useGeneralTasks = () => {

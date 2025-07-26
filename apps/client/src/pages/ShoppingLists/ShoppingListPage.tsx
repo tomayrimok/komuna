@@ -6,19 +6,21 @@ import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { useTranslation } from 'react-i18next';
 import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingListPurchaseDrawer';
 import { SearchGroceryInput } from '../../components/ShoppingList/SearchGroceryInput';
+import { ApiTypes } from '@komuna/types';
 
 const ShoppingListPage: React.FC = () => {
-  const { items, updateOrder, openEditDrawer, isFetching, setPurchaseItems } = useShoppingList();
+  const { items, updateOrder, openEditDrawer, isFetching, setPurchaseItems, handleAddItem } = useShoppingList();
   const { t } = useTranslation();
 
   useEffect(() => {
-    setPurchaseItems([]);
+    setPurchaseItems?.([]);
   }, []);
+
 
   return (
     <Flex p={4} flexDirection={'column'} py={4} h="100%" pb={14}>
       <Flex mb={4}>
-        <SearchGroceryInput />
+        <SearchGroceryInput handleAddItem={handleAddItem} />
       </Flex>
       <ShoppingListPurchaseDrawer />
 

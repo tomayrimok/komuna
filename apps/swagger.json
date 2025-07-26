@@ -1089,6 +1089,208 @@
           "general-tasks"
         ]
       }
+    },
+    "/api/general-shopping-list/create": {
+      "post": {
+        "operationId": "GeneralShoppingListController_createGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/update": {
+      "post": {
+        "operationId": "GeneralShoppingListController_updateGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/list": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingLists",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralShoppingList"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/details": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingListById",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/delete": {
+      "delete": {
+        "operationId": "GeneralShoppingListController_deleteGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/generate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_generateFromTemplate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateShoppingListFromTemplateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/duplicate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_duplicateGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
     }
   },
   "info": {
@@ -2763,6 +2965,145 @@
         },
         "required": [
           "generalTaskId"
+        ]
+      },
+      "ShoppingListTemplateItemDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "amount"
+        ]
+      },
+      "CreateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "isManualOnly": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "apartmentId",
+          "title",
+          "targetContextType",
+          "items"
+        ]
+      },
+      "GeneralShoppingList": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdBy"
+        ]
+      },
+      "UpdateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isManualOnly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
+        ]
+      },
+      "GenerateShoppingListFromTemplateDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "targetUserId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
         ]
       }
     }

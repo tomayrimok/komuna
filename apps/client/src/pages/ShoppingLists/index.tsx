@@ -17,7 +17,7 @@ const CurrentShoppingLists = () => {
       h="100vh"
       overflow={"hidden"}
       onValueChange={(e) => {
-        setContextType(e.value as ContextType);
+        setContextType?.(e.value as ContextType);
       }}
     >
       <ApartmentLayout

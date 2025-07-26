@@ -9,6 +9,7 @@ import {
   IconUserCog,
   IconHomeEdit,
   IconUsersGroup,
+  IconShoppingCart,
 } from '@tabler/icons-react';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { Sidebar } from './Sidebar/Sidebar';
@@ -75,6 +76,18 @@ export const SettingLeftbar = () => {
               >
                 <IconBellCog />
                 {t('roommate.homepage.leftbar.notifications_settings')}
+              </Button>
+            )}
+
+            {!isLandlord && (
+              <Button
+                justifyContent="start"
+                variant="ghost"
+                size="lg"
+                onClick={() => navigate({ to: '/roommate/general-shopping-lists' })}
+              >
+                <IconShoppingCart />
+                תבניות רשימות קניות
               </Button>
             )}
 
