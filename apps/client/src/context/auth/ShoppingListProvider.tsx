@@ -6,7 +6,6 @@ import {
   createShoppingListContext,
   createShoppingListProvider,
   createUseShoppingListHook,
-  GenericShoppingListContextValue,
   GenericShoppingListItem
 } from './GenericShoppingListProvider';
 
@@ -15,15 +14,11 @@ type ShoppingListItemWithIdDto = ApiTypes.ShoppingListItemWithIdDto & GenericSho
 const ShoppingListContext = createShoppingListContext<ShoppingListItemWithIdDto>();
 const GenericProvider = createShoppingListProvider(ShoppingListContext);
 
-export interface ShoppingListContextValue extends GenericShoppingListContextValue<ShoppingListItemWithIdDto> {
-
-}
-
 type ShoppingListProviderProps = PropsWithChildren & {};
 
 export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps> = ({ children }) => {
   const [contextType, setContextType] = useState<ContextType>(ContextType.APARTMENT);
-  const { refetch: getShoppingList, data: shoppingList, isPending } = useShoppingListQuery(contextType);
+  const { data: shoppingList, isPending } = useShoppingListQuery(contextType);
   const { sessionDetails: { apartmentId } } = useAuth();
 
   const handleContextTypeChange = useCallback((newContextType: ContextType) => {
@@ -53,7 +48,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     getItemKey: (item: ShoppingListItemWithIdDto, index: number): string => item.itemId,
 
     syncItems: async (items: ShoppingListItemWithIdDto[], currentContextType?: ContextType) => {
-      const { data } = await API.shoppingListControllerSyncItems({
+      await API.shoppingListControllerSyncItems({
         body: {
           contextType: currentContextType || contextType,
           items,
@@ -61,7 +56,6 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
         },
         throwOnError: true,
       });
-      return Promise.resolve();
     },
   };
 

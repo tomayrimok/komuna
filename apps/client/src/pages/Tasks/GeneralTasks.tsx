@@ -5,21 +5,20 @@ import {
     Image,
     Loader,
     Stack,
-    Text,
-    VStack
+    Text
 } from '@chakra-ui/react';
 import { IconPlayerPlay, IconRepeat } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
-import { BackNavigationBar } from '../../components/BackNavigationBar';
 import MainButton from '../../components/mainButton';
 import {
     useDeleteGeneralTask,
     useGeneralTasks,
     useManuallyGenerateTasks
 } from '../../hooks/query/useGeneralTasks';
+import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import GeneralTaskCard from './GeneralTaskCard';
 
 
@@ -91,24 +90,26 @@ const GeneralTasks: React.FC = () => {
     });
 
     return (
-        <Box h="full">
-            <BackNavigationBar />
-            <Box p={6} pb={12}>
-                <VStack alignItems="start" gap="4" mb={6}>
-                    <Text fontSize="2xl" fontWeight="bold">
-                        {t('roommate.homepage.leftbar.notifications_settings')}
-                    </Text>
-                    {generalTasks?.length ? (
-                        <Button
-                            onClick={handleGenerateTasks}
-                            variant="subtle"
-                            loading={generateTasksMutation.isPending}
-                        >
-                            <IconPlayerPlay size={16} />
-                            חישוב משימות חדשות כעת
-                        </Button>
-                    ) : null}
-                </VStack>
+        <ApartmentLayout
+            title={t('roommate.homepage.leftbar.notifications_settings')}
+            mt={0}
+            goBack={() => navigate({ to: '/roommate' })}
+            borderRadius={"40px"}
+            containerProps={{ pt: 8 }}
+        >
+            <Box pb={12}>
+
+                {generalTasks?.length ? (
+                    <Button
+                        onClick={handleGenerateTasks}
+                        variant="subtle"
+                        loading={generateTasksMutation.isPending}
+                        mb={4}
+                    >
+                        <IconPlayerPlay size={16} />
+                        חישוב משימות חדשות כעת
+                    </Button>
+                ) : null}
 
                 <Stack gap="4">
                     {sortedTasks?.map((task) => (
@@ -131,7 +132,7 @@ const GeneralTasks: React.FC = () => {
                 <IconRepeat size={16} />
                 יצירת תבנית משימה
             </MainButton>
-        </Box>
+        </ApartmentLayout>
     );
 };
 

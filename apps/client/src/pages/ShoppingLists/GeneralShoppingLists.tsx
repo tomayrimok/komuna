@@ -21,6 +21,7 @@ import {
     useManuallyGenerateFromTemplate
 } from '../../hooks/query/useGeneralShoppingLists';
 import GeneralShoppingListCard from './GeneralShoppingListCard';
+import ApartmentLayout from '../NewApartment/ApartmentLayout';
 
 const GeneralShoppingLists: React.FC = () => {
     const { t } = useTranslation();
@@ -95,36 +96,31 @@ const GeneralShoppingLists: React.FC = () => {
 
     if (error) {
         return (
-            <Box h="full" p={6}>
-                <BackNavigationBar />
+            <ApartmentLayout
+                title="תבניות רשימות קניות"
+                mt={0}
+                goBack={() => navigate({ to: '/roommate' })}
+                borderRadius={"40px"}
+                containerProps={{ pt: 8 }}
+            >
                 <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="20vh">
                     <Text fontSize="xl" color="red.500">
                         שגיאה בטעינת תבניות רשימות קניות
                     </Text>
                 </Flex>
-            </Box>
+            </ApartmentLayout>
         );
     }
 
     return (
-        <Box h="full">
-            <BackNavigationBar />
-            <Box p={6} pb={12}>
-                <VStack alignItems="start" gap="4" mb={6}>
-                    <Text fontSize="2xl" fontWeight="bold">
-                        תבניות רשימות קניות
-                    </Text>
-                    {generalShoppingLists?.length ? (
-                        <Button
-                            onClick={handleGenerateLists}
-                            variant="subtle"
-                            loading={generateMutation.isPending}
-                        >
-                            <IconPlayerPlay size={16} />
-                            יצירת רשימות חדשות כעת
-                        </Button>
-                    ) : null}
-                </VStack>
+        <ApartmentLayout
+            title="תבניות רשימות קניות"
+            mt={0}
+            goBack={() => navigate({ to: '/roommate' })}
+            borderRadius={"40px"}
+            containerProps={{ pt: 8 }}
+        >
+            <Box pb={12}>
 
                 <Stack gap="4">
                     {sortedLists?.map((list) => (
@@ -150,7 +146,7 @@ const GeneralShoppingLists: React.FC = () => {
                 <IconShoppingCart size={16} />
                 יצירת תבנית רשימת קניות
             </MainButton>
-        </Box>
+        </ApartmentLayout>
     );
 };
 

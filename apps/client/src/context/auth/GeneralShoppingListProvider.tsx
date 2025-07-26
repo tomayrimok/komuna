@@ -5,21 +5,13 @@ import {
     createShoppingListContext,
     createShoppingListProvider,
     createUseShoppingListHook,
-    GenericShoppingListContextValue,
     GenericShoppingListItem
 } from './GenericShoppingListProvider';
 
-// Template item type for general shopping lists
 type TemplateItem = ShoppingListTemplateItemDto & GenericShoppingListItem;
 
-// Create context and provider for general shopping lists
 const GeneralShoppingListContext = createShoppingListContext<TemplateItem>();
 const GenericProvider = createShoppingListProvider(GeneralShoppingListContext);
-
-// Context value interface for general shopping lists
-export interface GeneralShoppingListContextValue extends GenericShoppingListContextValue<TemplateItem> {
-    // All methods are inherited from the generic context value
-}
 
 type GeneralShoppingListProviderProps = PropsWithChildren & {
     generalShoppingListId: string;
@@ -35,8 +27,8 @@ export const GeneralShoppingListProvider: React.ComponentType<GeneralShoppingLis
     const config = {
         items: generalList?.items || [],
         isLoading,
-        enablePurchaseFeatures: false, // Templates don't have purchase functionality
-        enableContextType: false, // Templates don't need context type switching
+        enablePurchaseFeatures: false,
+        enableContextType: false,
 
         transformGroceryToItem: (grocery: ApiTypes.GroceryItem): TemplateItem => ({
             name: grocery.description,
@@ -53,7 +45,6 @@ export const GeneralShoppingListProvider: React.ComponentType<GeneralShoppingLis
                 generalShoppingListId,
                 items,
             });
-            return Promise.resolve();
         },
     };
 

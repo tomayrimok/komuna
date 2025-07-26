@@ -1,18 +1,18 @@
-import { HStack } from '@chakra-ui/react';
+import { HStack, StackProps } from '@chakra-ui/react';
 import { useCanGoBack } from '@tanstack/react-router';
 import { GoBackButton } from '../GoBackButton';
 
-export interface BackNavigationBarProps {
+export interface BackNavigationBarProps extends Omit<StackProps, 'css'> {
   disableGoBack?: boolean;
   onGoBack?: () => void;
 }
 
-export const BackNavigationBar = ({ disableGoBack = false, onGoBack }: BackNavigationBarProps) => {
+export const BackNavigationBar = ({ disableGoBack = false, onGoBack, ...rest }: BackNavigationBarProps) => {
   const canGoBack = useCanGoBack();
 
   return (
-    <HStack justifyContent="flex-end" paddingX="4">
-      {(onGoBack || (!disableGoBack && !canGoBack)) && <GoBackButton />}
+    <HStack {...rest}>
+      {(onGoBack || (!disableGoBack && !canGoBack)) && <GoBackButton onGoBack={onGoBack} />}
     </HStack>
   );
 };
