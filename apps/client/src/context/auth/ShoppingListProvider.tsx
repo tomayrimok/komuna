@@ -11,7 +11,7 @@ import {
 
 type ShoppingListItemWithIdDto = ApiTypes.ShoppingListItemWithIdDto & GenericShoppingListItem;
 
-const ShoppingListContext = createShoppingListContext<ShoppingListItemWithIdDto>();
+export const ShoppingListContext = createShoppingListContext<any>();
 const GenericProvider = createShoppingListProvider(ShoppingListContext);
 
 type ShoppingListProviderProps = PropsWithChildren & {};
@@ -26,6 +26,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
   }, []);
 
   const config = {
+    title: '',
     items: shoppingList?.items || [],
     isLoading: isPending,
     enablePurchaseFeatures: true,

@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, LessThanOrEqual } from 'typeorm';
+import { Repository, LessThanOrEqual, Brackets } from 'typeorm';
 import { GeneralShoppingList } from './general-shopping-list.entity';
 import { CreateGeneralShoppingListDto, UpdateGeneralShoppingListDto, GenerateShoppingListFromTemplateDto } from './dto/general-shopping-list.dto';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { NotificationService } from '../notification/notification.service';
 import { ContextType, UserRole, Frequency } from '@komuna/types';
 import { addDays, addWeeks, addMonths, addYears, startOfDay, format } from 'date-fns';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class GeneralShoppingListService {
@@ -72,34 +73,38 @@ export class GeneralShoppingListService {
             nextGenerationAt = dto.isManualOnly ? null : this.calculateNextGenerationDate(new Date(), existingList.recurrenceRule);
         }
 
-        const updatedList = { ...existingList, ...dto, nextGenerationAt };
-        const savedList = await this.generalShoppingListRepo.save(updatedList);
+        const newItems = dto.items?.map((item) => ({
+            ...item,
+            itemId: item.itemId || randomUUID(),
+        }));
 
-        // Send notification about template update
-        // try {
-        //     this.notificationService.sendNotificationToApartment(
-        //         existingList.apartmentId,
-        //         {
-        //             notification: {
-        //                 title: 'תבנית רשימת קניות עודכנה',
-        //                 body: dto.title || existingList.title
-        //             }
-        //         },
-        //         [UserRole.ROOMMATE]
-        //     );
-        // } catch (error) {
-        //     console.error('Failed to send general shopping list update notification:', error);
-        // }
+        const updatedList = { ...existingList, ...dto, nextGenerationAt, items: newItems };
+        const savedList = await this.generalShoppingListRepo.save(updatedList);
 
         return savedList;
     }
 
-    async getGeneralShoppingLists(apartmentId: string): Promise<GeneralShoppingList[]> {
-        return this.generalShoppingListRepo.find({
-            where: { apartmentId },
-            order: { createdAt: 'DESC' },
-        });
+    async getGeneralShoppingLists(apartmentId: string, userId: string): Promise<GeneralShoppingList[]> {
+        const qb = this.generalShoppingListRepo.createQueryBuilder('list');
+
+        return qb
+            .where('list.apartmentId = :apartmentId', { apartmentId })
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where('list.targetContextType = :apt', { apt: ContextType.APARTMENT })
+                        .orWhere(
+                            new Brackets(qb2 => {
+                                qb2.where('list.targetContextType = :user', { user: ContextType.USER })
+                                    .andWhere('list.createdByUserId = :userId', { userId });
+                            })
+                        );
+                })
+            )
+            .leftJoinAndSelect('list.createdBy', 'createdBy')
+            .orderBy('list.createdAt', 'DESC')
+            .getMany();
     }
+
 
     async getGeneralShoppingListById(generalShoppingListId: string): Promise<GeneralShoppingList | null> {
         return this.generalShoppingListRepo.findOneBy({ generalShoppingListId });
@@ -163,8 +168,9 @@ export class GeneralShoppingListService {
     // Generate a single shopping list from a template (can be called manually or automatically)
     async generateShoppingListFromTemplate(
         generalList: GeneralShoppingList,
-        overrideDto?: GenerateShoppingListFromTemplateDto
-    ): Promise<void> {
+        overrideDto?: GenerateShoppingListFromTemplateDto,
+        userId?: string
+    ): Promise<ContextType> {
         const targetContextType = overrideDto?.targetContextType || generalList.targetContextType;
         const targetUserId = overrideDto?.targetUserId;
 
@@ -195,12 +201,21 @@ export class GeneralShoppingListService {
 
         this.logger.log(`Generated shopping list "${generalList.title}" for ${targetContextType === ContextType.APARTMENT ? 'apartment' : 'user'}`);
 
+        // Update the general list's generation timestamps (only for automatic generation)
+        if (!overrideDto && generalList.recurrenceRule && !generalList.isManualOnly) {
+            const nextGenerationAt = this.calculateNextGenerationDate(new Date(), generalList.recurrenceRule);
+            await this.generalShoppingListRepo.update(generalList.generalShoppingListId, {
+                lastGeneratedAt: new Date(),
+                nextGenerationAt,
+            });
+        }
+
         // Send notification about automatically generated list
         try {
-            const targetText = targetContextType === ContextType.APARTMENT ? 'משותפת' : 'אישית';
+            if (targetContextType === ContextType.USER) return;
             const messageText = overrideDto
-                ? `רשימת קניות ${targetText} נוצרה מתבנית: "${generalList.title}"`
-                : `רשימת קניות ${targetText} נוצרה אוטומטית מתבנית: "${generalList.title}"`;
+                ? `רשימת קניות נוצרה מתבנית: "${generalList.title}"`
+                : `רשימת קניות נוצרה אוטומטית מתבנית: "${generalList.title}"`;
 
             this.notificationService.sendNotificationToApartment(
                 generalList.apartmentId,
@@ -210,24 +225,18 @@ export class GeneralShoppingListService {
                         body: messageText
                     }
                 },
-                [UserRole.ROOMMATE]
+                [UserRole.ROOMMATE],
+                userId
             );
         } catch (error) {
             console.error('Failed to send shopping list generation notification:', error);
         }
 
-        // Update the general list's generation timestamps (only for automatic generation)
-        if (!overrideDto && generalList.recurrenceRule && !generalList.isManualOnly) {
-            const nextGenerationAt = this.calculateNextGenerationDate(new Date(), generalList.recurrenceRule);
-            await this.generalShoppingListRepo.update(generalList.generalShoppingListId, {
-                lastGeneratedAt: new Date(),
-                nextGenerationAt,
-            });
-        }
+        return targetContextType;
     }
 
     // Manual generation from template
-    async manuallyGenerateFromTemplate(dto: GenerateShoppingListFromTemplateDto): Promise<void> {
+    async manuallyGenerateFromTemplate(dto: GenerateShoppingListFromTemplateDto, userId: string): Promise<ContextType> {
         const generalList = await this.getGeneralShoppingListById(dto.generalShoppingListId);
 
         if (!generalList) {
@@ -238,7 +247,7 @@ export class GeneralShoppingListService {
             throw new BadRequestException('General shopping list is not active');
         }
 
-        await this.generateShoppingListFromTemplate(generalList, dto);
+        return await this.generateShoppingListFromTemplate(generalList, dto, userId);
     }
 
     // Calculate when the next list should be generated based on recurrence rule

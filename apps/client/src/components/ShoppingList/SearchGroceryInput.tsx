@@ -135,7 +135,10 @@ export const SearchGroceryInput = ({ handleAddItem }: SearchGroceryInputProps) =
                     <Text fontWeight="bold">פריט חסר? הוסף את ״{searchTerm}״</Text>
                   </VStack>
 
-                  <ShoppingListItemDetailsDrawer initialText={searchTerm} onClose={() => setSearchTerm('')} />
+                  <ShoppingListItemDetailsDrawer
+                    initialText={searchTerm}
+                    onClose={() => setSearchTerm('')}
+                  />
                 </Flex>
               </Flex>
             </Box>

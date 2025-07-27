@@ -3,10 +3,12 @@ import {
     CreateGeneralShoppingListDto,
     UpdateGeneralShoppingListDto,
     GenerateShoppingListFromTemplateDto,
-    GeneralShoppingListResponseDto
+    GeneralShoppingListResponseDto,
+    ContextType
 } from '@komuna/types';
 import { useAuth } from '../../context/auth/AuthProvider';
 import axios from 'axios';
+import { toaster } from '../../chakra/ui/toaster';
 
 const fetchGeneralShoppingLists = async (apartmentId: string): Promise<GeneralShoppingListResponseDto[]> => {
     const response = await axios.get(`/api/general-shopping-list/list?apartmentId=${apartmentId}`);
@@ -56,8 +58,8 @@ const deleteGeneralShoppingList = async (generalShoppingListId: string): Promise
     await axios.delete(`/api/general-shopping-list/delete?generalShoppingListId=${generalShoppingListId}`);
 };
 
-const generateFromTemplate = async (dto: GenerateShoppingListFromTemplateDto): Promise<void> => {
-    await axios.post(`/api/general-shopping-list/generate`, dto);
+const generateFromTemplate = async (dto: GenerateShoppingListFromTemplateDto): Promise<ContextType> => {
+    return await axios.post(`/api/general-shopping-list/generate`, dto);
 };
 
 const duplicateGeneralShoppingList = async (generalShoppingListId: string): Promise<GeneralShoppingListResponseDto> => {
@@ -116,10 +118,15 @@ export const useManuallyGenerateFromTemplate = () => {
 
     return useMutation({
         mutationFn: generateFromTemplate,
-        onSuccess: () => {
+        onSuccess: (data) => {
+            toaster.create({
+                title: 'הצלחה',
+                description: `הפריטים הועתקו לרשימת קניות ${data === ContextType.APARTMENT ? 'משותפת' : 'אישית'}`,
+                type: 'success',
+            });
             // Invalidate shopping lists to show the newly generated lists
             queryClient.invalidateQueries({
-                queryKey: ['shopping-list']
+                queryKey: ['shoppingList', data, sessionDetails?.apartmentId]
             });
         },
     });

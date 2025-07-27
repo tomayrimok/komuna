@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Button, Drawer, Flex, IconButton, Input, Portal } from '@chakra-ui/react';
 import { IconPlus } from '@tabler/icons-react';
-import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { ShoppingListItemQuantity } from './shoppingListItemQuantity';
 import { ShoppingListItemIsUrgent } from './shoppingListItemIsUrgent';
 import { useTranslation } from 'react-i18next';
 import { ApiTypes } from '@komuna/types';
+import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 
 interface ShoppingListItemDetailsDrawerProps {
   initialText?: string;
@@ -13,19 +13,18 @@ interface ShoppingListItemDetailsDrawerProps {
 }
 
 const ShoppingListItemDetailsDrawer = ({ initialText = '', onClose }: ShoppingListItemDetailsDrawerProps) => {
+  const { handleAddItem } = useShoppingList();
   const [newItem, setNewItem] = useState<Partial<ApiTypes.ShoppingListItemWithIdDto> | null>({
     name: initialText,
     amount: 1,
   });
 
-  const { handleAddItem } = useShoppingList();
   const { t } = useTranslation();
 
   const onHandleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     try {
-      console.log('newItem', newItem);
       if (!newItem) return;
       await handleAddItem(newItem as ApiTypes.ShoppingListItemWithIdDto);
       setNewItem(null);

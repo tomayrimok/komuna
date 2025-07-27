@@ -1,23 +1,24 @@
-import { Flex, Image, Loader, Text, VStack, HStack, Button, Card } from '@chakra-ui/react';
-import { Reorder } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useRouter } from '@tanstack/react-router';
+import { Button, Card, Flex, Heading, HStack, IconButton, Image, Loader, Text, VStack } from '@chakra-ui/react';
+import { ApiTypes, ContextType } from '@komuna/types';
 import {
-    IconEdit,
-    IconTrash,
     IconCopy,
+    IconEdit,
     IconShoppingCart
 } from '@tabler/icons-react';
-import { ApiTypes } from '@komuna/types';
-import { useDeleteGeneralShoppingList, useDuplicateGeneralShoppingList } from '../../hooks/query/useGeneralShoppingLists';
+import { useNavigate, useRouter } from '@tanstack/react-router';
+import { Reorder } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
 import { SearchGroceryInput } from '../../components/ShoppingList/SearchGroceryInput';
 import { ShoppingListItem } from '../../components/ShoppingList/shoppingListItem';
-import { GeneralShoppingListProvider, useGeneralShoppingList } from '../../context/auth/GeneralShoppingListProvider';
+import { useShoppingList } from '../../context/auth/ShoppingListProvider';
+import { useDeleteGeneralShoppingList, useDuplicateGeneralShoppingList, useManuallyGenerateFromTemplate } from '../../hooks/query/useGeneralShoppingLists';
+import ApartmentLayout from '../NewApartment/ApartmentLayout';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 interface ActionHandlers {
     onEditDetails: () => void;
-    onDelete: () => void;
     onDuplicate: () => void;
     onCopyToShoppingList: () => void;
     deleteMutation: { isPending: boolean };
@@ -26,13 +27,13 @@ interface ActionHandlers {
 
 const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
     onEditDetails,
-    onDelete,
     onDuplicate,
     onCopyToShoppingList,
     deleteMutation,
     duplicateMutation
 }) => {
-    const { items, updateOrder, openEditDrawer, isFetching, handleAddItem } = useGeneralShoppingList();
+    const { items, updateOrder, openEditDrawer, isFetching, handleAddItem, title } = useShoppingList();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const handleGrocerySelect = (item: ApiTypes.ShoppingListItemWithIdDto) => {
@@ -47,19 +48,61 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
     };
 
     return (
-        <>
-            <Flex p={4} flexDirection={'column'} py={4} h="100%" pb={20}>
-                <Flex mb={4}>
+        <ApartmentLayout
+            boxProps={{ h: '100%' }}
+            mt={0}
+            goBack={() => navigate({ to: '/roommate/general-shopping-lists' })}
+            borderRadius={"40px"}
+            containerProps={{ pt: 8, h: '100%' }}
+            h="100%"
+        >
+            <Flex flexDirection={'column'} h="100%" pb={20}>
+
+                <Card.Root
+                    p={4}
+                    bg="white"
+                    borderRadius={"20px"}
+                >
+                    <Flex justifyContent="space-between">
+                        <Heading size="lg" mb={4}>{title}</Heading>
+                        <IconButton
+                            onClick={() => onEditDetails()}
+                            color={'gray.500'}
+                            variant={'ghost'}
+                        >
+                            <IconEdit />
+                        </IconButton>
+                    </Flex>
+                    <HStack gap={2}>
+                        <Button
+                            onClick={onCopyToShoppingList}
+                            size="sm"
+                        >
+                            <IconShoppingCart size={16} />
+                            העתק לרשימה הפעילה
+                        </Button>
+
+                        <Button
+                            onClick={onDuplicate}
+                            size="sm"
+                            loading={duplicateMutation.isPending}
+                        >
+                            <IconCopy size={16} />
+                            שכפול
+                        </Button>
+
+                    </HStack>
+                </Card.Root>
+                <Flex my={4}>
                     <SearchGroceryInput handleAddItem={handleGrocerySelect} />
                 </Flex>
 
                 <Reorder.Group axis="y" values={items} onReorder={updateOrder}>
                     {items.map((item, index) => (
-                        <Reorder.Item key={index} value={item}>
+                        <Reorder.Item key={item.itemId} value={item}>
                             <ShoppingListItem
                                 item={{
                                     ...item,
-                                    itemId: index.toString(),
                                     isPurchased: false,
                                     createdAt: new Date().toISOString(),
                                     creatorId: '',
@@ -97,57 +140,7 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                     )
                 )}
             </Flex>
-
-            <Card.Root
-                position="fixed"
-                bottom={0}
-                left={0}
-                right={0}
-                p={4}
-                bg="white"
-                borderTop="1px solid"
-                borderColor="border"
-                borderRadius="16px 16px 0 0"
-                zIndex={10}
-            >
-                <HStack gap={2} justifyContent="space-between">
-                    <Button onClick={onEditDetails} variant="outline" size="sm" flex={1}>
-                        <IconEdit size={16} />
-                        עריכת פרטים
-                    </Button>
-                    <Button
-                        onClick={onDuplicate}
-                        variant="outline"
-                        size="sm"
-                        flex={1}
-                        loading={duplicateMutation.isPending}
-                    >
-                        <IconCopy size={16} />
-                        שכפול
-                    </Button>
-                    <Button
-                        onClick={onCopyToShoppingList}
-                        variant="solid"
-                        size="sm"
-                        flex={1}
-                        colorPalette="blue"
-                    >
-                        <IconShoppingCart size={16} />
-                        העתק לרשימה
-                    </Button>
-                    <Button
-                        onClick={onDelete}
-                        variant="outline"
-                        size="sm"
-                        colorPalette="red"
-                        loading={deleteMutation.isPending}
-                    >
-                        <IconTrash size={16} />
-                        מחק
-                    </Button>
-                </HStack>
-            </Card.Root>
-        </>
+        </ApartmentLayout>
     );
 };
 
@@ -155,10 +148,12 @@ const GeneralShoppingListItemsPage: React.FC = () => {
     const router = useRouter();
     const generalShoppingListId = router.state.location.pathname.split('/')[3];
     const navigate = useNavigate();
-
+    const { setContextType } = useShoppingList();
+    const { sessionDetails } = useAuth();
     const deleteMutation = useDeleteGeneralShoppingList();
     const duplicateMutation = useDuplicateGeneralShoppingList();
-
+    const manuallyGenerateFromTemplateMutation = useManuallyGenerateFromTemplate();
+    const queryClient = useQueryClient();
     const handleEditDetails = () => {
         navigate({
             to: '/roommate/general-shopping-lists/$generalShoppingListId',
@@ -166,25 +161,7 @@ const GeneralShoppingListItemsPage: React.FC = () => {
         });
     };
 
-    const handleDelete = async () => {
-        if (window.confirm('האם אתה בטוח שברצונך למחוק את תבנית רשימת הקניות?')) {
-            try {
-                await deleteMutation.mutateAsync(generalShoppingListId!);
-                toaster.create({
-                    title: 'הצלחה',
-                    description: 'תבנית רשימת הקניות נמחקה בהצלחה',
-                    type: 'success',
-                });
-                navigate({ to: '/roommate/general-shopping-lists' });
-            } catch (error) {
-                toaster.create({
-                    title: 'שגיאה',
-                    description: 'מחיקת תבנית רשימת הקניות נכשלה',
-                    type: 'error',
-                });
-            }
-        }
-    };
+
 
     const handleDuplicate = async () => {
         try {
@@ -204,13 +181,10 @@ const GeneralShoppingListItemsPage: React.FC = () => {
         }
     };
 
-    const handleCopyToShoppingList = () => {
-        toaster.create({
-            title: 'הצלחה',
-            description: 'הפריטים הועתקו לרשימת קניות חדשה',
-            type: 'success',
+    const handleCopyToShoppingList = async () => {
+        await manuallyGenerateFromTemplateMutation.mutateAsync({
+            generalShoppingListId: generalShoppingListId!,
         });
-        navigate({ to: '/roommate/shopping' });
     };
 
     if (!generalShoppingListId) {
@@ -222,16 +196,13 @@ const GeneralShoppingListItemsPage: React.FC = () => {
     }
 
     return (
-        <GeneralShoppingListProvider generalShoppingListId={generalShoppingListId}>
-            <GeneralShoppingListItemsContent
-                onEditDetails={handleEditDetails}
-                onDelete={handleDelete}
-                onDuplicate={handleDuplicate}
-                onCopyToShoppingList={handleCopyToShoppingList}
-                deleteMutation={deleteMutation}
-                duplicateMutation={duplicateMutation}
-            />
-        </GeneralShoppingListProvider>
+        <GeneralShoppingListItemsContent
+            onEditDetails={handleEditDetails}
+            onDuplicate={handleDuplicate}
+            onCopyToShoppingList={handleCopyToShoppingList}
+            deleteMutation={deleteMutation}
+            duplicateMutation={duplicateMutation}
+        />
     );
 };
 

@@ -10,6 +10,7 @@ import {
     GenerateShoppingListFromTemplateDto
 } from './dto/general-shopping-list.dto';
 import { GeneralShoppingList } from './general-shopping-list.entity';
+import { ContextType } from '@komuna/types';
 
 @ApiTags('General Shopping Lists')
 @Controller('general-shopping-list')
@@ -39,9 +40,10 @@ export class GeneralShoppingListController {
     @UseAuth()
     @ApiOkResponse({ type: [GeneralShoppingList] })
     async getGeneralShoppingLists(
-        @Query('apartmentId') apartmentId: string
+        @Query('apartmentId') apartmentId: string,
+        @GetUser() user: User
     ): Promise<GeneralShoppingList[]> {
-        return await this.generalShoppingListService.getGeneralShoppingLists(apartmentId);
+        return await this.generalShoppingListService.getGeneralShoppingLists(apartmentId, user.userId);
     }
 
     @Get('details')
@@ -66,9 +68,10 @@ export class GeneralShoppingListController {
     @UseAuth()
     @ApiOkResponse()
     async generateFromTemplate(
-        @Body() dto: GenerateShoppingListFromTemplateDto
-    ): Promise<void> {
-        return await this.generalShoppingListService.manuallyGenerateFromTemplate(dto);
+        @Body() dto: GenerateShoppingListFromTemplateDto,
+        @GetUser() user: User
+    ): Promise<ContextType> {
+        return await this.generalShoppingListService.manuallyGenerateFromTemplate(dto, user.userId);
     }
 
     @Post('duplicate')

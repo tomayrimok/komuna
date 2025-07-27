@@ -10,11 +10,12 @@ interface ApartmentLayoutProps extends PropsWithChildren, Omit<StackProps, 'titl
   header?: React.ReactNode;
   title?: string | React.ReactNode;
   borderRadius?: BorderProps['borderRadius'];
+  boxProps?: BoxProps;
 }
 
-export const ApartmentLayout = ({ goBack, logout = false, children, containerProps, header, title, borderRadius, ...props }: ApartmentLayoutProps) => {
+export const ApartmentLayout = ({ goBack, logout = false, children, containerProps, header, title, borderRadius, boxProps, ...props }: ApartmentLayoutProps) => {
   return (
-    <Box backgroundColor="brand.500" display="flex" flexDirection="column" overflow={"hidden"} maxH="100vh">
+    <Box backgroundColor="brand.500" display="flex" flexDirection="column" overflow={"hidden"} maxH="100vh" {...boxProps as any}>
       <Flex alignItems="center" gap={1} p={3}>
         {goBack && <BackNavigationBar onGoBack={goBack} />}
         {title && typeof title === 'string' ? <Text fontSize="xl" fontWeight="bold">{title}</Text> : title}

@@ -3016,6 +3016,9 @@
       "ShoppingListTemplateItemDto": {
         "type": "object",
         "properties": {
+          "itemId": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -3096,6 +3099,9 @@
         "type": "object",
         "properties": {
           "generalShoppingListId": {
+            "type": "string"
+          },
+          "apartmentId": {
             "type": "string"
           },
           "title": {

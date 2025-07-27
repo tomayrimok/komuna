@@ -6,6 +6,12 @@ import { RecurrenceRuleDto } from '../../recurrence-rule/recurrence-rule.dto';
 import { ShoppingListTemplateItem } from '../general-shopping-list.entity';
 
 export class ShoppingListTemplateItemDto implements ShoppingListTemplateItem {
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    itemId?: string;
+
     @ApiProperty()
     @IsString()
     name: string;
@@ -72,9 +78,15 @@ export class CreateGeneralShoppingListDto {
 }
 
 export class UpdateGeneralShoppingListDto {
+
     @ApiProperty()
     @IsUUID()
     generalShoppingListId: string;
+
+    @ApiProperty({ required: false })
+    @IsUUID()
+    @IsOptional()
+    apartmentId?: string;
 
     @ApiProperty({ required: false })
     @IsOptional()

@@ -2,16 +2,14 @@ import { ApiTypes, ShoppingListTemplateItemDto } from '@komuna/types';
 import React, { PropsWithChildren } from 'react';
 import { useGeneralShoppingListById, useUpdateGeneralShoppingList } from '../../hooks/query/useGeneralShoppingLists';
 import {
-    createShoppingListContext,
     createShoppingListProvider,
-    createUseShoppingListHook,
     GenericShoppingListItem
 } from './GenericShoppingListProvider';
+import { ShoppingListContext } from './ShoppingListProvider';
 
 type TemplateItem = ShoppingListTemplateItemDto & GenericShoppingListItem;
 
-const GeneralShoppingListContext = createShoppingListContext<TemplateItem>();
-const GenericProvider = createShoppingListProvider(GeneralShoppingListContext);
+const GenericProvider = createShoppingListProvider(ShoppingListContext);
 
 type GeneralShoppingListProviderProps = PropsWithChildren & {
     generalShoppingListId: string;
@@ -25,6 +23,7 @@ export const GeneralShoppingListProvider: React.ComponentType<GeneralShoppingLis
     const updateMutation = useUpdateGeneralShoppingList();
 
     const config = {
+        title: generalList?.title || '',
         items: generalList?.items || [],
         isLoading,
         enablePurchaseFeatures: false,
@@ -55,5 +54,3 @@ export const GeneralShoppingListProvider: React.ComponentType<GeneralShoppingLis
         </GenericProvider>
     );
 };
-
-export const useGeneralShoppingList = createUseShoppingListHook(GeneralShoppingListContext); 

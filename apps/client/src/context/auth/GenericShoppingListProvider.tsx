@@ -1,5 +1,5 @@
 import { ApiTypes, ContextType } from '@komuna/types';
-import React, { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toaster } from '../../chakra/ui/toaster';
 
 // Generic item type that works for both shopping list items and template items
@@ -9,12 +9,14 @@ export type GenericShoppingListItem = {
     isUrgent?: boolean;
     category?: string;
     image?: string;
-} & (
-        | { itemId: string; isPurchased?: boolean; createdAt?: string; creatorId?: string } // Regular shopping list item
-        | { index?: number } // Template item (uses array index)
-    );
+    itemId?: string;
+    isPurchased?: boolean;
+    createdAt?: string;
+    creatorId?: string;
+};
 
 export interface GenericShoppingListConfig<TItem extends GenericShoppingListItem> {
+    title: string;
     // Data and sync functions
     items: TItem[];
     isLoading: boolean;
@@ -34,6 +36,7 @@ export interface GenericShoppingListConfig<TItem extends GenericShoppingListItem
 }
 
 export interface GenericShoppingListContextValue<TItem extends GenericShoppingListItem> {
+    title: string;
     items: TItem[];
     setItems: React.Dispatch<React.SetStateAction<TItem[]>>;
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,11 +49,11 @@ export interface GenericShoppingListContextValue<TItem extends GenericShoppingLi
     // Core item operations
     handleAddItem: (newItem: TItem) => Promise<void>;
     handleEditItem: (editingItem: TItem) => void;
-    handleDeleteItem: (identifier: string | number) => Promise<void>;
+    handleDeleteItem: (id: string) => Promise<void>;
     openEditDrawer: (item: TItem) => void;
     setEditDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setActiveSwipe: React.Dispatch<React.SetStateAction<string | null>>;
-    updateItem: (identifier: string | number, itemData: Partial<TItem>, sync?: boolean) => Promise<void>;
+    updateItem: (id: string, itemData: Partial<TItem>, sync?: boolean) => Promise<void>;
     updateOrder: (items: TItem[]) => Promise<void>;
     syncShoppingList: (items?: TItem[]) => Promise<void>;
 
@@ -90,12 +93,9 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
             }
         }, [contextType, config]);
 
-        const updateItem = async (identifier: string | number, itemData: Partial<TItem>, sync = true) => {
+        const updateItem = async (id: string, itemData: Partial<TItem>, sync = true) => {
             const updatedItems = items.map((item, index) => {
-                const isMatch = typeof identifier === 'string'
-                    ? ('itemId' in item && item.itemId === identifier)
-                    : index === identifier;
-
+                const isMatch = item.itemId === id
                 return isMatch ? { ...item, ...itemData } : item;
             });
             setItems(updatedItems);
@@ -118,14 +118,10 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
             }
         };
 
-        const handleDeleteItem = async (identifier: string | number) => {
+        const handleDeleteItem = async (id: string) => {
+            console.log('id :', id);
             try {
-                const updatedItems = items.filter((item, index) => {
-                    const isMatch = typeof identifier === 'string'
-                        ? ('itemId' in item && item.itemId === identifier)
-                        : index === identifier;
-                    return !isMatch;
-                });
+                const updatedItems = items.filter((item) => item.itemId !== id);
                 setItems(updatedItems);
                 await syncShoppingList(updatedItems);
                 setActiveSwipe(null);
@@ -141,8 +137,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
         const handleEditItem = (editingItem: TItem) => {
             try {
                 if (editingItem) {
-                    const identifier = 'itemId' in editingItem ? editingItem.itemId : items.indexOf(editingItem);
-                    updateItem(identifier, {
+                    updateItem(editingItem.itemId!, {
                         name: editingItem.name,
                         amount: editingItem.amount,
                         isUrgent: editingItem.isUrgent,
@@ -194,10 +189,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
             await syncShoppingList(updatedItems);
 
             if (updatedIsPurchased) {
-                setPurchaseItems((prev) => prev.filter(p => {
-                    const pIdentifier = 'itemId' in p ? p.itemId : prev.indexOf(p);
-                    return pIdentifier !== identifier;
-                }));
+                setPurchaseItems((prev) => prev.filter(p => p.itemId !== item.itemId));
             }
         };
 
@@ -244,6 +236,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
         };
 
         const contextValue: GenericShoppingListContextValue<TItem> = {
+            title: config.title,
             items,
             setItems,
             setDrawerOpen,

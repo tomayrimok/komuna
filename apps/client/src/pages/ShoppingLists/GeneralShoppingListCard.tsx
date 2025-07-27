@@ -1,10 +1,8 @@
-import { Badge, Card, HStack, Text, Flex, Icon, Tag, Button } from "@chakra-ui/react"
-import { GeneralShoppingListResponseDto, Frequency, ContextType } from "@komuna/types";
+import { Badge, Card, Flex, HStack, Icon, Tag, Text } from "@chakra-ui/react";
+import { ContextType, Frequency, GeneralShoppingListResponseDto } from "@komuna/types";
+import { IconCheck, IconClock, IconHome, IconShoppingCart, IconUser, IconX } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
-import { IconClock, IconCheck, IconX, IconUser, IconShoppingCart, IconHome, IconPlayerPlay, IconEdit } from "@tabler/icons-react";
 import DateText from "../../components/dateText";
-import { useManuallyGenerateFromTemplate } from "../../hooks/query/useGeneralShoppingLists";
-import { toaster } from "../../chakra/ui/toaster";
 
 interface GeneralShoppingListCardProps {
     list: GeneralShoppingListResponseDto;
@@ -19,34 +17,9 @@ const frequencyText = {
 
 const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
     const navigate = useNavigate();
-    const generateMutation = useManuallyGenerateFromTemplate();
 
     const handleViewItems = (list: GeneralShoppingListResponseDto) => {
         navigate({ to: `/roommate/general-shopping-lists/${list.generalShoppingListId}/items` });
-    };
-
-    const handleEditList = (list: GeneralShoppingListResponseDto) => {
-        navigate({ to: `/roommate/general-shopping-lists/${list.generalShoppingListId}` });
-    };
-
-    const handleGenerateNow = async (e: React.MouseEvent) => {
-        e.stopPropagation();
-        try {
-            await generateMutation.mutateAsync({
-                generalShoppingListId: list.generalShoppingListId
-            });
-            toaster.create({
-                title: 'הצלחה',
-                description: `רשימת קניות נוצרה מתבנית "${list.title}"`,
-                type: 'success',
-            });
-        } catch (error) {
-            toaster.create({
-                title: 'שגיאה',
-                description: 'יצירת רשימת קניות נכשלה',
-                type: 'error',
-            });
-        }
     };
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
@@ -68,34 +41,10 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
                     <Text fontSize="lg" fontWeight="semibold">
                         {list.title}
                     </Text>
-                    <HStack gap={2}>
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditList(list);
-                            }}
-                        >
-                            <IconEdit size={14} />
-                            עריכה
-                        </Button>
-                        {list.isActive && (
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={handleGenerateNow}
-                                loading={generateMutation.isPending}
-                            >
-                                <IconPlayerPlay size={14} />
-                                יצור כעת
-                            </Button>
-                        )}
-                        <Badge colorPalette={list.isActive ? 'green' : 'gray'}>
-                            {list.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
-                            {list.isActive ? 'פעילה' : 'לא פעילה'}
-                        </Badge>
-                    </HStack>
+                    <Badge colorPalette={list.isActive ? 'green' : 'gray'}>
+                        {list.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
+                        {list.isActive ? 'פעילה' : 'לא פעילה'}
+                    </Badge>
                 </HStack>
             </Card.Header>
             <Card.Body pt={2}>
@@ -108,7 +57,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
 
                 {list.items && list.items.length > 0 && (
                     <Text fontSize="sm" color="gray.500" mb={2}>
-                        פריטים: {list.items.length}
+                        {list.items.length} פריטים
                     </Text>
                 )}
 

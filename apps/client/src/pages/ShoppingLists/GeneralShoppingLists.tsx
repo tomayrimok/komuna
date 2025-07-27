@@ -28,55 +28,11 @@ const GeneralShoppingLists: React.FC = () => {
     const navigate = useNavigate();
     const { data: generalShoppingLists, isLoading, error } = useGeneralShoppingLists();
 
-    const deleteMutation = useDeleteGeneralShoppingList();
-    const generateMutation = useManuallyGenerateFromTemplate();
 
     const handleCreateTemplate = () => {
         navigate({ to: '/roommate/general-shopping-lists/create' });
     };
 
-    const handleDelete = async (listId: string) => {
-        try {
-            await deleteMutation.mutateAsync(listId);
-            toaster.create({
-                title: 'Success',
-                description: 'תבנית רשימת קניות נמחקה בהצלחה',
-                type: 'success',
-            });
-        } catch (error) {
-            toaster.create({
-                title: 'Error',
-                description: 'שגיאה במחיקת תבנית רשימת קניות',
-                type: 'error',
-            });
-        }
-    };
-
-    const handleGenerateLists = async () => {
-        try {
-            // Generate from all active automatic templates (for demonstration)
-            // In practice, you might want to generate from specific templates or let the server handle this
-            const activeLists = generalShoppingLists?.filter(list => list.isActive && !list.isManualOnly) || [];
-
-            for (const list of activeLists) {
-                await generateMutation.mutateAsync({
-                    generalShoppingListId: list.generalShoppingListId
-                });
-            }
-
-            toaster.create({
-                title: 'Success',
-                description: 'רשימות קניות נוצרו בהצלחה מהתבניות',
-                type: 'success',
-            });
-        } catch (error) {
-            toaster.create({
-                title: 'Error',
-                description: 'שגיאה ביצירת רשימות קניות',
-                type: 'error',
-            });
-        }
-    };
 
     // Sort lists to show active ones first, then by creation date
     const sortedLists = generalShoppingLists?.sort((a, b) => {

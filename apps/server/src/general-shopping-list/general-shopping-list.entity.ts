@@ -5,6 +5,7 @@ import { RecurrenceRuleDto } from '../recurrence-rule/recurrence-rule.dto';
 import { User } from '../user/user.entity';
 
 export interface ShoppingListTemplateItem {
+    itemId?: string;
     name: string;
     category?: string;
     amount: number;

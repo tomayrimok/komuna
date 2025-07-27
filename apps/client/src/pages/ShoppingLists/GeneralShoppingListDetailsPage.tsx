@@ -8,6 +8,7 @@ import {
     Flex,
     Heading,
     HStack,
+    IconButton,
     Input,
     Loader,
     NumberInput,
@@ -16,6 +17,7 @@ import {
     Text,
     Textarea
 } from '@chakra-ui/react';
+import { IconTrash } from '@tabler/icons-react';
 import {
     ContextType,
     Frequency,
@@ -28,6 +30,7 @@ import { toaster } from '../../chakra/ui/toaster';
 import { useAuth } from '../../context/auth/AuthProvider';
 import {
     useCreateGeneralShoppingList,
+    useDeleteGeneralShoppingList,
     useGeneralShoppingLists,
     useUpdateGeneralShoppingList,
 } from '../../hooks/query/useGeneralShoppingLists';
@@ -72,6 +75,7 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
 
     const createMutation = useCreateGeneralShoppingList();
     const updateMutation = useUpdateGeneralShoppingList();
+    const deleteMutation = useDeleteGeneralShoppingList();
 
     const [formData, setFormData] = useState<FormData>({
         title: '',
@@ -102,6 +106,11 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
         }
     }, [isEditing, currentList]);
 
+    const handleDelete = async () => {
+        if (window.confirm('האם אתה בטוח שברצונך למחוק את תבנית רשימת הקניות?')) {
+            await deleteMutation.mutateAsync(generalShoppingListId!);
+        }
+    };
 
     const handleSave = async () => {
         try {
@@ -324,6 +333,11 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
                                 ביטול
                             </Button>
+                            {isEditing && (
+                                <IconButton colorPalette="red" variant="outline" me="auto" onClick={handleDelete} size={'lg'}>
+                                    <IconTrash />
+                                </IconButton>
+                            )}
                             <Button
                                 colorScheme="blue"
                                 onClick={handleSave}
