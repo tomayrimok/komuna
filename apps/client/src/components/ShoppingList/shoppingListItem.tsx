@@ -114,7 +114,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                     <Flex align="center" gap={3} flex={1}>
                       <Checkbox.Root
                         checked={item.isPurchased}
-                        onCheckedChange={() => togglePurchased(item.itemId)}
+                        onCheckedChange={() => togglePurchased?.(item.itemId)}
                         variant={'outline'}
                       >
                         <Checkbox.HiddenInput />

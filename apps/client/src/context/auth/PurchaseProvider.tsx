@@ -14,7 +14,7 @@ export const PurchaseProvider: React.ComponentType<PurchaseProviderProps> = ({ c
   const { setPurchaseItems } = useShoppingList();
 
   const toggleItem = (item: ShoppingListItemWithIdDto) => {
-    setPurchaseItems((prev) => {
+    setPurchaseItems?.((prev) => {
       const newItems = [...prev];
       const index = newItems.findIndex((i) => i.itemId === item.itemId);
       if (index > -1) {

@@ -18,7 +18,7 @@ export interface GenericShoppingListConfig<TItem extends GenericShoppingListItem
     // Data and sync functions
     items: TItem[];
     isLoading: boolean;
-    syncItems: (items: TItem[], contextType?: ContextType) => Promise<void>;
+    syncItems: (items: TItem[], contextType?: ContextType) => Promise<TItem[]>;
 
     // Feature flags
     enablePurchaseFeatures?: boolean;
@@ -203,7 +203,8 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
 
         const syncShoppingList = async (itemsToSync?: TItem[]) => {
             try {
-                await config.syncItems(itemsToSync || items, config.enableContextType ? contextType : undefined);
+                const newItems = await config.syncItems(itemsToSync || items, config.enableContextType ? contextType : undefined);
+                setItems(newItems);
             } catch (error) {
                 toaster.create({
                     title: 'Error',

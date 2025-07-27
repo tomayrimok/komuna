@@ -41,10 +41,11 @@ export const GeneralShoppingListProvider: React.ComponentType<GeneralShoppingLis
         getItemKey: (item: TemplateItem, index: number): string => index.toString(),
 
         syncItems: async (items: TemplateItem[]) => {
-            await updateMutation.mutateAsync({
+            const data = await updateMutation.mutateAsync({
                 generalShoppingListId,
                 items,
             });
+            return data?.items || [];
         },
     };
 
