@@ -53,7 +53,7 @@ const GeneralShoppingLists: React.FC = () => {
     if (error) {
         return (
             <ApartmentLayout
-                title="תבניות רשימות קניות"
+                title={t('general_templates.shopping_list_templates')}
                 mt={0}
                 goBack={() => navigate({ to: '/roommate' })}
                 borderRadius={"40px"}
@@ -61,7 +61,7 @@ const GeneralShoppingLists: React.FC = () => {
             >
                 <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="20vh">
                     <Text fontSize="xl" color="red.500">
-                        שגיאה בטעינת תבניות רשימות קניות
+                        {t('error.error')}
                     </Text>
                 </Flex>
             </ApartmentLayout>
@@ -70,7 +70,7 @@ const GeneralShoppingLists: React.FC = () => {
 
     return (
         <ApartmentLayout
-            title="תבניות רשימות קניות"
+            title={t('general_templates.shopping_list_templates')}
             mt={0}
             goBack={() => navigate({ to: '/roommate' })}
             borderRadius={"40px"}
@@ -87,10 +87,10 @@ const GeneralShoppingLists: React.FC = () => {
                         <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="22vh">
                             <Image src="/meerkats/shopping.png" height={'30vh'} />
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                אין תבניות רשימות קניות זמינות
+                                {t('shopping.general_lists.no_templates')}
                             </Text>
                             <Text fontSize="md" color="gray.500" textAlign="center" px={4}>
-                                צרו תבניות לרשימות קניות שחוזרות על עצמן או לשימוש ידני
+                                {t('shopping.general_lists.create_templates')}
                             </Text>
                         </Flex>
                     )}
@@ -100,7 +100,7 @@ const GeneralShoppingLists: React.FC = () => {
                 onClick={handleCreateTemplate}
             >
                 <IconShoppingCart size={16} />
-                יצירת תבנית רשימת קניות
+                {t('shopping.general_lists.create_template')}
             </MainButton>
         </ApartmentLayout>
     );

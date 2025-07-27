@@ -1,5 +1,6 @@
 import { Flex, IconButton, Text } from '@chakra-ui/react';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 interface ShoppingListItemQuantityProps {
   handleChange: (amount: number) => void;
@@ -12,6 +13,7 @@ export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> =
   handleChange,
   isPurchased,
 }) => {
+  const { t } = useTranslation();
   const oncChange = (newAmount: number) => {
     if (newAmount < 1) {
       newAmount = 1;
@@ -34,7 +36,7 @@ export const ShoppingListItemQuantity: React.FC<ShoppingListItemQuantityProps> =
       )}
 
       <Text mx={1} whiteSpace="nowrap">
-        {amount} יח׳
+        {amount} {t('shopping.quantity')}
       </Text>
 
       {!isPurchased && (

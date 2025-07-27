@@ -2,32 +2,30 @@ import { Badge, Card, Flex, HStack, Icon, Tag, Text } from "@chakra-ui/react";
 import { ContextType, Frequency, GeneralShoppingListResponseDto } from "@komuna/types";
 import { IconCheck, IconClock, IconHome, IconShoppingCart, IconUser, IconX } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import DateText from "../../components/dateText";
 
 interface GeneralShoppingListCardProps {
     list: GeneralShoppingListResponseDto;
 }
 
-const frequencyText = {
-    [Frequency.DAILY]: { one: 'כל יום', two: 'כל יומיים', many: 'כל $ ימים' },
-    [Frequency.MONTHLY]: { one: 'כל חודש', two: 'כל חודשיים', many: 'כל $ חודשים' },
-    [Frequency.WEEKLY]: { one: 'כל שבוע', two: 'כל שבועיים', many: 'כל $ שבועות' },
-    [Frequency.YEARLY]: { one: 'כל שנה', two: 'כל שנתיים', many: 'כל $ שנים' }
-}
 
 const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
 
     const handleViewItems = (list: GeneralShoppingListResponseDto) => {
         navigate({ to: `/roommate/general-shopping-lists/${list.generalShoppingListId}/items` });
     };
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
-        return frequencyText[frequency][interval === 1 ? 'one' : interval === 2 ? 'two' : 'many'].replace('$', interval?.toString() || '');
+        const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
+        return t(`shopping.frequency.${frequency}.${key}`, { count: interval?.toString() || '0' } as any);
     };
 
     const getContextText = (contextType: ContextType) => {
-        return contextType === ContextType.APARTMENT ? 'רשימה משותפת' : 'רשימה אישית';
+        return contextType === ContextType.APARTMENT ? t('shopping.general_lists.shared_list') : t('shopping.general_lists.personal_list');
     };
 
     const getContextColor = (contextType: ContextType) => {
@@ -43,7 +41,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
                     </Text>
                     <Badge colorPalette={list.isActive ? 'green' : 'gray'}>
                         {list.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
-                        {list.isActive ? 'פעילה' : 'לא פעילה'}
+                        {list.isActive ? t('shopping.general_lists.active') : t('shopping.general_lists.inactive')}
                     </Badge>
                 </HStack>
             </Card.Header>
@@ -57,19 +55,19 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
 
                 {list.items && list.items.length > 0 && (
                     <Text fontSize="sm" color="gray.500" mb={2}>
-                        {list.items.length} פריטים
+                        {list.items.length === 1 ? t('shopping.general_lists.one_item') : t('shopping.general_lists.items', { count: list.items.length })}
                     </Text>
                 )}
 
                 {list.lastGeneratedAt && (
                     <Text fontSize="sm" color="gray.500">
-                        ההפעלה האחרונה: <DateText date={list.lastGeneratedAt.toString()} />
+                        {t('shopping.general_lists.last_generation')}: <DateText date={list.lastGeneratedAt.toString()} />
                     </Text>
                 )}
 
                 {list.nextGenerationAt && list.isActive && !list.isManualOnly && (
                     <Text fontSize="sm" color="gray.500">
-                        ההפעלה הבאה: <DateText date={list.nextGenerationAt.toString()} />
+                        {t('shopping.general_lists.next_generation')}: <DateText date={list.nextGenerationAt.toString()} />
                     </Text>
                 )}
 
@@ -89,7 +87,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
                         <Tag.Label display={'flex'} alignItems={'center'} gap={1}>
                             <IconShoppingCart size={16} />
                             <Text fontSize="sm">
-                                {list.isManualOnly ? 'תבנית ידנית' : 'תבנית אוטומטית'}
+                                {list.isManualOnly ? t('shopping.general_lists.manual_template') : t('shopping.general_lists.automatic_template')}
                             </Text>
                         </Tag.Label>
                     </Tag.Root>

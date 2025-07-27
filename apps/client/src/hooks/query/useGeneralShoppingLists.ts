@@ -9,6 +9,7 @@ import {
 import { useAuth } from '../../context/auth/AuthProvider';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
+import { useTranslation } from 'react-i18next';
 
 const fetchGeneralShoppingLists = async (apartmentId: string): Promise<GeneralShoppingListResponseDto[]> => {
     const response = await axios.get(`/api/general-shopping-list/list?apartmentId=${apartmentId}`);
@@ -115,13 +116,12 @@ export const useDeleteGeneralShoppingList = () => {
 export const useManuallyGenerateFromTemplate = () => {
     const queryClient = useQueryClient();
     const { sessionDetails } = useAuth();
-
+    const { t } = useTranslation();
     return useMutation({
         mutationFn: generateFromTemplate,
         onSuccess: (data) => {
             toaster.create({
-                title: 'הצלחה',
-                description: `הפריטים הועתקו לרשימת קניות ${data === ContextType.APARTMENT ? 'משותפת' : 'אישית'}`,
+                title: t('shopping.general_lists.copy_to_list_success'),
                 type: 'success',
             });
             // Invalidate shopping lists to show the newly generated lists

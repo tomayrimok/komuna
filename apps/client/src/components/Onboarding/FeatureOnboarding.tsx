@@ -11,6 +11,7 @@ import {
     IconButton,
 } from '@chakra-ui/react';
 import { IconChevronLeft, IconChevronRight, IconX } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 interface FeatureSlide {
     id: string;
@@ -21,43 +22,43 @@ interface FeatureSlide {
     textColor: string;
 }
 
-const features: FeatureSlide[] = [
+const getFeatures = (t: any): FeatureSlide[] => [
     {
         id: 'tasks',
-        title: 'ניהול משימות חכם',
-        description: 'צרו, חלקו ועקבו אחר משימות בית בקלות. הגדירו משימות חוזרות ועקבו אחר ההתקדמות של כל השותפים.',
+        title: t('onboarding.smart_task_management.title'),
+        description: t('onboarding.smart_task_management.description'),
         emoji: '🎯',
         bgColor: 'green.50',
         textColor: 'green.700',
     },
     {
         id: 'expenses',
-        title: 'ניהול הוצאות מקצועי',
-        description: 'חלקו הוצאות בצורה הוגנת, עקבו אחר חובות ותשלומים, והתנתקו מהחישובים המסובכים.',
+        title: t('onboarding.professional_expense_management.title'),
+        description: t('onboarding.professional_expense_management.description'),
         emoji: '💰',
         bgColor: 'yellow.50',
         textColor: 'yellow.700',
     },
     {
         id: 'incidents',
-        title: 'דיווח תקלות מהיר',
-        description: 'דווחו על בעיות בדירה, עקבו אחר סטטוס התיקון והתעדכנו בזמן אמת על התקדמות.',
+        title: t('onboarding.quick_incident_reporting.title'),
+        description: t('onboarding.quick_incident_reporting.description'),
         emoji: '🛠️',
         bgColor: 'red.50',
         textColor: 'red.700',
     },
     {
         id: 'shopping',
-        title: 'רשימות קניות משותפות',
-        description: 'צרו רשימות קניות משותפות, הוסיפו פריטים ועקבו אחר מה שנקנה ומה שעוד נותר.',
+        title: t('onboarding.shared_shopping_lists.title'),
+        description: t('onboarding.shared_shopping_lists.description'),
         emoji: '🛒',
         bgColor: 'blue.50',
         textColor: 'blue.700',
     },
     {
         id: 'communication',
-        title: 'תקשורת חלקה',
-        description: 'הוסיפו הערות, עדכונים והודעות. שמרו על כולם מעודכנים ובתיאום מושלם.',
+        title: t('onboarding.smooth_communication.title'),
+        description: t('onboarding.smooth_communication.description'),
         emoji: '💬',
         bgColor: 'purple.50',
         textColor: 'purple.700',
@@ -70,7 +71,9 @@ interface FeatureOnboardingProps {
 }
 
 const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSkip }) => {
+    const { t } = useTranslation();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const features = getFeatures(t);
 
     const nextSlide = () => {
         if (currentSlide < features.length - 1) {
@@ -218,7 +221,7 @@ const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSki
                         >
                             <Flex alignItems="center" gap={2}>
                                 <IconChevronRight />
-                                הקודם
+                                {t('common.previous')}
                             </Flex>
                         </Button>
 
@@ -237,7 +240,7 @@ const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSki
                             px={4}
                         >
                             <Flex alignItems="center" gap={2}>
-                                {currentSlide === features.length - 1 ? 'בואו נתחיל!' : 'הבא'}
+                                {currentSlide === features.length - 1 ? t('common.lets_start') : t('common.next')}
                                 <IconChevronLeft />
                             </Flex>
                         </Button>

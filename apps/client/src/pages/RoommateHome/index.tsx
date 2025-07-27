@@ -1,5 +1,5 @@
 import { Avatar, Box, HStack, Image, Text, VStack, Button } from '@chakra-ui/react';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import CreateIncidentButton from '../../components/Incidents/createIncidentButton';
 import IncidentsNumber from '../../components/Incidents/incidentsNumber';
 import BalanceText from '../../components/Payments/balanceText';
@@ -21,7 +21,7 @@ export const RoommateHome = () => {
   const { currentUserDetails } = useAuth();
   const { isRTL } = useIsRTL();
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
 
 
@@ -74,13 +74,13 @@ export const RoommateHome = () => {
               ✨
             </Box>
           }
-          text={<Text>גלו את הפיצ'רים של קומונה</Text>}
+          text={<Text>{t('onboarding.title')}</Text>}
           button={
             <MainButton
               isFixed={false}
               onClick={() => navigate({ to: '/onboarding/features' })}
             >
-              צפו בהדרכה 🚀
+              {t('onboarding.watch_tutorial')}
             </MainButton>
           }
         />

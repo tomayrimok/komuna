@@ -45,7 +45,10 @@
         "notifications_settings": "Task Templates & Notifications",
         "app_settings": "App settings",
         "logout": "Log out",
-        "change_languege": "Change language"
+        "change_languege": "Change language",
+        "select_apartment": "Select Apartment",
+        "roommates": "Roommates",
+        "shopping_templates": "Shopping Templates"
       },
       "navigation": {
         "tasks": "Tasks",
@@ -86,7 +89,76 @@
     "search_item": "Search item",
     "make_purchase": "Make purchase",
     "purchase_made": "Purchase made from a shopping list",
-    "num_unpurchased_items": "{{count}} items waiting to be purchased"
+    "num_unpurchased_items": "{{count}} items waiting to be purchased",
+    "search_add_item": "Add item...",
+    "wanna_buy": "Want to buy something?",
+    "no_results": "No results found",
+    "no_category": "No category",
+    "missing_item": "Missing item? Add \"{{searchTerm}}\"",
+    "duplicate_success": "Shopping list template duplicated successfully",
+    "duplicate_error": "Failed to duplicate shopping list template",
+    "lets_add_items": "Let's add some items!",
+    "every": "Every",
+    "general_lists": {
+      "create_template": "Create Shopping List Template",
+      "edit_template": "Edit Shopping List Template",
+      "duplicate": "Duplicate",
+      "copy_to_list": "Copy to Shopping List",
+      "edit_details": "Edit Details",
+      "delete": "Delete",
+      "template_name": "Template Name",
+      "description": "Description",
+      "frequency": "Frequency",
+      "active": "Active",
+      "inactive": "Inactive",
+      "manual_template": "Manual Template",
+      "automatic_template": "Automatic Template",
+      "shared_list": "Shared List",
+      "personal_list": "Personal List",
+      "confirm_delete": "Are you sure you want to delete this shopping list template?",
+      "update_success": "Shopping list template updated successfully",
+      "create_success": "Shopping list template created successfully",
+      "save_error": "Failed to save shopping list template",
+      "update": "Update",
+      "create": "Create",
+      "copy_to_list_success": "Items copied to your active shopping list",
+      "items": "{{count}} items",
+      "one_item": "One item",
+      "last_generation": "Last generation",
+      "next_generation": "Next generation",
+      "context_type": "Context type",
+      "no_templates": "No shopping list templates available",
+      "create_templates": "Create templates for recurring shopping lists or manual use"
+    },
+    "frequency": {
+      "daily": {
+        "one": "Daily",
+        "two": "Every 2 days",
+        "many": "Every {{count}} days"
+      },
+      "weekly": {
+        "one": "Weekly",
+        "two": "Every 2 weeks",
+        "many": "Every {{count}} weeks"
+      },
+      "monthly": {
+        "one": "Monthly",
+        "two": "Every 2 months",
+        "many": "Every {{count}} months"
+      },
+      "yearly": {
+        "one": "Yearly",
+        "two": "Every 2 years",
+        "many": "Every {{count}} years"
+      }
+    },
+    "frequency_units": {
+      "DAILY": "Days",
+      "WEEKLY": "Weeks",
+      "MONTHLY": "Months",
+      "YEARLY": "Years"
+    },
+    "quantity": "Unit"
   },
   "save": "Save",
   "cancel": "Cancel",
@@ -113,7 +185,7 @@
   "payments": {
     "debt": "You have a small debt of {{amount}}₪ 😞",
     "balanced": "Everything is balanced here!",
-    "people-owe-you": "How nice! People owe you {{amount}}₪ 🎉",
+    "people-owe-you": "How nice! People owe you",
     "owe-you-to": "{{name}} owes you {{amount}}₪",
     "someone-you-owe": "You owe {{name}} {{amount}}₪",
     "settle-up": "Let's settle up",
@@ -165,12 +237,15 @@
       "descrption": "Description: <b>{{description}}</b>",
       "assigned_to": "Participants: <b>{{assignedTo}}</b>",
       "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "Assigned By: <b>{{createdBy}}</b>"
+      "assigned_by": "Assigned By: <b>{{createdBy}}</b>",
+      "last_run": "Last Run",
+      "next_run": "Next Run"
     },
     "buttons": {
       "done": "Done",
       "postpone": "Postpone",
-      "didnt_do": "Didnt Do"
+      "mark_as_done": "Mark as Done",
+      "mark_as_not_done": "Mark as Not Done"
     },
     "create_task": {
       "create_task": "Create Task",
@@ -184,29 +259,117 @@
       "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
       "created_by": "Created By",
       "images": "Upload Images Of The Task (optional)",
-      "due_time": "Enter Due Time (optional)"
+      "due_time": "Enter Due Time (optional)",
+      "success": "Task created successfully",
+      "group_description": "One roommate marks the task as complete for everyone",
+      "personal_description": "Every roommate marks the task as complete for themselves",
+      "task_type": "Task Type",
+      "group_type": "Group",
+      "personal_type": "Personal",
+      "active": "Active",
+      "update": "Update",
+      "create": "Create",
+      "calculate_tasks": "Calculate New Tasks Now",
+      "no_tasks": "No task templates available"
     },
-    "load_tasks": "Load Completed Tasks"
+    "load_tasks": "Load Completed Tasks",
+    "delete_task": {
+      "success": "Task deleted successfully"
+    }
   },
   "incidents": {
     "no_incidents": "No incidents",
-    "create_incident": "Create Incident",
+    "incident_details": "Incident Details",
+    "open_incidents": "Open incidents",
+    "solved_incidents": "Solved incidents",
+    "notes_and_updates": "Notes and updates",
+    "add_note": "Add note",
+    "update_status": "Update status",
+    "create_incident": "Create New Incident",
     "edit_incident": "Edit Incident",
-    "incident_title": "Title",
-    "incident_description": "Description",
-    "urgency_level": "Urgency Level",
-    "incident_saved": "The incident has been successfully saved",
-    "update_status": "Update Status",
-    "notes_and_updates": "Notes and Updates",
-    "add_note": "Add Note...",
-    "open_incidents": "Open Incidents",
-    "solved_incidents": "Solved Incidents",
-    "num_open_incidents": "{{count}} Open Incidents"
+    "seen_by_manager_description": "Seen by the manager",
+    "seen": "Seen"
   },
   "urgency": {
     "low": "Low",
     "medium": "Medium",
     "high": "High",
     "extreme": "Extreme"
+  },
+  "tasks": {
+    "no_tasks": "Great! No tasks on the horizon",
+    "create_task": "Create New Task",
+    "edit_task": "Edit Task",
+    "task_title": "Title",
+    "task_participants": "Task Participants (if no roommates selected, task will be assigned to you)",
+    "task_description": "Task Description",
+    "due_date": "Due Date",
+    "task_saved": "Task saved successfully",
+    "status_updated": "Task status updated successfully",
+    "notes_and_updates": "Notes and Updates",
+    "open_tasks": "Open Tasks",
+    "solved_tasks": "Solved Tasks",
+    "num_open_tasks": "{{count}} tasks you need to complete",
+    "num_apartment_tasks": "{{total}} open apartment tasks",
+    "general_tasks": {
+      "create_template": "Create Task Template",
+      "edit_template": "Edit Task Template",
+      "group_task": "Group Task",
+      "personal_task": "Personal Task",
+      "update_success": "Task template updated successfully",
+      "create_success": "Task template created successfully",
+      "save_error": "Failed to save task template",
+      "tasks_created": "Tasks created successfully. You can view them on the tasks page.",
+      "tasks_creation_error": "Error creating tasks"
+    }
+  },
+  "status": {
+    "OPEN": "Open",
+    "IN_PROGRESS": "In Progress",
+    "SOLVED": "Solved"
+  },
+  "common": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "new": "New",
+    "seen": "Seen",
+    "success": "Success",
+    "error": "Error",
+    "loading": "Loading...",
+    "next": "Next",
+    "lets_start": "Let's start!",
+    "duplicate": "Duplicate",
+    "previous": "Previous"
+  },
+  "onboarding": {
+    "title": "Discover what you can do with Komuna",
+    "watch_tutorial": "Watch Tutorial 🚀",
+    "smart_task_management": {
+      "title": "Smart Task Management",
+      "description": "Create, share and track home tasks easily. Set recurring tasks and track progress of all roommates."
+    },
+    "professional_expense_management": {
+      "title": "Professional Expense Management",
+      "description": "Split expenses fairly, track debts and payments, and disconnect from complicated calculations."
+    },
+    "quick_incident_reporting": {
+      "title": "Quick Incident Reporting",
+      "description": "Report apartment issues, track repair status and get real-time progress updates."
+    },
+    "shared_shopping_lists": {
+      "title": "Shared Shopping Lists",
+      "description": "Create shared shopping lists, add items and track what's been bought and what's left."
+    },
+    "smooth_communication": {
+      "title": "Smooth Communication",
+      "description": "Add notes, updates and messages. Keep everyone updated and perfectly coordinated."
+    }
+  },
+  "general_templates": {
+    "shopping_list_templates": "Shopping List Templates",
+    "example_placeholder": "Example: Cleaning supplies",
+    "detailed_description_placeholder": "Detailed template description (optional)",
+    "example_task_placeholder": "Example: Clean bathroom",
+    "detailed_task_description_placeholder": "Detailed task description (optional)"
   }
 }

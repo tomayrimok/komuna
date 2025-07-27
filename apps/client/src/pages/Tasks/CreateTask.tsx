@@ -131,7 +131,7 @@ const TasksDetailsPage = () => {
               </Box>
               <Box>
                 <Text mb={1} fontWeight="bold">
-                  סוג משימה
+                  {t('task_category.create_task.task_type')}
                 </Text>
                 <Box>
                   <RadioGroup.Root variant={"subtle"} value={taskDetails?.taskType || TaskType.GROUP} onValueChange={(e) => updateTaskDetails({ taskType: e.value as TaskType })}>
@@ -141,10 +141,10 @@ const TasksDetailsPage = () => {
                         <RadioGroup.ItemIndicator />
                         <RadioGroup.ItemText display={'flex'} gap={1}>
                           <Text>
-                            קבוצתית
+                            {t('task_category.create_task.group_type')}
                           </Text>
                           <Text fontSize={'sm'} color={'gray.500'}>
-                            (שותף אחד מסמן שהמשימה הושלמה עבור כולם)
+                            {t('task_category.create_task.group_description')}
                           </Text>
                         </RadioGroup.ItemText>
                       </RadioGroup.Item>
@@ -153,10 +153,10 @@ const TasksDetailsPage = () => {
                         <RadioGroup.ItemIndicator />
                         <RadioGroup.ItemText display={'flex'} gap={1}>
                           <Text>
-                            אישית
+                            {t('task_category.create_task.personal_type')}
                           </Text>
                           <Text fontSize={'sm'} color={'gray.500'}>
-                            (כל שותף מסמן שהמשימה הושלמה עבורו)
+                            {t('task_category.create_task.personal_description')}
                           </Text>
                         </RadioGroup.ItemText>
                       </RadioGroup.Item>

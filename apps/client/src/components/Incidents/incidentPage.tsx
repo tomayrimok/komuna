@@ -46,7 +46,7 @@ const IncidentPage = () => {
 
   return (
     <ApartmentLayout goBack={() => navigate({ to: `/${role?.toLowerCase()}/incidents` })}>
-      <Heading fontSize="2xl" fontWeight="bold" textAlign={"center"}>פרטי התקלה</Heading>
+      <Heading fontSize="2xl" fontWeight="bold" textAlign={"center"}>{t('incidents.incident_details')}</Heading>
       <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
         <Flex justifyContent="space-between" alignItems="top">
           <Box flex={1}>
@@ -68,7 +68,7 @@ const IncidentPage = () => {
             <Tag.Root ring={0} colorPalette="green" borderRadius="2xl" h="fit-content">
               <Icon boxSize="3"><IconEye /></Icon>
               <Tag.Label gap={1}>
-                נצפה על ידי בעל הבית
+                {t('incidents.seen_by_manager')}
               </Tag.Label>
             </Tag.Root>
           )}

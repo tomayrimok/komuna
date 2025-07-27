@@ -46,19 +46,19 @@ interface FormData {
     isManualOnly: boolean;
 }
 
-const frequencyOptions = createListCollection({
+const getFrequencyOptions = (t: any) => createListCollection({
     items: [
-        { value: 'DAILY', label: 'ימים' },
-        { value: 'WEEKLY', label: 'שבועות' },
-        { value: 'MONTHLY', label: 'חודשים' },
-        { value: 'YEARLY', label: 'שנים' },
+        { value: 'DAILY', label: t('shopping.frequency_units.DAILY') },
+        { value: 'WEEKLY', label: t('shopping.frequency_units.WEEKLY') },
+        { value: 'MONTHLY', label: t('shopping.frequency_units.MONTHLY') },
+        { value: 'YEARLY', label: t('shopping.frequency_units.YEARLY') },
     ],
 });
 
-const contextTypeOptions = createListCollection({
+const getContextTypeOptions = (t: any) => createListCollection({
     items: [
-        { value: 'APARTMENT', label: 'רשימה משותפת' },
-        { value: 'USER', label: 'רשימה אישית' },
+        { value: 'APARTMENT', label: t('shopping.general_lists.shared_list') },
+        { value: 'USER', label: t('shopping.general_lists.personal_list') },
     ],
 });
 
@@ -72,6 +72,9 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
     const { t } = useTranslation();
     const { sessionDetails } = useAuth();
     const { data: generalShoppingLists, isLoading: isGeneralShoppingListsLoading } = useGeneralShoppingLists();
+
+    const frequencyOptions = getFrequencyOptions(t);
+    const contextTypeOptions = getContextTypeOptions(t);
 
     const createMutation = useCreateGeneralShoppingList();
     const updateMutation = useUpdateGeneralShoppingList();
@@ -107,7 +110,7 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
     }, [isEditing, currentList]);
 
     const handleDelete = async () => {
-        if (window.confirm('האם אתה בטוח שברצונך למחוק את תבנית רשימת הקניות?')) {
+        if (window.confirm(t('shopping.general_lists.confirm_delete'))) {
             await deleteMutation.mutateAsync(generalShoppingListId!);
         }
     };
@@ -137,24 +140,24 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                     ...dto,
                 });
                 toaster.create({
-                    title: 'הצלחה',
-                    description: 'תבנית רשימת הקניות עודכנה בהצלחה',
+                    title: t('common.success'),
+                    description: t('shopping.general_lists.update_success'),
                     type: 'success',
                 });
                 router.navigate({ to: '/roommate/general-shopping-lists' });
             } else {
                 const newList = await createMutation.mutateAsync(dto);
                 toaster.create({
-                    title: 'הצלחה',
-                    description: 'תבנית רשימת הקניות נוצרה בהצלחה',
+                    title: t('common.success'),
+                    description: t('shopping.general_lists.create_success'),
                     type: 'success',
                 });
                 router.navigate({ replace: true, to: '/roommate/general-shopping-lists/$generalShoppingListId/items', params: { generalShoppingListId: newList.generalShoppingListId } });
             }
         } catch (error) {
             toaster.create({
-                title: 'שגיאה',
-                description: 'שמירת תבנית רשימת הקניות נכשלה',
+                title: t('common.error'),
+                description: t('shopping.general_lists.save_error'),
                 type: 'error',
             });
         }
@@ -195,7 +198,7 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                             🛒
                         </Flex>
                         <Heading size="2xl" textAlign="center">
-                            {isEditing ? 'עריכת תבנית רשימת קניות' : 'יצירת תבנית רשימת קניות'}
+                            {isEditing ? t('shopping.general_lists.edit_template') : t('shopping.general_lists.create_template')}
                         </Heading>
                     </Flex>
 
@@ -203,20 +206,20 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                         <Stack gap={4} flexGrow={1}>
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    שם התבנית
+                                    {t('shopping.general_lists.template_name')}
                                 </Field.Label>
                                 <Input
                                     fontSize={'lg'}
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                     variant={'flushed'}
-                                    placeholder="לדוגמה: ציוד ניקיון"
+                                    placeholder={t('general_templates.example_placeholder')}
                                 />
                             </Field.Root>
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    תיאור התבנית
+                                    {t('shopping.general_lists.description')}
                                 </Field.Label>
                                 <Textarea
                                     fontSize={'lg'}
@@ -227,13 +230,13 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     resize={'none'}
                                     variant={'flushed'}
-                                    placeholder="תיאור מפורט של התבנית (אופציונלי)"
+                                    placeholder={t('general_templates.detailed_description_placeholder')}
                                 />
                             </Field.Root>
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    סוג הרשימה
+                                    {t('shopping.general_lists.context_type')}
                                 </Field.Label>
                                 <Select.Root
                                     key={formData.targetContextType?.toString()}
@@ -269,17 +272,17 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                 >
                                     <Checkbox.HiddenInput />
                                     <Checkbox.Control />
-                                    <Checkbox.Label>תבנית ידנית בלבד (ללא יצירה אוטומטית)</Checkbox.Label>
+                                    <Checkbox.Label>{t('shopping.general_lists.manual_template')}</Checkbox.Label>
                                 </Checkbox.Root>
                             </Field.Root>
 
                             {!formData.isManualOnly && (
                                 <Field.Root>
                                     <Field.Label fontWeight="bold">
-                                        תדירות יצירת הרשימה
+                                        {t('shopping.general_lists.frequency')}
                                     </Field.Label>
                                     <HStack>
-                                        <Text>כל</Text>
+                                        <Text>{t('shopping.every')}</Text>
                                         <NumberInput.Root
                                             value={formData.interval.toString()}
                                             onValueChange={(e) => setFormData({ ...formData, interval: e.valueAsNumber || 1 })}
@@ -324,14 +327,14 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                 >
                                     <Checkbox.HiddenInput />
                                     <Checkbox.Control />
-                                    <Checkbox.Label>תבנית פעילה</Checkbox.Label>
+                                    <Checkbox.Label>{t('shopping.general_lists.active')}</Checkbox.Label>
                                 </Checkbox.Root>
                             </Field.Root>
                         </Stack>
 
                         <Flex justifyContent="space-between" gap={3} mt={4}>
                             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
-                                ביטול
+                                {t('cancel')}
                             </Button>
                             {isEditing && (
                                 <IconButton colorPalette="red" variant="outline" me="auto" onClick={handleDelete} size={'lg'}>
@@ -345,7 +348,7 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                 size={'lg'}
                                 loading={createMutation.isPending || updateMutation.isPending}
                             >
-                                {isEditing ? 'עדכון' : 'יצירה'}
+                                {isEditing ? t('shopping.general_lists.update') : t('shopping.general_lists.create')}
                             </Button>
                         </Flex>
                     </Box>

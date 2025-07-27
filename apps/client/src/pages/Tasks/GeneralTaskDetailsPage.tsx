@@ -40,21 +40,7 @@ interface FormData {
     isActive: boolean;
 }
 
-const frequencyOptions = createListCollection({
-    items: [
-        { value: 'DAILY', label: 'ימים' },
-        { value: 'WEEKLY', label: 'שבועות' },
-        { value: 'MONTHLY', label: 'חודשים' },
-        { value: 'YEARLY', label: 'שנים' },
-    ],
-});
 
-const taskTypeOptions = createListCollection({
-    items: [
-        { value: 'GROUP', label: 'משימה קבוצתית' },
-        { value: 'PERSONAL', label: 'משימה אישית' },
-    ],
-});
 
 const GeneralTaskDetailsPage: React.FC = () => {
     const router = useRouter();
@@ -70,6 +56,14 @@ const GeneralTaskDetailsPage: React.FC = () => {
     const createMutation = useCreateGeneralTask();
     const updateMutation = useUpdateGeneralTask();
 
+    const frequencyOptions = createListCollection({
+        items: [
+            { value: 'DAILY', label: t('shopping.frequency_units.DAILY') },
+            { value: 'WEEKLY', label: t('shopping.frequency_units.WEEKLY') },
+            { value: 'MONTHLY', label: t('shopping.frequency_units.MONTHLY') },
+            { value: 'YEARLY', label: t('shopping.frequency_units.YEARLY') },
+        ],
+    });
     const [formData, setFormData] = useState<FormData>({
         title: '',
         description: '',
@@ -118,23 +112,20 @@ const GeneralTaskDetailsPage: React.FC = () => {
                     ...dto,
                 });
                 toaster.create({
-                    title: 'הצלחה',
-                    description: 'תבנית המשימה עודכנה בהצלחה',
+                    title: t('task_category.create_task.success'),
                     type: 'success',
                 });
             } else {
                 await createMutation.mutateAsync(dto);
                 toaster.create({
-                    title: 'הצלחה',
-                    description: 'תבנית המשימה נוצרה בהצלחה',
+                    title: t('task_category.create_task.success'),
                     type: 'success',
                 });
             }
             router.navigate({ to: '/roommate/general-tasks' });
         } catch (error) {
             toaster.create({
-                title: 'שגיאה',
-                description: 'שמירת תבנית המשימה נכשלה',
+                title: t('error.error'),
                 type: 'error',
             });
         }
@@ -176,7 +167,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
                             📋
                         </Flex>
                         <Heading size="2xl" textAlign="center">
-                            {isEditing ? 'עריכת תבנית משימה' : 'יצירת תבנית משימה'}
+                            {isEditing ? t('tasks.general_tasks.edit_template') : t('tasks.general_tasks.create_template')}
                         </Heading>
                     </Flex>
 
@@ -184,20 +175,20 @@ const GeneralTaskDetailsPage: React.FC = () => {
                         <Stack gap={4} flexGrow={1}>
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    כותרת המשימה
+                                    {t('task_category.create_task.task_name')}
                                 </Field.Label>
                                 <Input
                                     fontSize={'lg'}
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                     variant={'flushed'}
-                                    placeholder="לדוגמה: ניקוי חדר רחצה"
+                                    placeholder={t('task_category.create_task.title')}
                                 />
                             </Field.Root>
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    תיאור המשימה
+                                    {t('task_category.create_task.description')}
                                 </Field.Label>
                                 <Textarea
                                     fontSize={'lg'}
@@ -208,13 +199,13 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     resize={'none'}
                                     variant={'flushed'}
-                                    placeholder="תיאור מפורט של המשימה (אופציונלי)"
+                                    placeholder={t('task_category.create_task.description_placeholder')}
                                 />
                             </Field.Root>
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    סוג משימה
+                                    {t('task_category.create_task.task_type')}
                                 </Field.Label>
 
                                 <Box>
@@ -225,10 +216,10 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                                 <RadioGroup.ItemIndicator />
                                                 <RadioGroup.ItemText display={'flex'} gap={1}>
                                                     <Text>
-                                                        קבוצתית
+                                                        {t('task_category.create_task.group_type')}
                                                     </Text>
                                                     <Text fontSize={'sm'} color={'gray.500'}>
-                                                        (שותף אחד מסמן שהמשימה הושלמה עבור כולם)
+                                                        {t('task_category.create_task.group_description')}
                                                     </Text>
                                                 </RadioGroup.ItemText>
                                             </RadioGroup.Item>
@@ -237,10 +228,10 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                                 <RadioGroup.ItemIndicator />
                                                 <RadioGroup.ItemText display={'flex'} gap={1}>
                                                     <Text>
-                                                        אישית
+                                                        {t('task_category.create_task.personal_type')}
                                                     </Text>
                                                     <Text fontSize={'sm'} color={'gray.500'}>
-                                                        (כל שותף מסמן שהמשימה הושלמה עבורו)
+                                                        {t('task_category.create_task.personal_description')}
                                                     </Text>
                                                 </RadioGroup.ItemText>
                                             </RadioGroup.Item>
@@ -252,10 +243,10 @@ const GeneralTaskDetailsPage: React.FC = () => {
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    תדירות המשימה
+                                    {t('task_category.create_task.recurrence')}
                                 </Field.Label>
                                 <HStack>
-                                    <Text>כל</Text>
+                                    <Text>{t('shopping.every')}</Text>
                                     <NumberInput.Root
                                         value={formData.interval.toString()}
                                         onValueChange={(e) => setFormData({ ...formData, interval: e.valueAsNumber || 1 })}
@@ -294,7 +285,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    שעת ברירת מחדל (אופציונלי)
+                                    {t('task_category.create_task.due_time')}
                                 </Field.Label>
                                 <Input
                                     type="time"
@@ -312,14 +303,14 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                 >
                                     <Checkbox.HiddenInput />
                                     <Checkbox.Control />
-                                    <Checkbox.Label>תבנית פעילה</Checkbox.Label>
+                                    <Checkbox.Label>{t('task_category.create_task.active')}</Checkbox.Label>
                                 </Checkbox.Root>
                             </Field.Root>
                         </Stack>
 
                         <Flex justifyContent="space-between" gap={3} mt={4}>
                             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
-                                ביטול
+                                {t('cancel')}
                             </Button>
                             <Button
                                 colorScheme="blue"
@@ -328,7 +319,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                 size={'lg'}
                                 loading={createMutation.isPending || updateMutation.isPending}
                             >
-                                {isEditing ? 'עדכון' : 'יצירה'}
+                                {isEditing ? t('task_category.create_task.update') : t('task_category.create_task.create')}
                             </Button>
                         </Flex>
                     </Box>

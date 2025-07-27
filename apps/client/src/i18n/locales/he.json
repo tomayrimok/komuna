@@ -201,7 +201,8 @@
         "logout": "התנתקות",
         "change_languege": "שנה שפה",
         "select_apartment": "שינוי דירה",
-        "roommates": "רשימת השותפים"
+        "roommates": "רשימת השותפים",
+        "shopping_templates": "תבניות רשימות קניות"
       },
       "navigation": {
         "tasks": "משימות",
@@ -254,7 +255,74 @@
     "search_item": "חיפוש פריט",
     "make_purchase": "ביצוע רכישה",
     "purchase_made": "רכישה מרשימת הקניות",
-    "num_unpurchased_items": "{{count}} פריטים ממתינים לרכישה"
+    "num_unpurchased_items": "{{count}} פריטים ממתינים לרכישה",
+    "no_results": "לא נמצאו תוצאות",
+    "no_category": "ללא קטגוריה",
+    "missing_item": "פריט חסר? הוסף את ״{{searchTerm}}״",
+    "duplicate_success": "תבנית רשימת הקניות שוכפלה בהצלחה",
+    "duplicate_error": "שכפול תבנית רשימת הקניות נכשל",
+    "lets_add_items": "בואו נוסיף כמה פריטים!",
+    "every": "כל",
+    "general_lists": {
+      "create_template": "יצירת תבנית רשימת קניות",
+      "edit_template": "עריכת תבנית רשימת קניות",
+      "duplicate": "שכפול",
+      "copy_to_list": "העתק לרשימת קניות",
+      "edit_details": "עריכת פרטים",
+      "delete": "מחיקה",
+      "template_name": "שם התבנית",
+      "description": "תיאור",
+      "frequency": "תדירות",
+      "active": "פעילה",
+      "inactive": "לא פעילה",
+      "manual_template": "תבנית ידנית",
+      "automatic_template": "תבנית אוטומטית",
+      "shared_list": "רשימה משותפת",
+      "personal_list": "רשימה אישית",
+      "confirm_delete": "האם אתה בטוח שברצונך למחוק את תבנית רשימת הקניות?",
+      "update_success": "תבנית רשימת הקניות עודכנה בהצלחה",
+      "create_success": "תבנית רשימת הקניות נוצרה בהצלחה",
+      "save_error": "שמירת תבנית רשימת הקניות נכשלה",
+      "update": "עדכון",
+      "create": "יצירה",
+      "copy_to_list_success": "הפריטים הועתקו לרשימת הקניות הפעילה",
+      "items": "{{count}} פריטים",
+      "one_item": "פריט אחד",
+      "last_generation": "ההפעלה האחרונה",
+      "next_generation": "ההפעלה הבאה",
+      "context_type": "סוג הרשימה",
+      "no_templates": "אין תבניות רשימות קניות זמינות",
+      "create_templates": "צרו תבניות לרשימות קניות שחוזרות על עצמן או לשימוש ידני"
+    },
+    "frequency": {
+      "daily": {
+        "one": "כל יום",
+        "two": "כל יומיים",
+        "many": "כל {{count}} ימים"
+      },
+      "weekly": {
+        "one": "כל שבוע",
+        "two": "כל שבועיים",
+        "many": "כל {{count}} שבועות"
+      },
+      "monthly": {
+        "one": "כל חודש",
+        "two": "כל חודשיים",
+        "many": "כל {{count}} חודשים"
+      },
+      "yearly": {
+        "one": "כל שנה",
+        "two": "כל שנתיים",
+        "many": "כל {{count}} שנים"
+      }
+    },
+    "frequency_units": {
+      "DAILY": "ימים",
+      "WEEKLY": "שבועות",
+      "MONTHLY": "חודשים",
+      "YEARLY": "שנים"
+    },
+    "quantity": "יח׳"
   },
   "error": {
     "error": "שגיאה",
@@ -271,12 +339,15 @@
       "descrption": "תיאור: <b>{{description}}</b>",
       "assigned_to": "שותפים למשימה: <b>{{assignedTo}}</b>",
       "recurrence": "יש לבצע כל: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>"
+      "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>",
+      "last_run": "ההפעלה האחרונה",
+      "next_run": "ההפעלה הבאה"
     },
     "buttons": {
       "done": "בוצע",
       "postpone": "דחייה",
-      "didnt_do": "לא בוצע"
+      "mark_as_done": "סימון כבוצע",
+      "mark_as_not_done": "סימון כלא בוצע"
     },
     "create_task": {
       "create_task": "יצירת משימה חדשה",
@@ -291,24 +362,42 @@
       "created_by": "נוצר ע\"י",
       "images": "העלה תמונות (לא חובה)",
       "due_time": "הכנס שעת יעד (לא חובה)",
-      "success": "המשימה נוספה בהצלחה"
+      "success": "המשימה נוספה בהצלחה",
+      "group_description": "שותף אחד מסמן שהמשימה הושלמה עבור כולם",
+      "personal_description": "כל שותף מסמן שהמשימה הושלמה עבורו",
+      "task_type": "סוג המשימה",
+      "group_type": "קבוצתית",
+      "personal_type": "אישית",
+      "active": "פעיל",
+      "update": "עדכון",
+      "create": "יצירה",
+      "calculate_tasks": "חישוב משימות חדשות כעת",
+      "no_tasks": "אין תבניות משימות זמינות"
     },
-    "load_tasks": "טען מטלות שהושלמו"
+    "load_tasks": "טען מטלות שהושלמו",
+    "delete_task": {
+      "success": "המשימה נמחקה בהצלחה"
+    }
   },
   "incidents": {
     "no_incidents": "החיים יפים, אין תקלות...",
     "create_incident": "יצירת תקלה חדשה",
     "edit_incident": "עריכת תקלה",
     "incident_title": "כותרת",
+    "incident_details": "פרטי התקלה",
     "incident_description": "תיאור התקלה",
     "urgency_level": "רמת דחיפות",
     "incident_saved": "התקלה נשמרה בהצלחה",
     "update_status": "עדכון סטטוס",
     "notes_and_updates": "הערות ועדכונים",
-    "add_note": "הוספת הערה...",
+    "add_note": "הוסף הערה",
     "open_incidents": "תקלות פתוחות",
     "solved_incidents": "תקלות שנפתרו",
-    "num_open_incidents": "{{count}} תקלות פתוחות"
+    "num_open_incidents": "{{count}} תקלות פתוחות",
+    "seen_by_manager": "נצפה",
+    "new_incident": "חדש",
+    "seen_by_manager_description": "נצפה על ידי בעל הבית",
+    "seen": "נצפה"
   },
   "tasks": {
     "no_tasks": "יפה! אין משימה באופק",
@@ -319,11 +408,23 @@
     "task_description": "תיאור המשימה",
     "due_date": "תאריך יעד",
     "task_saved": "המשימה נשמרה בהצלחה",
+    "status_updated": "סטטוס המשימה עודכן בהצלחה",
     "notes_and_updates": "הערות ועדכונים",
     "open_tasks": "משימות פתוחות",
     "solved_tasks": "משימות שנפתרו",
     "num_open_tasks": "{{count}} משימות שעליך להשלים",
-    "num_apartment_tasks": "{{total}} משימות דירתיות פתוחות"
+    "num_apartment_tasks": "{{total}} משימות דירתיות פתוחות",
+    "general_tasks": {
+      "create_template": "יצירת תבנית משימה",
+      "edit_template": "עריכת תבנית משימה",
+      "group_task": "משימה קבוצתית",
+      "personal_task": "משימה אישית",
+      "update_success": "תבנית המשימה עודכנה בהצלחה",
+      "create_success": "תבנית המשימה נוצרה בהצלחה",
+      "save_error": "שמירת תבנית המשימה נכשלה",
+      "tasks_created": "המשימות נוצרו בהצלחה. ניתן לצפות בהן בדף המשימות.",
+      "tasks_creation_error": "שגיאה ביצירת המשימות"
+    }
   },
   "urgency": {
     "LOW": "דחיפות נמוכה",
@@ -335,5 +436,49 @@
     "OPEN": "פתוח",
     "IN_PROGRESS": "בתהליך",
     "SOLVED": "נפתר"
+  },
+  "common": {
+    "today": "היום",
+    "tomorrow": "מחר",
+    "new": "חדש",
+    "seen": "נצפה",
+    "success": "הצלחה",
+    "error": "שגיאה",
+    "loading": "טוען...",
+    "next": "הבא",
+    "lets_start": "בואו נתחיל!",
+    "duplicate": "שכפול",
+    "previous": "הקודם"
+  },
+  "onboarding": {
+    "title": "גלו מה אתם יכולים לעשות עם קומונה",
+    "watch_tutorial": "צפו בהדרכה 🚀",
+    "smart_task_management": {
+      "title": "ניהול משימות חכם",
+      "description": "צרו, חלקו ועקבו אחר משימות בית בקלות. הגדירו משימות חוזרות ועקבו אחר ההתקדמות של כל השותפים."
+    },
+    "professional_expense_management": {
+      "title": "ניהול הוצאות מקצועי",
+      "description": "חלקו הוצאות בצורה הוגנת, עקבו אחר חובות ותשלומים, והתנתקו מהחישובים המסובכים."
+    },
+    "quick_incident_reporting": {
+      "title": "דיווח תקלות מהיר",
+      "description": "דווחו על בעיות בדירה, עקבו אחר סטטוס התיקון והתעדכנו בזמן אמת על התקדמות."
+    },
+    "shared_shopping_lists": {
+      "title": "רשימות קניות משותפות",
+      "description": "צרו רשימות קניות משותפות, הוסיפו פריטים ועקבו אחר מה שנקנה ומה שעוד נותר."
+    },
+    "smooth_communication": {
+      "title": "תקשורת חלקה",
+      "description": "הוסיפו הערות, עדכונים והודעות. שמרו על כולם מעודכנים ובתיאום מושלם."
+    }
+  },
+  "general_templates": {
+    "shopping_list_templates": "תבניות רשימות קניות",
+    "example_placeholder": "לדוגמה: ציוד ניקיון",
+    "detailed_description_placeholder": "תיאור מפורט של התבנית (אופציונלי)",
+    "example_task_placeholder": "לדוגמה: ניקוי חדר רחצה",
+    "detailed_task_description_placeholder": "תיאור מפורט של המשימה (אופציונלי)"
   }
 }

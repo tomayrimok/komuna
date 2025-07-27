@@ -2,6 +2,7 @@ import { Badge, Card, HStack, Text, IconButton, Flex, Icon, Tag } from "@chakra-
 import { GeneralTaskResponseDto, Frequency } from "@komuna/types";
 import { useAuth } from "../../context/auth/AuthProvider";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { useDeleteGeneralTask } from "../../hooks/query/useGeneralTasks";
 import { IconEdit, IconTrash, IconClock, IconCheck, IconX, IconUser } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -11,22 +12,19 @@ interface GeneralTaskCardProps {
     task: GeneralTaskResponseDto;
 }
 
-const frequencyText = {
-    [Frequency.DAILY]: { one: 'כל יום', two: 'כל יומיים', many: 'כל $ ימים' },
-    [Frequency.MONTHLY]: { one: 'כל חודש', two: 'כל חודשיים', many: 'כל $ חודשים' },
-    [Frequency.WEEKLY]: { one: 'כל שבוע', two: 'כל שבועיים', many: 'כל $ שבועות' },
-    [Frequency.YEARLY]: { one: 'כל שנה', two: 'כל שנתיים', many: 'כל $ שנים' }
-}
+
 
 const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleEditTask = (task: GeneralTaskResponseDto) => {
         navigate({ to: `/roommate/general-tasks/${task.generalTaskId}` });
     };
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
-        return frequencyText[frequency][interval === 1 ? 'one' : interval === 2 ? 'two' : 'many'].replace('$', interval?.toString() || '');
+        const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
+        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}` as any).replace('$', interval?.toString() || '');
     };
 
     return (
@@ -38,7 +36,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
                     </Text>
                     <Badge colorPalette={task.isActive ? 'green' : 'gray'}>
                         {task.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
-                        {task.isActive ? 'פעילה' : 'לא פעילה'}
+                        {task.isActive ? t('shopping.general_lists.active') : t('shopping.general_lists.inactive')}
                     </Badge>
                 </HStack>
             </Card.Header>
@@ -52,19 +50,19 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
 
                 {task.defaultDueTime && (
                     <Text fontSize="sm" color="gray.500">
-                        זמן ברירת מחדל: {task.defaultDueTime}
+                        {t('task_category.tasks.due_date')}: {task.defaultDueTime}
                     </Text>
                 )}
 
                 {task.lastGeneratedAt && (
                     <Text fontSize="sm" color="gray.500">
-                        ההפעלה האחרונה: <DateText date={task.lastGeneratedAt.toString()} />
+                        {t('task_category.tasks.last_run')}: <DateText date={task.lastGeneratedAt.toString()} />
                     </Text>
                 )}
 
                 {task.nextGenerationAt && task.isActive && (
                     <Text fontSize="sm" color="gray.500">
-                        ההפעלה הבאה: <DateText date={task.nextGenerationAt.toString()} />
+                        {t('task_category.tasks.next_run')}: <DateText date={task.nextGenerationAt.toString()} />
                     </Text>
                 )}
 

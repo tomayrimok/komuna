@@ -19,7 +19,7 @@ export const useUpdateTaskCompletion = () => {
             return postUpdateTaskCompletion(taskId, isCompleted);
         },
         onSuccess: (data, variables) => {
-            toaster.success({ title: "סטטוס המשימה עודכן בהצלחה" });
+            toaster.success({ title: t('tasks.status_updated') });
             queryClient.invalidateQueries({
                 queryKey: ['tasks', sessionDetails.apartmentId],
             });

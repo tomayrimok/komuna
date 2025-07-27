@@ -87,7 +87,7 @@ export const SettingLeftbar = () => {
                 onClick={() => navigate({ to: '/roommate/general-shopping-lists' })}
               >
                 <IconShoppingCart />
-                תבניות רשימות קניות
+                {t('roommate.homepage.leftbar.shopping_templates')}
               </Button>
             )}
 

@@ -55,12 +55,12 @@ const GeneralTasks: React.FC = () => {
         try {
             await generateTasksMutation.mutateAsync();
             toaster.create({
-                description: 'המשימות נוצרו בהצלחה. ניתן לצפות בהן בדף המשימות.',
+                description: t('tasks.general_tasks.tasks_created'),
                 type: 'success',
             });
         } catch (error) {
             toaster.create({
-                description: 'שגיאה ביצירת המשימות',
+                description: t('tasks.general_tasks.tasks_creation_error'),
                 type: 'error',
             });
         }
@@ -107,7 +107,7 @@ const GeneralTasks: React.FC = () => {
                         mb={4}
                     >
                         <IconPlayerPlay size={16} />
-                        חישוב משימות חדשות כעת
+                        {t('task_category.create_task.calculate_tasks')}
                     </Button>
                 ) : null}
 
@@ -120,7 +120,7 @@ const GeneralTasks: React.FC = () => {
                         <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="22vh">
                             <Image src="/meerkats/relaxing.png" width="80vw" />
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                אין תבניות משימות זמינות
+                                {t('task_category.create_task.no_tasks')}
                             </Text>
                         </Flex>
                     )}
@@ -130,7 +130,7 @@ const GeneralTasks: React.FC = () => {
                 onClick={handleCreateTask}
             >
                 <IconRepeat size={16} />
-                יצירת תבנית משימה
+                {t('task_category.create_task.create_task')}
             </MainButton>
         </ApartmentLayout>
     );

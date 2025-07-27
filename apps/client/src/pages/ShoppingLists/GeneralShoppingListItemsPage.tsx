@@ -79,7 +79,7 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                             size="sm"
                         >
                             <IconShoppingCart size={16} />
-                            העתק לרשימה הפעילה
+                            {t('shopping.general_lists.copy_to_list')}
                         </Button>
 
                         <Button
@@ -88,7 +88,7 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                             loading={duplicateMutation.isPending}
                         >
                             <IconCopy size={16} />
-                            שכפול
+                            {t('shopping.general_lists.duplicate')}
                         </Button>
 
                     </HStack>
@@ -132,9 +132,9 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                             <Image src="/meerkats/shopping.png" width="50vw" />
                             <VStack gap="2">
                                 <Text fontSize="lg" fontWeight="semibold">
-                                    אין פריטים בתבנית
+                                    {t('shopping.list_is_empty')}
                                 </Text>
-                                <Text fontWeight="semibold">בואו נוסיף כמה פריטים!</Text>
+                                <Text fontWeight="semibold">{t('shopping.lets_add_items')}</Text>
                             </VStack>
                         </Flex>
                     )
@@ -150,6 +150,7 @@ const GeneralShoppingListItemsPage: React.FC = () => {
     const navigate = useNavigate();
     const { setContextType } = useShoppingList();
     const { sessionDetails } = useAuth();
+    const { t } = useTranslation();
     const deleteMutation = useDeleteGeneralShoppingList();
     const duplicateMutation = useDuplicateGeneralShoppingList();
     const manuallyGenerateFromTemplateMutation = useManuallyGenerateFromTemplate();
@@ -167,15 +168,15 @@ const GeneralShoppingListItemsPage: React.FC = () => {
         try {
             await duplicateMutation.mutateAsync(generalShoppingListId!);
             toaster.create({
-                title: 'הצלחה',
-                description: 'תבנית רשימת הקניות שוכפלה בהצלחה',
+                title: t('common.success'),
+                description: t('shopping.duplicate_success'),
                 type: 'success',
             });
             navigate({ to: '/roommate/general-shopping-lists' });
         } catch (error) {
             toaster.create({
-                title: 'שגיאה',
-                description: 'שכפול תבנית רשימת הקניות נכשל',
+                title: t('common.error'),
+                description: t('shopping.duplicate_error'),
                 type: 'error',
             });
         }
@@ -190,7 +191,7 @@ const GeneralShoppingListItemsPage: React.FC = () => {
     if (!generalShoppingListId) {
         return (
             <Flex direction="column" align="center" justify="center" h="200px">
-                <Text>תבנית רשימת הקניות לא נמצאה</Text>
+                <Text>{t('error.action_failed')}</Text>
             </Flex>
         );
     }

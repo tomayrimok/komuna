@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Icon, Text, Badge } from '@chakra-ui/react';
 import { IconUser, IconEye, IconEyeOff } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { IncidentResponseDto } from 'libs/types/src/generated';
 import { UserRole } from '@komuna/types';
 import { useAuth } from '../../context/auth/AuthProvider';
@@ -16,6 +17,7 @@ interface IncidentCardProps {
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const numberOfComments = item.comments?.length || 0;
   const {
@@ -69,7 +71,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
                 <Icon>
                   {item.seenByManager ? <IconEye size={12} /> : <IconEyeOff size={12} />}
                 </Icon>
-                {item.seenByManager ? 'נצפה' : 'חדש'}
+                {item.seenByManager ? t('incidents.seen_by_manager') : t('incidents.new_incident')}
               </Badge>
             )}
           </Flex>
@@ -93,7 +95,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
                 gap={1}
               >
                 <Icon><IconEye size={10} /></Icon>
-                נצפה
+                {t('incidents.seen')}
               </Badge>
             )}
           </Flex>

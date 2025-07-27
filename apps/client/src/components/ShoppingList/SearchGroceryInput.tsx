@@ -132,7 +132,7 @@ export const SearchGroceryInput = ({ handleAddItem }: SearchGroceryInputProps) =
               <Flex direction="column" flex={1}>
                 <Flex justifyContent="space-between" alignItems="center">
                   <VStack>
-                    <Text fontWeight="bold">פריט חסר? הוסף את ״{searchTerm}״</Text>
+                    <Text fontWeight="bold">{t('shopping.missing_item', { searchTerm })}</Text>
                   </VStack>
 
                   <ShoppingListItemDetailsDrawer
