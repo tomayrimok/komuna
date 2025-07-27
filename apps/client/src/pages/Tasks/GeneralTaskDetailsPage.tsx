@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react';
 import {
     Box,
     Button,
+    Checkbox,
     Container,
+    createListCollection,
+    Field,
     Flex,
     Heading,
+    HStack,
+    Input,
     Loader,
+    NumberInput,
+    RadioGroup,
+    Select,
     Stack,
     Text,
     Textarea,
-    Input,
-    Field,
-    Select,
-    createListCollection,
-    HStack,
-    NumberInput,
-    Checkbox,
+    VStack,
 } from '@chakra-ui/react';
-import { useRouter, useParams } from '@tanstack/react-router';
+import { Frequency, TaskType } from '@komuna/types';
+import { useRouter } from '@tanstack/react-router';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Frequency, GeneralTaskResponseDto, TaskType } from '@komuna/types';
+import { toaster } from '../../chakra/ui/toaster';
+import { useAuth } from '../../context/auth/AuthProvider';
 import {
-    useGeneralTasks,
     useCreateGeneralTask,
+    useGeneralTasks,
     useUpdateGeneralTask,
 } from '../../hooks/query/useGeneralTasks';
-import { useAuth } from '../../context/auth/AuthProvider';
-import { toaster } from '../../chakra/ui/toaster';
 
 interface FormData {
     title: string;
@@ -212,33 +214,40 @@ const GeneralTaskDetailsPage: React.FC = () => {
 
                             <Field.Root>
                                 <Field.Label fontWeight="bold">
-                                    סוג המשימה
+                                    סוג משימה
                                 </Field.Label>
-                                <Select.Root
-                                    key={formData.taskType?.toString()}
-                                    collection={taskTypeOptions}
-                                    value={[formData.taskType.toString()]}
-                                    onValueChange={(e) => setFormData({ ...formData, taskType: e.value[0] as TaskType })}
-                                >
-                                    <Select.Control>
-                                        <Select.Trigger>
-                                            <Select.ValueText />
-                                        </Select.Trigger>
-                                        <Select.IndicatorGroup>
-                                            <Select.Indicator />
-                                        </Select.IndicatorGroup>
-                                    </Select.Control>
-                                    <Select.Positioner>
-                                        <Select.Content>
-                                            {taskTypeOptions.items.map((item) => (
-                                                <Select.Item item={item} key={item.value}>
-                                                    <Select.ItemText>{item.label}</Select.ItemText>
-                                                    <Select.ItemIndicator />
-                                                </Select.Item>
-                                            ))}
-                                        </Select.Content>
-                                    </Select.Positioner>
-                                </Select.Root>
+
+                                <Box>
+                                    <RadioGroup.Root variant={"subtle"} value={formData.taskType || TaskType.GROUP} onValueChange={(e) => setFormData({ ...formData, taskType: e.value as TaskType })}>
+                                        <VStack alignItems={'start'} >
+                                            <RadioGroup.Item value={TaskType.GROUP} alignItems={'start'}>
+                                                <RadioGroup.ItemHiddenInput />
+                                                <RadioGroup.ItemIndicator />
+                                                <RadioGroup.ItemText display={'flex'} gap={1}>
+                                                    <Text>
+                                                        קבוצתית
+                                                    </Text>
+                                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                                        (שותף אחד מסמן שהמשימה הושלמה עבור כולם)
+                                                    </Text>
+                                                </RadioGroup.ItemText>
+                                            </RadioGroup.Item>
+                                            <RadioGroup.Item value={TaskType.PERSONAL} alignItems={'start'}>
+                                                <RadioGroup.ItemHiddenInput />
+                                                <RadioGroup.ItemIndicator />
+                                                <RadioGroup.ItemText display={'flex'} gap={1}>
+                                                    <Text>
+                                                        אישית
+                                                    </Text>
+                                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                                        (כל שותף מסמן שהמשימה הושלמה עבורו)
+                                                    </Text>
+                                                </RadioGroup.ItemText>
+                                            </RadioGroup.Item>
+                                        </VStack>
+                                    </RadioGroup.Root>
+
+                                </Box>
                             </Field.Root>
 
                             <Field.Root>

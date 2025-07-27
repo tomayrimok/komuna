@@ -28,7 +28,8 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, role, handleCl
     >
       <VStack width={"100%"} justifyContent={"space-between"}>
         <Image h="60px" src="/detailed_icons/apartment.png" />
-        <Text>{apartment.address + ' ' + apartment.city}</Text>
+        <Text>{apartment.name}</Text>
+        {/* <Text>{apartment.address + ' ' + apartment.city}</Text> */}
         <Text fontSize="md">({role === UserRole.ROOMMATE ? t('choose_apartment.renter') : t('choose_apartment.leaser')})</Text>
       </VStack>
     </Button>

@@ -5,6 +5,8 @@ import { useTasks } from '../../hooks/query/useTasks';
 import TaskCard from './TaskCard';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { parseDate } from '../../utils/dateUtils';
+import { useMemo } from 'react';
+import { TaskType } from '@komuna/types';
 
 const Tasks = () => {
   const { data: tasks, isLoading } = useTasks();
@@ -22,6 +24,16 @@ const Tasks = () => {
       isCompletedByAll,
     };
   });
+
+  const generalOpenTasks = useMemo(() => {
+    const openTasks = tasks?.filter(task => {
+      if (task.taskType === TaskType.GROUP) {
+        return task.completions?.length === 0;
+      }
+      return task.completions?.length !== task.assignedTo?.length;
+    });
+    return openTasks?.length || 0;
+  }, [tasks]);
 
 
   const orderedTasks = extendedTasks?.sort((a, b) => {
@@ -70,6 +82,9 @@ const Tasks = () => {
               {/* <Text fontSize="xl" fontWeight="bold" mb={2}>
               {t('tasks.solved_tasks')}
               </Text> */}
+              <Text fontSize="md" mb={2} color="gray.500">
+                {t('tasks.num_apartment_tasks', { total: generalOpenTasks }) || ''}
+              </Text>
               {orderedTasks.map((task) => (
                 <TaskCard key={task.taskId} task={task} />
               ))}

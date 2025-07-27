@@ -63,6 +63,15 @@ export class UpdateTaskDto {
 }
 // export class EditTaskDto extends PartialType(_EditTaskDto) { }
 
+export class DeleteTaskDto {
+  @ApiProperty()
+  @IsUUID()
+  taskId: string;
+
+  @ApiProperty()
+  @IsUUID()
+  apartmentId: string;
+}
 
 export class TaskResponseDto {
   @ApiProperty()

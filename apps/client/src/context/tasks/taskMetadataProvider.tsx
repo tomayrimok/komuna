@@ -1,12 +1,11 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from '@tanstack/react-router';
-import { IncidentResponseDto, TaskResponseDto, User } from 'libs/types/src/generated';
+import { TaskResponseDto, User } from 'libs/types/src/generated';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { useAddEditIncident } from '../../hooks/query/useAddEditIncident';
-import { useIncidentDetails } from '../../hooks/query/useIncidentDetails';
-import { useApartment } from '../../hooks/useApartment';
 import { useAddEditTask } from '../../hooks/query/useAddEditTask';
+import { useDeleteTask } from '../../hooks/query/useDeleteTask';
 import { useTaskDetails } from '../../hooks/query/useTaskDetails';
-import { TaskType } from '@komuna/types';
+import { useApartment } from '../../hooks/useApartment';
 
 type TaskMetadataContextValue = {
   taskDetails?: TaskResponseDto;
@@ -16,6 +15,7 @@ type TaskMetadataContextValue = {
   handleSave?: () => void;
   updateTaskDetails: (data: Partial<TaskResponseDto>) => void;
   toggleAssignedTo: (user: User) => void;
+  handleDelete: () => void;
 };
 
 export const TaskMetadataContext = createContext<TaskMetadataContextValue | null>(null);
@@ -33,8 +33,11 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
   } = useTaskDetails(taskId || '');
 
   const { mutate: addEditTask } = useAddEditTask();
+  const { mutate: deleteTask } = useDeleteTask();
 
   const { history } = useRouter();
+  const queryClient = useQueryClient();
+
 
   useEffect(() => {
     if (!taskDetailsData) return;
@@ -61,6 +64,24 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
       // recurrenceRule: taskDetails.recurrenceRule,
       apartmentId: apartmentData.apartmentId!,
     });
+
+    // invalidate tasks query
+    queryClient.invalidateQueries({ queryKey: ['tasks', apartmentData.apartmentId] });
+
+    history.back();
+  };
+
+
+  const handleDelete = () => {
+    if (!taskDetails || !apartmentData?.apartmentId) return;
+
+    deleteTask({
+      taskId: taskDetails.taskId,
+      apartmentId: apartmentData.apartmentId!,
+    });
+
+    // invalidate tasks query
+    queryClient.invalidateQueries({ queryKey: ['tasks', apartmentData.apartmentId] });
 
     history.back();
   };
@@ -102,7 +123,8 @@ export const TaskMetadataProvider = ({ children }: PropsWithChildren<{ taskId?: 
         taskId,
         handleSave,
         updateTaskDetails,
-        toggleAssignedTo
+        toggleAssignedTo,
+        handleDelete
       }}
     >
       {children}

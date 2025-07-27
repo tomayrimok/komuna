@@ -20,7 +20,11 @@ const TaskCompletionButton: React.FC<TaskCompletionButtonProps> = ({ task }) => 
         return (assignedToCurrentUser || isGroupTask || (task.assignedTo?.length === 0));
     }, [task]);
 
-    const showDoneButton = ((!task.completions?.some(completion => completion === currentUserDetails?.userId)) || (task.completions?.length === 0 && task.assignedTo?.length === 0))
+    const taskIsNotCompleted = (
+        (task.completions?.length === 0 && task.taskType === TaskType.GROUP) // if the task is not assigned to anyone and not completed by anyone and its a group task
+        || (task.completions?.length === 0 && task.assignedTo?.length === 0) // if the task is not assigned to anyone and not completed by anyone
+        || (!task.completions?.some(completion => completion === currentUserDetails?.userId) && task.taskType !== TaskType.GROUP) // if the task is not completed by the current user and its not a group task
+    )
 
     const handleClickDone = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -33,7 +37,7 @@ const TaskCompletionButton: React.FC<TaskCompletionButtonProps> = ({ task }) => 
     };
 
     if (!displayStatusButton) return null;
-    if (showDoneButton) return (
+    if (taskIsNotCompleted) return (
         <Button
             onClick={handleClickDone}
             size={'sm'}

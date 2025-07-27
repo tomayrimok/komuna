@@ -64,7 +64,7 @@ export class GeneralTaskController {
         }
 
         try {
-            const updatedTask = await this.generalTaskService.updateGeneralTask(dto);
+            const updatedTask = await this.generalTaskService.updateGeneralTask(user.userId, dto);
             return updatedTask;
         } catch (error) {
             this.logger.error('Error in updateGeneralTask:', error.stack);

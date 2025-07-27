@@ -50,7 +50,7 @@ export class GeneralTaskService {
         return savedTask;
     }
 
-    async updateGeneralTask(dto: UpdateGeneralTaskDto): Promise<GeneralTask> {
+    async updateGeneralTask(userId: string, dto: UpdateGeneralTaskDto): Promise<GeneralTask> {
         const existingTask = await this.generalTaskRepo.findOneBy({
             generalTaskId: dto.generalTaskId,
         });
@@ -78,7 +78,8 @@ export class GeneralTaskService {
                         body: dto.title
                     }
                 },
-                [UserRole.ROOMMATE]
+                [UserRole.ROOMMATE],
+                userId
             );
         } catch (error) {
             console.error('Failed to send general task update notification:', error);

@@ -10,10 +10,11 @@ import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingLi
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
-import { TasksNumber } from '../Tasks/components/TasksNumber';
 import { CreateTaskButton } from '../Tasks/components/CreateTaskButton';
 import { useNavigate } from '@tanstack/react-router';
 import MainButton from '../../components/mainButton';
+import TasksNumber from '../Tasks/TasksNumber';
+import { ContextType } from '@komuna/types';
 
 
 export const RoommateHome = () => {
@@ -86,7 +87,7 @@ export const RoommateHome = () => {
 
         <HomeCard
           image={<Image src='/meerkats/dealers.png' width={"30vw"} />}
-          text={<BalanceText />}
+          text={<BalanceText staticSize />}
           button={<CreateExpenseButton isFixed={false} />}
         />
 
@@ -99,7 +100,7 @@ export const RoommateHome = () => {
         <HomeCard
           image={<Image src='/meerkats/shopping.png' width={"20vw"} />}
           text={<ShoppingListItemsNumber />}
-          button={<ShoppingListPurchaseDrawer isFixed={false} />}
+          button={<ShoppingListPurchaseDrawer isFixed={false} contextType={ContextType.APARTMENT} />}
         />
 
         <HomeCard

@@ -9,12 +9,14 @@ import SelectionCard from '../selectionCard';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import CreatePurchaseButton from './createPurchaseButton';
+import { ContextType } from '@komuna/types';
 
 interface ShoppingListPurchaseDrawerProps {
   isFixed?: boolean;
+  contextType?: ContextType;
 }
 
-const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({ isFixed = true }) => {
+const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({ isFixed = true, contextType }) => {
   const { items, purchaseItems } = useShoppingList();
   const { toggleItem } = usePurchase();
   const { t } = useTranslation();
@@ -32,7 +34,7 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
 
   return (
     <Drawer.Root placement={'bottom'}>
-      <CreatePurchaseButton isFixed={isFixed} />
+      <CreatePurchaseButton isFixed={isFixed} contextType={contextType} />
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
@@ -49,7 +51,7 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
                     title={item.name}
                     description={item.category}
                     image={item.image}
-                    selected={purchaseItems.some((i) => i.itemId === item.itemId)}
+                    selected={purchaseItems?.some((i) => i.itemId === item.itemId)}
                     fallbackIcon={<IconShoppingBag />}
                     onClick={() => toggleItem(item)}
                   />

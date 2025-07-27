@@ -152,7 +152,7 @@ export const SearchGroceryInput = ({ handleAddItem }: SearchGroceryInputProps) =
                 gap={2}
                 onClick={() => handleSuggestionClick(suggestion)}
               >
-                <Image src={suggestion.image} alt={suggestion.description} width="60px" />
+                <Image src={suggestion.image || 'https://icons.veryicon.com/png/o/business/hotel-facilities/supermarket.png'} alt={suggestion.description} width="60px" />
                 <Flex direction="column" flex={1} gap={2}>
                   <Stack flexDirection="column" alignItems="flex-start">
                     <Text fontWeight="bold">{suggestion.description}</Text>

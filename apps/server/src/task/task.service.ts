@@ -171,12 +171,14 @@ export class TaskService {
 
     if (!task) throw new BadRequestException('Task not found');
 
-    const wasCompleted = task.completions.includes(userId);
+    const wasCompleted = task.taskType === TaskType.GROUP
+      ? task.completions.length > 0
+      : task.completions.includes(userId);
 
     if (isCompleted) {
       if (!wasCompleted) task.completions.push(userId);
     } else {
-      task.completions = task.completions.filter((c) => c !== userId);
+      task.completions = task.taskType === TaskType.GROUP ? [] : task.completions.filter((c) => c !== userId);
     }
 
     const savedTask = await this.taskRepo.save(task);
@@ -196,8 +198,8 @@ export class TaskService {
 
         let notificationBody: string;
         if (isCompleted) {
-          if (task.taskType === TaskType.GROUP && isFullyCompleted) {
-            notificationBody = `המשימה הקבוצתית "${task.title}" הושלמה על ידי כל הצוות! 🎉`;
+          if (task.taskType === TaskType.GROUP || (task.taskType === TaskType.PERSONAL && isFullyCompleted)) {
+            notificationBody = `המשימה הקבוצתית "${task.title}" הושלמה! 🎉`;
           } else if (task.taskType === TaskType.PERSONAL) {
             notificationBody = `${userName} השלים את המשימה "${task.title}"`;
           } else {
@@ -244,5 +246,13 @@ export class TaskService {
     }
 
     return task.assignedTo.some((user) => user.userId === userId);
+  }
+
+  async deleteTask(taskId: string, apartmentId: string) {
+    const task = await this.taskRepo.findOne({ where: { taskId, apartmentId } });
+    if (!task) {
+      throw new BadRequestException('Task not found');
+    }
+    return this.taskRepo.delete(taskId);
   }
 }

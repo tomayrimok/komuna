@@ -546,6 +546,37 @@
         ]
       }
     },
+    "/api/task/delete": {
+      "post": {
+        "operationId": "TaskController_deleteTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
     "/api/task": {
       "get": {
         "operationId": "TaskController_getAllTasks",
@@ -2510,6 +2541,21 @@
           "taskId",
           "completions",
           "taskType"
+        ]
+      },
+      "DeleteTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "taskId",
+          "apartmentId"
         ]
       },
       "CommentResponseDto": {

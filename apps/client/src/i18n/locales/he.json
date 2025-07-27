@@ -322,7 +322,8 @@
     "notes_and_updates": "הערות ועדכונים",
     "open_tasks": "משימות פתוחות",
     "solved_tasks": "משימות שנפתרו",
-    "num_open_tasks": "{{count}} משימות פתוחות"
+    "num_open_tasks": "{{count}} משימות שעליך להשלים",
+    "num_apartment_tasks": "{{total}} משימות דירתיות פתוחות"
   },
   "urgency": {
     "LOW": "דחיפות נמוכה",

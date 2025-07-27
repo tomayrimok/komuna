@@ -17,7 +17,7 @@ import { User } from '../decorators/User';
 import { UserApartmentService } from '../user-apartment/user-apartment.service';
 import { UserJwtPayload } from '../user/dto/jwt-user.dto';
 import { UserService } from '../user/user.service';
-import { AddEditTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
+import { AddEditTaskDto, DeleteTaskDto, TaskResponseDto, UpdateTaskDto } from './dto/task.dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
@@ -103,6 +103,21 @@ export class TaskController {
       throw new BadRequestException('Task was not found');
     } else {
       throw new InternalServerErrorException();
+    }
+  }
+
+  @Post('delete')
+  @UseAuth()
+  @ApiOkResponse({ type: TaskResponseDto })
+  async deleteTask(@User() user: UserJwtPayload, @Body() deleteTaskReqDto: DeleteTaskDto) {
+    try {
+      const task = await this.taskService.deleteTask(deleteTaskReqDto.taskId, deleteTaskReqDto.apartmentId);
+      return task;
+    } catch (error) {
+      this.logger.error('Error in deleteTask:', error.stack);
+      throw new InternalServerErrorException('Failed to delete task', {
+        description: 'לא הצלחנו למחוק את המשימה. אנא נסו בשנית',
+      });
     }
   }
 

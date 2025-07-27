@@ -15,9 +15,9 @@ const Main = () => {
     if (!currentUserDetails) {
       navigate({ to: '/login', replace: true });
     }
-    if (sessionDetails?.role === UserRole.LANDLORD) {
-      navigate({ to: '/landlord', replace: true });
-    }
+    // if (sessionDetails?.role === UserRole.LANDLORD) {
+    //   navigate({ to: '/landlord', replace: true });
+    // }
   }, [sessionDetails, navigate]);
 
   return <Outlet />;

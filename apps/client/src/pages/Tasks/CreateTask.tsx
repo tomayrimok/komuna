@@ -1,17 +1,16 @@
-import { Box, Button, Container, Flex, Heading, Icon, Input, Loader, RadioGroup, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Icon, IconButton, Input, Loader, RadioGroup, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea, VStack } from '@chakra-ui/react';
+import { TaskType } from '@komuna/types';
+import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { IncidentMetadataProvider } from '../../context/incidents/incidentMetadataProvider';
+import SelectUserDrawer from '../../components/General/selectResidentDrawer';
 import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
 import { withWrappers } from '../../utilities/withWrappers';
-import SelectUserDrawer from '../../components/General/selectResidentDrawer';
-import { IconPlus, IconX } from '@tabler/icons-react';
-import { TaskType } from '@komuna/types';
-import { toLocalDateString, parseDate } from '../../utils/dateUtils';
+import { parseDate, toISODateString } from '../../utils/dateUtils';
 
 const TasksDetailsPage = () => {
 
-  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails, toggleAssignedTo } = useTaskMetadata();
+  const { taskDetails, handleSave, taskId, isTaskDetailsLoading, updateTaskDetails, toggleAssignedTo, handleDelete } = useTaskMetadata();
 
   const router = useRouter();
   const { t } = useTranslation();
@@ -82,8 +81,8 @@ const TasksDetailsPage = () => {
                 <Input
                   type="date"
                   fontSize={'lg'}
-                  min={toLocalDateString(new Date())}
-                  value={taskDetails?.dueDate ? toLocalDateString(parseDate(taskDetails.dueDate)) : ''}
+                  min={toISODateString(new Date())}
+                  value={taskDetails?.dueDate ? toISODateString(parseDate(taskDetails.dueDate)) : ''}
                   resize={'none'}
                   onChange={(e) => updateTaskDetails({ dueDate: e.target.value })}
                   variant={'flushed'}
@@ -172,6 +171,11 @@ const TasksDetailsPage = () => {
               <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
                 {t('cancel')}
               </Button>
+              {taskId &&
+                <IconButton colorPalette="red" variant="outline" me="auto" onClick={handleDelete} disabled={isTaskDetailsLoading} size={'lg'} >
+                  <IconTrash />
+                </IconButton>
+              }
               <Button colorScheme="blue" onClick={handleSave} disabled={buttonDisabled} size={'lg'}>
                 {t('save')}
               </Button>
