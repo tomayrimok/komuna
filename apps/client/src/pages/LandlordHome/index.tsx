@@ -6,30 +6,13 @@ import { SettingLeftbar } from '../../components/SettingLeftbar';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
+import { useNavigate } from '@tanstack/react-router';
 
-const TempFakeCard = () => (
-  <Card.Root variant="elevated">
-    <Card.Body gap="2">
-      <Avatar.Root size="lg" shape="rounded">
-        <Avatar.Image src="https://picsum.photos/200/300" />
-        <Avatar.Fallback name="Nue Camp" />
-      </Avatar.Root>
-      <Card.Title mt="2">עדכונים אחרונים</Card.Title>
-      <Card.Description>
-        This is the card body. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec odio vel dui
-        euismod fermentum. Curabitur nec odio vel dui euismod fermentum.
-      </Card.Description>
-    </Card.Body>
-    <Card.Footer justifyContent="flex-end">
-      <Button variant="outline">View</Button>
-      <Button>Join</Button>
-    </Card.Footer>
-  </Card.Root>
-);
 
 export const LandlordHome = () => {
   const { currentUserDetails } = useAuth();
   const { isRTL } = useIsRTL();
+  const navigate = useNavigate();
 
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
   return (
@@ -66,6 +49,36 @@ export const LandlordHome = () => {
         <SettingLeftbar />
       </HStack>
       <VStack padding="5" gap="5">
+        <HomeCard
+          image={
+            <Box
+              fontSize="6xl"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mb={2}
+            >
+              ✨
+            </Box>
+          }
+          text={<Text>גלו מה אתה יכולים לעשות עם קומונה</Text>}
+          button={
+            <Button
+              colorScheme="purple"
+              size="lg"
+              borderRadius="xl"
+              onClick={() => navigate({ to: '/onboarding/features' })}
+              _hover={{
+                transform: 'translateY(-2px)',
+                shadow: 'lg'
+              }}
+              transition="all 0.2s"
+            >
+              צפו בהדרכה 🚀
+            </Button>
+          }
+        />
+
         <HomeCard
           image={<Image src='/meerkats/incident.png' width={"20vw"} />}
           text={<IncidentsNumber />}
