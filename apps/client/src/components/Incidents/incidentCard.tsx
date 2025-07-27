@@ -1,7 +1,8 @@
-import { Box, Container, Flex, Icon, Text } from '@chakra-ui/react';
-import { IconUser } from '@tabler/icons-react';
+import { Box, Container, Flex, Icon, Text, Badge } from '@chakra-ui/react';
+import { IconUser, IconEye, IconEyeOff } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { IncidentResponseDto } from 'libs/types/src/generated';
+import { UserRole } from '@komuna/types';
 import { useAuth } from '../../context/auth/AuthProvider';
 import DateText from '../dateText';
 import { STATUSES_DATA } from './consts/statuses.data';
@@ -36,20 +37,65 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
     >
       <UrgencyIndication item={item} />
 
+      {role === UserRole.LANDLORD && !item.seenByManager && (
+        <Box
+          position="absolute"
+          top={2}
+          right={2}
+          w={3}
+          h={3}
+          bg="orange.500"
+          borderRadius="full"
+          zIndex={10}
+        />
+      )}
+
       <Container p={5}>
         <Flex direction={'column'} gap={2} mb={2}>
-          <Text fontSize="lg" fontWeight="bold">
-            {item.title}
-          </Text>
+          <Flex justifyContent="space-between" alignItems="flex-start">
+            <Text fontSize="lg" fontWeight="bold" flex={1}>
+              {item.title}
+            </Text>
+
+            {role === UserRole.LANDLORD && (
+              <Badge
+                colorPalette={item.seenByManager ? 'green' : 'orange'}
+                size="sm"
+                borderRadius="full"
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <Icon>
+                  {item.seenByManager ? <IconEye size={12} /> : <IconEyeOff size={12} />}
+                </Icon>
+                {item.seenByManager ? 'נצפה' : 'חדש'}
+              </Badge>
+            )}
+          </Flex>
+
           {item.description && (
             <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
               {item.description}
             </Text>
           )}
-          <Flex mt={2} gap={2} alignItems={'center'}>
+          <Flex mt={2} gap={2} alignItems={'center'} flexWrap="wrap">
             <IncidentTag value={item.status} data={STATUSES_DATA} />
             {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
-            {/* <IncidentTag value={item.urgencyLevel} data={URGENCY_DATA} /> */}
+
+            {item.seenByManager && role !== UserRole.LANDLORD && (
+              <Badge
+                colorPalette="green"
+                size="sm"
+                borderRadius="full"
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <Icon><IconEye size={10} /></Icon>
+                נצפה
+              </Badge>
+            )}
           </Flex>
         </Flex>
       </Container>

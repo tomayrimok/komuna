@@ -1,32 +1,32 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Icon,
   IconButton,
   Loader,
-  Stack,
+  Tag,
   Text,
-  Textarea,
+  Textarea
 } from '@chakra-ui/react';
-import { IncidentStatus } from '@komuna/types';
-import { IconEdit, IconSend2 } from '@tabler/icons-react';
+import { IncidentStatus, UserRole } from '@komuna/types';
+import { IconEdit, IconEye, IconSend2 } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { IncidentProvider, useIncident } from '../../context/incidents/IncidentProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
+import ApartmentLayout from '../../pages/NewApartment/ApartmentLayout';
 import { withWrappers } from '../../utilities/withWrappers';
 import DateText from '../dateText';
 import { INCIDENT_STATUSES, STATUSES_DATA } from './consts/statuses.data';
 import { URGENCY_DATA } from './consts/urgency.data';
 import IncidentTag from './incidentTag';
-import ApartmentLayout from '../../pages/NewApartment/ApartmentLayout';
 
 const IncidentPage = () => {
-  const { incidentDetails, incidentId, updateIncidentDetails, addComment, newComment, setNewComment } = useIncident();
+  const { incidentDetails, incidentId, updateIncidentDetails, addComment, newComment, setNewComment, markAsSeenByLandlord } = useIncident();
 
   const navigate = useNavigate();
   const {
@@ -35,14 +35,24 @@ const IncidentPage = () => {
   const { isRTL } = useIsRTL();
   const { t } = useTranslation();
 
+  // Automatically mark as seen when landlord views the incident
+  useEffect(() => {
+    if (role === UserRole.LANDLORD && incidentDetails && !incidentDetails.seenByManager && markAsSeenByLandlord) {
+      markAsSeenByLandlord();
+    }
+  }, [role, incidentDetails, markAsSeenByLandlord]);
+
   if (!incidentDetails) return <Loader />;
 
   return (
     <ApartmentLayout goBack={() => navigate({ to: `/${role?.toLowerCase()}/incidents` })}>
-      <Heading fontSize="2xl" fontWeight="bold" textAlign={"center"} mb={2}>פרטי התקלה</Heading>
+      <Heading fontSize="2xl" fontWeight="bold" textAlign={"center"}>פרטי התקלה</Heading>
       <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
         <Flex justifyContent="space-between" alignItems="top">
-          <Heading>{incidentDetails?.title}</Heading>
+          <Box flex={1}>
+            <Heading mb={2}>{incidentDetails?.title}</Heading>
+            <Text color="gray.700" lineHeight="1.5">{incidentDetails?.description}</Text>
+          </Box>
           <IconButton
             onClick={() => navigate({ to: `/${role?.toLowerCase()}/incident/details/${incidentId}` })}
             color={'gray.500'}
@@ -51,10 +61,17 @@ const IncidentPage = () => {
             <IconEdit />
           </IconButton>
         </Flex>
-        <Text>{incidentDetails?.description}</Text>
-        <Flex mt={3} gap={2}>
+        <Flex mt={4} gap={2} alignItems="center">
           <IncidentTag value={incidentDetails?.status} data={STATUSES_DATA} />
           <IncidentTag value={incidentDetails?.urgencyLevel} data={URGENCY_DATA} />
+          {incidentDetails?.seenByManager && (
+            <Tag.Root ring={0} colorPalette="green" borderRadius="2xl" h="fit-content">
+              <Icon boxSize="3"><IconEye /></Icon>
+              <Tag.Label gap={1}>
+                נצפה על ידי בעל הבית
+              </Tag.Label>
+            </Tag.Root>
+          )}
         </Flex>
       </Box>
       <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
