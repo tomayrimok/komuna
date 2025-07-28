@@ -45,7 +45,7 @@ const IncidentPage = () => {
   if (!incidentDetails) return <Loader />;
 
   return (
-    <ApartmentLayout goBack={() => navigate({ to: `/${role?.toLowerCase()}/incidents` })}>
+    <ApartmentLayout goBack={() => navigate({ to: `/${role?.toLowerCase()}/incidents` })} mt={0}>
       <Heading fontSize="2xl" fontWeight="bold" textAlign={"center"}>{t('incidents.incident_details')}</Heading>
       <Box p={4} borderWidth={1} borderRadius="xl" bg="white">
         <Flex justifyContent="space-between" alignItems="top">
