@@ -24,7 +24,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
         const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
-        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}` as any).replace('$', interval?.toString() || '');
+        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}` as any, { count: interval });
     };
 
     return (
