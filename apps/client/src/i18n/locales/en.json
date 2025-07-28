@@ -100,6 +100,7 @@
     "lets_add_items": "Let's add some items!",
     "every": "Every",
     "delete_success": "Shopping list template deleted successfully",
+    "mark_all_as_purchased": "Mark all",
     "general_lists": {
       "create_template": "Create Shopping List Template",
       "edit_template": "Edit Shopping List Template",

@@ -1,4 +1,4 @@
-import { Button, CloseButton, Drawer, Portal, VStack } from '@chakra-ui/react';
+import { Button, Checkbox, CheckboxCheckedChangeDetails, CloseButton, Drawer, Portal, VStack } from '@chakra-ui/react';
 import { IconShoppingBag } from '@tabler/icons-react';
 import { usePurchase } from '../../context/auth/PurchaseProvider';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
@@ -10,6 +10,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import CreatePurchaseButton from './createPurchaseButton';
 import { ContextType } from '@komuna/types';
+import { useState } from 'react';
 
 interface ShoppingListPurchaseDrawerProps {
   isFixed?: boolean;
@@ -20,6 +21,7 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
   const { items, purchaseItems } = useShoppingList();
   const { toggleItem } = usePurchase();
   const { t } = useTranslation();
+  const [markAllAsPurchased, setMarkAllAsPurchased] = useState(false);
 
   const { filteredResults, handleChange } = useFilterList(
     items.filter((item) => !item.isPurchased),
@@ -30,6 +32,19 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
 
   const handleSave = () => {
     navigate({ to: '/roommate/payments/create-expense', search: { fromShoppingList: true } });
+  };
+
+  const handleMarkAllAsPurchased = (details: CheckboxCheckedChangeDetails) => {
+    setMarkAllAsPurchased(!!details.checked);
+    if (details.checked) {
+      filteredResults.forEach((item) => {
+        if (!purchaseItems?.some((i) => i.itemId === item.itemId)) toggleItem(item);
+      });
+    } else {
+      filteredResults.forEach((item) => {
+        if (purchaseItems?.some((i) => i.itemId === item.itemId)) toggleItem(item);
+      });
+    }
   };
 
   return (
@@ -44,7 +59,12 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
             </Drawer.Header>
             <Drawer.Body>
               <SearchInput placeholder={t('shopping.search_item')} handleChange={handleChange} />
-              <VStack>
+              <VStack alignItems={'flex-start'}>
+                <Checkbox.Root mb={1} mt={2} checked={markAllAsPurchased} onCheckedChange={handleMarkAllAsPurchased}>
+                  <Checkbox.HiddenInput />
+                  <Checkbox.Control />
+                  <Checkbox.Label>{t('shopping.mark_all_as_purchased')}</Checkbox.Label>
+                </Checkbox.Root>
                 {filteredResults.map((item) => (
                   <SelectionCard
                     key={item.itemId}
