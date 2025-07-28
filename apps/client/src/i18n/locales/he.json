@@ -3,6 +3,7 @@
     "title": "מצטערים",
     "description": "האתר הזה נתמך רק במכשירים ניידים, אנא פתחו אותו בטלפון על מנת להמשיך."
   },
+  "no-thanks": "לא, תודה",
   "title": "ברוכים הבאים לKomuna",
   "button": "בואו נתחיל",
   "other-options": "אפשרויות נוספות",
@@ -76,7 +77,8 @@
       "paid-by": "שולם על ידי",
       "and-splits": "ומתחלק",
       "equally": "בצורה שווה",
-      "unequally": "בצורה לא שווה"
+      "unequally": "בצורה לא שווה",
+      "are-you-sure-create-expense": "האם ליצור הוצאה חדשה עבור הפריטים שנרכשו?"
     }
   },
   "komuna": "Komuna",
@@ -267,6 +269,8 @@
     "every": "כל",
     "delete_success": "התבנית נמחקה בהצלחה",
     "mark_all_as_purchased": "סימון כל הפריטים",
+    "hide-purchased": "הסתר פריטים שנרכשו",
+    "show-purchased": "הצג פריטים שנרכשו",
     "general_lists": {
       "create_template": "יצירת תבנית רשימת קניות",
       "edit_template": "עריכת תבנית רשימת קניות",

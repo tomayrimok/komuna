@@ -4,6 +4,7 @@
     "description": "This site is supported only on mobile devices. Please open it on your phone to continue."
   },
   "apartment_with_no_address": "Apartment with no address",
+  "no-thanks": "No, thanks",
   "button": "Let's get started",
   "komuna": "Komuna",
   "catchphrase": "Peace at home between roommates",
@@ -204,6 +205,8 @@
     "settle-up-success": "The debt has been successfully settled",
     "no-debts": "No debts",
     "no-debt": "No debt",
+    "hide-purchased": "Hide purchased items",
+    "show-purchased": "Show purchased items",
     "expense": {
       "select-paid-by": "Select who paid for the expense:",
       "all-expenses": "All Expenses",
@@ -223,7 +226,8 @@
       "paid-by": "Paid by",
       "and-splits": "and splits",
       "equally": "equally",
-      "unequally": "unequally"
+      "unequally": "unequally",
+      "are-you-sure-create-expense": "Would you like to create an expense for the purchased items?"
     }
   },
   "error": {
