@@ -63,17 +63,7 @@ export const RoommateHome = () => {
 
       <VStack padding="7" gap="5" mt={"120px"}>
         <HomeCard
-          image={
-            <Box
-              fontSize="6xl"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              mb={2}
-            >
-              ✨
-            </Box>
-          }
+          image={<Image src='/meerkats/campfire.png' width={"30vw"} />}
           text={<Text>{t('onboarding.title')}</Text>}
           button={
             <MainButton
