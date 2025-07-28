@@ -39,7 +39,7 @@ export const ResidentsList = () => {
         </Text>
         <Stack gap="4" width="100%">
           {Array.from({ length: 3 }).map((_, index) => (
-            <Card.Root key={index} variant="elevated">
+            <Card.Root key={index}>
               <Card.Body>
                 <HStack gap="4">
                   <SkeletonText noOfLines={1} width="60px" height="60px" />
@@ -65,14 +65,14 @@ export const ResidentsList = () => {
           <Badge w="fit-content" ms='auto' size="lg">{t('residents.residents_amount', { amount: residents?.length })}</Badge>
         </HStack>}
       mt={0}
-      goBack={() => navigate({ to: '/roommate' })}
+      goBack={() => navigate({ to: '..' })}
       borderRadius={"40px"}
     >
 
-      <VStack pt={4}>
+      <VStack pt={4} gap={4}>
         {/* Summary Footer */}
         {!!residents?.length && (
-          <Card.Root variant="elevated" bg="white" width="100%">
+          <Card.Root bg="white" width="100%">
             <Card.Body p="4">
               <HStack justifyContent="space-between" alignItems="center">
                 <Text fontSize="sm" fontWeight="bold">
@@ -98,8 +98,6 @@ export const ResidentsList = () => {
               {(resident) => (
                 <Card.Root
                   key={resident.userId}
-                  variant="elevated"
-                  _hover={{ shadow: 'xl', transform: 'translateY(-2px)' }}
                   transition="all 0.2s"
                 >
                   <Card.Body p="6">
@@ -111,7 +109,7 @@ export const ResidentsList = () => {
                       </Avatar.Root>
 
                       {/* Main Content */}
-                      <VStack alignItems="start" flex="1" gap="3">
+                      <VStack alignItems="start" flex="1" gap="2">
                         {/* Name and Role */}
                         <HStack gap="3" alignItems="center">
                           <Text fontSize="xl" fontWeight="bold">
@@ -125,10 +123,10 @@ export const ResidentsList = () => {
                         </Text>
 
                         {/* Rent and Join Date */}
-                        <HStack gap="6" justifyContent="space-between" alignItems="center">
+                        <HStack gap="6" justifyContent="space-between" alignItems="start">
                           {/* Rent Amount */}
-                          <VStack alignItems="start" gap="1">
-                            <Text fontSize="xs" color="gray.500" fontWeight="medium">
+                          <VStack alignItems="start" gap="1" justifyContent="space-between" >
+                            <Text fontSize="sm" color="gray.500" fontWeight="medium">
                               {t('residents.rent')}
                             </Text>
                             <HStack gap="1" alignItems="baseline">
@@ -143,11 +141,11 @@ export const ResidentsList = () => {
                           </VStack>
 
                           {/* Join Date */}
-                          <VStack alignItems="start" gap="1">
-                            <Text fontSize="xs" color="gray.500" fontWeight="medium">
+                          <VStack alignItems="start" gap="1" justifyContent="space-between" >
+                            <Text fontSize="sm" color="gray.500" fontWeight="medium">
                               {t('residents.joined_at')}
                             </Text>
-                            <Text fontSize="sm" fontWeight="medium">
+                            <Text fontSize="md" fontWeight="medium">
                               {format(parseISO(resident.createdAt), 'dd/MM/yyyy')}
                             </Text>
                           </VStack>
