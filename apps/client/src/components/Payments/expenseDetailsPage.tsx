@@ -7,6 +7,7 @@ import SelectUserDrawer from '../General/selectResidentDrawer';
 import SplitDetailsDrawer from './SplitDetailsDrawer/splitDetailsDrawer';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
+import { useLocaleChange } from '../../hooks/useLocaleChange';
 
 const ExpenseDetailsPage = () => {
   const {
@@ -26,6 +27,8 @@ const ExpenseDetailsPage = () => {
   const { t } = useTranslation();
 
   const [displayAmount, setDisplayAmount] = useState(expenseDetails.amount.toString());
+
+  const { isRTL } = useLocaleChange();
 
   useEffect(() => {
     setDisplayAmount(expenseDetails.amount.toString());
@@ -128,7 +131,7 @@ const ExpenseDetailsPage = () => {
                     {/* <NumberInput.Control /> */}
                     <NumberInput.Input placeholder="0.00" fontSize={'2xl'} />
                   </NumberInput.Root>
-                  <Text fontSize="2xl" position="absolute" left={2} top={1}>
+                  <Text fontSize="2xl" position="absolute" {...(isRTL ? { left: 2 } : { right: 2 })} top={1}>
                     ₪
                   </Text>
                 </Flex>
