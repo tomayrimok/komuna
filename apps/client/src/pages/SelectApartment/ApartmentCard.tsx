@@ -11,6 +11,7 @@ interface ApartmentCardProps {
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, role, handleClick }) => {
   const { t } = useTranslation();
+  const hasAddress = apartment.address || apartment.city;
 
   return (
     <Button
@@ -28,8 +29,11 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, role, handleCl
     >
       <VStack width={"100%"} justifyContent={"space-between"}>
         <Image h="60px" src="/detailed_icons/apartment.png" />
-        <Text>{apartment.name}</Text>
-        {/* <Text>{apartment.address + ' ' + apartment.city}</Text> */}
+        {role === UserRole.ROOMMATE ? (
+          <Text>{apartment.name}</Text>
+        ) : (
+          <Text>{hasAddress ? (apartment.address + ' ' + apartment.city) : t('apartment_with_no_address')}</Text>
+        )}
         <Text fontSize="md">({role === UserRole.ROOMMATE ? t('choose_apartment.renter') : t('choose_apartment.leaser')})</Text>
       </VStack>
     </Button>
