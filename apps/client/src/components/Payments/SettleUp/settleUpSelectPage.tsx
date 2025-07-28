@@ -25,7 +25,7 @@ const SettleUpPage = () => {
   });
 
   return (
-    <ApartmentLayout goBack={() => navigate({ to: '/roommate/payments' })} containerProps={{ gap: 2 }}>
+    <ApartmentLayout goBack={() => navigate({ to: '/roommate/payments' })} containerProps={{ gap: 2 }} mt={0}>
       <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb="2">{t('payments.settle-up-title')}</Text>
       <Text as={'div'}>
         {!isLoading && data ? (
