@@ -1,5 +1,5 @@
 import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
-import { Body, ConflictException, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import { Body, ConflictException, Controller, ForbiddenException, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
@@ -18,7 +18,7 @@ export class ApartmentController {
   constructor(
     private readonly apartmentService: ApartmentService,
     private readonly userApartmentService: UserApartmentService
-  ) {}
+  ) { }
   private static readonly CODE_LENGTH = 4;
 
   @Get()
@@ -143,7 +143,7 @@ export class ApartmentController {
       console.error(
         `User ${user.userId} cannot join apartment with code ${apartment.roommateCode} because it already has a landlord`
       );
-      throw new ConflictException();
+      throw new ForbiddenException();
     }
     apartment.landlord = new User();
     apartment.landlord.userId = user.userId;

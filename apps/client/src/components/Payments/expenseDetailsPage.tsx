@@ -6,7 +6,7 @@ import { useRouter } from '@tanstack/react-router';
 import SelectUserDrawer from '../General/selectResidentDrawer';
 import SplitDetailsDrawer from './SplitDetailsDrawer/splitDetailsDrawer';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ExpenseDetailsPage = () => {
   const {
@@ -24,7 +24,14 @@ const ExpenseDetailsPage = () => {
 
   const router = useRouter();
   const { t } = useTranslation();
+
   const [displayAmount, setDisplayAmount] = useState(expenseDetails.amount.toString());
+
+  useEffect(() => {
+    setDisplayAmount(expenseDetails.amount.toString());
+  }, [expenseDetails.amount]);
+
+
   const buttonDisabled =
     !expenseDetails.amount ||
     !expenseDetails.description ||

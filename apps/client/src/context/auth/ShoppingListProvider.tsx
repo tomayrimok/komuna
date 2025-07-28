@@ -49,6 +49,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     getItemKey: (item: ShoppingListItemWithIdDto, index: number): string => item.itemId,
 
     syncItems: async (items: ShoppingListItemWithIdDto[], currentContextType?: ContextType) => {
+
       const { data } = await API.shoppingListControllerSyncItems({
         body: {
           contextType: currentContextType || contextType,

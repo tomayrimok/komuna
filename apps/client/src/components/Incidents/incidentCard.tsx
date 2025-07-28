@@ -39,19 +39,6 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
     >
       <UrgencyIndication item={item} />
 
-      {role === UserRole.LANDLORD && !item.seenByManager && (
-        <Box
-          position="absolute"
-          top={2}
-          right={2}
-          w={3}
-          h={3}
-          bg="orange.500"
-          borderRadius="full"
-          zIndex={10}
-        />
-      )}
-
       <Container p={5}>
         <Flex direction={'column'} gap={2} mb={2}>
           <Flex justifyContent="space-between" alignItems="flex-start">

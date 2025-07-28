@@ -42,9 +42,12 @@ const JoinApartment = () => {
     onError: (error) => {
       const isConflict = (error as AxiosError).response?.status === 409;
       const isNotFound = (error as AxiosError).response?.status === 404;
+      const isTaken = (error as AxiosError).response?.status === 403;
+
       let title = t('error.action_failed');
       if (isConflict) title = t('join_existing_apartment.apartment_already_joined');
       if (isNotFound) title = t('join_existing_apartment.apartment_not_found');
+      if (isTaken) title = t('join_existing_apartment.apartment_taken');
       toaster.create({
         title,
         type: 'error',

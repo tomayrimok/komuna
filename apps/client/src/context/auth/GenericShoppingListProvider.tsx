@@ -13,6 +13,7 @@ export type GenericShoppingListItem = {
     isPurchased?: boolean;
     createdAt?: string;
     creatorId?: string;
+    isSyncing?: boolean;
 };
 
 export interface GenericShoppingListConfig<TItem extends GenericShoppingListItem> {
@@ -45,6 +46,7 @@ export interface GenericShoppingListContextValue<TItem extends GenericShoppingLi
     isFetching: boolean;
     activeSwipe: string | null;
     contextType?: ContextType;
+    isSyncing: boolean;
 
     // Core item operations
     handleAddItem: (newItem: TItem) => Promise<void>;
@@ -81,7 +83,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
         const [items, setItems] = useState<TItem[]>(config.items || []);
         const [activeSwipe, setActiveSwipe] = useState<string | null>(null);
         const [purchaseItems, setPurchaseItems] = useState<TItem[]>([]);
-
+        const [isSyncing, setIsSyncing] = useState(false);
         useEffect(() => {
             setItems(config.items || []);
         }, [config.items]);
@@ -195,6 +197,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
 
         const syncShoppingList = async (itemsToSync?: TItem[]) => {
             try {
+                setIsSyncing(true);
                 const newItems = await config.syncItems(itemsToSync || items, config.enableContextType ? contextType : undefined);
                 setItems(newItems);
             } catch (error) {
@@ -203,6 +206,8 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
                     description: 'Failed to sync shopping list',
                     type: 'error',
                 });
+            } finally {
+                setIsSyncing(false);
             }
         };
 
@@ -248,6 +253,7 @@ export function createShoppingListProvider<TItem extends GenericShoppingListItem
             isEditDrawerOpen,
             setActiveSwipe,
             updateItem,
+            isSyncing,
             isFetching: config.isLoading,
             activeSwipe,
             updateOrder,

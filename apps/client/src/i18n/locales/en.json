@@ -288,7 +288,8 @@
     "create_incident": "Create New Incident",
     "edit_incident": "Edit Incident",
     "seen_by_manager_description": "Seen by the manager",
-    "seen": "Seen"
+    "seen": "Seen",
+    "incident_deleted": "Incident deleted successfully"
   },
   "urgency": {
     "low": "Low",

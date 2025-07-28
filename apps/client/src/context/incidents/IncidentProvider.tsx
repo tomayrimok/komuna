@@ -77,6 +77,8 @@ export const IncidentProvider = ({ children }: PropsWithChildren<{ incidentId?: 
       },
     });
 
+    queryClient.invalidateQueries({ queryKey: ['incidents', apartmentData?.apartmentId] });
+
     if (!data) return;
 
     const newCommentData = {
