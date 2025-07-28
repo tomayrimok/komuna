@@ -35,7 +35,7 @@ export const ResidentsList = () => {
     return (
       <VStack gap="4" p="6">
         <Text fontSize="2xl" fontWeight="bold">
-          {t('residents.title')}
+          {isLandlord ? t('residents.landlord_title') : t('residents.title')}
         </Text>
         <Stack gap="4" width="100%">
           {Array.from({ length: 3 }).map((_, index) => (
@@ -65,7 +65,7 @@ export const ResidentsList = () => {
           <Badge w="fit-content" ms='auto' size="lg">{t('residents.residents_amount', { amount: residents?.length })}</Badge>
         </HStack>}
       mt={0}
-      goBack={() => navigate({ to: '/roommate' })}
+      goBack={() => navigate({ to: isLandlord ? '/landlord' : '/roommate' })}
       borderRadius={"40px"}
     >
 

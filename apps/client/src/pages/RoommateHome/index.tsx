@@ -15,6 +15,7 @@ import { useNavigate } from '@tanstack/react-router';
 import MainButton from '../../components/mainButton';
 import TasksNumber from '../Tasks/TasksNumber';
 import { ContextType } from '@komuna/types';
+import { useApartment } from '../../hooks/useApartment';
 
 
 export const RoommateHome = () => {
@@ -23,6 +24,7 @@ export const RoommateHome = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
+  const apartment = useApartment();
 
 
   return (
@@ -49,6 +51,7 @@ export const RoommateHome = () => {
               <Avatar.Image src={currentUserDetails?.image} />
               <Avatar.Fallback name="Nue Camp" />
             </Avatar.Root>
+            <VStack spaceY={-3}>
             <Text color="brand.900" fontSize="xl">
               <Trans
                 i18nKey="roommate.homepage.title"
@@ -56,6 +59,13 @@ export const RoommateHome = () => {
                 components={{ b: <b /> }}
               />
             </Text>
+            <Text color="brand.900" fontSize="md" w={"full"} textAlign={"center"}>
+            {apartment.data?.name}
+          </Text>
+            <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"center"}>
+            {apartment.data?.address}, {apartment.data?.city}
+          </Text>
+            </VStack>
           </HStack>
           <SettingLeftbar />
         </HStack>
