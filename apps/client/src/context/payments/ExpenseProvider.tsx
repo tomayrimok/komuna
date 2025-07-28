@@ -92,7 +92,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
   useEffect(() => {
     if (fromShoppingList) {
       setDescription(t('shopping.purchase_made'));
-      setExtendedDescription(purchaseItems.length > 0 ? purchaseItems.map((item) => '- ' + item.name).join('\n') : '');
+      setExtendedDescription(purchaseItems.length > 0 ? purchaseItems.map((item) => '- ' + item.name + ' (' + item.amount + ')').join('\n') : '');
     }
   }, [fromShoppingList]);
 

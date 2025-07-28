@@ -11,7 +11,7 @@ import {
 
 type ShoppingListItemWithIdDto = ApiTypes.ShoppingListItemWithIdDto & GenericShoppingListItem;
 
-export const ShoppingListContext = createShoppingListContext<any>();
+export const ShoppingListContext = createShoppingListContext<ShoppingListItemWithIdDto>();
 const GenericProvider = createShoppingListProvider(ShoppingListContext);
 
 type ShoppingListProviderProps = PropsWithChildren & {};

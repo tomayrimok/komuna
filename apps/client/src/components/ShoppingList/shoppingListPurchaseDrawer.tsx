@@ -1,4 +1,4 @@
-import { Button, Checkbox, CheckboxCheckedChangeDetails, CloseButton, Drawer, Portal, VStack } from '@chakra-ui/react';
+import { Badge, Button, Checkbox, CheckboxCheckedChangeDetails, CloseButton, Drawer, Portal, VStack } from '@chakra-ui/react';
 import { IconShoppingBag } from '@tabler/icons-react';
 import { usePurchase } from '../../context/auth/PurchaseProvider';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
@@ -65,17 +65,21 @@ const ShoppingListPurchaseDrawer: React.FC<ShoppingListPurchaseDrawerProps> = ({
                   <Checkbox.Control />
                   <Checkbox.Label>{t('shopping.mark_all_as_purchased')}</Checkbox.Label>
                 </Checkbox.Root>
-                {filteredResults.map((item) => (
-                  <SelectionCard
-                    key={item.itemId}
-                    title={item.name}
-                    description={item.category}
-                    image={item.image}
-                    selected={purchaseItems?.some((i) => i.itemId === item.itemId)}
-                    fallbackIcon={<IconShoppingBag />}
-                    onClick={() => toggleItem(item)}
-                  />
-                ))}
+                {filteredResults.map((item) => {
+                  const isSelected = purchaseItems?.some((i) => i.itemId === item.itemId);
+                  return (
+                    <SelectionCard
+                      key={item.itemId}
+                      title={item.name}
+                      description={item.category}
+                      image={item.image}
+                      selected={isSelected}
+                      fallbackIcon={<IconShoppingBag />}
+                      onClick={() => toggleItem(item)}
+                      additionalComponent={!isSelected && <Badge colorPalette="blue" borderRadius={'xl'} size={'md'} me={1}>{item.amount}</Badge>}
+                    />
+                  )
+                })}
               </VStack>
             </Drawer.Body>
             <Drawer.Footer justifyContent="space-between">
