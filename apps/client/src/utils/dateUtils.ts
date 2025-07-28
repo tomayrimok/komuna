@@ -1,8 +1,4 @@
 
-export const toLocalDateString = (date: Date): string => {
-    return date.toLocaleDateString('he-IL');
-};
-
 
 export const toISODateString = (date: Date): string => {
     const dateOnly = new Date(date);
