@@ -10,7 +10,7 @@ export const useUserBalanceDetails = () => {
   return useQuery({
     queryKey: ['userBalanceDetails', apartmentId],
     queryFn: () => fetchUserBalanceDetails(apartmentId!),
-    staleTime: 1000 * 60 * 5,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 };

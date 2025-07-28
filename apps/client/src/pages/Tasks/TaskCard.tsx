@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Text } from '@chakra-ui/react';
+import { Badge, Box, Container, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TaskResponseDto } from 'libs/types/src/generated';
@@ -6,6 +6,7 @@ import DueDate from './DueDate';
 import TaskCompletionButton from './TaskCompletionButton';
 import TaskRoommates from './TaskRoommates';
 import { parseDate } from '../../utils/dateUtils';
+import TaskTypeTag from './TaskTypeTag';
 
 interface TaskCardProps {
     task: TaskResponseDto;
@@ -37,12 +38,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 
                     <Container p={5}>
                         <Flex direction={'column'} gap={2}>
-                            <Flex justifyContent={"space-between"}>
+                            <HStack justifyContent={"space-between"} alignItems={'start'}>
                                 <Text fontSize="lg" fontWeight="bold">
-                                    {task.title}
+                                    <span>{task.title}</span>
+                                    <TaskTypeTag mb={1} ms={2} taskType={task.taskType} alignSelf={'center'} />
                                 </Text>
                                 {task.dueDate && <DueDate dueDate={parseDate(task.dueDate)} />}
-                            </Flex>
+                            </HStack>
                             {task.description && (
                                 <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
                                     {task.description}

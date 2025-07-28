@@ -16,7 +16,7 @@ const DueDate: React.FC<DueDateProps> = ({ dueDate }) => {
     const formattedDateNoYear = dueDate.toLocaleDateString("he-IL", { month: 'short', day: 'numeric' });
 
     return (
-        <HStack color={isPast ? 'red.500' : 'gray.500'} fontSize="sm" alignItems={'center'} gap={1}>
+        <HStack color={isPast ? 'red.500' : 'gray.500'} fontSize="sm" alignItems={'center'} gap={1} whiteSpace={'nowrap'}>
             <Icon size={"sm"}>
                 <IconClock />
             </Icon>

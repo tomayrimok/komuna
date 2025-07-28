@@ -28,7 +28,6 @@ export const useGeneralShoppingLists = () => {
         queryKey: ['general-shopping-lists', sessionDetails?.apartmentId],
         queryFn: () => fetchGeneralShoppingLists(sessionDetails?.apartmentId!),
         enabled: !!sessionDetails?.apartmentId,
-        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 };
@@ -38,7 +37,6 @@ export const useGeneralShoppingListById = (generalShoppingListId?: string) => {
         queryKey: ['general-shopping-list', generalShoppingListId],
         queryFn: () => fetchGeneralShoppingListById(generalShoppingListId!),
         enabled: !!generalShoppingListId,
-        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 };
