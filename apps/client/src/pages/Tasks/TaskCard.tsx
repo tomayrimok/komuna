@@ -41,7 +41,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                             <HStack justifyContent={"space-between"} alignItems={'start'}>
                                 <Text fontSize="lg" fontWeight="bold">
                                     <span>{task.title}</span>
-                                    <TaskTypeTag mb={1} ms={2} taskType={task.taskType} alignSelf={'center'} />
+                                    <TaskTypeTag mb={1} ms={2} taskType={task.taskType} />
                                 </Text>
                                 {task.dueDate && <DueDate dueDate={parseDate(task.dueDate)} />}
                             </HStack>

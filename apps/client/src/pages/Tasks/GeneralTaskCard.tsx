@@ -7,6 +7,7 @@ import { useDeleteGeneralTask } from "../../hooks/query/useGeneralTasks";
 import { IconEdit, IconTrash, IconClock, IconCheck, IconX, IconUser } from "@tabler/icons-react";
 import { format } from "date-fns";
 import DateText from "../../components/dateText";
+import TaskTypeTag from "./TaskTypeTag";
 
 interface GeneralTaskCardProps {
     task: GeneralTaskResponseDto;
@@ -33,6 +34,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
                 <HStack justifyContent={'space-between'}>
                     <Text fontSize="lg" fontWeight="semibold">
                         {task.title}
+                        <TaskTypeTag mb={1} ms={2} taskType={task.taskType} />
                     </Text>
                     <Badge colorPalette={task.isActive ? 'green' : 'gray'}>
                         {task.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
