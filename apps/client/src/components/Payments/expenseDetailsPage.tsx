@@ -126,7 +126,7 @@ const ExpenseDetailsPage = () => {
                       setAmount(e.valueAsNumber);
                     }}
                     // onValueChange={(e) => isNumber(e.value) && setAmount(Number(e.value))}
-                    value={String(displayAmount)}
+                    value={isNaN(Number(displayAmount)) ? '' : String(displayAmount)}
                   >
                     {/* <NumberInput.Control /> */}
                     <NumberInput.Input placeholder="0.00" fontSize={'2xl'} />
