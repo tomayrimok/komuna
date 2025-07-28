@@ -99,6 +99,7 @@
     "duplicate_error": "Failed to duplicate shopping list template",
     "lets_add_items": "Let's add some items!",
     "every": "Every",
+    "delete_success": "Shopping list template deleted successfully",
     "general_lists": {
       "create_template": "Create Shopping List Template",
       "edit_template": "Edit Shopping List Template",
@@ -232,12 +233,7 @@
     "title": "Tasks",
     "task_list": "Your Tasks:",
     "tasks": {
-      "title": "Task's Name: <b>{{taskName}}</b>",
-      "due_date": "Due To: <b>{{dueDate}}</b>",
-      "descrption": "Description: <b>{{description}}</b>",
-      "assigned_to": "Participants: <b>{{assignedTo}}</b>",
-      "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "Assigned By: <b>{{createdBy}}</b>",
+      "due_date": "Due To",
       "last_run": "Last Run",
       "next_run": "Next Run"
     },

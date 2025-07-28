@@ -110,9 +110,7 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
     }, [isEditing, currentList]);
 
     const handleDelete = async () => {
-        if (window.confirm(t('shopping.general_lists.confirm_delete'))) {
-            await deleteMutation.mutateAsync(generalShoppingListId!);
-        }
+        await deleteMutation.mutateAsync(generalShoppingListId!);
     };
 
     const handleSave = async () => {
@@ -342,7 +340,6 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                 </IconButton>
                             )}
                             <Button
-                                colorScheme="blue"
                                 onClick={handleSave}
                                 disabled={buttonDisabled}
                                 size={'lg'}

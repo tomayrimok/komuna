@@ -264,6 +264,7 @@
     "duplicate_error": "שכפול תבנית רשימת הקניות נכשל",
     "lets_add_items": "בואו נוסיף כמה פריטים!",
     "every": "כל",
+    "delete_success": "התבנית נמחקה בהצלחה",
     "general_lists": {
       "create_template": "יצירת תבנית רשימת קניות",
       "edit_template": "עריכת תבנית רשימת קניות",
@@ -335,12 +336,7 @@
     "task_list": "המטלות שלך: ",
     "tasks": {
       "create_task": "יצירת משימה",
-      "title": "שם המשימה: <b>{{taskName}}</b>",
-      "due_date": "לביצוע עד: <b>{{dueDate}}</b>",
-      "descrption": "תיאור: <b>{{description}}</b>",
-      "assigned_to": "שותפים למשימה: <b>{{assignedTo}}</b>",
-      "recurrence": "יש לבצע כל: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>",
+      "due_date": "לביצוע עד",
       "last_run": "ההפעלה האחרונה",
       "next_run": "ההפעלה הבאה"
     },

@@ -67,7 +67,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
   const [usersPercentage, setUsersPercentage] = useState<{ [userId: string]: number }>({});
   const { currentUserDetails } = useAuth();
   const { t } = useTranslation();
-  const { purchaseItems, markAllPurchaseItemsAsPurchased } = useShoppingList();
+  const { purchaseItems = [], markAllPurchaseItemsAsPurchased } = useShoppingList();
 
   const [expenseDetails, setExpenseDetails] = useState<ApartmentExpensesResponse>({
     expenseId: '',
@@ -269,7 +269,7 @@ export const ExpenseProvider = ({ children }: PropsWithChildren<{ expenseId?: st
       splitType,
     });
     if (fromShoppingList) {
-      markAllPurchaseItemsAsPurchased();
+      markAllPurchaseItemsAsPurchased?.();
     }
   };
 

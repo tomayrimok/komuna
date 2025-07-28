@@ -50,7 +50,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
 
                 {task.defaultDueTime && (
                     <Text fontSize="sm" color="gray.500">
-                        {t('task_category.tasks.due_date')}: {task.defaultDueTime}
+                        {t('task_category.tasks.due_date')}: {task.defaultDueTime.split(':').slice(0, 2).join(':')}
                     </Text>
                 )}
 

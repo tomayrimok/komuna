@@ -20,6 +20,9 @@ import {
 } from '../../hooks/query/useGeneralTasks';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import GeneralTaskCard from './GeneralTaskCard';
+import SearchInput from '../../components/searchInput';
+import { useFilterList } from '../../hooks/useFilterList';
+import { testInput } from '../../utils/testInput';
 
 
 const GeneralTasks: React.FC = () => {
@@ -29,26 +32,10 @@ const GeneralTasks: React.FC = () => {
 
     const deleteMutation = useDeleteGeneralTask();
     const generateTasksMutation = useManuallyGenerateTasks();
+    const { filteredResults, handleChange } = useFilterList(generalTasks || [], (arr, input) => arr.filter(item => testInput(item.title, input)));
 
     const handleCreateTask = () => {
         navigate({ to: '/roommate/general-tasks/create' });
-    };
-
-    const handleDelete = async (taskId: string) => {
-        try {
-            await deleteMutation.mutateAsync(taskId);
-            toaster.create({
-                title: 'Success',
-                description: 'General task deleted successfully',
-                type: 'success',
-            });
-        } catch (error) {
-            toaster.create({
-                title: 'Error',
-                description: 'Failed to delete general task',
-                type: 'error',
-            });
-        }
     };
 
     const handleGenerateTasks = async () => {
@@ -83,7 +70,7 @@ const GeneralTasks: React.FC = () => {
         );
     }
 
-    const sortedTasks = generalTasks?.sort((a, b) => {
+    const sortedTasks = filteredResults?.sort((a, b) => {
         if (a.isActive && !b.isActive) return -1;
         if (!a.isActive && b.isActive) return 1;
         return 0;
@@ -97,9 +84,10 @@ const GeneralTasks: React.FC = () => {
             borderRadius={"40px"}
             containerProps={{ pt: 8 }}
         >
+            <SearchInput handleChange={handleChange} bg={"white"} />
             <Box pb={12}>
 
-                {generalTasks?.length ? (
+                {/* {generalTasks?.length ? (
                     <Button
                         onClick={handleGenerateTasks}
                         variant="subtle"
@@ -109,7 +97,7 @@ const GeneralTasks: React.FC = () => {
                         <IconPlayerPlay size={16} />
                         {t('task_category.create_task.calculate_tasks')}
                     </Button>
-                ) : null}
+                ) : null} */}
 
                 <Stack gap="4">
                     {sortedTasks?.map((task) => (
