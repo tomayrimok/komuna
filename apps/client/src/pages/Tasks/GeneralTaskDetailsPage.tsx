@@ -23,6 +23,7 @@ import { useRouter } from '@tanstack/react-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
+import { ConfirmDeleteDialog } from '../../components/ConfirmDeleteDialog';
 import { useAuth } from '../../context/auth/AuthProvider';
 import {
     useCreateGeneralTask,
@@ -30,8 +31,6 @@ import {
     useGeneralTasks,
     useUpdateGeneralTask,
 } from '../../hooks/query/useGeneralTasks';
-import { IconButton } from '@chakra-ui/react';
-import { IconTrash } from '@tabler/icons-react';
 interface FormData {
     title: string;
     description: string;
@@ -326,9 +325,11 @@ const GeneralTaskDetailsPage: React.FC = () => {
                                 {t('cancel')}
                             </Button>
                             {isEditing && (
-                                <IconButton me="auto" variant="outline" colorPalette="red" onClick={handleDelete} size={'lg'}>
-                                    <IconTrash />
-                                </IconButton>
+                                <ConfirmDeleteDialog
+                                    onConfirm={handleDelete}
+                                    itemName={currentTask?.title}
+                                    isLoading={deleteMutation.isPending}
+                                />
                             )}
                             <Button
                                 colorScheme="blue"

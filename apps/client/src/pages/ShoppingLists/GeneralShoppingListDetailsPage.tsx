@@ -8,7 +8,6 @@ import {
     Flex,
     Heading,
     HStack,
-    IconButton,
     Input,
     Loader,
     NumberInput,
@@ -17,7 +16,6 @@ import {
     Text,
     Textarea
 } from '@chakra-ui/react';
-import { IconTrash } from '@tabler/icons-react';
 import {
     ContextType,
     Frequency,
@@ -27,6 +25,7 @@ import { useRouter } from '@tanstack/react-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
+import { ConfirmDeleteDialog } from '../../components/ConfirmDeleteDialog';
 import { useAuth } from '../../context/auth/AuthProvider';
 import {
     useCreateGeneralShoppingList,
@@ -335,9 +334,11 @@ const GeneralShoppingListDetailsPage: React.FC = () => {
                                 {t('cancel')}
                             </Button>
                             {isEditing && (
-                                <IconButton colorPalette="red" variant="outline" me="auto" onClick={handleDelete} size={'lg'}>
-                                    <IconTrash />
-                                </IconButton>
+                                <ConfirmDeleteDialog
+                                    onConfirm={handleDelete}
+                                    itemName={currentList?.title}
+                                    isLoading={deleteMutation.isPending}
+                                />
                             )}
                             <Button
                                 onClick={handleSave}

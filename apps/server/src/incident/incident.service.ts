@@ -135,6 +135,7 @@ export class IncidentService {
   }
 
   async deleteIncident(incidentId: string) {
+    await this.commentRepo.delete({ incidentId });
     return this.incidentRepo.delete({ incidentId });
   }
 }

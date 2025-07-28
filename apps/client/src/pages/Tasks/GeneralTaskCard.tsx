@@ -1,11 +1,8 @@
-import { Badge, Card, HStack, Text, IconButton, Flex, Icon, Tag } from "@chakra-ui/react"
-import { GeneralTaskResponseDto, Frequency } from "@komuna/types";
-import { useAuth } from "../../context/auth/AuthProvider";
+import { Badge, Card, Flex, HStack, Icon, Tag, Text } from "@chakra-ui/react";
+import { Frequency, GeneralTaskResponseDto } from "@komuna/types";
+import { IconCheck, IconClock, IconUser, IconX } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useDeleteGeneralTask } from "../../hooks/query/useGeneralTasks";
-import { IconEdit, IconTrash, IconClock, IconCheck, IconX, IconUser } from "@tabler/icons-react";
-import { format } from "date-fns";
 import DateText from "../../components/dateText";
 import TaskTypeTag from "./TaskTypeTag";
 
