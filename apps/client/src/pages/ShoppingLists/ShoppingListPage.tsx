@@ -10,7 +10,7 @@ import { ApiTypes } from '@komuna/types';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 
 const ShoppingListPage: React.FC = () => {
-  const { items, updateOrder, openEditDrawer, isFetching, setPurchaseItems, handleAddItem, togglePurchased } = useShoppingList();
+  const { items, updateOrder, openEditDrawer, isFetching, setPurchaseItems, handleAddItem, togglePurchased, contextType } = useShoppingList();
   const { t } = useTranslation();
   const [hidePurchased, setHidePurchased] = useState((localStorage.getItem('hidePurchased') === 'true'));
 
@@ -20,7 +20,7 @@ const ShoppingListPage: React.FC = () => {
 
   useEffect(() => {
     setPurchaseItems?.([]);
-  }, []);
+  }, [contextType]);
 
   const filteredItems = items.filter((item) => hidePurchased ? !item.isPurchased : true);
 

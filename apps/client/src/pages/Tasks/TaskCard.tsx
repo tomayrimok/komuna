@@ -7,6 +7,8 @@ import TaskCompletionButton from './TaskCompletionButton';
 import TaskRoommates from './TaskRoommates';
 import { parseDate } from '../../utils/dateUtils';
 import TaskTypeTag from './TaskTypeTag';
+import CompletionIndication from './CompletionIndication';
+import { getTaskCompleted } from '../../utilities/getTaskCompleted';
 
 interface TaskCardProps {
     task: TaskResponseDto;
@@ -15,6 +17,7 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 
     const navigate = useNavigate();
+    const isCompleted = getTaskCompleted(task);
 
     return (
         <AnimatePresence>
@@ -26,6 +29,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
                 <Box
+                    cursor={'pointer'}
                     backgroundColor={'white'}
                     borderWidth={1}
                     borderRadius={'xl'}
@@ -34,14 +38,21 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                     key={task.taskId}
                     position={'relative'}
                     overflow={'hidden'}
+                    transition={'0.3s ease-in-out'}
+                    filter={isCompleted ? 'grayscale(40%)' : 'none'}
+                    opacity={isCompleted ? 0.7 : 1}
+
+
                 >
+
+                    <CompletionIndication item={task} />
 
                     <Container p={5}>
                         <Flex direction={'column'} gap={2}>
                             <HStack justifyContent={"space-between"} alignItems={'start'}>
                                 <Text fontSize="lg" fontWeight="bold">
-                                    <span>{task.title}</span>
-                                    <TaskTypeTag mb={1} ms={2} taskType={task.taskType} />
+                                    <Text me={2} as="span">{task.title}</Text>
+                                    <TaskTypeTag mb={1} taskType={task.taskType} />
                                 </Text>
                                 {task.dueDate && <DueDate dueDate={parseDate(task.dueDate)} />}
                             </HStack>
