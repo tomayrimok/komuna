@@ -55,7 +55,7 @@ const Codes: FC = () => {
     return (
       <>
         <Code code={roommateCode} description={t('create_apartment.share_apartment.roommate_description')} />
-        <Spacer />
+        <br />
         <Code code={landlordCode} description={t('create_apartment.share_apartment.landlord_description')} />
       </>
     );

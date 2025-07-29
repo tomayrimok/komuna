@@ -18,7 +18,7 @@ const Tasks = () => {
     const completions = task.completions ?? [];
     const isCompletedByMe = completions.includes(currentUserDetails?.userId || '')
       || (!task.assignedTo?.some(user => user.userId === currentUserDetails?.userId) && (task.taskType === TaskType.PERSONAL))
-      || (task.taskType === TaskType.GROUP && !task.assignedTo?.length && completions.length > 0)
+      || (task.taskType === TaskType.GROUP && completions.length > 0)
     const isCompletedByAll = (task.taskType === TaskType.GROUP && completions.length > 0)
       || assignedUserIds.every((userId) => completions.includes(userId));
     return {
