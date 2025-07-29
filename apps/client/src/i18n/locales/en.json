@@ -76,6 +76,8 @@
       "error": "We could not generate the code. Please try again later.",
       "landlord_description": "This is the code for inviting the landlord",
       "roommate_description": "This is the code for inviting the roomates",
+      "landlord_code": "Landlord code",
+      "roommate_code": "Roommate code",
       "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
       "title": "The apartment was created successfully 🎉",
       "to_app": "To the app"
