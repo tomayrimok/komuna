@@ -49,7 +49,7 @@ export const LandlordHome = () => {
               components={{ b: <b /> }}
             />
           </Text>
-          <Text color="white" fontSize="sm" w={"full"} textAlign={"center"}>
+          <Text color="white" fontSize="sm" w={"full"} textAlign={"start"}>
             {apartment.data?.address}, {apartment.data?.city}
           </Text>
           </VStack>
