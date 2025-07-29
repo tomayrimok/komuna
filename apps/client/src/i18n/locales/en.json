@@ -480,10 +480,10 @@
   },
   "title": "Welcome to Komuna",
   "urgency": {
-    "extreme": "Extreme",
-    "high": "High",
-    "low": "Low",
-    "medium": "Medium"
+    "EXTREME": "Extreme",
+    "HIGH": "High",
+    "LOW": "Low",
+    "MEDIUM": "Medium"
   },
   "web": {
     "description": "This site is supported only on mobile devices. Please open it on your phone to continue.",
