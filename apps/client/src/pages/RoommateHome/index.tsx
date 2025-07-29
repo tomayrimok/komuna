@@ -52,19 +52,19 @@ export const RoommateHome = () => {
               <Avatar.Fallback name="Nue Camp" />
             </Avatar.Root>
             <VStack spaceY={-3}>
-            <Text color="brand.900" fontSize="xl">
-              <Trans
-                i18nKey="roommate.homepage.title"
-                values={{ firstName: currentUserDetails?.firstName }}
-                components={{ b: <b /> }}
-              />
-            </Text>
-            <Text color="brand.900" fontSize="md" w={"full"} textAlign={"center"}>
-            {apartment.data?.name}
-          </Text>
-            <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"center"}>
-            {apartment.data?.address}, {apartment.data?.city}
-          </Text>
+              <Text color="brand.900" fontSize="xl">
+                <Trans
+                  i18nKey="roommate.homepage.title"
+                  values={{ firstName: currentUserDetails?.firstName }}
+                  components={{ b: <b /> }}
+                />
+              </Text>
+              <Text color="brand.900" fontSize="md" w={"full"}>
+                {apartment.data?.name || (`${apartment.data?.address} ${apartment.data?.city}`)}
+              </Text>
+              {/* <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"center"}>
+                {apartment.data?.address}, {apartment.data?.city}
+              </Text> */}
             </VStack>
           </HStack>
           <SettingLeftbar />
