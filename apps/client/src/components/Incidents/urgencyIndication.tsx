@@ -25,7 +25,7 @@ const UrgencyIndication: React.FC<UrgencyIndicationProps> = ({ item }) => {
       backgroundColor={color}
       height={'full'}
       width={'10px'}
-      {...(isRTL ? { right: 0 } : { ledt: 0 })}
+      {...(isRTL ? { right: 0 } : { left: 0 })}
     />
   );
 };

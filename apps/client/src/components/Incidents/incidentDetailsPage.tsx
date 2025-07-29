@@ -11,17 +11,21 @@ import {
   Select,
   Stack,
   Text,
-  Textarea,
+  Textarea
 } from '@chakra-ui/react';
 import { IncidentUrgency } from '@komuna/types';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { IncidentMetadataProvider, useIncidentMetadata } from '../../context/incidents/incidentMetadataProvider';
+import { useDeleteIncident } from '../../hooks/query/useDeleteIncident';
 import { withWrappers } from '../../utilities/withWrappers';
+import { ConfirmDeleteDialog } from '../ConfirmDeleteDialog';
 
 const IncidentDetailsPage = () => {
   const { incidentDetails, handleSave, incidentId, isIncidentDetailsLoading, updateIncidentDetails } =
     useIncidentMetadata();
+
+  const { mutate: deleteIncident } = useDeleteIncident();
 
   const router = useRouter();
   const { t } = useTranslation();
@@ -36,6 +40,10 @@ const IncidentDetailsPage = () => {
       { value: IncidentUrgency.EXTREME, label: t('urgency.EXTREME'), color: 'red.700' },
     ],
   });
+
+  const handleDelete = () => {
+    deleteIncident(incidentId!);
+  };
 
   if (incidentId && isIncidentDetailsLoading) return <Loader />;
 
@@ -146,6 +154,12 @@ const IncidentDetailsPage = () => {
               <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
                 {t('cancel')}
               </Button>
+              {incidentId ? (
+                <ConfirmDeleteDialog
+                  itemName={incidentDetails?.title}
+                  onConfirm={handleDelete}
+                />
+              ) : null}
               <Button colorScheme="blue" onClick={handleSave} disabled={buttonDisabled} size={'lg'}>
                 {t('save')}
               </Button>

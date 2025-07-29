@@ -16,7 +16,7 @@ export const useApartmentResidents = () => {
       return data?.residents;
     },
     enabled: !!apartmentId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 2, // 2 minute
     refetchOnWindowFocus: false,
   });
 };

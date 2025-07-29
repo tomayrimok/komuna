@@ -3,6 +3,12 @@
     "title": "Sorry",
     "description": "This site is supported only on mobile devices. Please open it on your phone to continue."
   },
+  "delete_confirmation": {
+    "message_with_name": "Are you sure you want to delete \"{{name}}\"?",
+    "message": "Are you sure you want to delete this item?"
+  },
+  "apartment_with_no_address": "Apartment with no address",
+  "no-thanks": "No, thanks",
   "button": "Let's get started",
   "komuna": "Komuna",
   "catchphrase": "Peace at home between roommates",
@@ -99,6 +105,8 @@
     "duplicate_error": "Failed to duplicate shopping list template",
     "lets_add_items": "Let's add some items!",
     "every": "Every",
+    "delete_success": "Shopping list template deleted successfully",
+    "mark_all_as_purchased": "Mark all",
     "general_lists": {
       "create_template": "Create Shopping List Template",
       "edit_template": "Edit Shopping List Template",
@@ -201,6 +209,8 @@
     "settle-up-success": "The debt has been successfully settled",
     "no-debts": "No debts",
     "no-debt": "No debt",
+    "hide-purchased": "Hide purchased items",
+    "show-purchased": "Show purchased items",
     "expense": {
       "select-paid-by": "Select who paid for the expense:",
       "all-expenses": "All Expenses",
@@ -220,7 +230,8 @@
       "paid-by": "Paid by",
       "and-splits": "and splits",
       "equally": "equally",
-      "unequally": "unequally"
+      "unequally": "unequally",
+      "are-you-sure-create-expense": "Would you like to create an expense for the purchased items?"
     }
   },
   "error": {
@@ -232,12 +243,7 @@
     "title": "Tasks",
     "task_list": "Your Tasks:",
     "tasks": {
-      "title": "Task's Name: <b>{{taskName}}</b>",
-      "due_date": "Due To: <b>{{dueDate}}</b>",
-      "descrption": "Description: <b>{{description}}</b>",
-      "assigned_to": "Participants: <b>{{assignedTo}}</b>",
-      "recurrence": "Recurring Every: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "Assigned By: <b>{{createdBy}}</b>",
+      "due_date": "Due To",
       "last_run": "Last Run",
       "next_run": "Next Run"
     },
@@ -288,7 +294,8 @@
     "create_incident": "Create New Incident",
     "edit_incident": "Edit Incident",
     "seen_by_manager_description": "Seen by the manager",
-    "seen": "Seen"
+    "seen": "Seen",
+    "incident_deleted": "Incident deleted successfully"
   },
   "urgency": {
     "low": "Low",

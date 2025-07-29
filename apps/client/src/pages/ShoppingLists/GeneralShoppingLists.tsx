@@ -22,11 +22,15 @@ import {
 } from '../../hooks/query/useGeneralShoppingLists';
 import GeneralShoppingListCard from './GeneralShoppingListCard';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
+import { useFilterList } from '../../hooks/useFilterList';
+import { testInput } from '../../utils/testInput';
+import SearchInput from '../../components/searchInput';
 
 const GeneralShoppingLists: React.FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { data: generalShoppingLists, isLoading, error } = useGeneralShoppingLists();
+    const { filteredResults, handleChange } = useFilterList(generalShoppingLists || [], (arr, input) => arr.filter(item => testInput(item.title, input)));
 
 
     const handleCreateTemplate = () => {
@@ -35,7 +39,7 @@ const GeneralShoppingLists: React.FC = () => {
 
 
     // Sort lists to show active ones first, then by creation date
-    const sortedLists = generalShoppingLists?.sort((a, b) => {
+    const sortedLists = filteredResults?.sort((a, b) => {
         if (a.isActive !== b.isActive) {
             return a.isActive ? -1 : 1;
         }
@@ -78,8 +82,10 @@ const GeneralShoppingLists: React.FC = () => {
         >
             <Box pb={12}>
 
+                <SearchInput handleChange={handleChange} bg={"white"} />
+
                 <Stack gap="4">
-                    {sortedLists?.map((list) => (
+                    {filteredResults?.map((list) => (
                         <GeneralShoppingListCard key={list.generalShoppingListId} list={list} />
                     ))}
 

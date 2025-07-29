@@ -36,7 +36,7 @@ const ShoppingListItemDetailsDrawer = ({ initialText = '', onClose }: ShoppingLi
   return (
     <Drawer.Root placement={'bottom'} onExitComplete={onClose && onClose}>
       <Drawer.Trigger asChild>
-        <IconButton aria-label="Add Item" onClick={() => initialText && setNewItem({ name: initialText, amount: 1 })}>
+        <IconButton aria-label="Add Item" onClick={() => initialText && setNewItem({ name: initialText, amount: 1, isPurchased: false, isUrgent: false })}>
           <IconPlus />
         </IconButton>
       </Drawer.Trigger>

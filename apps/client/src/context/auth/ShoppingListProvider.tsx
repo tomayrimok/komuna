@@ -11,7 +11,7 @@ import {
 
 type ShoppingListItemWithIdDto = ApiTypes.ShoppingListItemWithIdDto & GenericShoppingListItem;
 
-export const ShoppingListContext = createShoppingListContext<any>();
+export const ShoppingListContext = createShoppingListContext<ShoppingListItemWithIdDto>();
 const GenericProvider = createShoppingListProvider(ShoppingListContext);
 
 type ShoppingListProviderProps = PropsWithChildren & {};
@@ -49,6 +49,7 @@ export const ShoppingListProvider: React.ComponentType<ShoppingListProviderProps
     getItemKey: (item: ShoppingListItemWithIdDto, index: number): string => item.itemId,
 
     syncItems: async (items: ShoppingListItemWithIdDto[], currentContextType?: ContextType) => {
+
       const { data } = await API.shoppingListControllerSyncItems({
         body: {
           contextType: currentContextType || contextType,

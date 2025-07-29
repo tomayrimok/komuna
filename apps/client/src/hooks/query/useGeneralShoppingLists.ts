@@ -10,6 +10,7 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import axios from 'axios';
 import { toaster } from '../../chakra/ui/toaster';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from '@tanstack/react-router';
 
 const fetchGeneralShoppingLists = async (apartmentId: string): Promise<GeneralShoppingListResponseDto[]> => {
     const response = await axios.get(`/api/general-shopping-list/list?apartmentId=${apartmentId}`);
@@ -28,7 +29,6 @@ export const useGeneralShoppingLists = () => {
         queryKey: ['general-shopping-lists', sessionDetails?.apartmentId],
         queryFn: () => fetchGeneralShoppingLists(sessionDetails?.apartmentId!),
         enabled: !!sessionDetails?.apartmentId,
-        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 };
@@ -38,7 +38,6 @@ export const useGeneralShoppingListById = (generalShoppingListId?: string) => {
         queryKey: ['general-shopping-list', generalShoppingListId],
         queryFn: () => fetchGeneralShoppingListById(generalShoppingListId!),
         enabled: !!generalShoppingListId,
-        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 };
@@ -102,13 +101,19 @@ export const useUpdateGeneralShoppingList = () => {
 export const useDeleteGeneralShoppingList = () => {
     const queryClient = useQueryClient();
     const { sessionDetails } = useAuth();
-
+    const { t } = useTranslation();
+    const navigate = useNavigate();
     return useMutation({
         mutationFn: deleteGeneralShoppingList,
         onSuccess: () => {
+            toaster.create({
+                title: t('shopping.delete_success'),
+                type: 'success',
+            });
             queryClient.invalidateQueries({
                 queryKey: ['general-shopping-lists', sessionDetails?.apartmentId]
             });
+            navigate({ to: '/roommate/general-shopping-lists' });
         },
     });
 };

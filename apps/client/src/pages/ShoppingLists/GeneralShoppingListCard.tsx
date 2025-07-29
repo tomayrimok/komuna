@@ -21,7 +21,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
         const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
-        return t(`shopping.frequency.${frequency}.${key}`, { count: interval?.toString() || '0' } as any);
+        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}`, { count: interval?.toString() || '0' } as any);
     };
 
     const getContextText = (contextType: ContextType) => {
@@ -29,7 +29,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
     };
 
     const getContextColor = (contextType: ContextType) => {
-        return contextType === ContextType.APARTMENT ? 'blue' : 'purple';
+        return contextType === ContextType.APARTMENT ? 'yellow' : 'purple';
     };
 
     return (

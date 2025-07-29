@@ -21,7 +21,8 @@ const CurrentShoppingLists = () => {
       }}
     >
       <ApartmentLayout
-        containerProps={{ pb: '110px', pt: 2 }}
+        containerProps={{ pb: '0px', pt: 2 }}
+        boxProps={{ h: '100%' }}
         header={
           <Flex alignSelf={"center"} mt={4} backgroundColor={"rgba(255,255,255,0.2)"} borderRadius={"full"} p={1.5}>
             <Tabs.List >

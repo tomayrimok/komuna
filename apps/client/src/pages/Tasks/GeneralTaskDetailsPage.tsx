@@ -23,13 +23,14 @@ import { useRouter } from '@tanstack/react-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
+import { ConfirmDeleteDialog } from '../../components/ConfirmDeleteDialog';
 import { useAuth } from '../../context/auth/AuthProvider';
 import {
     useCreateGeneralTask,
+    useDeleteGeneralTask,
     useGeneralTasks,
     useUpdateGeneralTask,
 } from '../../hooks/query/useGeneralTasks';
-
 interface FormData {
     title: string;
     description: string;
@@ -55,6 +56,7 @@ const GeneralTaskDetailsPage: React.FC = () => {
 
     const createMutation = useCreateGeneralTask();
     const updateMutation = useUpdateGeneralTask();
+    const deleteMutation = useDeleteGeneralTask();
 
     const frequencyOptions = createListCollection({
         items: [
@@ -90,6 +92,16 @@ const GeneralTaskDetailsPage: React.FC = () => {
             });
         }
     }, [isEditing, currentTask]);
+
+    const handleDelete = async () => {
+        await deleteMutation.mutateAsync(generalTaskId!);
+
+        toaster.create({
+            title: t('task_category.delete_task.success'),
+            type: 'success',
+        });
+        router.navigate({ to: '/roommate/general-tasks' });
+    }
 
     const handleSave = async () => {
         try {
@@ -312,6 +324,13 @@ const GeneralTaskDetailsPage: React.FC = () => {
                             <Button variant="outline" onClick={() => router.history.back()} size={'lg'}>
                                 {t('cancel')}
                             </Button>
+                            {isEditing && (
+                                <ConfirmDeleteDialog
+                                    onConfirm={handleDelete}
+                                    itemName={currentTask?.title}
+                                    isLoading={deleteMutation.isPending}
+                                />
+                            )}
                             <Button
                                 colorScheme="blue"
                                 onClick={handleSave}

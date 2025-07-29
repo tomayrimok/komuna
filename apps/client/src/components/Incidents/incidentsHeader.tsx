@@ -25,8 +25,8 @@ const IncidentsHeader = () => {
         right={'-10vw'}
         zIndex={-1}
       />
-      <Icon size={'2xl'} mb={3}>
-        <IconTool />
+      <Icon width={'70px'} height={'60px'} mb={1} fill='brand.100' color='brand.700' mt={-3}>
+        <IconTool strokeWidth={0} />
       </Icon>
       <IncidentsNumber />
     </Box>

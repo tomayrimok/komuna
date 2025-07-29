@@ -1,8 +1,8 @@
-import { Icon, Input, InputGroup } from '@chakra-ui/react';
+import { Icon, Input, InputGroup, InputProps } from '@chakra-ui/react';
 import { IconSearch, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 
-interface SearchInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'ref'> {
+interface SearchInputProps extends Omit<InputProps, 'onChange' | 'ref'> {
   handleChange?: (value: string) => void;
 }
 
@@ -42,7 +42,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleChange, ...props }) => 
   return (
     <InputGroup endElement={<EndElement />} mb={4}>
       <Input
-        {...props}
+        {...props as any}
         size="lg"
         borderRadius="md"
         style={{ outline: 'none' }}

@@ -23,6 +23,7 @@ const router = createRouter({
   context: defaultAuthContextValues,
   defaultPreload: 'intent',
   scrollRestoration: true,
+  scrollToTopSelectors: ['[data-scroll-container]'],
 });
 
 declare module '@tanstack/react-router' {

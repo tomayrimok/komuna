@@ -38,7 +38,7 @@ export const ApartmentLayout = ({ goBack, logout = false, children, containerPro
         overflow={"hidden"}
         {...props as any}
       >
-        <Stack h="full" gap={4} w="full" p={"25px"} overflow={"auto"} {...containerProps as any}>
+        <Stack h="full" gap={4} w="full" p={"25px"} overflow={"auto"} data-scroll-container {...containerProps as any}>
           {children}
         </Stack>
       </VStack>

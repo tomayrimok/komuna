@@ -6,6 +6,7 @@ import UserCard from '../../General/userCard';
 import { roundUpToXDigits } from '../../../utilities/roundUpToXDigits';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { useApartment } from '../../../hooks/useApartment';
+import ApartmentLayout from '../../../pages/NewApartment/ApartmentLayout';
 
 const SettleUpPage = () => {
   const { t } = useTranslation();
@@ -24,68 +25,69 @@ const SettleUpPage = () => {
   });
 
   return (
-    <Card.Root width="100%">
-      <Card.Body gap="2">
-        <Card.Title mb="2">{t('payments.settle-up-title')}</Card.Title>
-        <Card.Description as={'div'}>
-          {!isLoading && data ? (
-            !data.balanceDetails.length ? (
-              <Text fontSize="lg" fontWeight="bold" mt="4">
-                {t('payments.no-debts')}
-              </Text>
-            ) : (
-              <Flex direction="column" gap="3" mt="4">
-                <For each={data.balanceDetails}>
-                  {(item) => (
-                    <UserCard
-                      key={item.debtId}
-                      user={item.debtor ? item.toUser : item.fromUser}
-                      additionalComponent={
-                        <Text whiteSpace={'pre-line'} textAlign="end" color={item.debtor ? 'red.600' : 'green.600'}>
-                          {item.debtor
-                            ? t('payments.you-owe', { amount: roundUpToXDigits(item.amount) })
-                            : t('payments.owe-you', { amount: roundUpToXDigits(item.amount) })}
-                        </Text>
-                      }
-                      onClick={() => {
-                        navigate({ to: '/roommate/payments/settle-up/' + item.debtId });
-                      }}
-                    />
-                  )}
-                </For>
-              </Flex>
-            )
-          ) : (
-            <SkeletonText noOfLines={2} width="100%" />
-          )}
-        </Card.Description>
-        {usersWithoutDebt?.length ? (
-          <>
-            <br />
-            <hr />
+    <ApartmentLayout goBack={() => navigate({ to: '/roommate/payments' })} containerProps={{ gap: 2 }} mt={0}>
+      <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb="2">{t('payments.settle-up-title')}</Text>
+      <Text as={'div'}>
+        {!isLoading && data ? (
+          !data.balanceDetails.length ? (
             <Text fontSize="lg" fontWeight="bold" mt="4">
-              {t('other-options')}
+              {t('payments.no-debts')}
             </Text>
-            <Stack gap={2} mt="2">
-              {usersWithoutDebt.map((user) => (
-                <UserCard
-                  key={user.userId}
-                  user={user.user!}
-                  onClick={() => {
-                    navigate({ to: '/roommate/payments/settle-up/user/' + user.userId });
-                  }}
-                  additionalComponent={
-                    <Text whiteSpace={'pre-line'} textAlign="end" color={'gray.600'}>
-                      {t('payments.no-debt')}
-                    </Text>
-                  }
-                />
-              ))}
-            </Stack>
-          </>
-        ) : null}
-      </Card.Body>
-    </Card.Root>
+          ) : (
+            <Flex direction="column" gap="3" mt="4">
+              <For each={data.balanceDetails}>
+                {(item) => (
+                  <UserCard
+                    bg={"white"}
+                    key={item.debtId}
+                    user={item.debtor ? item.toUser : item.fromUser}
+                    additionalComponent={
+                      <Text whiteSpace={'pre-line'} textAlign="end" color={item.debtor ? 'red.600' : 'green.600'}>
+                        {item.debtor
+                          ? t('payments.you-owe', { amount: roundUpToXDigits(item.amount) })
+                          : t('payments.owe-you', { amount: roundUpToXDigits(item.amount) })}
+                      </Text>
+                    }
+                    onClick={() => {
+                      navigate({ to: '/roommate/payments/settle-up/' + item.debtId });
+                    }}
+                  />
+                )}
+              </For>
+            </Flex>
+          )
+        ) : (
+          <SkeletonText noOfLines={2} width="100%" />
+        )}
+      </Text>
+      {usersWithoutDebt?.length ? (
+        <>
+          <br />
+          <hr />
+          <Text fontSize="lg" fontWeight="bold" mt="4">
+            {t('other-options')}
+          </Text>
+          <Stack gap={2} mt="1">
+            {usersWithoutDebt.map((user) => (
+              <UserCard
+                bg={"white"}
+                key={user.userId}
+                user={user.user!}
+                onClick={() => {
+                  navigate({ to: '/roommate/payments/settle-up/user/' + user.userId });
+                }}
+                additionalComponent={
+                  <Text whiteSpace={'pre-line'} textAlign="end" color={'gray.600'}>
+                    {t('payments.no-debt')}
+                  </Text>
+                }
+              />
+            ))}
+          </Stack>
+        </>
+      ) : null}
+
+    </ApartmentLayout>
   );
 };
 

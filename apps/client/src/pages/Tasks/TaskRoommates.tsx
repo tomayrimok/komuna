@@ -3,7 +3,6 @@ import { TaskResponseDto } from "libs/types/src/generated";
 import { Tooltip } from "../../chakra/ui/tooltip";
 import { TaskType } from "@komuna/types";
 import { useMemo } from "react";
-import { toLocalDateString } from "../../utils/dateUtils";
 
 interface TaskRoommatesProps {
     task: TaskResponseDto;
@@ -12,7 +11,7 @@ const TaskRoommates: React.FC<TaskRoommatesProps> = ({ task }) => {
 
     const overdue = useMemo(() => {
         if (!task.dueDate) return false;
-        return toLocalDateString(new Date(task.dueDate)) < toLocalDateString(new Date());
+        return new Date(task.dueDate) < new Date();
     }, [task.dueDate]);
 
     return (

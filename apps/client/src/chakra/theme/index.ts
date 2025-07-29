@@ -35,6 +35,10 @@ const config = defineConfig({
         body: {
           value: `"Assistant", sans-serif`,
         },
+        heading: {
+          value: `"Assistant", sans-serif`,
+        },
+
       },
       colors: {
         brand: {
