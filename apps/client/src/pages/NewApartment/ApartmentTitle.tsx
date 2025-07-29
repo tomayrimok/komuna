@@ -1,7 +1,7 @@
-import { Text, VStack } from '@chakra-ui/react';
+import { BoxProps, Text, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
 
-interface ApartmentTitleProps {
+interface ApartmentTitleProps extends BoxProps {
   title: string;
   description?: string;
 }

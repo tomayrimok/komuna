@@ -147,7 +147,10 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   };
 
   return (
-    <ApartmentLayout goBack={page !== CreateApartmentPages.ShareApartmentCode ? () => goPageBack(page) : undefined}>
+    <ApartmentLayout
+      goBack={page !== CreateApartmentPages.ShareApartmentCode ? () => goPageBack(page) : undefined}
+      boxProps={{ height: "100%" }}
+    >
       {/* <VStack flexGrow={1} overflow={"auto"} width="100vw" paddingY={"30px"} paddingX={"25px"} > */}
       <CreateApartmentForm
         page={page}
@@ -155,14 +158,14 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
         setPageState={updateFieldOfPage}
         isEdit={isEdit || false}
       />
-      <HStack gap="30px">
+      <HStack gap="30px" mt={"auto"} justifyContent={"space-between"}>
         {showSkipBtn && (
-          <Button size="xl" fontSize="2xl" fontWeight="bold" backgroundColor="transparent" onClick={handleOnClick}>
+          <Button size="xl" variant={"ghost"} onClick={handleOnClick}>
             {t('create_apartment.skip_btn')}
           </Button>
         )}
         {showContinueBtn && (
-          <Button size="xl" fontSize="2xl" fontWeight="bold" onClick={handleOnClick} margin={"auto"}>
+          <Button size="xl" onClick={handleOnClick}>
             {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
               (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
               ? isEdit

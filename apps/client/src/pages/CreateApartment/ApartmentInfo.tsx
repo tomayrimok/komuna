@@ -58,14 +58,14 @@ export const ApartmentInfo = ({ aptDetails, updateField }: CommonApartmentProps<
       <RadioCard.Root
         orientation="vertical"
         align="center"
-        maxW="400px"
         defaultValue={aptDetails.apartmentInfo.role}
         onValueChange={({ value }) => updateField('role', value)}
+        w={"100%"}
       >
         <RadioCard.Label fontWeight="bold" fontSize="md">
           {t('create_apartment.apartment_info.who_am_i.title')}
         </RadioCard.Label>
-        <HStack>
+        <HStack justifyContent={"space-between"} w={"100%"}>
           {roles.map((role) => (
             <RadioCard.Item key={role.value} value={role.value}>
               <RadioCard.ItemHiddenInput />
