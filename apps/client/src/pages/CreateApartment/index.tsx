@@ -165,7 +165,7 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
           </Button>
         )}
         {showContinueBtn && (
-          <Button size="xl" onClick={handleOnClick}>
+          <Button size="xl" onClick={handleOnClick} ms={"auto"}>
             {(aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
               (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
               ? isEdit
