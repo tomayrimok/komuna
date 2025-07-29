@@ -62,7 +62,7 @@ export const RoommateHome = () => {
             <Text color="brand.900" fontSize="md" w={"full"} textAlign={"center"}>
             {apartment.data?.name}
           </Text>
-            <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"start"}>
+            <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"center"}>
             {apartment.data?.address}, {apartment.data?.city}
           </Text>
             </VStack>
