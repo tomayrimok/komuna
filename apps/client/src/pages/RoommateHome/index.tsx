@@ -51,7 +51,7 @@ export const RoommateHome = () => {
               <Avatar.Image src={currentUserDetails?.image} />
               <Avatar.Fallback name="Nue Camp" />
             </Avatar.Root>
-            <VStack spaceY={-3}>
+            <VStack spaceY={-3} alignItems={"flex-start"}>
               <Text color="brand.900" fontSize="xl">
                 <Trans
                   i18nKey="roommate.homepage.title"

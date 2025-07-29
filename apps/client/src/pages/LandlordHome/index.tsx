@@ -42,7 +42,7 @@ export const LandlordHome = () => {
             <Avatar.Image src={currentUserDetails?.image} />
             <Avatar.Fallback name="Nue Camp" />
           </Avatar.Root>
-          <VStack spaceY={-2}>
+          <VStack spaceY={-2} alignItems={"flex-start"}>
             <Text color="white" fontSize="xl">
               <Trans
                 i18nKey="landlord.homepage.title"

@@ -444,7 +444,7 @@
     "load_tasks": "Load Completed Tasks",
     "task_list": "Your Tasks:",
     "tasks": {
-       "create_task": "Create task",
+      "create_task": "Create task",
       "due_date": "Due To",
       "last_run": "Last Run",
       "next_run": "Next Run"
