@@ -1,7 +1,7 @@
 import { Flex, For, Image, SkeletonText, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-import { IncidentStatus } from '@komuna/types';
+import { IncidentStatus, IncidentUrgency } from '@komuna/types';
 import { useIncidents } from '../../hooks/query/useIncidents';
 import IncidentCard from './incidentCard';
 
@@ -11,6 +11,16 @@ const Incidents = () => {
 
   const solvedIncidents = data?.data?.filter((incident) => incident.status === IncidentStatus.SOLVED) || [];
   const unsolvedIncidents = data?.data?.filter((incident) => incident.status !== IncidentStatus.SOLVED) || [];
+  const sortedUnSolvedIncidentsByUrgency = unsolvedIncidents.sort((a, b) => {
+    const urgencyOrder = {
+      [IncidentUrgency.EXTREME]: 3,
+      [IncidentUrgency.HIGH]: 2,
+      [IncidentUrgency.MEDIUM]: 1,
+      [IncidentUrgency.LOW]: 0,
+    };
+    return urgencyOrder[b.urgencyLevel] - urgencyOrder[a.urgencyLevel];
+  });
+
 
   return (
     <Flex gap="2" direction="column" width="100%" p={6} pb={11}>
@@ -25,7 +35,7 @@ const Incidents = () => {
           </Flex>
         ) : (
           <>
-            {unsolvedIncidents.length ? (
+            {sortedUnSolvedIncidentsByUrgency.length ? (
               <>
                 <Text fontSize="xl" fontWeight="bold" mb={2}>
                   {t('incidents.open_incidents')}

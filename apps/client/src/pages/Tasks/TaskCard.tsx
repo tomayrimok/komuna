@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Text } from '@chakra-ui/react';
+import { Badge, Box, Container, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TaskResponseDto } from 'libs/types/src/generated';
@@ -6,6 +6,9 @@ import DueDate from './DueDate';
 import TaskCompletionButton from './TaskCompletionButton';
 import TaskRoommates from './TaskRoommates';
 import { parseDate } from '../../utils/dateUtils';
+import TaskTypeTag from './TaskTypeTag';
+import CompletionIndication from './CompletionIndication';
+import { getTaskCompleted } from '../../utilities/getTaskCompleted';
 
 interface TaskCardProps {
     task: TaskResponseDto;
@@ -14,6 +17,7 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 
     const navigate = useNavigate();
+    const isCompleted = getTaskCompleted(task);
 
     return (
         <AnimatePresence>
@@ -25,6 +29,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
                 <Box
+                    cursor={'pointer'}
                     backgroundColor={'white'}
                     borderWidth={1}
                     borderRadius={'xl'}
@@ -33,16 +38,24 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                     key={task.taskId}
                     position={'relative'}
                     overflow={'hidden'}
+                    transition={'0.3s ease-in-out'}
+                    filter={isCompleted ? 'grayscale(40%)' : 'none'}
+                    opacity={isCompleted ? 0.7 : 1}
+
+
                 >
+
+                    <CompletionIndication item={task} />
 
                     <Container p={5}>
                         <Flex direction={'column'} gap={2}>
-                            <Flex justifyContent={"space-between"}>
+                            <HStack justifyContent={"space-between"} alignItems={'start'}>
                                 <Text fontSize="lg" fontWeight="bold">
-                                    {task.title}
+                                    <Text me={2} as="span">{task.title}</Text>
+                                    <TaskTypeTag mb={1} taskType={task.taskType} />
                                 </Text>
                                 {task.dueDate && <DueDate dueDate={parseDate(task.dueDate)} />}
-                            </Flex>
+                            </HStack>
                             {task.description && (
                                 <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
                                     {task.description}

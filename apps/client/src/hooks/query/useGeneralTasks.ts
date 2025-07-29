@@ -35,8 +35,8 @@ export const useGeneralTasks = () => {
     return useQuery({
         queryKey: ['general-tasks', apartmentId],
         queryFn: () => fetchGeneralTasks(apartmentId!),
-        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
+        refetchOnMount: true,
         enabled: !!apartmentId,
     });
 };

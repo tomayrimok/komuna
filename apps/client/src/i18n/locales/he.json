@@ -3,12 +3,18 @@
     "title": "מצטערים",
     "description": "האתר הזה נתמך רק במכשירים ניידים, אנא פתחו אותו בטלפון על מנת להמשיך."
   },
+  "delete_confirmation": {
+    "message_with_name": "האם ברצונך למחוק את הפריט \"{{name}}\"?",
+    "message": "האם ברצונך למחוק פריט זה?"
+  },
+  "no-thanks": "לא, תודה",
   "title": "ברוכים הבאים לKomuna",
   "button": "בואו נתחיל",
   "other-options": "אפשרויות נוספות",
   "select-roommates": "בחירת שותפים",
   "select-roommate": "בחירת שותף",
   "add-roommates": "הוספת שותפים",
+  "apartment_with_no_address": "דירה ללא כתובת",
   "months": {
     "1": "ינואר",
     "2": "פברואר",
@@ -75,7 +81,8 @@
       "paid-by": "שולם על ידי",
       "and-splits": "ומתחלק",
       "equally": "בצורה שווה",
-      "unequally": "בצורה לא שווה"
+      "unequally": "בצורה לא שווה",
+      "are-you-sure-create-expense": "האם ליצור הוצאה חדשה עבור הפריטים שנרכשו?"
     }
   },
   "komuna": "Komuna",
@@ -181,7 +188,8 @@
     "join_btn": "התחבר לדירה",
     "success": "הצטרפתם לדירה בהצלחה!",
     "apartment_already_joined": "שימו לב, אתם כבר שייכים לדירה שאתם מנסים להצטרף אליה.",
-    "apartment_not_found": "הדירה שאתם מנסים להצטרף אליה לא נמצאה."
+    "apartment_not_found": "הדירה שאתם מנסים להצטרף אליה לא נמצאה.",
+    "apartment_taken": "קיים בעל דירה עבור דירה זו"
   },
   "choose_apartment": {
     "title": "בחר את הדירה אליה אתה מעוניין להתחבר:",
@@ -263,6 +271,10 @@
     "duplicate_error": "שכפול תבנית רשימת הקניות נכשל",
     "lets_add_items": "בואו נוסיף כמה פריטים!",
     "every": "כל",
+    "delete_success": "התבנית נמחקה בהצלחה",
+    "mark_all_as_purchased": "סימון כל הפריטים",
+    "hide-purchased": "הסתר פריטים שנרכשו",
+    "show-purchased": "הצג פריטים שנרכשו",
     "general_lists": {
       "create_template": "יצירת תבנית רשימת קניות",
       "edit_template": "עריכת תבנית רשימת קניות",
@@ -334,12 +346,7 @@
     "task_list": "המטלות שלך: ",
     "tasks": {
       "create_task": "יצירת משימה",
-      "title": "שם המשימה: <b>{{taskName}}</b>",
-      "due_date": "לביצוע עד: <b>{{dueDate}}</b>",
-      "descrption": "תיאור: <b>{{description}}</b>",
-      "assigned_to": "שותפים למשימה: <b>{{assignedTo}}</b>",
-      "recurrence": "יש לבצע כל: <b>{{recurrenceRule}}</b>",
-      "assigned_by": "נוצר על ידי: <b>{{createdBy}}</b>",
+      "due_date": "לביצוע עד",
       "last_run": "ההפעלה האחרונה",
       "next_run": "ההפעלה הבאה"
     },
@@ -366,7 +373,7 @@
       "group_description": "שותף אחד מסמן שהמשימה הושלמה עבור כולם",
       "personal_description": "כל שותף מסמן שהמשימה הושלמה עבורו",
       "task_type": "סוג המשימה",
-      "group_type": "קבוצתית",
+      "group_type": "דירתית",
       "personal_type": "אישית",
       "active": "פעיל",
       "update": "עדכון",
@@ -397,7 +404,8 @@
     "seen_by_manager": "נצפה",
     "new_incident": "חדש",
     "seen_by_manager_description": "נצפה על ידי בעל הבית",
-    "seen": "נצפה"
+    "seen": "נצפה",
+    "incident_deleted": "התקלה נמחקה בהצלחה"
   },
   "tasks": {
     "no_tasks": "יפה! אין משימה באופק",
@@ -417,7 +425,7 @@
     "general_tasks": {
       "create_template": "יצירת תבנית משימה",
       "edit_template": "עריכת תבנית משימה",
-      "group_task": "משימה קבוצתית",
+      "group_task": "משימה דירתית",
       "personal_task": "משימה אישית",
       "update_success": "תבנית המשימה עודכנה בהצלחה",
       "create_success": "תבנית המשימה נוצרה בהצלחה",

@@ -1,8 +1,9 @@
-import { Box, Button, Container, Flex, Heading, Icon, IconButton, Input, Loader, RadioGroup, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Icon, Input, Loader, RadioGroup, Stack, TagCloseTrigger, TagLabel, TagRoot, Text, Textarea, VStack } from '@chakra-ui/react';
 import { TaskType } from '@komuna/types';
-import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
+import { IconPlus, IconX } from '@tabler/icons-react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { ConfirmDeleteDialog } from '../../components/ConfirmDeleteDialog';
 import SelectUserDrawer from '../../components/General/selectResidentDrawer';
 import { TaskMetadataProvider, useTaskMetadata } from '../../context/tasks/taskMetadataProvider';
 import { withWrappers } from '../../utilities/withWrappers';
@@ -172,9 +173,11 @@ const TasksDetailsPage = () => {
                 {t('cancel')}
               </Button>
               {taskId &&
-                <IconButton colorPalette="red" variant="outline" me="auto" onClick={handleDelete} disabled={isTaskDetailsLoading} size={'lg'} >
-                  <IconTrash />
-                </IconButton>
+                <ConfirmDeleteDialog
+                  onConfirm={handleDelete}
+                  itemName={taskDetails?.title}
+                  disabled={isTaskDetailsLoading}
+                />
               }
               <Button colorScheme="blue" onClick={handleSave} disabled={buttonDisabled} size={'lg'}>
                 {t('save')}

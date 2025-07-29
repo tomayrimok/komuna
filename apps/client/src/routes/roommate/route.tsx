@@ -18,6 +18,7 @@ export const Route = createFileRoute('/roommate')({
 const RoomateLayout = () => {
   const { sessionDetails } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!sessionDetails.apartmentId) {
       navigate({ to: '/select-apartment' });
@@ -27,7 +28,15 @@ const RoomateLayout = () => {
 
   return (
     <Box flex="1" display="flex" flexDirection="column" gap="0" height="100%">
-      <Box overflowY="auto" flex="1" display="flex" flexDirection="column" gap="0" height="100%">
+      <Box
+        data-scroll-container
+        overflowY="auto"
+        flex="1"
+        display="flex"
+        flexDirection="column"
+        gap="0"
+        height="100%"
+      >
         <Outlet />
       </Box>
       <BottomNav />

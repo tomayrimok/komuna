@@ -1,12 +1,10 @@
-import { Badge, Card, HStack, Text, IconButton, Flex, Icon, Tag } from "@chakra-ui/react"
-import { GeneralTaskResponseDto, Frequency } from "@komuna/types";
-import { useAuth } from "../../context/auth/AuthProvider";
+import { Badge, Card, Flex, HStack, Icon, Tag, Text } from "@chakra-ui/react";
+import { Frequency, GeneralTaskResponseDto } from "@komuna/types";
+import { IconCheck, IconClock, IconUser, IconX } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useDeleteGeneralTask } from "../../hooks/query/useGeneralTasks";
-import { IconEdit, IconTrash, IconClock, IconCheck, IconX, IconUser } from "@tabler/icons-react";
-import { format } from "date-fns";
 import DateText from "../../components/dateText";
+import TaskTypeTag from "./TaskTypeTag";
 
 interface GeneralTaskCardProps {
     task: GeneralTaskResponseDto;
@@ -24,7 +22,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
 
     const getFrequencyText = (frequency: Frequency, interval?: number) => {
         const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
-        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}` as any).replace('$', interval?.toString() || '');
+        return t(`shopping.frequency.${frequency.toLowerCase()}.${key}` as any, { count: interval });
     };
 
     return (
@@ -33,6 +31,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
                 <HStack justifyContent={'space-between'}>
                     <Text fontSize="lg" fontWeight="semibold">
                         {task.title}
+                        <TaskTypeTag mb={1} ms={2} taskType={task.taskType} />
                     </Text>
                     <Badge colorPalette={task.isActive ? 'green' : 'gray'}>
                         {task.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
@@ -50,7 +49,7 @@ const GeneralTaskCard = ({ task }: GeneralTaskCardProps) => {
 
                 {task.defaultDueTime && (
                     <Text fontSize="sm" color="gray.500">
-                        {t('task_category.tasks.due_date')}: {task.defaultDueTime}
+                        {t('task_category.tasks.due_date')}: {task.defaultDueTime.split(':').slice(0, 2).join(':')}
                     </Text>
                 )}
 

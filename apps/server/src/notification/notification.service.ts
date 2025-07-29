@@ -68,7 +68,7 @@ export class NotificationService {
       const token = await this.getToken(toUser);
 
       if (!token) {
-        console.warn(`No FCM token found for user ${toUser}`);
+        // console.warn(`No FCM token found for user ${toUser}`);
         return;
       }
 

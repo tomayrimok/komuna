@@ -9,9 +9,11 @@ import {
     VStack,
     HStack,
     IconButton,
+    Icon,
 } from '@chakra-ui/react';
 import { IconChevronLeft, IconChevronRight, IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { useLocaleChange } from '../../hooks/useLocaleChange';
 
 interface FeatureSlide {
     id: string;
@@ -74,6 +76,7 @@ const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSki
     const { t } = useTranslation();
     const [currentSlide, setCurrentSlide] = useState(0);
     const features = getFeatures(t);
+    const { isRTL } = useLocaleChange();
 
     const nextSlide = () => {
         if (currentSlide < features.length - 1) {
@@ -220,7 +223,7 @@ const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSki
                             opacity={currentSlide === 0 ? 0.5 : 1}
                         >
                             <Flex alignItems="center" gap={2}>
-                                <IconChevronRight />
+                                <Icon as={IconChevronRight} rotate={!isRTL ? '180deg' : 'none'} />
                                 {t('common.previous')}
                             </Flex>
                         </Button>
@@ -241,7 +244,7 @@ const FeatureOnboarding: React.FC<FeatureOnboardingProps> = ({ onComplete, onSki
                         >
                             <Flex alignItems="center" gap={2}>
                                 {currentSlide === features.length - 1 ? t('common.lets_start') : t('common.next')}
-                                <IconChevronLeft />
+                                <Icon as={IconChevronLeft} rotate={!isRTL ? '180deg' : 'none'} />
                             </Flex>
                         </Button>
                     </HStack>

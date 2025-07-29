@@ -6,7 +6,8 @@ import { useRouter } from '@tanstack/react-router';
 import SelectUserDrawer from '../General/selectResidentDrawer';
 import SplitDetailsDrawer from './SplitDetailsDrawer/splitDetailsDrawer';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocaleChange } from '../../hooks/useLocaleChange';
 
 const ExpenseDetailsPage = () => {
   const {
@@ -24,7 +25,16 @@ const ExpenseDetailsPage = () => {
 
   const router = useRouter();
   const { t } = useTranslation();
+
   const [displayAmount, setDisplayAmount] = useState(expenseDetails.amount.toString());
+
+  const { isRTL } = useLocaleChange();
+
+  useEffect(() => {
+    setDisplayAmount(expenseDetails.amount.toString());
+  }, [expenseDetails.amount]);
+
+
   const buttonDisabled =
     !expenseDetails.amount ||
     !expenseDetails.description ||
@@ -116,12 +126,12 @@ const ExpenseDetailsPage = () => {
                       setAmount(e.valueAsNumber);
                     }}
                     // onValueChange={(e) => isNumber(e.value) && setAmount(Number(e.value))}
-                    value={String(displayAmount)}
+                    value={isNaN(Number(displayAmount)) ? '' : String(displayAmount)}
                   >
                     {/* <NumberInput.Control /> */}
                     <NumberInput.Input placeholder="0.00" fontSize={'2xl'} />
                   </NumberInput.Root>
-                  <Text fontSize="2xl" position="absolute" left={2} top={1}>
+                  <Text fontSize="2xl" position="absolute" {...(isRTL ? { left: 2 } : { right: 2 })} top={1}>
                     ₪
                   </Text>
                 </Flex>

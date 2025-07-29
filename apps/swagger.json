@@ -858,6 +858,36 @@
         ]
       }
     },
+    "/api/incident/delete": {
+      "post": {
+        "operationId": "IncidentController_deleteIncident",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
     "/api/shopping-list": {
       "get": {
         "operationId": "ShoppingListController_getShoppingList",

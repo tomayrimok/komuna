@@ -100,7 +100,7 @@ export class TaskNotificationService {
         try {
             let title: string;
             let body: string;
-            const taskTypeText = task.taskType === TaskType.GROUP ? 'קבוצתית' : 'אישית';
+            const taskTypeText = task.taskType === TaskType.GROUP ? 'דירתית' : 'אישית';
             const dueDateText = format(task.dueDate, 'dd/MM/yyyy');
 
             switch (type) {

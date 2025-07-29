@@ -1,4 +1,4 @@
-import { Button, Spinner } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
 interface MainButtonProps extends PropsWithChildren {
@@ -16,12 +16,12 @@ const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true
             onClick={onClick}
             width="fit-content"
             fontSize={'lg'}
-            fontWeight={'bold'}
             py={6}
-            shadow={'md'}
             loading={loading}
             zIndex={isFixed ? 1 : 0}
             {...(isFixed ? {
+                fontWeight: 'bold',
+                shadow: 'md',
                 position: 'fixed',
                 margin: "auto",
                 bottom: bottom,

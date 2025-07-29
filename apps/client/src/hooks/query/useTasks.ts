@@ -11,12 +11,9 @@ export const useTasks = () => {
   const { sessionDetails: { apartmentId } } = useAuth();
 
   return useQuery({
-    // refetch every 1 minute
-    refetchInterval: 1000 * 60,
+    refetchOnMount: "always",
     queryKey: ['tasks', apartmentId],
     queryFn: () => fetchTasks(apartmentId!),
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: false,
     enabled: !!apartmentId,
   });
 };

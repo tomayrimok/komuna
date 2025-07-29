@@ -243,10 +243,6 @@ export class GeneralShoppingListService {
             throw new BadRequestException('General shopping list not found');
         }
 
-        if (!generalList.isActive) {
-            throw new BadRequestException('General shopping list is not active');
-        }
-
         return await this.generateShoppingListFromTemplate(generalList, dto, userId);
     }
 

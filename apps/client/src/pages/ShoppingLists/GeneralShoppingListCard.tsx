@@ -4,6 +4,7 @@ import { IconCheck, IconClock, IconHome, IconShoppingCart, IconUser, IconX } fro
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import DateText from "../../components/dateText";
+import GeneralShoppingListCardTags from "./GeneralShoppingListCardTags";
 
 interface GeneralShoppingListCardProps {
     list: GeneralShoppingListResponseDto;
@@ -19,18 +20,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
         navigate({ to: `/roommate/general-shopping-lists/${list.generalShoppingListId}/items` });
     };
 
-    const getFrequencyText = (frequency: Frequency, interval?: number) => {
-        const key = interval === 1 ? 'one' : interval === 2 ? 'two' : 'many';
-        return t(`shopping.frequency.${frequency}.${key}`, { count: interval?.toString() || '0' } as any);
-    };
 
-    const getContextText = (contextType: ContextType) => {
-        return contextType === ContextType.APARTMENT ? t('shopping.general_lists.shared_list') : t('shopping.general_lists.personal_list');
-    };
-
-    const getContextColor = (contextType: ContextType) => {
-        return contextType === ContextType.APARTMENT ? 'blue' : 'purple';
-    };
 
     return (
         <Card.Root key={list.generalShoppingListId} onClick={() => handleViewItems(list)} cursor={'pointer'}>
@@ -71,39 +61,7 @@ const GeneralShoppingListCard = ({ list }: GeneralShoppingListCardProps) => {
                     </Text>
                 )}
 
-                <HStack gap={2} mt={2} wrap="wrap">
-                    {/* Context Type Tag */}
-                    <Tag.Root colorPalette={getContextColor(list.targetContextType)} variant="subtle" w="fit-content" borderRadius="full">
-                        <Tag.Label display={'flex'} alignItems={'center'} gap={1}>
-                            {list.targetContextType === ContextType.APARTMENT ? <IconHome size={16} /> : <IconUser size={16} />}
-                            <Text fontSize="sm">
-                                {getContextText(list.targetContextType)}
-                            </Text>
-                        </Tag.Label>
-                    </Tag.Root>
-
-                    {/* Manual vs Automatic Tag */}
-                    <Tag.Root colorPalette={list.isManualOnly ? 'gray' : 'green'} variant="subtle" w="fit-content" borderRadius="full">
-                        <Tag.Label display={'flex'} alignItems={'center'} gap={1}>
-                            <IconShoppingCart size={16} />
-                            <Text fontSize="sm">
-                                {list.isManualOnly ? t('shopping.general_lists.manual_template') : t('shopping.general_lists.automatic_template')}
-                            </Text>
-                        </Tag.Label>
-                    </Tag.Root>
-
-                    {/* Frequency Tag for automatic templates */}
-                    {!list.isManualOnly && list.recurrenceRule && (
-                        <Tag.Root colorPalette="blue" variant="subtle" w="fit-content" borderRadius="full">
-                            <Tag.Label display={'flex'} alignItems={'center'} gap={1}>
-                                <IconClock size={16} />
-                                <Text fontSize="sm">
-                                    {getFrequencyText(list.recurrenceRule.frequency as Frequency, list.recurrenceRule.interval)}
-                                </Text>
-                            </Tag.Label>
-                        </Tag.Root>
-                    )}
-                </HStack>
+                <GeneralShoppingListCardTags list={list} />
 
                 <Flex fontSize="sm" color="gray.500" alignItems={'center'} gap={1} mt={2}>
                     <Icon size={'sm'}>

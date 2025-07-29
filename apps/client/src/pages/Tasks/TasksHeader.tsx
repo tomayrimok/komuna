@@ -25,7 +25,7 @@ const TasksHeader = () => {
         right={'-10vw'}
         zIndex={-1}
       />
-      <Icon size={'2xl'} mb={3}>
+      <Icon width={'70px'} height={'60px'} mb={1} color='brand.100' mt={-3}>
         <IconListCheck />
       </Icon>
       <TasksNumber />

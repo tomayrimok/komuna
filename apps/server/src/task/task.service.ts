@@ -199,7 +199,7 @@ export class TaskService {
         let notificationBody: string;
         if (isCompleted) {
           if (task.taskType === TaskType.GROUP || (task.taskType === TaskType.PERSONAL && isFullyCompleted)) {
-            notificationBody = `המשימה הקבוצתית "${task.title}" הושלמה! 🎉`;
+            notificationBody = `המשימה הדירתית "${task.title}" הושלמה! 🎉`;
           } else if (task.taskType === TaskType.PERSONAL) {
             notificationBody = `${userName} השלים את המשימה "${task.title}"`;
           } else {
