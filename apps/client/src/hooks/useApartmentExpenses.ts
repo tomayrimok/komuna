@@ -10,7 +10,7 @@ export const useApartmentExpenses = (userId: string) => {
   return useQuery({
     queryKey: ['apartmentExpenses', apartmentId, userId],
     queryFn: () => fetchApartmentExpenses(apartmentId!, userId),
-    staleTime: 1000 * 60 * 5,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 };

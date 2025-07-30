@@ -16,7 +16,15 @@ export const Route = createFileRoute('/landlord')({
 const LandlordLayout = () => {
   return (
     <Box flex="1" display="flex" flexDirection="column" gap="0" height="100%">
-      <Box overflowY="auto" flex="1" display="flex" flexDirection="column" gap="0" height="100%">
+      <Box
+        data-scroll-container
+        overflowY="auto"
+        flex="1"
+        display="flex"
+        flexDirection="column"
+        gap="0"
+        height="100%"
+      >
         <Outlet />
       </Box>
       <BottomNav />

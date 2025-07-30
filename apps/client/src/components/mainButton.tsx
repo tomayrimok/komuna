@@ -4,23 +4,27 @@ import { PropsWithChildren } from 'react';
 interface MainButtonProps extends PropsWithChildren {
     isLight?: boolean;
     isFixed?: boolean;
+    bottom?: string;
     onClick?: () => void;
+    loading?: boolean;
 }
 
-const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true, onClick, children }) => {
+const MainButton: React.FC<MainButtonProps> = ({ isLight = false, isFixed = true, bottom = "110px", onClick, children, loading = false }) => {
 
     return (
         <Button
             onClick={onClick}
             width="fit-content"
             fontSize={'lg'}
-            fontWeight={'bold'}
             py={6}
-            shadow={'md'}
+            loading={loading}
+            zIndex={isFixed ? 1 : 0}
             {...(isFixed ? {
+                fontWeight: 'bold',
+                shadow: 'md',
                 position: 'fixed',
                 margin: "auto",
-                bottom: "110px",
+                bottom: bottom,
                 right: 0,
                 left: 0
             } : {})}

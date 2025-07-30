@@ -49,9 +49,12 @@ export class ExpenseService {
       const oldAmount = oldSplits[userId] || 0;
       const newAmount = newSplits[userId] || 0;
       const diff = newAmount - oldAmount;
-      if (diff !== 0) {
-        await this.debtEdgeService.updateDebt(updateData.apartmentId, userId, updateData.paidById, diff);
+      if (expense.paidById !== updateData.paidById) {
+        await this.debtEdgeService.updateDebt(updateData.apartmentId, userId, expense.paidById, -oldAmount);
+        await this.debtEdgeService.updateDebt(updateData.apartmentId, userId, updateData.paidById, newAmount);
       }
+      else if (diff !== 0) await this.debtEdgeService.updateDebt(updateData.apartmentId, userId, updateData.paidById, diff);
+
     }
 
     return expense;

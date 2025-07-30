@@ -5,11 +5,13 @@ import debounce from 'lodash/debounce';
 import { useTranslation } from 'react-i18next';
 import { API, ApiTypes } from '@komuna/types';
 import ShoppingListItemDetailsDrawer from './shoppingListItemDetailsDrawer';
-import { useShoppingList } from '../../context/auth/ShoppingListProvider';
 import { GroceryItemCategory } from './GroceryItemCategory';
 
-export const SearchGroceryInput = () => {
-  const { handleAddItem } = useShoppingList();
+interface SearchGroceryInputProps {
+  handleAddItem: (item: ApiTypes.ShoppingListItemWithIdDto) => void;
+}
+
+export const SearchGroceryInput = ({ handleAddItem }: SearchGroceryInputProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<ApiTypes.GroceryItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,6 +86,7 @@ export const SearchGroceryInput = () => {
       image: suggestion.image,
       category: suggestion.category,
       isPurchased: false,
+      itemId: '',
     });
     // Here you can add additional logic when a suggestion is selected
   };
@@ -129,10 +132,13 @@ export const SearchGroceryInput = () => {
               <Flex direction="column" flex={1}>
                 <Flex justifyContent="space-between" alignItems="center">
                   <VStack>
-                    <Text fontWeight="bold">פריט חסר? הוסף את ״{searchTerm}״</Text>
+                    <Text fontWeight="bold">{t('shopping.missing_item', { searchTerm })}</Text>
                   </VStack>
 
-                  <ShoppingListItemDetailsDrawer initialText={searchTerm} onClose={() => setSearchTerm('')} />
+                  <ShoppingListItemDetailsDrawer
+                    initialText={searchTerm}
+                    onClose={() => setSearchTerm('')}
+                  />
                 </Flex>
               </Flex>
             </Box>
@@ -149,7 +155,7 @@ export const SearchGroceryInput = () => {
                 gap={2}
                 onClick={() => handleSuggestionClick(suggestion)}
               >
-                <Image src={suggestion.image} alt={suggestion.description} width="60px" />
+                <Image src={suggestion.image || 'https://icons.veryicon.com/png/o/business/hotel-facilities/supermarket.png'} alt={suggestion.description} width="60px" />
                 <Flex direction="column" flex={1} gap={2}>
                   <Stack flexDirection="column" alignItems="flex-start">
                     <Text fontWeight="bold">{suggestion.description}</Text>

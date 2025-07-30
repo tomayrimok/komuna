@@ -43,9 +43,9 @@ export class BaseShoppingListItemDto {
   createdAt: string;
 }
 
-export class ShoppingListItemDto extends PartialType(BaseShoppingListItemDto) {}
+export class ShoppingListItemDto extends PartialType(BaseShoppingListItemDto) { }
 
-export class NewShoppingListItemDto extends BaseShoppingListItemDto {}
+export class NewShoppingListItemDto extends BaseShoppingListItemDto { }
 
 export class ShoppingListItemWithIdDto extends BaseShoppingListItemDto {
   @ApiProperty()

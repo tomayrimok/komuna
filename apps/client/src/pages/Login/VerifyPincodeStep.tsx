@@ -38,8 +38,9 @@ export const VerifyPincodeStep = ({ goBack, phoneNumber, onPincodeSuccess }: Ver
       gap="7"
       onGoBack={goBack}
       heading={
-        <Stack gap="0">
-          <BackNavigationBar onGoBack={goBack} disableGoBack />
+        <Stack gap="0" width="100%">
+
+          <BackNavigationBar p={3} onGoBack={goBack} disableGoBack />
           <VStack>
             <Image src="/detailed_icons/sms.png" width="122px" />
           </VStack>

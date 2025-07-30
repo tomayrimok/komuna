@@ -16,7 +16,7 @@ import { IncidentService } from './incident.service';
 
 @Controller('incident')
 export class IncidentController {
-  constructor(private readonly incidentService: IncidentService) {}
+  constructor(private readonly incidentService: IncidentService) { }
   private readonly logger = new Logger(IncidentController.name);
 
   @Get()
@@ -59,5 +59,12 @@ export class IncidentController {
   @Post('owner-seen')
   async setOwnerSeen(@Query('incidentId') incidentId: string, @Query('apartmentId') apartmentId: string) {
     return await this.incidentService.setOwnerSeen(incidentId, apartmentId);
+  }
+
+  @Post('delete')
+  @UseAuth()
+  @ApiOkResponse({ type: Incident })
+  async deleteIncident(@Query('incidentId') incidentId: string) {
+    return await this.incidentService.deleteIncident(incidentId);
   }
 }

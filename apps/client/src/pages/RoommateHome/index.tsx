@@ -1,5 +1,5 @@
-import { Avatar, Box, Flex, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
-import { Trans } from 'react-i18next';
+import { Avatar, Box, HStack, Image, Text, VStack, Button } from '@chakra-ui/react';
+import { Trans, useTranslation } from 'react-i18next';
 import CreateIncidentButton from '../../components/Incidents/createIncidentButton';
 import IncidentsNumber from '../../components/Incidents/incidentsNumber';
 import BalanceText from '../../components/Payments/balanceText';
@@ -10,13 +10,21 @@ import ShoppingListPurchaseDrawer from '../../components/ShoppingList/shoppingLi
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
+import { CreateTaskButton } from '../Tasks/components/CreateTaskButton';
+import { useNavigate } from '@tanstack/react-router';
+import MainButton from '../../components/mainButton';
+import TasksNumber from '../Tasks/TasksNumber';
+import { ContextType } from '@komuna/types';
+import { useApartment } from '../../hooks/useApartment';
 
 
 export const RoommateHome = () => {
   const { currentUserDetails } = useAuth();
   const { isRTL } = useIsRTL();
-
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
+  const apartment = useApartment();
 
 
   return (
@@ -43,13 +51,21 @@ export const RoommateHome = () => {
               <Avatar.Image src={currentUserDetails?.image} />
               <Avatar.Fallback name="Nue Camp" />
             </Avatar.Root>
-            <Text color="brand.900" fontSize="xl">
-              <Trans
-                i18nKey="roommate.homepage.title"
-                values={{ firstName: currentUserDetails?.firstName }}
-                components={{ b: <b /> }}
-              />
-            </Text>
+            <VStack spaceY={-3} alignItems={"flex-start"}>
+              <Text color="brand.900" fontSize="xl">
+                <Trans
+                  i18nKey="roommate.homepage.title"
+                  values={{ firstName: currentUserDetails?.firstName }}
+                  components={{ b: <b /> }}
+                />
+              </Text>
+              <Text color="brand.900" fontSize="md" w={"full"}>
+                {apartment.data?.name || (`${apartment.data?.address} ${apartment.data?.city}`)}
+              </Text>
+              {/* <Text color="brand.900" fontSize="sm" w={"full"} textAlign={"center"}>
+                {apartment.data?.address}, {apartment.data?.city}
+              </Text> */}
+            </VStack>
           </HStack>
           <SettingLeftbar />
         </HStack>
@@ -57,8 +73,21 @@ export const RoommateHome = () => {
 
       <VStack padding="7" gap="5" mt={"120px"}>
         <HomeCard
+          image={<Image src='/meerkats/campfire.png' width={"30vw"} />}
+          text={<Text>{t('onboarding.title')}</Text>}
+          button={
+            <MainButton
+              isFixed={false}
+              onClick={() => navigate({ to: '/onboarding/features' })}
+            >
+              {t('onboarding.watch_tutorial')}
+            </MainButton>
+          }
+        />
+
+        <HomeCard
           image={<Image src='/meerkats/dealers.png' width={"30vw"} />}
-          text={<BalanceText />}
+          text={<BalanceText staticSize />}
           button={<CreateExpenseButton isFixed={false} />}
         />
 
@@ -71,7 +100,13 @@ export const RoommateHome = () => {
         <HomeCard
           image={<Image src='/meerkats/shopping.png' width={"20vw"} />}
           text={<ShoppingListItemsNumber />}
-          button={<ShoppingListPurchaseDrawer isFixed={false} />}
+          button={<ShoppingListPurchaseDrawer isFixed={false} contextType={ContextType.APARTMENT} />}
+        />
+
+        <HomeCard
+          image={<Image src='/meerkats/dishes.png' width={"20vw"} />}
+          text={<TasksNumber />}
+          button={<CreateTaskButton isFixed={false} />}
         />
 
       </VStack>

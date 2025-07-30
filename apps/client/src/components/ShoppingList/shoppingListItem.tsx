@@ -25,7 +25,7 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showRedBg, setShowRedBg] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, syncShoppingList } = useShoppingList();
+  const { handleDeleteItem, setActiveSwipe, updateItem, togglePurchased, syncShoppingList, isSyncing } = useShoppingList();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -112,14 +112,16 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                 <Box py={2} px={3}>
                   <Flex justify="space-between" align="center">
                     <Flex align="center" gap={3} flex={1}>
-                      <Checkbox.Root
-                        checked={item.isPurchased}
-                        onCheckedChange={() => togglePurchased(item.itemId)}
-                        variant={'outline'}
-                      >
-                        <Checkbox.HiddenInput />
-                        <Checkbox.Control />
-                      </Checkbox.Root>
+                      {togglePurchased && (
+                        <Checkbox.Root
+                          checked={item.isPurchased}
+                          onCheckedChange={() => togglePurchased?.(item.itemId)}
+                          variant={'outline'}
+                        >
+                          <Checkbox.HiddenInput />
+                          <Checkbox.Control />
+                        </Checkbox.Root>
+                      )}
 
                       <Image src={item.image || DEFAULT_IMAGE} alt={item.name} w="40px" h="40px" />
                       <Flex w="full" alignItems="center" justifyContent="space-between">
@@ -162,12 +164,14 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item, openEd
                             updateItem(item.itemId, { amount });
                           }}
                           amount={item.amount}
+                          disabled={isSyncing}
                         />
                         <ShoppingListItemIsUrgent
                           handleChange={(isUrgent) => {
                             updateItem(item.itemId, { isUrgent });
                           }}
                           isUrgent={item.isUrgent}
+                          disabled={isSyncing}
                         />
                       </Flex>
                     </Flex>

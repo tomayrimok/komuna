@@ -6,30 +6,17 @@ import { SettingLeftbar } from '../../components/SettingLeftbar';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
+import { useNavigate } from '@tanstack/react-router';
+import { useApartment } from '../../hooks/useApartment';
+import { inherits } from 'util';
+import { useTranslation } from 'react-i18next';
 
-const TempFakeCard = () => (
-  <Card.Root variant="elevated">
-    <Card.Body gap="2">
-      <Avatar.Root size="lg" shape="rounded">
-        <Avatar.Image src="https://picsum.photos/200/300" />
-        <Avatar.Fallback name="Nue Camp" />
-      </Avatar.Root>
-      <Card.Title mt="2">עדכונים אחרונים</Card.Title>
-      <Card.Description>
-        This is the card body. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec odio vel dui
-        euismod fermentum. Curabitur nec odio vel dui euismod fermentum.
-      </Card.Description>
-    </Card.Body>
-    <Card.Footer justifyContent="flex-end">
-      <Button variant="outline">View</Button>
-      <Button>Join</Button>
-    </Card.Footer>
-  </Card.Root>
-);
 
 export const LandlordHome = () => {
-  const { currentUserDetails } = useAuth();
+  const { currentUserDetails, sessionDetails } = useAuth();
   const { isRTL } = useIsRTL();
+  const { t } = useTranslation();
+  const apartment = useApartment();
 
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
   return (
@@ -55,17 +42,23 @@ export const LandlordHome = () => {
             <Avatar.Image src={currentUserDetails?.image} />
             <Avatar.Fallback name="Nue Camp" />
           </Avatar.Root>
-          <Text color="white" fontSize="xl">
-            <Trans
-              i18nKey="roommate.homepage.title"
-              values={{ firstName: currentUserDetails?.firstName }}
-              components={{ b: <b /> }}
-            />
-          </Text>
+          <VStack spaceY={-2} alignItems={"flex-start"}>
+            <Text color="white" fontSize="xl">
+              <Trans
+                i18nKey="landlord.homepage.title"
+                values={{ firstName: currentUserDetails?.firstName }}
+                components={{ b: <b /> }}
+              />
+            </Text>
+            <Text color="white" fontSize="sm" w={"full"}>
+              {apartment.data?.address ? `${apartment.data?.address} ${apartment.data?.city}` : t('apartment_with_no_address')}
+            </Text>
+          </VStack>
         </HStack>
         <SettingLeftbar />
       </HStack>
       <VStack padding="5" gap="5">
+
         <HomeCard
           image={<Image src='/meerkats/incident.png' width={"20vw"} />}
           text={<IncidentsNumber />}

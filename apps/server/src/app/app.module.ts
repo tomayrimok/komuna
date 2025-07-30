@@ -18,6 +18,10 @@ import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { ShoppingTemplate } from '../shopping-template/shopping-template.entity';
 import { Task } from '../task/task.entity';
 import { TaskModule } from '../task/task.module';
+import { GeneralTask } from '../general-task/general-task.entity';
+import { GeneralTaskModule } from '../general-task/general-task.module';
+import { GeneralShoppingList } from '../general-shopping-list/general-shopping-list.entity';
+import { GeneralShoppingListModule } from '../general-shopping-list/general-shopping-list.module';
 import { UserApartment } from '../user-apartment/user-apartment.entity';
 import { UserApartmentModule } from '../user-apartment/user-apartment.module';
 import { AuthUser } from '../user/auth-user.entity';
@@ -31,7 +35,6 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      // url: 'postgresql://neondb_owner:npg_hJYINkQqH4A9@ep-floral-mud-a2hotfz9-pooler.eu-central-1.aws.neon.tech/komuna?sslmode=require',
       type: 'postgres',
       url: process.env.DATABASE_URL,
       // logging: true,
@@ -48,6 +51,8 @@ import { AppService } from './app.service';
         ShoppingList,
         ShoppingTemplate,
         Task,
+        GeneralTask,
+        GeneralShoppingList,
         Comment,
         NotificationToken,
         Notification,
@@ -64,8 +69,10 @@ import { AppService } from './app.service';
     IncidentModule,
     ShoppingListModule,
     NotificationModule,
+    GeneralTaskModule,
+    GeneralShoppingListModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

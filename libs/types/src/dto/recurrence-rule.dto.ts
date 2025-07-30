@@ -1,26 +1,13 @@
-import { IsEnum, IsInt, IsOptional, IsArray, Min, IsDateString } from 'class-validator';
 import { Frequency, WeekDay } from '../enums';
 
-export class RecurrenceRuleDto {
-  @IsEnum(Frequency)
+export class RecurrenceRule {
   frequency: Frequency;
 
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  interval?: number; // every $interval $frequency
+  interval?: number;
 
-  @IsOptional()
-  @IsArray()
-  @IsEnum(WeekDay, { each: true })
-  byWeekDay?: WeekDay[]; // e.g. [WeekDay.MO, WeekDay.FR]
+  byWeekDay?: WeekDay[];
 
-  @IsOptional()
-  @IsDateString()
-  until?: string; // ISO date string. If null, is indefinite.
+  until?: string;
 
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  count?: number; // number of occurrences, instead of until.
+  count?: number;
 }

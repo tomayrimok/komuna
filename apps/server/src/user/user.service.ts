@@ -119,7 +119,7 @@ export class UserService {
     }
 
     const ALLOWED_PHONE_NUMBERS = process.env.SMS_ALLOWED_NUMBERS?.split(',').map((item) => item.trim());
-
+    this.logger.error(ALLOWED_PHONE_NUMBERS);
     if (!ALLOWED_PHONE_NUMBERS.includes(phoneNumber)) {
       this.logger.error(`Phone number ${phoneNumber} is not allowed to send SMS`);
       throw new Error('Phone number is not allowed to send SMS');

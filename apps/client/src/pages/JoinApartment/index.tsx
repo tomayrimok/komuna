@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
-import { Button, PinInput, Spacer } from '@chakra-ui/react';
+import { Button, PinInput, Spacer, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { times } from 'lodash';
 import { useNavigate } from '@tanstack/react-router';
@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { UserRole } from 'libs/types/src/enums';
 import { ApiTypes } from '@komuna/types';
+import MainButton from '../../components/mainButton';
 
 const JoinApartment = () => {
   const [pincode, setPincode] = useState(['', '', '', '']);
@@ -41,9 +42,12 @@ const JoinApartment = () => {
     onError: (error) => {
       const isConflict = (error as AxiosError).response?.status === 409;
       const isNotFound = (error as AxiosError).response?.status === 404;
+      const isTaken = (error as AxiosError).response?.status === 403;
+
       let title = t('error.action_failed');
       if (isConflict) title = t('join_existing_apartment.apartment_already_joined');
       if (isNotFound) title = t('join_existing_apartment.apartment_not_found');
+      if (isTaken) title = t('join_existing_apartment.apartment_taken');
       toaster.create({
         title,
         type: 'error',
@@ -74,7 +78,11 @@ const JoinApartment = () => {
         onValueChange={(e) => setPincode(e.value)}
         size="2xl"
         variant="outline"
-        // onValueComplete={(details) => ({ code: details.valueAsString })}
+        mt={"30px"}
+        w="full"
+        display="flex"
+        justifyContent="center"
+      // onValueComplete={(details) => ({ code: details.valueAsString })}
       >
         <PinInput.HiddenInput />
         <PinInput.Control fontWeight="bold" fontSize="2xl" dir="ltr">
@@ -84,15 +92,13 @@ const JoinApartment = () => {
         </PinInput.Control>
       </PinInput.Root>
       <Spacer />
-      <Button
-        size="xl"
-        fontSize="2xl"
-        fontWeight="bold"
+      <MainButton
+        bottom="20px"
         loading={joinApartmentMutation.isPending}
         onClick={() => joinApartmentMutation.mutate(pincode.join(''))}
       >
         {t('join_existing_apartment.join_btn')}
-      </Button>
+      </MainButton>
     </ApartmentLayout>
   );
 };

@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useUserBalanceDetails } from '../../hooks/useUserBalanceDetails';
 import { roundUpToXDigits } from '../../utilities/roundUpToXDigits';
 
-const BalanceText = () => {
+interface BalanceTextProps {
+    staticSize?: boolean;
+}
+
+const BalanceText = ({ staticSize = false }: BalanceTextProps) => {
 
     const { t } = useTranslation();
     const { data, isLoading } = useUserBalanceDetails();
@@ -14,12 +18,13 @@ const BalanceText = () => {
 
     return (
         <>
-            <Text fontWeight={'bold'} fontSize={data.balance === 0 ? '4xl' : 'lg'}>
+            <Text fontWeight={'bold'} fontSize={staticSize ? 'xl' : data.balance === 0 ? '2xl' : 'lg'}>
                 {data.balance < 0
                     ? t('payments.debt')
                     : data.balance === 0
                         ? t('payments.balanced')
                         : t('payments.people-owe-you')}
+
             </Text>
             {data.balance !== 0 && (
                 <Text fontSize="4xl" fontWeight={'bold'}>

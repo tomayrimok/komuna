@@ -1,7 +1,7 @@
-import { Avatar, Box, Flex, Icon, Text } from '@chakra-ui/react';
+import { Avatar, Box, BoxProps, Flex, Icon, Text } from '@chakra-ui/react';
 import { IconCheck } from '@tabler/icons-react';
 
-interface UserCardProps {
+interface UserCardProps extends BoxProps {
   onClick?: () => void;
   user: {
     firstName: string;
@@ -13,7 +13,7 @@ interface UserCardProps {
   selected?: boolean;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected, onClick }) => {
+const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected, onClick, ...props }) => {
   return (
     <Box
       p={2}
@@ -23,6 +23,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, additionalComponent, selected
       _hover={onClick ? { backgroundColor: 'gray.100' } : {}}
       onClick={onClick}
       border={selected ? '1.5px solid {colors.brand.600}' : '1.5px solid transparent'}
+      {...props as any}
     >
       <Flex direction="row" gap="3" alignItems="center">
         <Avatar.Root size="lg" shape="full">

@@ -23,7 +23,7 @@ export class IncidentService {
 
     private readonly userApartmentService: UserApartmentService,
     private readonly notificationService: NotificationService // Assuming you have a NotificationService for handling notifications
-  ) {}
+  ) { }
 
   async addEditIncident(incidentDto: AddEditIncidentDto, userId: string): Promise<Incident> {
     if (incidentDto.incidentId) {
@@ -132,5 +132,10 @@ export class IncidentService {
     }
 
     return incident;
+  }
+
+  async deleteIncident(incidentId: string) {
+    await this.commentRepo.delete({ incidentId });
+    return this.incidentRepo.delete({ incidentId });
   }
 }

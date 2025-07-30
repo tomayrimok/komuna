@@ -6,6 +6,7 @@ import {
   InternalServerErrorException,
   Logger,
   Post,
+  Put,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -15,7 +16,7 @@ import { User } from '../decorators/User';
 import { UseAuth } from '../decorators/UseAuth';
 import { UserJwtPayload } from './dto/jwt-user.dto';
 import { isValidPhoneNumber } from 'libphonenumber-js/max';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { UserCreatedResponseDto, UserResponseDto } from './dto/user.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { NotificationService } from '../notification/notification.service';
@@ -24,8 +25,8 @@ import { NotificationService } from '../notification/notification.service';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly notificationService: NotificationService, // Assuming you have a NotificationService for sending SMS
-  ) { }
+    private readonly notificationService: NotificationService // Assuming you have a NotificationService for sending SMS
+  ) {}
   private readonly logger = new Logger(UserController.name);
 
   @Post('login')
@@ -141,6 +142,36 @@ export class UserController {
 
       throw new InternalServerErrorException('Failed to get user profile', {
         description: 'נכשלנו בהבאת המשתמש הנוכחי. אנא נסו בשנית',
+      });
+    }
+  }
+
+  @Put()
+  @UseAuth()
+  @ApiOkResponse({ type: UserResponseDto })
+  async updateUserProfile(@User() user: UserJwtPayload, @Body() updateData: UpdateUserDto): Promise<UserResponseDto> {
+    try {
+      if (!user || !user.phoneNumber) {
+        throw new BadRequestException('User not authenticated');
+      }
+
+      // Update user details
+      await this.userService.updateUserDetails({
+        phoneNumber: user.phoneNumber,
+        ...updateData,
+      });
+
+      // Fetch and return updated user profile
+      const updatedUser = await this.userService.getUserProfile(user.phoneNumber);
+      return { user: updatedUser };
+    } catch (error) {
+      this.logger.error('Error updating user profile:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException('Failed to update user profile', {
+        description: 'כישלון במהלך עדכון הפרופיל. אנא נסו בשנית',
       });
     }
   }

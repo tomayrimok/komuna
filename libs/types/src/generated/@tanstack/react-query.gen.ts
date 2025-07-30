@@ -10,19 +10,23 @@ import {
   userControllerVerify,
   userControllerGetCurrentUserProfile,
   userControllerCreateUser,
+  userControllerUpdateUserProfile,
   userControllerLogout,
-  expenseControllerGetApartmentExpenses,
-  expenseControllerAddEditExpense,
-  expenseControllerGetExpenseDetails,
-  paymentControllerCreatePayment,
+  notificationControllerRegisterToken,
   apartmentControllerGetApartmentWithResidents,
   apartmentControllerCreateApartment,
   apartmentControllerJoinApartment,
   apartmentControllerGetRoommates,
+  expenseControllerGetApartmentExpenses,
+  expenseControllerAddEditExpense,
+  expenseControllerGetExpenseDetails,
+  paymentControllerCreatePayment,
   taskControllerCreateTask,
-  taskControllerUpdateTaskStatus,
+  taskControllerUpdateTaskCompletion,
   taskControllerEditTask,
+  taskControllerDeleteTask,
   taskControllerGetAllTasks,
+  taskControllerGetTaskById,
   taskControllerGetCompletedTasks,
   incidentControllerGetAllIncidents,
   incidentControllerGetIncidentDetails,
@@ -30,10 +34,23 @@ import {
   incidentControllerUpdateIncident,
   incidentControllerNewComment,
   incidentControllerSetOwnerSeen,
-  notificationControllerRegisterToken,
+  incidentControllerDeleteIncident,
   shoppingListControllerGetShoppingList,
   shoppingListControllerSyncItems,
   shoppingListControllerSearchItem,
+  generalTaskControllerCreateGeneralTask,
+  generalTaskControllerUpdateGeneralTask,
+  generalTaskControllerGetGeneralTasks,
+  generalTaskControllerDeleteGeneralTask,
+  generalTaskControllerGetGeneralTaskById,
+  generalTaskControllerManuallyGenerateTasks,
+  generalShoppingListControllerCreateGeneralShoppingList,
+  generalShoppingListControllerUpdateGeneralShoppingList,
+  generalShoppingListControllerGetGeneralShoppingLists,
+  generalShoppingListControllerGetGeneralShoppingListById,
+  generalShoppingListControllerDeleteGeneralShoppingList,
+  generalShoppingListControllerGenerateFromTemplate,
+  generalShoppingListControllerDuplicateGeneralShoppingList,
 } from '../sdk.gen';
 import { queryOptions, type UseMutationOptions, type DefaultError } from '@tanstack/react-query';
 import type {
@@ -47,21 +64,30 @@ import type {
   UserControllerGetCurrentUserProfileData,
   UserControllerCreateUserData,
   UserControllerCreateUserResponse,
+  UserControllerUpdateUserProfileData,
+  UserControllerUpdateUserProfileResponse,
   UserControllerLogoutData,
-  ExpenseControllerGetApartmentExpensesData,
-  ExpenseControllerAddEditExpenseData,
-  ExpenseControllerGetExpenseDetailsData,
-  PaymentControllerCreatePaymentData,
-  PaymentControllerCreatePaymentResponse,
+  NotificationControllerRegisterTokenData,
   ApartmentControllerGetApartmentWithResidentsData,
   ApartmentControllerCreateApartmentData,
   ApartmentControllerJoinApartmentData,
   ApartmentControllerJoinApartmentResponse,
   ApartmentControllerGetRoommatesData,
+  ExpenseControllerGetApartmentExpensesData,
+  ExpenseControllerAddEditExpenseData,
+  ExpenseControllerGetExpenseDetailsData,
+  PaymentControllerCreatePaymentData,
+  PaymentControllerCreatePaymentResponse,
   TaskControllerCreateTaskData,
-  TaskControllerUpdateTaskStatusData,
+  TaskControllerCreateTaskResponse,
+  TaskControllerUpdateTaskCompletionData,
+  TaskControllerUpdateTaskCompletionResponse,
   TaskControllerEditTaskData,
+  TaskControllerEditTaskResponse,
+  TaskControllerDeleteTaskData,
+  TaskControllerDeleteTaskResponse,
   TaskControllerGetAllTasksData,
+  TaskControllerGetTaskByIdData,
   TaskControllerGetCompletedTasksData,
   IncidentControllerGetAllIncidentsData,
   IncidentControllerGetIncidentDetailsData,
@@ -72,11 +98,30 @@ import type {
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
-  NotificationControllerRegisterTokenData,
+  IncidentControllerDeleteIncidentData,
+  IncidentControllerDeleteIncidentResponse,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
   ShoppingListControllerSearchItemData,
+  GeneralTaskControllerCreateGeneralTaskData,
+  GeneralTaskControllerCreateGeneralTaskResponse,
+  GeneralTaskControllerUpdateGeneralTaskData,
+  GeneralTaskControllerUpdateGeneralTaskResponse,
+  GeneralTaskControllerGetGeneralTasksData,
+  GeneralTaskControllerDeleteGeneralTaskData,
+  GeneralTaskControllerGetGeneralTaskByIdData,
+  GeneralTaskControllerManuallyGenerateTasksData,
+  GeneralShoppingListControllerCreateGeneralShoppingListData,
+  GeneralShoppingListControllerCreateGeneralShoppingListResponse,
+  GeneralShoppingListControllerUpdateGeneralShoppingListData,
+  GeneralShoppingListControllerUpdateGeneralShoppingListResponse,
+  GeneralShoppingListControllerGetGeneralShoppingListsData,
+  GeneralShoppingListControllerGetGeneralShoppingListByIdData,
+  GeneralShoppingListControllerDeleteGeneralShoppingListData,
+  GeneralShoppingListControllerGenerateFromTemplateData,
+  GeneralShoppingListControllerDuplicateGeneralShoppingListData,
+  GeneralShoppingListControllerDuplicateGeneralShoppingListResponse,
 } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
@@ -329,6 +374,30 @@ export const userControllerCreateUserMutation = (
   return mutationOptions;
 };
 
+export const userControllerUpdateUserProfileMutation = (
+  options?: Partial<Options<UserControllerUpdateUserProfileData>>
+): UseMutationOptions<
+  UserControllerUpdateUserProfileResponse,
+  AxiosError<DefaultError>,
+  Options<UserControllerUpdateUserProfileData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    UserControllerUpdateUserProfileResponse,
+    AxiosError<DefaultError>,
+    Options<UserControllerUpdateUserProfileData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await userControllerUpdateUserProfile({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const userControllerLogoutQueryKey = (options?: Options<UserControllerLogoutData>) =>
   createQueryKey('userControllerLogout', options);
 
@@ -363,16 +432,16 @@ export const userControllerLogoutMutation = (
   return mutationOptions;
 };
 
-export const expenseControllerGetApartmentExpensesQueryKey = (
-  options: Options<ExpenseControllerGetApartmentExpensesData>
-) => createQueryKey('expenseControllerGetApartmentExpenses', options);
+export const notificationControllerRegisterTokenQueryKey = (
+  options?: Options<NotificationControllerRegisterTokenData>
+) => createQueryKey('notificationControllerRegisterToken', options);
 
-export const expenseControllerGetApartmentExpensesOptions = (
-  options: Options<ExpenseControllerGetApartmentExpensesData>
+export const notificationControllerRegisterTokenOptions = (
+  options?: Options<NotificationControllerRegisterTokenData>
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerGetApartmentExpenses({
+      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...queryKey[0],
         signal,
@@ -380,98 +449,20 @@ export const expenseControllerGetApartmentExpensesOptions = (
       });
       return data;
     },
-    queryKey: expenseControllerGetApartmentExpensesQueryKey(options),
+    queryKey: notificationControllerRegisterTokenQueryKey(options),
   });
 };
 
-export const expenseControllerAddEditExpenseQueryKey = (options: Options<ExpenseControllerAddEditExpenseData>) =>
-  createQueryKey('expenseControllerAddEditExpense', options);
-
-export const expenseControllerAddEditExpenseOptions = (options: Options<ExpenseControllerAddEditExpenseData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerAddEditExpense({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: expenseControllerAddEditExpenseQueryKey(options),
-  });
-};
-
-export const expenseControllerAddEditExpenseMutation = (
-  options?: Partial<Options<ExpenseControllerAddEditExpenseData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ExpenseControllerAddEditExpenseData>> => {
+export const notificationControllerRegisterTokenMutation = (
+  options?: Partial<Options<NotificationControllerRegisterTokenData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
   const mutationOptions: UseMutationOptions<
     unknown,
     AxiosError<DefaultError>,
-    Options<ExpenseControllerAddEditExpenseData>
+    Options<NotificationControllerRegisterTokenData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await expenseControllerAddEditExpense({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const expenseControllerGetExpenseDetailsQueryKey = (options: Options<ExpenseControllerGetExpenseDetailsData>) =>
-  createQueryKey('expenseControllerGetExpenseDetails', options);
-
-export const expenseControllerGetExpenseDetailsOptions = (options: Options<ExpenseControllerGetExpenseDetailsData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await expenseControllerGetExpenseDetails({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: expenseControllerGetExpenseDetailsQueryKey(options),
-  });
-};
-
-export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
-  createQueryKey('paymentControllerCreatePayment', options);
-
-export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await paymentControllerCreatePayment({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: paymentControllerCreatePaymentQueryKey(options),
-  });
-};
-
-export const paymentControllerCreatePaymentMutation = (
-  options?: Partial<Options<PaymentControllerCreatePaymentData>>
-): UseMutationOptions<
-  PaymentControllerCreatePaymentResponse,
-  AxiosError<DefaultError>,
-  Options<PaymentControllerCreatePaymentData>
-> => {
-  const mutationOptions: UseMutationOptions<
-    PaymentControllerCreatePaymentResponse,
-    AxiosError<DefaultError>,
-    Options<PaymentControllerCreatePaymentData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await paymentControllerCreatePayment({
+      const { data } = await notificationControllerRegisterToken({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -601,6 +592,125 @@ export const apartmentControllerGetRoommatesOptions = (options: Options<Apartmen
   });
 };
 
+export const expenseControllerGetApartmentExpensesQueryKey = (
+  options: Options<ExpenseControllerGetApartmentExpensesData>
+) => createQueryKey('expenseControllerGetApartmentExpenses', options);
+
+export const expenseControllerGetApartmentExpensesOptions = (
+  options: Options<ExpenseControllerGetApartmentExpensesData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerGetApartmentExpenses({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerGetApartmentExpensesQueryKey(options),
+  });
+};
+
+export const expenseControllerAddEditExpenseQueryKey = (options: Options<ExpenseControllerAddEditExpenseData>) =>
+  createQueryKey('expenseControllerAddEditExpense', options);
+
+export const expenseControllerAddEditExpenseOptions = (options: Options<ExpenseControllerAddEditExpenseData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerAddEditExpense({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerAddEditExpenseQueryKey(options),
+  });
+};
+
+export const expenseControllerAddEditExpenseMutation = (
+  options?: Partial<Options<ExpenseControllerAddEditExpenseData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ExpenseControllerAddEditExpenseData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<ExpenseControllerAddEditExpenseData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await expenseControllerAddEditExpense({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const expenseControllerGetExpenseDetailsQueryKey = (options: Options<ExpenseControllerGetExpenseDetailsData>) =>
+  createQueryKey('expenseControllerGetExpenseDetails', options);
+
+export const expenseControllerGetExpenseDetailsOptions = (options: Options<ExpenseControllerGetExpenseDetailsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await expenseControllerGetExpenseDetails({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: expenseControllerGetExpenseDetailsQueryKey(options),
+  });
+};
+
+export const paymentControllerCreatePaymentQueryKey = (options: Options<PaymentControllerCreatePaymentData>) =>
+  createQueryKey('paymentControllerCreatePayment', options);
+
+export const paymentControllerCreatePaymentOptions = (options: Options<PaymentControllerCreatePaymentData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await paymentControllerCreatePayment({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: paymentControllerCreatePaymentQueryKey(options),
+  });
+};
+
+export const paymentControllerCreatePaymentMutation = (
+  options?: Partial<Options<PaymentControllerCreatePaymentData>>
+): UseMutationOptions<
+  PaymentControllerCreatePaymentResponse,
+  AxiosError<DefaultError>,
+  Options<PaymentControllerCreatePaymentData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    PaymentControllerCreatePaymentResponse,
+    AxiosError<DefaultError>,
+    Options<PaymentControllerCreatePaymentData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await paymentControllerCreatePayment({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const taskControllerCreateTaskQueryKey = (options: Options<TaskControllerCreateTaskData>) =>
   createQueryKey('taskControllerCreateTask', options);
 
@@ -621,9 +731,13 @@ export const taskControllerCreateTaskOptions = (options: Options<TaskControllerC
 
 export const taskControllerCreateTaskMutation = (
   options?: Partial<Options<TaskControllerCreateTaskData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerCreateTaskData>> => {
+): UseMutationOptions<
+  TaskControllerCreateTaskResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerCreateTaskData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    TaskControllerCreateTaskResponse,
     AxiosError<DefaultError>,
     Options<TaskControllerCreateTaskData>
   > = {
@@ -639,13 +753,15 @@ export const taskControllerCreateTaskMutation = (
   return mutationOptions;
 };
 
-export const taskControllerUpdateTaskStatusQueryKey = (options: Options<TaskControllerUpdateTaskStatusData>) =>
-  createQueryKey('taskControllerUpdateTaskStatus', options);
+export const taskControllerUpdateTaskCompletionQueryKey = (options?: Options<TaskControllerUpdateTaskCompletionData>) =>
+  createQueryKey('taskControllerUpdateTaskCompletion', options);
 
-export const taskControllerUpdateTaskStatusOptions = (options: Options<TaskControllerUpdateTaskStatusData>) => {
+export const taskControllerUpdateTaskCompletionOptions = (
+  options?: Options<TaskControllerUpdateTaskCompletionData>
+) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await taskControllerUpdateTaskStatus({
+      const { data } = await taskControllerUpdateTaskCompletion({
         ...options,
         ...queryKey[0],
         signal,
@@ -653,20 +769,24 @@ export const taskControllerUpdateTaskStatusOptions = (options: Options<TaskContr
       });
       return data;
     },
-    queryKey: taskControllerUpdateTaskStatusQueryKey(options),
+    queryKey: taskControllerUpdateTaskCompletionQueryKey(options),
   });
 };
 
-export const taskControllerUpdateTaskStatusMutation = (
-  options?: Partial<Options<TaskControllerUpdateTaskStatusData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerUpdateTaskStatusData>> => {
+export const taskControllerUpdateTaskCompletionMutation = (
+  options?: Partial<Options<TaskControllerUpdateTaskCompletionData>>
+): UseMutationOptions<
+  TaskControllerUpdateTaskCompletionResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerUpdateTaskCompletionData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    TaskControllerUpdateTaskCompletionResponse,
     AxiosError<DefaultError>,
-    Options<TaskControllerUpdateTaskStatusData>
+    Options<TaskControllerUpdateTaskCompletionData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await taskControllerUpdateTaskStatus({
+      const { data } = await taskControllerUpdateTaskCompletion({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -697,8 +817,16 @@ export const taskControllerEditTaskOptions = (options: Options<TaskControllerEdi
 
 export const taskControllerEditTaskMutation = (
   options?: Partial<Options<TaskControllerEditTaskData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> => {
-  const mutationOptions: UseMutationOptions<unknown, AxiosError<DefaultError>, Options<TaskControllerEditTaskData>> = {
+): UseMutationOptions<
+  TaskControllerEditTaskResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerEditTaskData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    TaskControllerEditTaskResponse,
+    AxiosError<DefaultError>,
+    Options<TaskControllerEditTaskData>
+  > = {
     mutationFn: async (localOptions) => {
       const { data } = await taskControllerEditTask({
         ...options,
@@ -711,10 +839,52 @@ export const taskControllerEditTaskMutation = (
   return mutationOptions;
 };
 
-export const taskControllerGetAllTasksQueryKey = (options?: Options<TaskControllerGetAllTasksData>) =>
+export const taskControllerDeleteTaskQueryKey = (options: Options<TaskControllerDeleteTaskData>) =>
+  createQueryKey('taskControllerDeleteTask', options);
+
+export const taskControllerDeleteTaskOptions = (options: Options<TaskControllerDeleteTaskData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerDeleteTask({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerDeleteTaskQueryKey(options),
+  });
+};
+
+export const taskControllerDeleteTaskMutation = (
+  options?: Partial<Options<TaskControllerDeleteTaskData>>
+): UseMutationOptions<
+  TaskControllerDeleteTaskResponse,
+  AxiosError<DefaultError>,
+  Options<TaskControllerDeleteTaskData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    TaskControllerDeleteTaskResponse,
+    AxiosError<DefaultError>,
+    Options<TaskControllerDeleteTaskData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await taskControllerDeleteTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const taskControllerGetAllTasksQueryKey = (options: Options<TaskControllerGetAllTasksData>) =>
   createQueryKey('taskControllerGetAllTasks', options);
 
-export const taskControllerGetAllTasksOptions = (options?: Options<TaskControllerGetAllTasksData>) => {
+export const taskControllerGetAllTasksOptions = (options: Options<TaskControllerGetAllTasksData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await taskControllerGetAllTasks({
@@ -726,6 +896,24 @@ export const taskControllerGetAllTasksOptions = (options?: Options<TaskControlle
       return data;
     },
     queryKey: taskControllerGetAllTasksQueryKey(options),
+  });
+};
+
+export const taskControllerGetTaskByIdQueryKey = (options: Options<TaskControllerGetTaskByIdData>) =>
+  createQueryKey('taskControllerGetTaskById', options);
+
+export const taskControllerGetTaskByIdOptions = (options: Options<TaskControllerGetTaskByIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await taskControllerGetTaskById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: taskControllerGetTaskByIdQueryKey(options),
   });
 };
 
@@ -950,16 +1138,13 @@ export const incidentControllerSetOwnerSeenMutation = (
   return mutationOptions;
 };
 
-export const notificationControllerRegisterTokenQueryKey = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => createQueryKey('notificationControllerRegisterToken', options);
+export const incidentControllerDeleteIncidentQueryKey = (options: Options<IncidentControllerDeleteIncidentData>) =>
+  createQueryKey('incidentControllerDeleteIncident', options);
 
-export const notificationControllerRegisterTokenOptions = (
-  options?: Options<NotificationControllerRegisterTokenData>
-) => {
+export const incidentControllerDeleteIncidentOptions = (options: Options<IncidentControllerDeleteIncidentData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await notificationControllerRegisterToken({
+      const { data } = await incidentControllerDeleteIncident({
         ...options,
         ...queryKey[0],
         signal,
@@ -967,20 +1152,24 @@ export const notificationControllerRegisterTokenOptions = (
       });
       return data;
     },
-    queryKey: notificationControllerRegisterTokenQueryKey(options),
+    queryKey: incidentControllerDeleteIncidentQueryKey(options),
   });
 };
 
-export const notificationControllerRegisterTokenMutation = (
-  options?: Partial<Options<NotificationControllerRegisterTokenData>>
-): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<NotificationControllerRegisterTokenData>> => {
+export const incidentControllerDeleteIncidentMutation = (
+  options?: Partial<Options<IncidentControllerDeleteIncidentData>>
+): UseMutationOptions<
+  IncidentControllerDeleteIncidentResponse,
+  AxiosError<DefaultError>,
+  Options<IncidentControllerDeleteIncidentData>
+> => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    IncidentControllerDeleteIncidentResponse,
     AxiosError<DefaultError>,
-    Options<NotificationControllerRegisterTokenData>
+    Options<IncidentControllerDeleteIncidentData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await notificationControllerRegisterToken({
+      const { data } = await incidentControllerDeleteIncident({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -1070,4 +1259,422 @@ export const shoppingListControllerSearchItemOptions = (options: Options<Shoppin
     },
     queryKey: shoppingListControllerSearchItemQueryKey(options),
   });
+};
+
+export const generalTaskControllerCreateGeneralTaskQueryKey = (
+  options: Options<GeneralTaskControllerCreateGeneralTaskData>
+) => createQueryKey('generalTaskControllerCreateGeneralTask', options);
+
+export const generalTaskControllerCreateGeneralTaskOptions = (
+  options: Options<GeneralTaskControllerCreateGeneralTaskData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalTaskControllerCreateGeneralTask({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalTaskControllerCreateGeneralTaskQueryKey(options),
+  });
+};
+
+export const generalTaskControllerCreateGeneralTaskMutation = (
+  options?: Partial<Options<GeneralTaskControllerCreateGeneralTaskData>>
+): UseMutationOptions<
+  GeneralTaskControllerCreateGeneralTaskResponse,
+  AxiosError<DefaultError>,
+  Options<GeneralTaskControllerCreateGeneralTaskData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    GeneralTaskControllerCreateGeneralTaskResponse,
+    AxiosError<DefaultError>,
+    Options<GeneralTaskControllerCreateGeneralTaskData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalTaskControllerCreateGeneralTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalTaskControllerUpdateGeneralTaskMutation = (
+  options?: Partial<Options<GeneralTaskControllerUpdateGeneralTaskData>>
+): UseMutationOptions<
+  GeneralTaskControllerUpdateGeneralTaskResponse,
+  AxiosError<DefaultError>,
+  Options<GeneralTaskControllerUpdateGeneralTaskData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    GeneralTaskControllerUpdateGeneralTaskResponse,
+    AxiosError<DefaultError>,
+    Options<GeneralTaskControllerUpdateGeneralTaskData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalTaskControllerUpdateGeneralTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalTaskControllerGetGeneralTasksQueryKey = (
+  options: Options<GeneralTaskControllerGetGeneralTasksData>
+) => createQueryKey('generalTaskControllerGetGeneralTasks', options);
+
+export const generalTaskControllerGetGeneralTasksOptions = (
+  options: Options<GeneralTaskControllerGetGeneralTasksData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalTaskControllerGetGeneralTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalTaskControllerGetGeneralTasksQueryKey(options),
+  });
+};
+
+export const generalTaskControllerDeleteGeneralTaskMutation = (
+  options?: Partial<Options<GeneralTaskControllerDeleteGeneralTaskData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<GeneralTaskControllerDeleteGeneralTaskData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<GeneralTaskControllerDeleteGeneralTaskData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalTaskControllerDeleteGeneralTask({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalTaskControllerGetGeneralTaskByIdQueryKey = (
+  options: Options<GeneralTaskControllerGetGeneralTaskByIdData>
+) => createQueryKey('generalTaskControllerGetGeneralTaskById', options);
+
+export const generalTaskControllerGetGeneralTaskByIdOptions = (
+  options: Options<GeneralTaskControllerGetGeneralTaskByIdData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalTaskControllerGetGeneralTaskById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalTaskControllerGetGeneralTaskByIdQueryKey(options),
+  });
+};
+
+export const generalTaskControllerManuallyGenerateTasksQueryKey = (
+  options?: Options<GeneralTaskControllerManuallyGenerateTasksData>
+) => createQueryKey('generalTaskControllerManuallyGenerateTasks', options);
+
+export const generalTaskControllerManuallyGenerateTasksOptions = (
+  options?: Options<GeneralTaskControllerManuallyGenerateTasksData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalTaskControllerManuallyGenerateTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalTaskControllerManuallyGenerateTasksQueryKey(options),
+  });
+};
+
+export const generalTaskControllerManuallyGenerateTasksMutation = (
+  options?: Partial<Options<GeneralTaskControllerManuallyGenerateTasksData>>
+): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<GeneralTaskControllerManuallyGenerateTasksData>> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<GeneralTaskControllerManuallyGenerateTasksData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalTaskControllerManuallyGenerateTasks({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalShoppingListControllerCreateGeneralShoppingListQueryKey = (
+  options: Options<GeneralShoppingListControllerCreateGeneralShoppingListData>
+) => createQueryKey('generalShoppingListControllerCreateGeneralShoppingList', options);
+
+export const generalShoppingListControllerCreateGeneralShoppingListOptions = (
+  options: Options<GeneralShoppingListControllerCreateGeneralShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerCreateGeneralShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerCreateGeneralShoppingListQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerCreateGeneralShoppingListMutation = (
+  options?: Partial<Options<GeneralShoppingListControllerCreateGeneralShoppingListData>>
+): UseMutationOptions<
+  GeneralShoppingListControllerCreateGeneralShoppingListResponse,
+  AxiosError<DefaultError>,
+  Options<GeneralShoppingListControllerCreateGeneralShoppingListData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    GeneralShoppingListControllerCreateGeneralShoppingListResponse,
+    AxiosError<DefaultError>,
+    Options<GeneralShoppingListControllerCreateGeneralShoppingListData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalShoppingListControllerCreateGeneralShoppingList({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalShoppingListControllerUpdateGeneralShoppingListQueryKey = (
+  options: Options<GeneralShoppingListControllerUpdateGeneralShoppingListData>
+) => createQueryKey('generalShoppingListControllerUpdateGeneralShoppingList', options);
+
+export const generalShoppingListControllerUpdateGeneralShoppingListOptions = (
+  options: Options<GeneralShoppingListControllerUpdateGeneralShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerUpdateGeneralShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerUpdateGeneralShoppingListQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerUpdateGeneralShoppingListMutation = (
+  options?: Partial<Options<GeneralShoppingListControllerUpdateGeneralShoppingListData>>
+): UseMutationOptions<
+  GeneralShoppingListControllerUpdateGeneralShoppingListResponse,
+  AxiosError<DefaultError>,
+  Options<GeneralShoppingListControllerUpdateGeneralShoppingListData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    GeneralShoppingListControllerUpdateGeneralShoppingListResponse,
+    AxiosError<DefaultError>,
+    Options<GeneralShoppingListControllerUpdateGeneralShoppingListData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalShoppingListControllerUpdateGeneralShoppingList({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalShoppingListControllerGetGeneralShoppingListsQueryKey = (
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListsData>
+) => createQueryKey('generalShoppingListControllerGetGeneralShoppingLists', options);
+
+export const generalShoppingListControllerGetGeneralShoppingListsOptions = (
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListsData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerGetGeneralShoppingLists({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerGetGeneralShoppingListsQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerGetGeneralShoppingListByIdQueryKey = (
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListByIdData>
+) => createQueryKey('generalShoppingListControllerGetGeneralShoppingListById', options);
+
+export const generalShoppingListControllerGetGeneralShoppingListByIdOptions = (
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListByIdData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerGetGeneralShoppingListById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerGetGeneralShoppingListByIdQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerDeleteGeneralShoppingListMutation = (
+  options?: Partial<Options<GeneralShoppingListControllerDeleteGeneralShoppingListData>>
+): UseMutationOptions<
+  unknown,
+  AxiosError<DefaultError>,
+  Options<GeneralShoppingListControllerDeleteGeneralShoppingListData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<GeneralShoppingListControllerDeleteGeneralShoppingListData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalShoppingListControllerDeleteGeneralShoppingList({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalShoppingListControllerGenerateFromTemplateQueryKey = (
+  options: Options<GeneralShoppingListControllerGenerateFromTemplateData>
+) => createQueryKey('generalShoppingListControllerGenerateFromTemplate', options);
+
+export const generalShoppingListControllerGenerateFromTemplateOptions = (
+  options: Options<GeneralShoppingListControllerGenerateFromTemplateData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerGenerateFromTemplate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerGenerateFromTemplateQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerGenerateFromTemplateMutation = (
+  options?: Partial<Options<GeneralShoppingListControllerGenerateFromTemplateData>>
+): UseMutationOptions<
+  unknown,
+  AxiosError<DefaultError>,
+  Options<GeneralShoppingListControllerGenerateFromTemplateData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    AxiosError<DefaultError>,
+    Options<GeneralShoppingListControllerGenerateFromTemplateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalShoppingListControllerGenerateFromTemplate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const generalShoppingListControllerDuplicateGeneralShoppingListQueryKey = (
+  options: Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData>
+) => createQueryKey('generalShoppingListControllerDuplicateGeneralShoppingList', options);
+
+export const generalShoppingListControllerDuplicateGeneralShoppingListOptions = (
+  options: Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData>
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await generalShoppingListControllerDuplicateGeneralShoppingList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: generalShoppingListControllerDuplicateGeneralShoppingListQueryKey(options),
+  });
+};
+
+export const generalShoppingListControllerDuplicateGeneralShoppingListMutation = (
+  options?: Partial<Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData>>
+): UseMutationOptions<
+  GeneralShoppingListControllerDuplicateGeneralShoppingListResponse,
+  AxiosError<DefaultError>,
+  Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData>
+> => {
+  const mutationOptions: UseMutationOptions<
+    GeneralShoppingListControllerDuplicateGeneralShoppingListResponse,
+    AxiosError<DefaultError>,
+    Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await generalShoppingListControllerDuplicateGeneralShoppingList({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

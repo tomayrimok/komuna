@@ -1,7 +1,9 @@
-import { Box, Container, Flex, Icon, Text } from '@chakra-ui/react';
-import { IconUser } from '@tabler/icons-react';
+import { Box, Container, Flex, Icon, Text, Badge } from '@chakra-ui/react';
+import { IconUser, IconEye, IconEyeOff } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { IncidentResponseDto } from 'libs/types/src/generated';
+import { UserRole } from '@komuna/types';
 import { useAuth } from '../../context/auth/AuthProvider';
 import DateText from '../dateText';
 import { STATUSES_DATA } from './consts/statuses.data';
@@ -15,6 +17,7 @@ interface IncidentCardProps {
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const numberOfComments = item.comments?.length || 0;
   const {
@@ -32,23 +35,56 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ item }) => {
       position={'relative'}
       overflow={'hidden'}
       ps={'10px'}
+      cursor={'pointer'}
     >
       <UrgencyIndication item={item} />
 
       <Container p={5}>
         <Flex direction={'column'} gap={2} mb={2}>
-          <Text fontSize="lg" fontWeight="bold">
-            {item.title}
-          </Text>
+          <Flex justifyContent="space-between" alignItems="flex-start">
+            <Text fontSize="lg" fontWeight="bold" flex={1}>
+              {item.title}
+            </Text>
+
+            {role === UserRole.LANDLORD && (
+              <Badge
+                colorPalette={item.seenByManager ? 'green' : 'orange'}
+                size="sm"
+                borderRadius="full"
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <Icon>
+                  {item.seenByManager ? <IconEye size={12} /> : <IconEyeOff size={12} />}
+                </Icon>
+                {item.seenByManager ? t('incidents.seen_by_manager') : t('incidents.new_incident')}
+              </Badge>
+            )}
+          </Flex>
+
           {item.description && (
             <Text color={'gray.500'} whiteSpace={'pre-wrap'} lineHeight={1.2}>
               {item.description}
             </Text>
           )}
-          <Flex mt={2} gap={2}>
+          <Flex mt={2} gap={2} alignItems={'center'} flexWrap="wrap">
             <IncidentTag value={item.status} data={STATUSES_DATA} />
             {numberOfComments ? <NumberOfComments number={numberOfComments} /> : null}
-            {/* <IncidentTag value={item.urgencyLevel} data={URGENCY_DATA} /> */}
+
+            {item.seenByManager && role !== UserRole.LANDLORD && (
+              <Badge
+                colorPalette="green"
+                size="sm"
+                borderRadius="full"
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <Icon><IconEye size={10} /></Icon>
+                {t('incidents.seen')}
+              </Badge>
+            )}
           </Flex>
         </Flex>
       </Container>

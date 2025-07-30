@@ -1,0 +1,3259 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/debt-edge/user-balance-details": {
+      "get": {
+        "operationId": "DebtEdgeController_getUserBalanceDetails",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtEdgeWithDebtor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/debt-edge/user-balance": {
+      "get": {
+        "operationId": "DebtEdgeController_getUserBalance",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/debt-edge/debt-details": {
+      "get": {
+        "operationId": "DebtEdgeController_getDebtDetails",
+        "parameters": [
+          {
+            "name": "debtId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtEdge"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "DebtEdge"
+        ]
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "operationId": "UserController_loginOrCreate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user/verify": {
+      "post": {
+        "operationId": "UserController_verify",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyPhoneNumberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreatedResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user": {
+      "post": {
+        "operationId": "UserController_createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "get": {
+        "operationId": "UserController_getCurrentUserProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "put": {
+        "operationId": "UserController_updateUserProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "operationId": "UserController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/notification/register-token": {
+      "post": {
+        "operationId": "NotificationController_registerToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/apartment": {
+      "get": {
+        "operationId": "ApartmentController_getApartmentWithResidents",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      },
+      "post": {
+        "operationId": "ApartmentController_createApartment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/join/{code}": {
+      "post": {
+        "operationId": "ApartmentController_joinApartment",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApartment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/{apartmentId}/roommates": {
+      "get": {
+        "operationId": "ApartmentController_getRoommates",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/{apartmentId}/codes": {
+      "get": {
+        "operationId": "ApartmentController_getCodes",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/expense/apartment-expenses": {
+      "get": {
+        "operationId": "ExpenseController_getApartmentExpenses",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApartmentExpensesResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/expense/add-edit-expense": {
+      "post": {
+        "operationId": "ExpenseController_addEditExpense",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEditExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/expense/expense-details": {
+      "get": {
+        "operationId": "ExpenseController_getExpenseDetails",
+        "parameters": [
+          {
+            "name": "expenseId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Expense"
+        ]
+      }
+    },
+    "/api/payment/create-payment": {
+      "post": {
+        "operationId": "PaymentController_createPayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Payment"
+        ]
+      }
+    },
+    "/api/task/add-edit": {
+      "post": {
+        "operationId": "TaskController_createTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEditTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/update-completion": {
+      "post": {
+        "operationId": "TaskController_updateTaskCompletion",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/edit": {
+      "post": {
+        "operationId": "TaskController_editTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/delete": {
+      "post": {
+        "operationId": "TaskController_deleteTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task": {
+      "get": {
+        "operationId": "TaskController_getAllTasks",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/get-by-id": {
+      "get": {
+        "operationId": "TaskController_getTaskById",
+        "parameters": [
+          {
+            "name": "taskId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/get-completed": {
+      "get": {
+        "operationId": "TaskController_getCompletedTasks",
+        "parameters": [
+          {
+            "name": "loadMultiplier",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/incident": {
+      "get": {
+        "operationId": "IncidentController_getAllIncidents",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncidentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/details": {
+      "get": {
+        "operationId": "IncidentController_getIncidentDetails",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/add-edit": {
+      "post": {
+        "operationId": "IncidentController_addEditIncident",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEditIncidentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/update": {
+      "post": {
+        "operationId": "IncidentController_updateIncident",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateIncidentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/comment": {
+      "post": {
+        "operationId": "IncidentController_newComment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/owner-seen": {
+      "post": {
+        "operationId": "IncidentController_setOwnerSeen",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/incident/delete": {
+      "post": {
+        "operationId": "IncidentController_deleteIncident",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
+    "/api/shopping-list": {
+      "get": {
+        "operationId": "ShoppingListController_getShoppingList",
+        "parameters": [
+          {
+            "name": "contextType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "APARTMENT",
+                "USER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/sync-items": {
+      "post": {
+        "operationId": "ShoppingListController_syncItems",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/shopping-list/search-item": {
+      "get": {
+        "operationId": "ShoppingListController_searchItem",
+        "parameters": [
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchGroceryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ShoppingList"
+        ]
+      }
+    },
+    "/api/general-task/create": {
+      "post": {
+        "operationId": "GeneralTaskController_createGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/update": {
+      "put": {
+        "operationId": "GeneralTaskController_updateGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTasks",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/{id}": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTaskById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "GeneralTaskController_deleteGeneralTask",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/generate-tasks": {
+      "post": {
+        "operationId": "GeneralTaskController_manuallyGenerateTasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-shopping-list/create": {
+      "post": {
+        "operationId": "GeneralShoppingListController_createGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/update": {
+      "post": {
+        "operationId": "GeneralShoppingListController_updateGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/list": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingLists",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralShoppingList"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/details": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingListById",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/delete": {
+      "delete": {
+        "operationId": "GeneralShoppingListController_deleteGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/generate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_generateFromTemplate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateShoppingListFromTemplateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/duplicate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_duplicateGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Komuna",
+    "description": "Komuna API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "komuna",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SplitType": {
+        "type": "string",
+        "enum": [
+          "EQUAL",
+          "NUMBER",
+          "PERCENTAGE"
+        ]
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "expenseId": {
+            "type": "string",
+            "description": "Unique identifier for the expense"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment associated with the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "extendedDescription": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "splits": {
+            "type": "object",
+            "description": "Splits of the expense among users",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date of the expense"
+          }
+        },
+        "required": [
+          "expenseId",
+          "apartmentId",
+          "description",
+          "amount",
+          "paidById",
+          "splits",
+          "splitType",
+          "paidByUser",
+          "createdAt"
+        ]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment where the payment is made"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user making the payment"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user receiving the payment"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the payment"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when the payment was created"
+          }
+        },
+        "required": [
+          "paymentId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "createdAt"
+        ]
+      },
+      "IncidentUrgency": {
+        "type": "string",
+        "enum": [
+          "LOW",
+          "MEDIUM",
+          "HIGH",
+          "EXTREME"
+        ]
+      },
+      "IncidentStatus": {
+        "type": "string",
+        "enum": [
+          "OPEN",
+          "IN_PROGRESS",
+          "SOLVED"
+        ]
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "commentId",
+          "message",
+          "userId",
+          "createdAt",
+          "incidentId",
+          "images",
+          "user"
+        ]
+      },
+      "Incident": {
+        "type": "object",
+        "properties": {
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "urgencyLevel",
+          "status",
+          "comments",
+          "reporter"
+        ]
+      },
+      "ShoppingTemplate": {
+        "type": "object",
+        "properties": {}
+      },
+      "ContextType": {
+        "type": "string",
+        "enum": [
+          "APARTMENT",
+          "USER"
+        ]
+      },
+      "ShoppingListItemWithIdDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "isPurchased": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isPurchased",
+          "isUrgent",
+          "amount",
+          "itemId"
+        ]
+      },
+      "ShoppingList": {
+        "type": "object",
+        "properties": {
+          "contextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+            }
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "contextType",
+          "contextId",
+          "items",
+          "updatedAt",
+          "createdAt"
+        ]
+      },
+      "Apartment": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "landlordCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a landlord. Can be NULL when the apartment already has a landlord"
+          },
+          "roommateCode": {
+            "type": "string",
+            "description": "Unique code to join the apartment as a roommate. NULL in case the apartment doesn't allow new residents"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "landlordUserId": {
+            "type": "string",
+            "description": "Landlord User ID"
+          },
+          "landlord": {
+            "description": "Landlord of the apartment (Relation)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "contractEndDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Apartment contract end date"
+          },
+          "rent": {
+            "type": "number",
+            "description": "Apartment rent"
+          },
+          "billsDetails": {
+            "type": "object",
+            "description": "Bills payment details"
+          },
+          "houseCommitteeRent": {
+            "type": "number",
+            "description": "Monthly house committee rent"
+          },
+          "houseCommitteePayerUser": {
+            "description": "User ID of the house committee payer. NULL if it's split equally",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "residents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "expenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "incidents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "shoppingTemplates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingTemplate"
+            }
+          },
+          "shoppingLists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingList"
+            }
+          },
+          "createdAt": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "apartmentId",
+          "name",
+          "image",
+          "landlordCode",
+          "roommateCode",
+          "address",
+          "city",
+          "residents",
+          "tasks",
+          "expenses",
+          "payments",
+          "incidents",
+          "shoppingTemplates",
+          "shoppingLists",
+          "createdAt"
+        ]
+      },
+      "UserApartment": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "The ID of the apartment where the user resides"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The ID of the user who is a resident in the apartment"
+          },
+          "rent": {
+            "type": "number",
+            "description": "The amount of rent the user pays for the apartment"
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user in the apartment",
+            "enum": [
+              "LANDLORD",
+              "ROOMMATE"
+            ]
+          },
+          "apartment": {
+            "description": "The apartment where the user resides",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Apartment"
+              }
+            ]
+          },
+          "user": {
+            "description": "The user who is a resident in the apartment",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "payableByUser": {
+            "description": "The user who is responsible for paying rent",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The date when the user-apartment relationship was created"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "userId",
+          "rent",
+          "role",
+          "apartment",
+          "user",
+          "payableByUser",
+          "createdAt"
+        ]
+      },
+      "DebtEdge": {
+        "type": "object",
+        "properties": {
+          "debtId": {
+            "type": "string",
+            "description": "Unique identifier for the debt"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this debt belongs to"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user who owes the debt"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user who is owed the debt"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the debt"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date of the debt"
+          },
+          "fromUser": {
+            "description": "User who owes the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "toUser": {
+            "description": "User who is owed the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "debtId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "updatedAt",
+          "fromUser",
+          "toUser"
+        ]
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdBy"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL to user's profile image"
+          },
+          "apartments": {
+            "description": "User's apartments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "landlordApartments": {
+            "description": "User's apartments as landlord",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Apartment"
+            }
+          },
+          "payableRents": {
+            "description": "User's payable rents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserApartment"
+            }
+          },
+          "expenses": {
+            "description": "User's expenses",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Expense"
+            }
+          },
+          "debts": {
+            "description": "User's debts",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtEdge"
+            }
+          },
+          "credits": {
+            "description": "User's credits",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtEdge"
+            }
+          },
+          "comments": {
+            "description": "The comments made by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "incidents": {
+            "description": "The incidents reported by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "createdTasks": {
+            "description": "The tasks created by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "firstName",
+          "phoneNumber",
+          "lastName",
+          "apartments",
+          "landlordApartments",
+          "payableRents",
+          "expenses",
+          "debts",
+          "credits",
+          "comments",
+          "incidents",
+          "createdTasks"
+        ]
+      },
+      "DebtEdgeWithDebtor": {
+        "type": "object",
+        "properties": {
+          "debtId": {
+            "type": "string",
+            "description": "Unique identifier for the debt"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this debt belongs to"
+          },
+          "fromId": {
+            "type": "string",
+            "description": "ID of the user who owes the debt"
+          },
+          "toId": {
+            "type": "string",
+            "description": "ID of the user who is owed the debt"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the debt"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date of the debt"
+          },
+          "fromUser": {
+            "description": "User who owes the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "toUser": {
+            "description": "User who is owed the debt",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "debtor": {
+            "type": "string",
+            "description": "ID of the user who is considered the debtor in this edge",
+            "example": "user123"
+          }
+        },
+        "required": [
+          "debtId",
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount",
+          "updatedAt",
+          "fromUser",
+          "toUser",
+          "debtor"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number for login"
+          }
+        },
+        "required": [
+          "phoneNumber"
+        ]
+      },
+      "VerifyPhoneNumberDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "User's phone number to verify"
+          },
+          "code": {
+            "type": "string",
+            "description": "Verification code sent to the phone number"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "code"
+        ]
+      },
+      "UserCreatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "isUser": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "user",
+          "isUser"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phoneNumber",
+          "firstName",
+          "lastName",
+          "image"
+        ]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "user"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateApartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ApartmentExpensesResponse": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this expense belongs to"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Creation date of the expense"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended Description of the expense"
+          },
+          "expenseId": {
+            "type": "string",
+            "description": "ID of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "paidByUser": {
+            "description": "User who paid for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "splits": {
+            "type": "object",
+            "description": "Object containing user IDs as keys and their share amounts as values",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "paidByMe": {
+            "type": "boolean",
+            "description": "Whether the expense was paid by the current user"
+          },
+          "splitAmount": {
+            "type": "string",
+            "description": "Amount the current user needs to pay for this expense"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "amount",
+          "createdAt",
+          "description",
+          "expenseId",
+          "paidById",
+          "paidByUser",
+          "splits"
+        ]
+      },
+      "AddEditExpenseDto": {
+        "type": "object",
+        "properties": {
+          "expenseId": {
+            "type": "string",
+            "description": "ID of the expense (optional for new expenses)"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the expense",
+            "minimum": 0
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the expense"
+          },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended Description of the expense"
+          },
+          "paidById": {
+            "type": "string",
+            "description": "ID of the user who paid for the expense"
+          },
+          "apartmentId": {
+            "type": "string",
+            "description": "ID of the apartment this expense belongs to"
+          },
+          "splits": {
+            "type": "object",
+            "description": "Object containing user IDs as keys and their share amounts as values",
+            "example": {
+              "user1": 50,
+              "user2": 50
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "splitType": {
+            "description": "Type of split for the expense",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SplitType"
+              }
+            ]
+          }
+        },
+        "required": [
+          "amount",
+          "description",
+          "paidById",
+          "apartmentId",
+          "splits",
+          "splitType"
+        ]
+      },
+      "CreatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "fromId": {
+            "type": "string"
+          },
+          "toId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "apartmentId",
+          "fromId",
+          "toId",
+          "amount"
+        ]
+      },
+      "TaskType": {
+        "type": "string",
+        "enum": [
+          "GROUP",
+          "PERSONAL"
+        ]
+      },
+      "AddEditTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "taskType",
+          "apartmentId"
+        ]
+      },
+      "Frequency": {
+        "type": "string",
+        "enum": [
+          "DAILY",
+          "WEEKLY",
+          "MONTHLY",
+          "YEARLY"
+        ]
+      },
+      "WeekDay": {
+        "type": "string",
+        "enum": [
+          "SU",
+          "MO",
+          "TU",
+          "WE",
+          "TH",
+          "FR",
+          "SA"
+        ]
+      },
+      "RecurrenceRuleDto": {
+        "type": "object",
+        "properties": {
+          "frequency": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Frequency"
+              }
+            ]
+          },
+          "interval": {
+            "type": "number"
+          },
+          "byWeekDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeekDay"
+            }
+          },
+          "until": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "frequency",
+          "until",
+          "count"
+        ]
+      },
+      "TaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "createdBy": {
+            "description": "The user who created the task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates whether the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetitive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "title",
+          "taskType",
+          "createdBy",
+          "isRecurrent"
+        ]
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "completions",
+          "taskType"
+        ]
+      },
+      "DeleteTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "taskId",
+          "apartmentId"
+        ]
+      },
+      "CommentResponseDto": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "incidentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "commentId",
+          "incidentId",
+          "userId",
+          "message",
+          "createdAt",
+          "user"
+        ]
+      },
+      "IncidentResponseDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "reporterId": {
+            "type": "string"
+          },
+          "reporter": {
+            "$ref": "#/components/schemas/User"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "seenByManager": {
+            "type": "boolean"
+          },
+          "managerResponse": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "apartmentId",
+          "title",
+          "description",
+          "images",
+          "urgencyLevel",
+          "reporterId",
+          "reporter",
+          "status",
+          "seenByManager",
+          "managerResponse",
+          "updatedAt",
+          "createdAt",
+          "comments"
+        ]
+      },
+      "AddEditIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "description": "How urgent the incident is. used by Enum IncidentUrgency",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "urgencyLevel",
+          "apartmentId"
+        ]
+      },
+      "UpdateIncidentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "urgencyLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IncidentUrgency"
+              }
+            ]
+          },
+          "images": {
+            "description": "List of image URLs related to the incident",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "incidentId"
+        ]
+      },
+      "AddCommentDto": {
+        "type": "object",
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "images": {
+            "description": "List of image URLs related to the comment",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "incidentId",
+          "message"
+        ]
+      },
+      "SyncListDto": {
+        "type": "object",
+        "properties": {
+          "contextType": {
+            "type": "string",
+            "enum": [
+              "APARTMENT",
+              "USER"
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListItemWithIdDto"
+            }
+          }
+        },
+        "required": [
+          "contextType",
+          "apartmentId",
+          "items"
+        ]
+      },
+      "GroceryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "formattedPrice": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priceForUnit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "formattedPrice",
+          "image",
+          "description",
+          "category",
+          "priceForUnit"
+        ]
+      },
+      "SearchGroceryResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroceryItem"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "CreateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          }
+        },
+        "required": [
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "apartmentId"
+        ]
+      },
+      "GeneralTaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "lastGeneratedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the last task was generated from this template"
+          },
+          "nextGenerationAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the next task should be generated"
+          },
+          "createdBy": {
+            "description": "The user who created this general task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalTaskId",
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "isActive",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "generalTaskId"
+        ]
+      },
+      "ShoppingListTemplateItemDto": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "amount"
+        ]
+      },
+      "CreateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "isManualOnly": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "apartmentId",
+          "title",
+          "targetContextType",
+          "items"
+        ]
+      },
+      "GeneralShoppingList": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdBy"
+        ]
+      },
+      "UpdateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isManualOnly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
+        ]
+      },
+      "GenerateShoppingListFromTemplateDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "targetUserId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
+        ]
+      }
+    }
+  }
+}

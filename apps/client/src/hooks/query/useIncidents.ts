@@ -10,7 +10,7 @@ export const useIncidents = () => {
   return useQuery({
     queryKey: ['incidents', apartmentId],
     queryFn: () => API.incidentControllerGetAllIncidents({ query: { apartmentId: apartmentId! } }),
-    staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
+    refetchOnMount: true,
   });
 };

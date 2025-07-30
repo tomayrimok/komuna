@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
-import { RecurrenceRuleDto } from '@komuna/types';
+import { TaskType } from '@komuna/types';
+import { ApiProperty } from '@nestjs/swagger';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { RecurrenceRuleDto } from '../recurrence-rule/recurrence-rule.dto';
 import { User } from '../user/user.entity';
-import { UserCompletionStatus } from '@komuna/types';
 
 @Entity()
 export class Task {
@@ -14,29 +15,40 @@ export class Task {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
+  @Column({ nullable: true })
+  description?: string;
 
-  // task.entity.ts
-  @ManyToMany(() => User, { eager: true })
-  @JoinTable()
-  assignedTo: User[];
+  @Column({ nullable: true })
+  dueDate?: Date;
 
-  @Column('json', { nullable: true })
-  completions?: UserCompletionStatus[];
+  @Column({ type: 'enum', enum: TaskType, default: TaskType.GROUP })
+  taskType?: TaskType;
 
-  @Column()
-  dueDate: Date;
+  @Column({ type: 'text', array: true, default: [] })
+  completions: string[];
 
-  @Column()
+  @Column('time', { nullable: true })
+  dueTime?: string;
+
+  @Column({ default: false })
   isRecurrent: boolean;
 
   @Column('json', { nullable: true })
   recurrenceRule?: RecurrenceRuleDto;
 
-  @Column()
-  createdBy: string;
+  @ApiProperty({ type: () => User })
+  @ManyToOne(() => User, (user) => user.createdTasks, { eager: true })
+  @JoinColumn({ name: 'createdByUserId' })
+  createdBy: User;
+
+  @Column({ type: 'uuid' })
+  createdByUserId: string;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  // task.entity.ts
+  @ManyToMany(() => User, { eager: true })
+  @JoinTable()
+  assignedTo: User[];
 }

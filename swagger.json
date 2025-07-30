@@ -211,6 +211,35 @@
         "tags": [
           "User"
         ]
+      },
+      "put": {
+        "operationId": "UserController_updateUserProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
       }
     },
     "/api/user/logout": {
@@ -463,7 +492,7 @@
         ]
       }
     },
-    "/api/task/create": {
+    "/api/task/add-edit": {
       "post": {
         "operationId": "TaskController_createTask",
         "parameters": [],
@@ -472,14 +501,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TaskDto"
+                "$ref": "#/components/schemas/AddEditTaskDto"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -487,23 +523,20 @@
         ]
       }
     },
-    "/api/task/update": {
+    "/api/task/update-completion": {
       "post": {
-        "operationId": "TaskController_updateTaskStatus",
+        "operationId": "TaskController_updateTaskCompletion",
         "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTaskReqDto"
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
           }
         },
         "tags": [
@@ -520,14 +553,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditTaskReqDto"
+                "$ref": "#/components/schemas/UpdateTaskDto"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -535,13 +575,101 @@
         ]
       }
     },
-    "/api/task/get": {
-      "get": {
-        "operationId": "TaskController_getAllTasks",
+    "/api/task/delete": {
+      "post": {
+        "operationId": "TaskController_deleteTask",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteTaskDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task": {
+      "get": {
+        "operationId": "TaskController_getAllTasks",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Task"
+        ]
+      }
+    },
+    "/api/task/get-by-id": {
+      "get": {
+        "operationId": "TaskController_getTaskById",
+        "parameters": [
+          {
+            "name": "taskId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -759,6 +887,36 @@
         ]
       }
     },
+    "/api/incident/delete": {
+      "post": {
+        "operationId": "IncidentController_deleteIncident",
+        "parameters": [
+          {
+            "name": "incidentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Incident"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Incident"
+        ]
+      }
+    },
     "/api/shopping-list": {
       "get": {
         "operationId": "ShoppingListController_getShoppingList",
@@ -859,6 +1017,368 @@
         },
         "tags": [
           "ShoppingList"
+        ]
+      }
+    },
+    "/api/general-task/create": {
+      "post": {
+        "operationId": "GeneralTaskController_createGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/update": {
+      "put": {
+        "operationId": "GeneralTaskController_updateGeneralTask",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTasks",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/{id}": {
+      "get": {
+        "operationId": "GeneralTaskController_getGeneralTaskById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralTaskResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "GeneralTaskController_deleteGeneralTask",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-task/generate-tasks": {
+      "post": {
+        "operationId": "GeneralTaskController_manuallyGenerateTasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "general-tasks"
+        ]
+      }
+    },
+    "/api/general-shopping-list/create": {
+      "post": {
+        "operationId": "GeneralShoppingListController_createGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/update": {
+      "post": {
+        "operationId": "GeneralShoppingListController_updateGeneralShoppingList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGeneralShoppingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/list": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingLists",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeneralShoppingList"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/details": {
+      "get": {
+        "operationId": "GeneralShoppingListController_getGeneralShoppingListById",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/delete": {
+      "delete": {
+        "operationId": "GeneralShoppingListController_deleteGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/generate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_generateFromTemplate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateShoppingListFromTemplateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
+        ]
+      }
+    },
+    "/api/general-shopping-list/duplicate": {
+      "post": {
+        "operationId": "GeneralShoppingListController_duplicateGeneralShoppingList",
+        "parameters": [
+          {
+            "name": "generalShoppingListId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralShoppingList"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "General Shopping Lists"
         ]
       }
     }
@@ -1424,6 +1944,17 @@
           "toUser"
         ]
       },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdBy"
+        ]
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -1498,6 +2029,13 @@
             "items": {
               "$ref": "#/components/schemas/Incident"
             }
+          },
+          "createdTasks": {
+            "description": "The tasks created by the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
           }
         },
         "required": [
@@ -1512,7 +2050,8 @@
           "debts",
           "credits",
           "comments",
-          "incidents"
+          "incidents",
+          "createdTasks"
         ]
       },
       "DebtEdgeWithDebtor": {
@@ -1664,6 +2203,20 @@
         "required": [
           "user"
         ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
       },
       "CreateApartmentDto": {
         "type": "object",
@@ -1819,17 +2372,264 @@
           "amount"
         ]
       },
-      "TaskDto": {
-        "type": "object",
-        "properties": {}
+      "TaskType": {
+        "type": "string",
+        "enum": [
+          "GROUP",
+          "PERSONAL"
+        ]
       },
-      "UpdateTaskReqDto": {
+      "AddEditTaskDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "taskType",
+          "apartmentId"
+        ]
       },
-      "EditTaskReqDto": {
+      "Frequency": {
+        "type": "string",
+        "enum": [
+          "DAILY",
+          "WEEKLY",
+          "MONTHLY",
+          "YEARLY"
+        ]
+      },
+      "WeekDay": {
+        "type": "string",
+        "enum": [
+          "SU",
+          "MO",
+          "TU",
+          "WE",
+          "TH",
+          "FR",
+          "SA"
+        ]
+      },
+      "RecurrenceRuleDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "frequency": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Frequency"
+              }
+            ]
+          },
+          "interval": {
+            "type": "number"
+          },
+          "byWeekDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeekDay"
+            }
+          },
+          "until": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "frequency",
+          "until",
+          "count"
+        ]
+      },
+      "TaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "createdBy": {
+            "description": "The user who created the task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates whether the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetitive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "title",
+          "taskType",
+          "createdBy",
+          "isRecurrent"
+        ]
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "An object containing { userId, IsCompleted } for each assigned user.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "completions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO date string for when the task is due"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "dueTime": {
+            "type": "string",
+            "description": "ISO time string for when the task is due"
+          },
+          "isRecurrent": {
+            "type": "boolean",
+            "description": "Indicates wheter the task is recurring"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule is defined as a repetetive time-frame class object",
+            "example": "{\"frequency\": \"weekly\", \"time\": \"10:00\" }",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "taskId",
+          "completions",
+          "taskType"
+        ]
+      },
+      "DeleteTaskDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "taskId",
+          "apartmentId"
+        ]
       },
       "CommentResponseDto": {
         "type": "object",
@@ -2101,6 +2901,334 @@
         },
         "required": [
           "items"
+        ]
+      },
+      "CreateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          }
+        },
+        "required": [
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "apartmentId"
+        ]
+      },
+      "GeneralTaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "lastGeneratedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the last task was generated from this template"
+          },
+          "nextGenerationAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the next task should be generated"
+          },
+          "createdBy": {
+            "description": "The user who created this general task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalTaskId",
+          "title",
+          "taskType",
+          "recurrenceRule",
+          "isActive",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateGeneralTaskDto": {
+        "type": "object",
+        "properties": {
+          "generalTaskId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "taskType": {
+            "description": "Task type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskType"
+              }
+            ]
+          },
+          "defaultDueTime": {
+            "type": "string",
+            "description": "Default due time for generated tasks"
+          },
+          "recurrenceRule": {
+            "description": "RecurrenceRule defining when tasks should be generated",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this general task is active"
+          },
+          "defaultAssignedTo": {
+            "description": "Default users assigned to generated tasks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "generalTaskId"
+        ]
+      },
+      "ShoppingListTemplateItemDto": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "amount"
+        ]
+      },
+      "CreateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "isManualOnly": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "apartmentId",
+          "title",
+          "targetContextType",
+          "items"
+        ]
+      },
+      "GeneralShoppingList": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdBy"
+        ]
+      },
+      "UpdateGeneralShoppingListDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "apartmentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShoppingListTemplateItemDto"
+            }
+          },
+          "recurrenceRule": {
+            "$ref": "#/components/schemas/RecurrenceRuleDto"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isManualOnly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
+        ]
+      },
+      "GenerateShoppingListFromTemplateDto": {
+        "type": "object",
+        "properties": {
+          "generalShoppingListId": {
+            "type": "string"
+          },
+          "targetContextType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContextType"
+              }
+            ]
+          },
+          "targetUserId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "generalShoppingListId"
         ]
       }
     }
