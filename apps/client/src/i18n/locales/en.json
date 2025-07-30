@@ -168,7 +168,8 @@
       "navigation": {
         "home": "Home",
         "incidents": "Incidents",
-        "settings": "Settings"
+        "settings": "Settings",
+        "residents": "Residents"
       },
       "title": "Welcome, <b>{{firstName}}!</b>"
     }

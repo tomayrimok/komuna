@@ -148,7 +148,8 @@
       "navigation": {
         "home": "בית",
         "incidents": "תקלות",
-        "settings": "הגדרות"
+        "settings": "הגדרות",
+        "residents": "שוכרים"
       },
       "title": "ברוכים הבאים, <b>{{firstName}}!</b>"
     }
