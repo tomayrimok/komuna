@@ -84,13 +84,6 @@
     },
     "skip_btn": "דלג"
   },
-  "create_profile": {
-    "create_profile": "יצירת פרופיל",
-    "description": "חסרים לנו כמה פרטים כדי להציג אותך לכולם.",
-    "first_name": "שם פרטי",
-    "last_name": "שם משפחה",
-    "title": "מעולה! כמעט סיימנו..."
-  },
   "delete": "מחיקה",
   "delete_confirmation": {
     "message": "האם ברצונך למחוק פריט זה?",
@@ -157,19 +150,6 @@
       "title": "ברוכים הבאים, <b>{{firstName}}!</b>"
     }
   },
-  "login": {
-    "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
-    "phone": "מספר טלפון",
-    "pin_code": {
-      "continue": "המשך",
-      "description": "שלחנו למספר <phone>{{phone}}</phone> קוד לאימות מספר הטלפון שאמור להגיע אליך ב2-5 דקות הקרובות. ",
-      "didnt_get_code": "לא קיבלתי את הקוד, שלח מחדש",
-      "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון {{phone}}. אנא בדקו בשנית.",
-      "title": "אימות מספר טלפון"
-    },
-    "send_code": "שלח קוד",
-    "title": "התחברות"
-  },
   "month-short": {
     "1": "ינו׳",
     "10": "אוק׳",
@@ -199,41 +179,15 @@
     "9": "ספטמבר"
   },
   "no-thanks": "לא, תודה",
-  "onboarding": {
-    "professional_expense_management": {
-      "description": "חלקו הוצאות בצורה הוגנת, עקבו אחר חובות ותשלומים, והתנתקו מהחישובים המסובכים.",
-      "title": "ניהול הוצאות מקצועי"
-    },
-    "quick_incident_reporting": {
-      "description": "דווחו על בעיות בדירה, עקבו אחר סטטוס התיקון והתעדכנו בזמן אמת על התקדמות.",
-      "title": "דיווח תקלות מהיר"
-    },
-    "shared_shopping_lists": {
-      "description": "צרו רשימות קניות משותפות, הוסיפו פריטים ועקבו אחר מה שנקנה ומה שעוד נותר.",
-      "title": "רשימות קניות משותפות"
-    },
-    "smart_task_management": {
-      "description": "צרו, חלקו ועקבו אחר משימות בית בקלות. הגדירו משימות חוזרות ועקבו אחר ההתקדמות של כל השותפים.",
-      "title": "ניהול משימות חכם"
-    },
-    "smooth_communication": {
-      "description": "הוסיפו הערות, עדכונים והודעות. שמרו על כולם מעודכנים ובתיאום מושלם.",
-      "title": "תקשורת חלקה"
-    },
-    "title": "גלו מה אתם יכולים לעשות עם קומונה",
-    "watch_tutorial": "צפו בהדרכה 🚀"
-  },
   "other-options": "אפשרויות נוספות",
   "payments": {
     "balanced": "הכל מאוזן פה!",
     "debt": "יש לך חוב קטן של",
     "expense": {
       "all-expenses": "כל ההוצאות",
-      "and-splits": "ומתחלק",
       "are-you-sure-create-expense": "האם ליצור הוצאה חדשה עבור הפריטים שנרכשו?",
       "create-expense": "יצירת הוצאה חדשה",
       "edit-expense": "עריכת הוצאה",
-      "equally": "בצורה שווה",
       "expense-amount": "סכום ההוצאה",
       "expense-description": "תיאור ההוצאה",
       "expense-extended-description": "רשימת הפריטים שנרכשו",
@@ -247,25 +201,44 @@
       "split-by-percentage-title": "עבור כל שותף, ניתן להכניס את האחוזים מההוצאה אותם עליו לשלם",
       "split-equal-split-title": "בחירת השותפים שהשתתפו בהוצאה, וחלוקה שווה ביניהם",
       "split-options": "אפשרויות חלוקה",
+      "and-splits": "ומתחלק",
+      "equally": "בצורה שווה",
       "unequally": "בצורה לא שווה"
-    },
-    "hide-purchased": "הסתר פריטים שנרכשו",
-    "no-debt": "אין חוב",
-    "no-debts": "לא קיימים חובות",
-    "owe-you": "מגיע לך\n{{amount}}₪",
-    "paid-by": "בוצע תשלום של {{amount}}₪ על ידי {{name}}",
-    "payment-made": "התבצע תשלום מ<strong>{{payer}}</strong> ל<strong>{{receiver}}</strong> בסכום של",
-    "payment-title": "בואו נסגור את זה בלחיצה",
-    "people-owe-you": "איזה כיף! אנשים חייבים לך",
-    "settle-up": "יאללה נסגור חשבון",
-    "settle-up-success": "החוב שולם בהצלחה",
-    "settle-up-title": "עם מי נסגור חשבון?",
-    "someone-owe-you": "מגיע לך {{amount}}₪ מ{{name}}",
-    "you-borrowed": "שילמו עבורך\n{{amount}}₪",
-    "you-lent": "שילמת על אחרים\n{{amount}}₪",
-    "you-owe": "יש צורך לשלם\n{{amount}}₪",
-    "you-owe-to": "קיים חוב בסך {{amount}}₪ ל{{name}}",
-    "you-paid": "שילמת {{amount}}₪"
+    }
+  },
+  "welcome": "ברוכים הבאים!",
+  "login": {
+    "title": "התחברות",
+    "description": "הכניסו כאן מספר טלפון ואנחנו נשלח לכם קוד לאימות.",
+    "phone": "מספר טלפון",
+    "send_code": "שלח קוד",
+    "pin_code": {
+      "title": "אימות מספר טלפון",
+      "description": "שלחנו למספר <phone>{{phone}}</phone> קוד לאימות מספר הטלפון שאמור להגיע אליך ב2-5 דקות הקרובות. ",
+      "continue": "המשך",
+      "didnt_get_code": "לא קיבלתי את הקוד, שלח מחדש",
+      "resend_successfully": "שלחנו את הקוד מחדש למספר הטלפון {{phone}}. אנא בדקו בשנית."
+    }
+  },
+  "create_profile": {
+    "title": "מעולה! כמעט סיימנו...",
+    "description": "חסרים לנו כמה פרטים כדי להציג אותך לכולם.",
+    "first_name": "שם פרטי",
+    "last_name": "שם משפחה",
+    "create_profile": "יצירת פרופיל"
+  },
+  "edit_profile": {
+    "title": "עריכת פרופיל",
+    "description": "עדכנו את הפרטים שלכם",
+    "save_changes": "שמירת שינויים",
+    "no_changes": "אין שינויים",
+    "profile_updated": "הפרופיל עודכן בהצלחה"
+  },
+  "profile": {
+    "update_success": "הפרופיל עודכן בהצלחה",
+    "update_success_description": "הפרטים שלכם נשמרו בהצלחה",
+    "update_error": "שגיאה בעדכון פרופיל",
+    "update_error_description": "נכשלנו בעדכון הפרופיל. אנא נסו בשנית"
   },
   "residents": {
     "joined_at": "הצטרפ/ה בתאריך",
@@ -401,7 +374,23 @@
     "search_item": "חיפוש פריט",
     "shopping_list": "רשימת קניות",
     "show-purchased": "הצג פריטים שנרכשו",
-    "wanna_buy": "מתחשק לכם לקנות משהו?"
+    "wanna_buy": "מתחשק לכם לקנות משהו?",
+    "no-debt": "אין חוב",
+    "no-debts": "לא קיימים חובות",
+    "owe-you": "מגיע לך\n{{amount}}₪",
+    "paid-by": "בוצע תשלום של {{amount}}₪ על ידי {{name}}",
+    "payment-made": "התבצע תשלום מ<strong>{{payer}}</strong> ל<strong>{{receiver}}</strong> בסכום של",
+    "payment-title": "בואו נסגור את זה בלחיצה",
+    "people-owe-you": "איזה כיף! אנשים חייבים לך",
+    "settle-up": "יאללה נסגור חשבון",
+    "settle-up-success": "החוב שולם בהצלחה",
+    "settle-up-title": "עם מי נסגור חשבון?",
+    "someone-owe-you": "מגיע לך {{amount}}₪ מ{{name}}",
+    "you-borrowed": "שילמו עבורך\n{{amount}}₪",
+    "you-lent": "שילמת על אחרים\n{{amount}}₪",
+    "you-owe": "יש צורך לשלם\n{{amount}}₪",
+    "you-owe-to": "קיים חוב בסך {{amount}}₪ ל{{name}}",
+    "you-paid": "שילמת {{amount}}₪"
   },
   "status": {
     "IN_PROGRESS": "בתהליך",
@@ -490,5 +479,28 @@
     "description": "האתר הזה נתמך רק במכשירים ניידים, אנא פתחו אותו בטלפון על מנת להמשיך.",
     "title": "מצטערים"
   },
-  "welcome": "ברוכים הבאים!"
+  "onboarding": {
+    "title": "גלו מה אתם יכולים לעשות עם קומונה",
+    "watch_tutorial": "צפו בהדרכה 🚀",
+    "smart_task_management": {
+      "title": "ניהול משימות חכם",
+      "description": "צרו, חלקו ועקבו אחר משימות בית בקלות. הגדירו משימות חוזרות ועקבו אחר ההתקדמות של כל השותפים."
+    },
+    "professional_expense_management": {
+      "title": "ניהול הוצאות מקצועי",
+      "description": "חלקו הוצאות בצורה הוגנת, עקבו אחר חובות ותשלומים, והתנתקו מהחישובים המסובכים."
+    },
+    "quick_incident_reporting": {
+      "title": "דיווח תקלות מהיר",
+      "description": "דווחו על בעיות בדירה, עקבו אחר סטטוס התיקון והתעדכנו בזמן אמת על התקדמות."
+    },
+    "shared_shopping_lists": {
+      "title": "רשימות קניות משותפות",
+      "description": "צרו רשימות קניות משותפות, הוסיפו פריטים ועקבו אחר מה שנקנה ומה שעוד נותר."
+    },
+    "smooth_communication": {
+      "title": "תקשורת חלקה",
+      "description": "הוסיפו הערות, עדכונים והודעות. שמרו על כולם מעודכנים ובתיאום מושלם."
+    }
+  }
 }
