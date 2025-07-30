@@ -17,6 +17,7 @@ import { parseDate, toISODateString } from '../../utils/dateUtils';
 
 export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentProps<'apartmentSettings'>) => {
   const { t } = useTranslation();
+  // const [contractFileName, setContractFileName] = useState<string>('');
 
   const billFields = useMemo(
     () => [
@@ -48,67 +49,94 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
   return (
     <>
       <ApartmentTitle title={t('create_apartment.apartment_settings.title')} />
-      <Stack width="100%" gap="6">
+      <Stack width="100%" gap="6" mt={4}>
         <Field.Root>
-          <Field.Label fontWeight="bold" fontSize="md">
-            {t('create_apartment.apartment_settings.contract_end_date')}
-          </Field.Label>
-          <Input
-            value={aptDetails.apartmentSettings.contractEndDate ? toISODateString(parseDate(aptDetails.apartmentSettings.contractEndDate)) : ''}
-            type="date"
-            min={toISODateString(new Date())}
-            onChange={(e) => updateField('contractEndDate', e.target.value)}
-            backgroundColor="white"
-            size="xl"
-            fontSize="xl"
-            variant={'flushed'}
-            resize={'none'}
-          />
+          <HStack w="100%" justifyContent={"space-between"}>
+            <Field.Label fontSize="md" whiteSpace={"nowrap"}>
+              {t('create_apartment.apartment_settings.contract_end_date')}
+            </Field.Label>
+            <Input
+              value={aptDetails.apartmentSettings.contractEndDate ? toISODateString(parseDate(aptDetails.apartmentSettings.contractEndDate)) : ''}
+              type="date"
+              min={toISODateString(new Date())}
+              onChange={(e) => updateField('contractEndDate', e.target.value)}
+              backgroundColor="white"
+              size="xl"
+              fontSize="xl"
+              variant={'flushed'}
+              resize={'none'}
+            />
+          </HStack>
         </Field.Root>
 
-        {/* TODO: Uncomment when file upload is implemented */}
-        {/* <HStack w="100%" justify="center">
-          <Text fontWeight="bold" fontSize="md" w="70%">
-            {t('create_apartment.apartment_settings.file_upload')}
-          </Text>
-          <FileUpload.RootProvider value={fileUpload}>
-            <FileUpload.HiddenInput />
-            <FileUpload.Trigger asChild>
-              <Stack w="100%">
-                <Button backgroundColor="white" size="xl" fontSize="xl" colorPalette="gray" variant="outline">
-                  {t('create_apartment.apartment_settings.contract_document_upload')}
-                  <IconFile />
-                </Button>
-              </Stack>
-            </FileUpload.Trigger>
-          </FileUpload.RootProvider>
-        </HStack> */}
+        {/* <Field.Root>
+          <HStack w="100%" justifyContent={"space-between"}>
+            <Field.Label fontSize="md" whiteSpace={"nowrap"}>
+              {t('create_apartment.apartment_settings.file_upload')}
+            </Field.Label>
+
+             <FileUpload.RootProvider value={fileUpload}>
+              <FileUpload.HiddenInput />
+              <FileUpload.Trigger asChild>
+                <Stack w="100%">
+                  <Button
+                    width={"50vw"}
+                    backgroundColor="white"
+                    size="xl"
+                    fontSize="xl"
+                    colorPalette="gray"
+                    variant="outline"
+                    _hover={{}}
+                    _active={{}}
+                    overflow={"hidden"}
+                    ms={"auto"}
+                  >
+                    {aptDetails.apartmentSettings.contractUrl ?
+                      <Text
+                        textOverflow={"ellipsis"}
+                        whiteSpace={"nowrap"}
+                        overflow={"hidden"}
+                        w={"100%"}
+                      >
+                        {contractFileName || 'File uploaded'}
+                      </Text>
+                      : t('create_apartment.apartment_settings.contract_document_upload')
+                    }
+                    <IconFile />
+                  </Button>
+                </Stack>
+              </FileUpload.Trigger>
+            </FileUpload.RootProvider>
+          </HStack>
+        </Field.Root> */}
 
         <Field.Root>
-          <HStack justify="space-between">
-            <Field.Label fontWeight="bold" fontSize="md">
+          <HStack justify="space-between" w={"100%"}>
+            <Field.Label fontSize="md" whiteSpace={"nowrap"}>
               {t('create_apartment.apartment_settings.rent_price')}
             </Field.Label>
             <InputGroup endElement={<IconCurrencyShekel />}>
               <Input
+                width={"50vw"}
                 value={aptDetails.apartmentSettings.rent}
                 onChange={(e) => updateField('rent', e.target.value)}
                 backgroundColor="white"
                 size="xl"
                 fontSize="xl"
+                ms={"auto"}
               />
             </InputGroup>
           </HStack>
         </Field.Root>
 
-        <Text fontWeight="bold" fontSize="large">
+        <Text fontSize="large" fontWeight={"bold"}>
           {t('create_apartment.apartment_settings.accounts_location.title')}
         </Text>
         {billFields.map((field) => (
-          <Field.Root key={field.key}>
-            <VStack align="stretch">
-              <HStack justify="space-between">
-                <Field.Label w="90px" fontWeight="bold" fontSize="md">
+          <Field.Root key={field.key} >
+            <VStack align="stretch" w={"100%"}>
+              <HStack justify="space-between" w={"100%"}>
+                <Field.Label w="90px" fontSize="md" whiteSpace={"nowrap"}>
                   <field.Icon />
                   {field.title}
                 </Field.Label>
@@ -121,7 +149,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
                     })
                   }
                   placeholder={t('create_apartment.apartment_settings.accounts_location.supplier_name')}
-                  w="90%"
+                  w="50vw"
                   backgroundColor="white"
                   size="xl"
                   fontSize="xl"

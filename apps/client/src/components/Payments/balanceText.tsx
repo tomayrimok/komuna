@@ -18,12 +18,13 @@ const BalanceText = ({ staticSize = false }: BalanceTextProps) => {
 
     return (
         <>
-            <Text fontWeight={'bold'} fontSize={staticSize ? 'xl' : data.balance === 0 ? '4xl' : 'lg'}>
+            <Text fontWeight={'bold'} fontSize={staticSize ? 'xl' : data.balance === 0 ? '2xl' : 'lg'}>
                 {data.balance < 0
                     ? t('payments.debt')
                     : data.balance === 0
                         ? t('payments.balanced')
                         : t('payments.people-owe-you')}
+
             </Text>
             {data.balance !== 0 && (
                 <Text fontSize="4xl" fontWeight={'bold'}>

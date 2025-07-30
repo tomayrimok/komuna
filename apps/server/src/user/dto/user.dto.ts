@@ -34,3 +34,20 @@ export class CreateUserDto {
   @IsString()
   image?: string;
 }
+
+export class UpdateUserDto {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  firstName?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  lastName?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  image?: string;
+}

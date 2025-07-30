@@ -112,6 +112,19 @@
     "last_name": "שם משפחה",
     "create_profile": "יצירת פרופיל"
   },
+  "edit_profile": {
+    "title": "עריכת פרופיל",
+    "description": "עדכנו את הפרטים שלכם",
+    "save_changes": "שמירת שינויים",
+    "no_changes": "אין שינויים",
+    "profile_updated": "הפרופיל עודכן בהצלחה"
+  },
+  "profile": {
+    "update_success": "הפרופיל עודכן בהצלחה",
+    "update_success_description": "הפרטים שלכם נשמרו בהצלחה",
+    "update_error": "שגיאה בעדכון פרופיל",
+    "update_error_description": "נכשלנו בעדכון הפרופיל. אנא נסו בשנית"
+  },
   "select_apartment": {
     "no_apartments": {
       "title": "הפרופיל נוצר בהצלחה!",
@@ -376,7 +389,7 @@
       "group_description": "שותף אחד מסמן שהמשימה הושלמה עבור כולם",
       "personal_description": "כל שותף מסמן שהמשימה הושלמה עבורו",
       "task_type": "סוג המשימה",
-      "group_type": "קבוצתית",
+      "group_type": "דירתית",
       "personal_type": "אישית",
       "active": "פעיל",
       "update": "עדכון",
@@ -428,7 +441,7 @@
     "general_tasks": {
       "create_template": "יצירת תבנית משימה",
       "edit_template": "עריכת תבנית משימה",
-      "group_task": "משימה קבוצתית",
+      "group_task": "משימה דירתית",
       "personal_task": "משימה אישית",
       "update_success": "תבנית המשימה עודכנה בהצלחה",
       "create_success": "תבנית המשימה נוצרה בהצלחה",

@@ -1,16 +1,17 @@
 import { Icon, IconButton, IconButtonProps } from '@chakra-ui/react';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { useCanGoBack, useRouter } from '@tanstack/react-router';
+import { useIsRTL } from '../../hooks/useIsRTL';
 
 export interface GoBackButtonProps extends Omit<IconButtonProps, 'css'> {
   onGoBack?: () => void;
   iconButtonProps?: IconButtonProps;
-  iconDirection?: 'left' | 'right';
 }
 
-export const GoBackButton = ({ onGoBack, iconDirection = 'right', ...rest }: GoBackButtonProps) => {
+export const GoBackButton = ({ onGoBack, ...rest }: GoBackButtonProps) => {
   const { history } = useRouter();
   const canGoBack = useCanGoBack();
+  const { isRTL } = useIsRTL();
 
   const goBack = () => {
     if (onGoBack) return onGoBack();
@@ -20,7 +21,7 @@ export const GoBackButton = ({ onGoBack, iconDirection = 'right', ...rest }: GoB
   if (!canGoBack) return null;
   return (
     <IconButton variant={"ghost"} aria-label="back" size="md" onClick={goBack} {...rest} >
-      <Icon size={"lg"} as={iconDirection === 'left' ? IconArrowLeft : IconArrowRight} color={"brand.900"} />
+      <Icon size={"lg"} as={isRTL ? IconArrowRight : IconArrowLeft} color={"brand.900"} />
     </IconButton>
   );
 };

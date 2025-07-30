@@ -80,7 +80,7 @@ export const RenterSettings = ({
           <Fragment key={field.key}>
             <Field.Root>
               <HStack justify="space-between">
-                <Field.Label fontWeight="bold" fontSize="md" w="70%">
+                <Field.Label fontSize="md" w="70%">
                   {field.title}
                 </Field.Label>
                 <InputGroup endElement={<IconCurrencyShekel />}>
@@ -109,13 +109,13 @@ export const RenterSettings = ({
                 onValueChange={({ value }) => updateField(field.optionsKey, value)}
 
               >
-                <RadioCard.Label fontWeight="bold" fontSize="md">
+                <RadioCard.Label fontSize="md" fontWeight={"bold"} mb={2}>
                   {field.optionTitle}
                 </RadioCard.Label>
                 {field.options.map((option) => (
-                  <RadioCard.Item key={option.value} value={option.value} backgroundColor="transparent">
+                  <RadioCard.Item key={option.value} value={option.value} backgroundColor="transparent" w="fit-content">
                     <RadioCard.ItemHiddenInput />
-                    <RadioCard.ItemControl backgroundColor="transparent">
+                    <RadioCard.ItemControl backgroundColor="transparent" p={2}>
                       <RadioCard.ItemIndicator />
                       <VStack align="left">
                         <RadioCard.ItemText>{option.title}</RadioCard.ItemText>
@@ -168,14 +168,12 @@ export const RenterSettings = ({
         ))}
       </Stack>
 
-      {
-        isEdit ? null : (
-          <Alert.Root status="info">
-            <Alert.Indicator />
-            <Alert.Title>{t('create_apartment.renter_settings.on_create_notice')}</Alert.Title>
-          </Alert.Root>
-        )
-      }
+      {/* {isEdit ? null : (
+        <Alert.Root status="info">
+          <Alert.Indicator />
+          <Alert.Title>{t('create_apartment.renter_settings.on_create_notice')}</Alert.Title>
+        </Alert.Root>
+      )} */}
     </>
   );
 };

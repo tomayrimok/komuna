@@ -1,21 +1,24 @@
-import { Button, Card, Flex, Heading, HStack, IconButton, Image, Loader, Text, VStack } from '@chakra-ui/react';
+import { Badge, Button, Card, Flex, Heading, HStack, IconButton, Image, Loader, Text, VStack } from '@chakra-ui/react';
 import { ApiTypes, ContextType } from '@komuna/types';
 import {
     IconCopy,
     IconEdit,
-    IconShoppingCart
+    IconCheck,
+    IconShoppingCart,
+    IconX
 } from '@tabler/icons-react';
-import { useNavigate, useRouter } from '@tanstack/react-router';
+import { useNavigate, useParams, useRouter } from '@tanstack/react-router';
 import { Reorder } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { toaster } from '../../chakra/ui/toaster';
 import { SearchGroceryInput } from '../../components/ShoppingList/SearchGroceryInput';
 import { ShoppingListItem } from '../../components/ShoppingList/shoppingListItem';
 import { useShoppingList } from '../../context/auth/ShoppingListProvider';
-import { useDeleteGeneralShoppingList, useDuplicateGeneralShoppingList, useManuallyGenerateFromTemplate } from '../../hooks/query/useGeneralShoppingLists';
+import { useDeleteGeneralShoppingList, useDuplicateGeneralShoppingList, useGeneralShoppingListById, useManuallyGenerateFromTemplate } from '../../hooks/query/useGeneralShoppingLists';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
+import GeneralShoppingListCardTags from './GeneralShoppingListCardTags';
 
 interface ActionHandlers {
     onEditDetails: () => void;
@@ -35,6 +38,8 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
     const { items, updateOrder, openEditDrawer, isFetching, handleAddItem, title } = useShoppingList();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { generalShoppingListId } = useParams({ from: '/roommate/general-shopping-lists/$generalShoppingListId/items' });
+    const { data: generalList, isLoading } = useGeneralShoppingListById(generalShoppingListId);
 
     const handleGrocerySelect = (item: ApiTypes.ShoppingListItemWithIdDto) => {
         const templateItem = {
@@ -64,19 +69,35 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                     borderRadius={"20px"}
                 >
                     <Flex justifyContent="space-between">
-                        <Heading size="lg" mb={4}>{title}</Heading>
-                        <IconButton
-                            onClick={() => onEditDetails()}
-                            color={'gray.500'}
-                            variant={'ghost'}
-                        >
-                            <IconEdit />
-                        </IconButton>
+                        <Heading size="lg">{title}</Heading>
+                        <HStack>
+                            <Badge h="fit-content" colorPalette={generalList?.isActive ? 'green' : 'gray'}>
+                                {generalList?.isActive ? <IconCheck size={16} /> : <IconX size={16} />}
+                                {generalList?.isActive ? t('shopping.general_lists.active') : t('shopping.general_lists.inactive')}
+                            </Badge>
+                            <IconButton
+                                onClick={() => onEditDetails()}
+                                color={'gray.500'}
+                                variant={'ghost'}
+                            >
+                                <IconEdit />
+                            </IconButton>
+                        </HStack>
                     </Flex>
-                    <HStack gap={2}>
+
+                    {generalList?.description && (
+                        <Text fontSize="sm" color="gray.500" lineHeight={1.2} whiteSpace={'pre-wrap'} mb={4}>
+                            {generalList.description}
+                        </Text>
+                    )}
+
+                    {generalList && <GeneralShoppingListCardTags list={generalList} />}
+
+                    <HStack gap={2} mt={5} justifyContent={'flex-end'}>
                         <Button
                             onClick={onCopyToShoppingList}
                             size="sm"
+                            variant="subtle"
                         >
                             <IconShoppingCart size={16} />
                             {t('shopping.general_lists.copy_to_list')}
@@ -86,6 +107,7 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
                             onClick={onDuplicate}
                             size="sm"
                             loading={duplicateMutation.isPending}
+                            variant="subtle"
                         >
                             <IconCopy size={16} />
                             {t('shopping.general_lists.duplicate')}
@@ -146,23 +168,19 @@ const GeneralShoppingListItemsContent: React.FC<ActionHandlers> = ({
 
 const GeneralShoppingListItemsPage: React.FC = () => {
     const router = useRouter();
-    const generalShoppingListId = router.state.location.pathname.split('/')[3];
+    const { generalShoppingListId } = useParams({ from: '/roommate/general-shopping-lists/$generalShoppingListId/items' });
     const navigate = useNavigate();
-    const { setContextType } = useShoppingList();
-    const { sessionDetails } = useAuth();
     const { t } = useTranslation();
     const deleteMutation = useDeleteGeneralShoppingList();
     const duplicateMutation = useDuplicateGeneralShoppingList();
     const manuallyGenerateFromTemplateMutation = useManuallyGenerateFromTemplate();
-    const queryClient = useQueryClient();
+
     const handleEditDetails = () => {
         navigate({
             to: '/roommate/general-shopping-lists/$generalShoppingListId',
             params: { generalShoppingListId: generalShoppingListId! }
         });
     };
-
-
 
     const handleDuplicate = async () => {
         try {

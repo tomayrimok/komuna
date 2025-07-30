@@ -85,7 +85,7 @@ const GeneralShoppingLists: React.FC = () => {
                 <SearchInput handleChange={handleChange} bg={"white"} />
 
                 <Stack gap="4">
-                    {filteredResults?.map((list) => (
+                    {sortedLists?.map((list) => (
                         <GeneralShoppingListCard key={list.generalShoppingListId} list={list} />
                     ))}
 

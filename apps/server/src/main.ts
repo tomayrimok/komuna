@@ -9,6 +9,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
+import { json, urlencoded } from 'express';
 
 import { AppModule } from './app/app.module';
 
@@ -18,6 +19,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  // Enable CORS for client requests
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+
+  // Configure request size limits for file uploads (500MB)
+  // Note: This is quite large - consider optimizing images on client side
+  app.use(json({ limit: '500mb' }));
+  app.use(urlencoded({ extended: true, limit: '500mb' }));
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

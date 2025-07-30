@@ -33,6 +33,19 @@
     "last_name": "Last name",
     "create_profile": "Create profile"
   },
+  "edit_profile": {
+    "title": "Edit Profile",
+    "description": "Update your details",
+    "save_changes": "Save Changes",
+    "no_changes": "No Changes",
+    "profile_updated": "Profile updated successfully"
+  },
+  "profile": {
+    "update_success": "Profile updated successfully",
+    "update_success_description": "Your profile has been updated",
+    "update_error": "Update failed",
+    "update_error_description": "Failed to update profile. Please try again."
+  },
   "select_apartment": {
     "no_apartments": {
       "title": "Profile created successfully!",
