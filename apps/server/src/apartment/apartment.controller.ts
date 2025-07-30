@@ -1,5 +1,15 @@
 import { RENTER_PAYMENT_WAYS, UserRole, type CreateApartmentHttpResponse } from '@komuna/types';
-import { Body, ConflictException, Controller, ForbiddenException, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  ConflictException,
+  Controller,
+  ForbiddenException,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { UseAuth } from '../decorators/UseAuth';
 import { User as GetUser } from '../decorators/User';
@@ -18,13 +28,15 @@ export class ApartmentController {
   constructor(
     private readonly apartmentService: ApartmentService,
     private readonly userApartmentService: UserApartmentService
-  ) { }
+  ) {}
   private static readonly CODE_LENGTH = 4;
 
   @Get()
   @ApiOkResponse({ type: Apartment })
   async getApartmentWithResidents(@Query('apartmentId') apartmentId: string): Promise<Apartment> {
-    return await this.apartmentService.getApartmentWithResidents(apartmentId);
+    const res = await this.apartmentService.getApartmentWithResidents(apartmentId);
+    console.log('res: ', res);
+    return res;
   }
 
   @Post()
@@ -38,24 +50,21 @@ export class ApartmentController {
     userApartment.rent = createApartmentData.renterSettings.rent;
     userApartment.role = createApartmentData.apartmentInfo.role;
 
-    const houseCommitteePayerUser = this.createHouseCommitteePayerUser(createApartmentData, user);
     const isLandlord = createApartmentData.apartmentInfo.role === UserRole.LANDLORD;
-
-    const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
-    const landlordCode = isLandlord ? null : generateApartmentCode(ApartmentController.CODE_LENGTH);
 
     const apartment = new Apartment();
     apartment.name = createApartmentData.apartmentInfo.name;
     apartment.address = createApartmentData.apartmentInfo.address;
     apartment.city = createApartmentData.apartmentInfo.city;
     apartment.billsDetails = createApartmentData.apartmentSettings.billsDetails;
-    apartment.contractEndDate = createApartmentData.apartmentSettings.contractEndDate;
-    apartment.contractUrl = createApartmentData.apartmentSettings.contractUrl;
+
+    apartment.contractEndDate = createApartmentData.apartmentSettings.contractEndDate
+      ? new Date(createApartmentData.apartmentSettings.contractEndDate)
+      : null;
+    apartment.contractUrl = '';
+    // TODO: Handle file upload for contractUrl
+    // apartment.contractUrl = createApartmentData.apartmentSettings.contractUrl;
     apartment.rent = createApartmentData.apartmentSettings.rent;
-    apartment.houseCommitteeRent = createApartmentData.renterSettings.houseCommitteeRent;
-    apartment.houseCommitteePayerUser = houseCommitteePayerUser;
-    apartment.landlordCode = landlordCode;
-    apartment.roommateCode = roommateCode;
 
     if (isLandlord) {
       const landlordUser = new User();
@@ -68,26 +77,58 @@ export class ApartmentController {
       userApartment.role = createApartmentData.apartmentInfo.role;
       userApartment.user = user;
       userApartment.apartment = apartment;
+
       apartment.residents = [userApartment];
+      apartment.houseCommitteeRent = createApartmentData.renterSettings.houseCommitteeRent;
+      apartment.houseCommitteePayerUser = this.createHouseCommitteePayerUser(createApartmentData, user);
     }
 
+    if (createApartmentData.apartmentId) {
+      // update existing apartment
+
+      const resident = apartment.residents?.find(({ userId }) => userId === user.userId);
+
+      await this.apartmentService.updateApartmentByApartmentId(
+        createApartmentData.apartmentId,
+        isLandlord,
+        resident,
+        apartment,
+        createApartmentData.renterSettings.payableByUserId === RENTER_PAYMENT_WAYS.RENTER ||
+          createApartmentData.renterSettings.payableByUserId === RENTER_PAYMENT_WAYS.ELSE
+          ? null
+          : createApartmentData.renterSettings.payableByUserId
+      );
+
+      return { apartmentId: null, roommateCode: null, landlordCode: null };
+    }
+
+    // create new apartment
+    const roommateCode = generateApartmentCode(ApartmentController.CODE_LENGTH);
+    const landlordCode = isLandlord ? null : generateApartmentCode(ApartmentController.CODE_LENGTH);
+
+    apartment.landlordCode = landlordCode;
+    apartment.roommateCode = roommateCode;
+
     const { apartmentId } = await this.apartmentService.createApartment(apartment);
-    return { apartmentId, landlordCode, roommateCode };
+
+    return { apartmentId, roommateCode, landlordCode };
   }
 
   private createHouseCommitteePayerUser(
     createApartmentData: CreateApartmentDto,
     renter: User
   ): Apartment['houseCommitteePayerUser'] {
-    const paymentWay = createApartmentData.renterSettings.houseCommitteePayerUserId;
     const user = new User();
 
-    if (paymentWay === RENTER_PAYMENT_WAYS.EQUALLY) {
-      return null;
-    } else if (paymentWay === RENTER_PAYMENT_WAYS.RENTER) {
+    const paymentWayOrUUID = createApartmentData.renterSettings.houseCommitteePayerUserId;
+    if (
+      paymentWayOrUUID === RENTER_PAYMENT_WAYS.RENTER ||
+      paymentWayOrUUID === RENTER_PAYMENT_WAYS.ELSE ||
+      paymentWayOrUUID.length === 0
+    ) {
       user.userId = renter.userId;
     } else {
-      user.userId = null; // TODO: get user id of payer!
+      user.userId = paymentWayOrUUID;
     }
 
     return user;

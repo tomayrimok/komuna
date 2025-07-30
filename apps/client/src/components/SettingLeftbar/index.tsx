@@ -52,7 +52,12 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.profile_settings')}
             </Button>
 
-            <Button justifyContent="start" variant="ghost" size="lg">
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: isLandlord ? '/landlord/edit-apartment' : '/roommate/edit-apartment' })}
+            >
               <IconHomeCog />
               {t('roommate.homepage.leftbar.apartment_settings')}
             </Button>

@@ -163,9 +163,9 @@
       "renter_house_maintenance_payment_ways": {
         "title": "אופן התשלום החודשי",
         "renter_pays": "אני משלם את ועד הבית",
-        "renters_paying_equally": "מתחלקים שווה בשווה",
         "paying_for_renter": "מישהו אחר משלם את וועד הבית"
       },
+      "select_roomate": "בחר שותף",
       "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו')."
     },
     "share_apartment": {
@@ -340,6 +340,9 @@
     "error": "שגיאה",
     "action_failed": "הפעולה נכשלה. אנא נסה בשנית.",
     "incorrect_values": "הערכים שהוזנו אינם נכונים. יש לבדוק את הערכים ולנסות שוב."
+  },
+  "edit_apartment": {
+    "success": "הדירה עודכנה בהצלחה."
   },
   "task_category": {
     "title": "מטלות",

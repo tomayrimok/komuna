@@ -190,6 +190,11 @@
     "11": "November",
     "12": "December"
   },
+  "create_apartment": {
+    "renter_settings": {
+      "select_roomate": "Select Roommate"
+    }
+  },
   "payments": {
     "debt": "You have a small debt of {{amount}}₪ 😞",
     "balanced": "Everything is balanced here!",
@@ -238,6 +243,9 @@
     "error": "An error occurred",
     "action_failed": "Action failed. Please try again.",
     "incorrect_values": "Incorrect values. Please check and try again."
+  },
+  "edit_apartment": {
+    "success": "Apartment updated successfully."
   },
   "task_category": {
     "title": "Tasks",

@@ -7,16 +7,13 @@ import {
   VStack,
   Text,
   InputGroup,
-  Button,
-  useFileUpload,
-  FileUpload,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
-import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame, IconFile } from '@tabler/icons-react';
+import { IconCurrencyShekel, IconBulb, IconDroplet, IconFlame } from '@tabler/icons-react';
 import { BillsDetails } from '@komuna/types';
-import { withMask } from 'use-mask-input';
 import type { CommonApartmentProps } from './create-apartment.types';
+import { parseDate, toISODateString } from '../../utils/dateUtils';
 
 export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentProps<'apartmentSettings'>) => {
   const { t } = useTranslation();
@@ -34,18 +31,19 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
     [t]
   );
 
-  const fileUpload = useFileUpload({
-    maxFiles: 1,
-    onFileAccept: (file) => {
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          updateField('contractUrl', reader.result as string);
-        };
-        reader.readAsDataURL(file.files[0]);
-      }
-    },
-  });
+  // TODO: Uncomment when file upload is implemented
+  // const fileUpload = useFileUpload({
+  //   maxFiles: 1,
+  //   onFileAccept: (file) => {
+  //     if (file) {
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         updateField('contractUrl', reader.result as string);
+  //       };
+  //       reader.readAsDataURL(file.files[0]);
+  //     }
+  //   },
+  // });
 
   return (
     <>
@@ -56,26 +54,20 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
             {t('create_apartment.apartment_settings.contract_end_date')}
           </Field.Label>
           <Input
-            value={
-              aptDetails.apartmentSettings.contractEndDate
-                ? typeof aptDetails.apartmentSettings.contractEndDate === 'string'
-                  ? aptDetails.apartmentSettings.contractEndDate
-                  : `${aptDetails.apartmentSettings.contractEndDate.getDate()}/${
-                      aptDetails.apartmentSettings.contractEndDate.getMonth() + 1
-                    }/${aptDetails.apartmentSettings.contractEndDate.getFullYear()}`
-                : ''
-            }
-            placeholder="dd/mm/yyyy"
-            ref={withMask('99/99/9999')}
-            direction="ltr"
+            value={aptDetails.apartmentSettings.contractEndDate ? toISODateString(parseDate(aptDetails.apartmentSettings.contractEndDate)) : ''}
+            type="date"
+            min={toISODateString(new Date())}
             onChange={(e) => updateField('contractEndDate', e.target.value)}
             backgroundColor="white"
             size="xl"
             fontSize="xl"
+            variant={'flushed'}
+            resize={'none'}
           />
         </Field.Root>
 
-        <HStack w="100%" justify="center">
+        {/* TODO: Uncomment when file upload is implemented */}
+        {/* <HStack w="100%" justify="center">
           <Text fontWeight="bold" fontSize="md" w="70%">
             {t('create_apartment.apartment_settings.file_upload')}
           </Text>
@@ -90,7 +82,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
               </Stack>
             </FileUpload.Trigger>
           </FileUpload.RootProvider>
-        </HStack>
+        </HStack> */}
 
         <Field.Root>
           <HStack justify="space-between">

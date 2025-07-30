@@ -1,10 +1,12 @@
 import { Fragment, useMemo } from 'react';
-import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack, Alert } from '@chakra-ui/react';
+import { Field, HStack, Input, Stack, RadioCard, InputGroup, VStack, Alert, Portal, Select, createListCollection } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { RenterSettingsDto, RENTER_PAYMENT_WAYS } from '@komuna/types';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import { IconCurrencyShekel } from '@tabler/icons-react';
 import type { CommonApartmentProps } from './create-apartment.types';
+import { useApartment } from '../../hooks/useApartment';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 export const RenterSettings = ({
   aptDetails,
@@ -12,6 +14,8 @@ export const RenterSettings = ({
   isEdit,
 }: CommonApartmentProps<'renterSettings'> & { isEdit: boolean }) => {
   const { t } = useTranslation();
+  const { data } = useApartment();
+  const { currentUserDetails } = useAuth();
 
   const fields = useMemo(() => {
     const fields = [
@@ -28,7 +32,7 @@ export const RenterSettings = ({
           {
             value: RENTER_PAYMENT_WAYS.ELSE,
             title: t('create_apartment.renter_settings.renter_payment_ways.paying_for_renter'),
-            input: true,
+            select: true,
           },
         ],
       },
@@ -43,13 +47,9 @@ export const RenterSettings = ({
             title: t('create_apartment.renter_settings.renter_house_maintenance_payment_ways.renter_pays'),
           },
           {
-            value: RENTER_PAYMENT_WAYS.EQUALLY,
-            title: t('create_apartment.renter_settings.renter_house_maintenance_payment_ways.renters_paying_equally'),
-          },
-          {
             value: RENTER_PAYMENT_WAYS.ELSE,
             title: t('create_apartment.renter_settings.renter_house_maintenance_payment_ways.paying_for_renter'),
-            input: true,
+            select: true,
           },
         ],
       },
@@ -60,6 +60,17 @@ export const RenterSettings = ({
     }
     return fields;
   }, [t, isEdit]);
+
+  const residents = useMemo(() => {
+    const items = data?.residents?.filter(({ user: { userId } }) => currentUserDetails?.userId !== userId)
+      .map(({ user: { userId, firstName, lastName } }: { user: { userId: string, firstName: string, lastName: string } }) => {
+        return {
+          label: `${firstName} ${lastName}`,
+          value: userId,
+        }
+      }) || [];
+    return createListCollection({ items });
+  }, [data, currentUserDetails]);
 
   return (
     <>
@@ -88,8 +99,15 @@ export const RenterSettings = ({
               <RadioCard.Root
                 orientation="horizontal"
                 variant="subtle"
-                defaultValue={field.options[0].value}
+                defaultValue={
+                  aptDetails.renterSettings[field.optionsKey as keyof RenterSettingsDto] === RENTER_PAYMENT_WAYS.RENTER
+                    || (field.optionsKey === "houseCommitteePayerUserId" && aptDetails.renterSettings.houseCommitteePayerUserId === currentUserDetails?.userId)
+                    || (field.optionsKey === "payableByUserId" && aptDetails.renterSettings.payableByUserId === currentUserDetails?.userId)
+                    ? RENTER_PAYMENT_WAYS.RENTER
+                    : RENTER_PAYMENT_WAYS.ELSE
+                }
                 onValueChange={({ value }) => updateField(field.optionsKey, value)}
+
               >
                 <RadioCard.Label fontWeight="bold" fontSize="md">
                   {field.optionTitle}
@@ -101,12 +119,44 @@ export const RenterSettings = ({
                       <RadioCard.ItemIndicator />
                       <VStack align="left">
                         <RadioCard.ItemText>{option.title}</RadioCard.ItemText>
-                        {'input' in option && option.input ? (
-                          <Input
-                            // onChange={(e) => option.onChange(e.target.value)}
-                            backgroundColor="white"
-                            w="150%"
-                          />
+                        {'select' in option && option.select && data?.residents ? (
+                          <Select.Root
+                            backgroundColor='white'
+                            collection={residents}
+                            value={
+                              aptDetails.renterSettings[field.optionsKey as keyof RenterSettingsDto]
+                                ? [aptDetails.renterSettings[field.optionsKey as keyof RenterSettingsDto] as string]
+                                : undefined
+                            }
+                            onValueChange={(e) => updateField(field.optionsKey, e.value[0])}
+                            disabled={
+                              aptDetails.renterSettings[field.optionsKey as keyof RenterSettingsDto] === RENTER_PAYMENT_WAYS.RENTER
+                              || (field.optionsKey === "houseCommitteePayerUserId" && aptDetails.renterSettings.houseCommitteePayerUserId === currentUserDetails?.userId)
+                              || (field.optionsKey === "payableByUserId" && aptDetails.renterSettings.payableByUserId === currentUserDetails?.userId)
+                              || residents.items.length === 0
+                            }
+                          >
+                            <Select.Control>
+                              <Select.Trigger>
+                                <Select.ValueText placeholder={t('create_apartment.renter_settings.select_roomate')} />
+                              </Select.Trigger>
+                              <Select.IndicatorGroup>
+                                <Select.Indicator />
+                              </Select.IndicatorGroup>
+                            </Select.Control>
+                            <Portal>
+                              <Select.Positioner>
+                                <Select.Content>
+                                  {residents.items.map((resident) => (
+                                    <Select.Item item={resident} key={resident.value}>
+                                      {resident.label}
+                                      <Select.ItemIndicator />
+                                    </Select.Item>
+                                  ))}
+                                </Select.Content>
+                              </Select.Positioner>
+                            </Portal>
+                          </Select.Root>
                         ) : null}
                       </VStack>
                     </RadioCard.ItemControl>
@@ -118,12 +168,14 @@ export const RenterSettings = ({
         ))}
       </Stack>
 
-      {isEdit ? null : (
-        <Alert.Root status="info">
-          <Alert.Indicator />
-          <Alert.Title>{t('create_apartment.renter_settings.on_create_notice')}</Alert.Title>
-        </Alert.Root>
-      )}
+      {
+        isEdit ? null : (
+          <Alert.Root status="info">
+            <Alert.Indicator />
+            <Alert.Title>{t('create_apartment.renter_settings.on_create_notice')}</Alert.Title>
+          </Alert.Root>
+        )
+      }
     </>
   );
 };
