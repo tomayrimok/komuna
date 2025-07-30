@@ -90,7 +90,7 @@ const GeneralShoppingLists: React.FC = () => {
                     ))}
 
                     {(!generalShoppingLists || generalShoppingLists.length === 0) && (
-                        <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="22vh">
+                        <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="10vh">
                             <Image src="/meerkats/shopping.png" height={'30vh'} />
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
                                 {t('shopping.general_lists.no_templates')}

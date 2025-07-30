@@ -11,14 +11,17 @@ const TasksNumber = () => {
     const { currentUserDetails } = useAuth();
 
     const personalOpenTasks = useMemo(() => {
+        const currentUserId = currentUserDetails?.userId;
+        if (!currentUserId) return 0;
+
         const openTasks = data?.filter(task => {
             if (task.taskType === TaskType.GROUP) {
                 return task.completions?.length === 0;
             }
-            return task.assignedTo?.some(user => user.userId === currentUserDetails?.userId) && !task.completions?.includes(currentUserDetails?.userId!);
+            return task.assignedTo?.some(user => user.userId === currentUserId) && !task.completions?.includes(currentUserId);
         });
         return openTasks?.length || 0;
-    }, [data]);
+    }, [data, currentUserDetails?.userId]);
 
     if (isLoading || !data) {
         return <SkeletonText noOfLines={1} width="50%" m="auto" />;

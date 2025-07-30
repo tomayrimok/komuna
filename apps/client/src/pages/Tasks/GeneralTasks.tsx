@@ -105,7 +105,7 @@ const GeneralTasks: React.FC = () => {
                     ))}
 
                     {(!generalTasks || generalTasks.length === 0) && (
-                        <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="22vh">
+                        <Flex flexDirection="column" alignItems="center" justifyContent="center" mt="10vh">
                             <Image src="/meerkats/relaxing.png" width="80vw" />
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
                                 {t('task_category.create_task.no_tasks')}
