@@ -140,7 +140,6 @@ export class ApartmentController {
   async joinApartment(@Param() { code }: JoinApartmentDto, @GetUser() user: User) {
     // TODO check validation
     const apartment = code.length ? await this.apartmentService.getApartmentByCode(code) : null;
-    console.log('apartment: ', apartment);
     if (!apartment) {
       console.error(`Apartment with code ${code} not found. User requesting to join: ${user.userId}`);
       throw new NotFoundException();
