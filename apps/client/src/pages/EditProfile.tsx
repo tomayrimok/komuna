@@ -22,6 +22,7 @@ import { useAuth } from '../context/auth/AuthProvider';
 import { useUpdateProfile } from '../hooks/query/useUpdateProfile';
 import { useNavigate } from '@tanstack/react-router';
 import { GoBackButton } from '../components/GoBackButton';
+import ApartmentLayout from './NewApartment/ApartmentLayout';
 
 interface ProfileFormData {
   firstName: string;
@@ -114,115 +115,118 @@ export const EditProfile = () => {
   const isValid = profileData.firstName.trim() && profileData.lastName.trim();
 
   return (
-    <Box bg="brand.50" p="4" flex="1" display="flex" flexDirection="column" justifyContent="space-between">
-      <VStack gap="6" maxW="md">
-        {/* Header */}
+    <ApartmentLayout title={t('edit_profile.title')} goBack={() => navigate({ to: '..' })} mt={0} boxProps={{ h: '100%' }}>
+      <Box p="4" flex="1" display="flex" flexDirection="column" justifyContent="space-between">
+        <VStack gap="6" maxW="md">
+          {/* Header
         <HStack w="full" alignItems="center">
           <GoBackButton />
           <Heading size="lg" color="brand.900">
             {t('edit_profile.title')}
           </Heading>
-          <Box w="8" /> {/* Spacer for centering */}
-        </HStack>
+          <Box w="8" />
+        </HStack> */}
 
-        {/* Profile Image */}
-        <FileUpload.RootProvider value={fileUpload} alignItems="center">
-          <FileUpload.HiddenInput />
-          <FileUpload.Label />
-          <FileUpload.Trigger asChild display="flex" justifyContent="center" alignItems="center">
-            <Stack position="relative" cursor="pointer" justifyContent="center" alignItems="center">
-              <Avatar.Root
-                variant="solid"
-                width="120px"
-                height="120px"
-                borderWidth="3px"
-                borderColor="brand.900"
-                backgroundColor="brand.50"
-              >
-                <Avatar.Fallback name={profileData.firstName} />
-                <Avatar.Image src={profileData.image} />
-              </Avatar.Root>
-              <IconButton
-                variant="solid"
-                background="brand.900"
-                rounded="full"
-                size="md"
-                position="absolute"
-                bottom="-2"
-                right="-2"
-                color="white"
-                _hover={{ bg: 'brand.800' }}
-              >
-                <IconCamera size={16} />
-              </IconButton>
+          {/* Profile Image */}
+          <FileUpload.RootProvider value={fileUpload} alignItems="center">
+            <FileUpload.HiddenInput />
+            <FileUpload.Label />
+            <FileUpload.Trigger asChild display="flex" justifyContent="center" alignItems="center">
+              <Stack position="relative" cursor="pointer" justifyContent="center" alignItems="center">
+                <Avatar.Root
+                  variant="solid"
+                  width="120px"
+                  height="120px"
+                  borderWidth="3px"
+                  borderColor="brand.900"
+                  backgroundColor="brand.50"
+                >
+                  <Avatar.Fallback name={profileData.firstName} />
+                  <Avatar.Image src={profileData.image} />
+                </Avatar.Root>
+                <IconButton
+                  variant="solid"
+                  background="brand.900"
+                  rounded="full"
+                  size="md"
+                  position="absolute"
+                  bottom="-2"
+                  right="-2"
+                  color="white"
+                  _hover={{ bg: 'brand.800' }}
+                >
+                  <IconCamera size={16} />
+                </IconButton>
+              </Stack>
+            </FileUpload.Trigger>
+          </FileUpload.RootProvider>
+
+          {/* Form */}
+          <Card.Root w="full" p="6" bg="white" borderRadius="xl" shadow="md">
+            <Stack gap="6">
+              <Text textAlign="center" color="gray.600">
+                {t('edit_profile.description')}
+              </Text>
+
+              <Field.Root required>
+                <Field.Label fontWeight="bold" fontSize="md" color="brand.900">
+                  {t('create_profile.first_name')}
+                </Field.Label>
+                <Input
+                  value={profileData.firstName}
+                  onChange={(e) => onSetProfileKey('firstName', e.target.value)}
+                  name="firstName"
+                  backgroundColor="gray.50"
+                  size="lg"
+                  fontSize="lg"
+                  placeholder={`${t('create_profile.first_name')}...`}
+                  borderColor="gray.300"
+                  _focus={{ borderColor: 'brand.500', bg: 'white' }}
+                />
+              </Field.Root>
+
+              <Field.Root required>
+                <Field.Label fontWeight="bold" fontSize="md" color="brand.900">
+                  {t('create_profile.last_name')}
+                </Field.Label>
+                <Input
+                  value={profileData.lastName}
+                  onChange={(e) => onSetProfileKey('lastName', e.target.value)}
+                  name="lastName"
+                  backgroundColor="gray.50"
+                  size="lg"
+                  fontSize="lg"
+                  placeholder={`${t('create_profile.last_name')}...`}
+                  borderColor="gray.300"
+                  _focus={{ borderColor: 'brand.500', bg: 'white' }}
+                />
+              </Field.Root>
             </Stack>
-          </FileUpload.Trigger>
-        </FileUpload.RootProvider>
+          </Card.Root>
+        </VStack>
 
-        {/* Form */}
-        <Card.Root w="full" p="6" bg="white" borderRadius="xl" shadow="md">
-          <Stack gap="6">
-            <Text textAlign="center" color="gray.600">
-              {t('edit_profile.description')}
-            </Text>
-
-            <Field.Root required>
-              <Field.Label fontWeight="bold" fontSize="md" color="brand.900">
-                {t('create_profile.first_name')}
-              </Field.Label>
-              <Input
-                value={profileData.firstName}
-                onChange={(e) => onSetProfileKey('firstName', e.target.value)}
-                name="firstName"
-                backgroundColor="gray.50"
-                size="lg"
-                fontSize="lg"
-                placeholder={`${t('create_profile.first_name')}...`}
-                borderColor="gray.300"
-                _focus={{ borderColor: 'brand.500', bg: 'white' }}
-              />
-            </Field.Root>
-
-            <Field.Root required>
-              <Field.Label fontWeight="bold" fontSize="md" color="brand.900">
-                {t('create_profile.last_name')}
-              </Field.Label>
-              <Input
-                value={profileData.lastName}
-                onChange={(e) => onSetProfileKey('lastName', e.target.value)}
-                name="lastName"
-                backgroundColor="gray.50"
-                size="lg"
-                fontSize="lg"
-                placeholder={`${t('create_profile.last_name')}...`}
-                borderColor="gray.300"
-                _focus={{ borderColor: 'brand.500', bg: 'white' }}
-              />
-            </Field.Root>
-          </Stack>
-        </Card.Root>
-      </VStack>
-
-      {/* Save Button */}
-      <Button
-        size="lg"
-        fontSize="lg"
-        fontWeight="bold"
-        w="full"
-        bg="brand.900"
-        color="white"
-        loading={isPending}
-        disabled={!isValid || !hasChanges}
-        onClick={handleSave}
-        _hover={{ bg: 'brand.800' }}
-        _disabled={{
-          opacity: 0.5,
-          cursor: 'not-allowed',
-          bg: 'gray.400',
-        }}
-      >
-        {t('edit_profile.save_changes')}
-      </Button>
-    </Box>
+        {/* Save Button */}
+        <Button
+          size="lg"
+          fontSize="lg"
+          fontWeight="bold"
+          w="full"
+          // bg="brand.900"
+          // color="white"
+          loading={isPending}
+          disabled={!isValid || !hasChanges}
+          onClick={handleSave}
+          _hover={{ bg: 'brand.800' }}
+          _disabled={{
+            opacity: 0.5,
+            cursor: 'not-allowed',
+            bg: 'gray.400',
+            color: 'white',
+          }}
+        >
+          {t('edit_profile.save_changes')}
+        </Button>
+      </Box>
+    </ApartmentLayout>
   );
 };

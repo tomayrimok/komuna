@@ -211,6 +211,35 @@
         "tags": [
           "User"
         ]
+      },
+      "put": {
+        "operationId": "UserController_updateUserProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
       }
     },
     "/api/user/logout": {
@@ -2197,6 +2226,20 @@
         "required": [
           "user"
         ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
       },
       "CreateApartmentDto": {
         "type": "object",
