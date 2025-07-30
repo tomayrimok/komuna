@@ -27,7 +27,12 @@ export const useGeneralShoppingLists = () => {
 
     return useQuery({
         queryKey: ['general-shopping-lists', sessionDetails?.apartmentId],
-        queryFn: () => fetchGeneralShoppingLists(sessionDetails?.apartmentId!),
+        queryFn: () => {
+            if (!sessionDetails?.apartmentId) {
+                throw new Error('Apartment ID is required');
+            }
+            return fetchGeneralShoppingLists(sessionDetails.apartmentId);
+        },
         enabled: !!sessionDetails?.apartmentId,
         refetchOnWindowFocus: false,
     });
@@ -36,7 +41,12 @@ export const useGeneralShoppingLists = () => {
 export const useGeneralShoppingListById = (generalShoppingListId?: string) => {
     return useQuery({
         queryKey: ['general-shopping-list', generalShoppingListId],
-        queryFn: () => fetchGeneralShoppingListById(generalShoppingListId!),
+        queryFn: () => {
+            if (!generalShoppingListId) {
+                throw new Error('General shopping list ID is required');
+            }
+            return fetchGeneralShoppingListById(generalShoppingListId);
+        },
         enabled: !!generalShoppingListId,
         refetchOnWindowFocus: false,
     });
