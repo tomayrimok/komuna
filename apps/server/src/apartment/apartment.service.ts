@@ -10,7 +10,7 @@ export class ApartmentService {
   constructor(
     @InjectRepository(Apartment)
     private readonly apartmentRepo: Repository<Apartment>
-  ) {}
+  ) { }
 
   createApartment(apartment: Partial<Apartment>) {
     return this.apartmentRepo.save(apartment);
@@ -57,5 +57,9 @@ export class ApartmentService {
       .leftJoinAndSelect('apartment.residents', 'residents')
       .leftJoinAndSelect('apartment.landlord', 'landlord')
       .getOne();
+  }
+
+  async getCodes(apartmentId: string) {
+    return await this.apartmentRepo.findOneBy({ apartmentId });
   }
 }

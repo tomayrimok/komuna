@@ -149,4 +149,10 @@ export class ApartmentController {
     apartment.landlord.userId = user.userId;
     return this.apartmentService.addLandlord(apartment, apartment.landlord);
   }
+
+  @Get('/:apartmentId/codes')
+  @UseAuthApartment()
+  async getCodes(@Param('apartmentId') apartmentId: string) {
+    return this.apartmentService.getCodes(apartmentId);
+  }
 }

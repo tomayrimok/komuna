@@ -35,11 +35,11 @@ export const ResidentsList = () => {
     return (
       <VStack gap="4" p="6">
         <Text fontSize="2xl" fontWeight="bold">
-          {t('residents.title')}
+          {isLandlord ? t('residents.landlord_title') : t('residents.title')}
         </Text>
         <Stack gap="4" width="100%">
           {Array.from({ length: 3 }).map((_, index) => (
-            <Card.Root key={index}>
+            <Card.Root key={index} variant="elevated">
               <Card.Body>
                 <HStack gap="4">
                   <SkeletonText noOfLines={1} width="60px" height="60px" />
@@ -69,10 +69,10 @@ export const ResidentsList = () => {
       borderRadius={"40px"}
     >
 
-      <VStack pt={4} gap={4}>
+      <VStack pt={4}>
         {/* Summary Footer */}
         {!!residents?.length && (
-          <Card.Root bg="white" width="100%">
+          <Card.Root variant="elevated" bg="white" width="100%">
             <Card.Body p="4">
               <HStack justifyContent="space-between" alignItems="center">
                 <Text fontSize="sm" fontWeight="bold">
@@ -98,6 +98,8 @@ export const ResidentsList = () => {
               {(resident) => (
                 <Card.Root
                   key={resident.userId}
+                  variant="elevated"
+                  _hover={{ shadow: 'xl', transform: 'translateY(-2px)' }}
                   transition="all 0.2s"
                 >
                   <Card.Body p="6">
@@ -109,7 +111,7 @@ export const ResidentsList = () => {
                       </Avatar.Root>
 
                       {/* Main Content */}
-                      <VStack alignItems="start" flex="1" gap="2">
+                      <VStack alignItems="start" flex="1" gap="3">
                         {/* Name and Role */}
                         <HStack gap="3" alignItems="center">
                           <Text fontSize="xl" fontWeight="bold">
@@ -123,10 +125,10 @@ export const ResidentsList = () => {
                         </Text>
 
                         {/* Rent and Join Date */}
-                        <HStack gap="6" justifyContent="space-between" alignItems="start">
+                        <HStack gap="6" justifyContent="space-between" alignItems="center">
                           {/* Rent Amount */}
-                          <VStack alignItems="start" gap="1" justifyContent="space-between" >
-                            <Text fontSize="sm" color="gray.500" fontWeight="medium">
+                          <VStack alignItems="start" gap="1">
+                            <Text fontSize="xs" color="gray.500" fontWeight="medium">
                               {t('residents.rent')}
                             </Text>
                             <HStack gap="1" alignItems="baseline">
@@ -141,11 +143,11 @@ export const ResidentsList = () => {
                           </VStack>
 
                           {/* Join Date */}
-                          <VStack alignItems="start" gap="1" justifyContent="space-between" >
-                            <Text fontSize="sm" color="gray.500" fontWeight="medium">
+                          <VStack alignItems="start" gap="1">
+                            <Text fontSize="xs" color="gray.500" fontWeight="medium">
                               {t('residents.joined_at')}
                             </Text>
-                            <Text fontSize="md" fontWeight="medium">
+                            <Text fontSize="sm" fontWeight="medium">
                               {format(parseISO(resident.createdAt), 'dd/MM/yyyy')}
                             </Text>
                           </VStack>
@@ -169,7 +171,7 @@ export const ResidentsList = () => {
             </For>
           </Stack>
         ) : (
-          <VStack justifyContent="center" flex="1">
+          <VStack justifyContent="center" flex="1" alignItems={"center"} textAlign={"center"}>
             <Image src="/meerkats/lonely.png" width="50vw" />
             <Text fontSize="2xl" fontWeight="bold">
               {t('residents.no-residents')}

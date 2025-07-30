@@ -7,12 +7,16 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { HomeCard } from '../../components/homeCard';
 import { useNavigate } from '@tanstack/react-router';
+import { useApartment } from '../../hooks/useApartment';
+import { inherits } from 'util';
+import { useTranslation } from 'react-i18next';
 
 
 export const LandlordHome = () => {
-  const { currentUserDetails } = useAuth();
+  const { currentUserDetails, sessionDetails } = useAuth();
   const { isRTL } = useIsRTL();
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const apartment = useApartment();
 
   const svgTransform = isRTL ? 'none' : 'scaleX(-1)';
   return (
@@ -38,13 +42,18 @@ export const LandlordHome = () => {
             <Avatar.Image src={currentUserDetails?.image} />
             <Avatar.Fallback name="Nue Camp" />
           </Avatar.Root>
-          <Text color="white" fontSize="xl">
-            <Trans
-              i18nKey="roommate.homepage.title"
-              values={{ firstName: currentUserDetails?.firstName }}
-              components={{ b: <b /> }}
-            />
-          </Text>
+          <VStack spaceY={-2} alignItems={"flex-start"}>
+            <Text color="white" fontSize="xl">
+              <Trans
+                i18nKey="landlord.homepage.title"
+                values={{ firstName: currentUserDetails?.firstName }}
+                components={{ b: <b /> }}
+              />
+            </Text>
+            <Text color="white" fontSize="sm" w={"full"}>
+              {apartment.data?.address ? `${apartment.data?.address} ${apartment.data?.city}` : t('apartment_with_no_address')}
+            </Text>
+          </VStack>
         </HStack>
         <SettingLeftbar />
       </HStack>
