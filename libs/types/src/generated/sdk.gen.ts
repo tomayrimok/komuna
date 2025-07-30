@@ -16,6 +16,8 @@ import type {
   UserControllerGetCurrentUserProfileResponse,
   UserControllerCreateUserData,
   UserControllerCreateUserResponse,
+  UserControllerUpdateUserProfileData,
+  UserControllerUpdateUserProfileResponse,
   UserControllerLogoutData,
   NotificationControllerRegisterTokenData,
   ApartmentControllerGetApartmentWithResidentsData,
@@ -37,6 +39,8 @@ import type {
   TaskControllerUpdateTaskCompletionResponse,
   TaskControllerEditTaskData,
   TaskControllerEditTaskResponse,
+  TaskControllerDeleteTaskData,
+  TaskControllerDeleteTaskResponse,
   TaskControllerGetAllTasksData,
   TaskControllerGetAllTasksResponse,
   TaskControllerGetTaskByIdData,
@@ -53,12 +57,36 @@ import type {
   IncidentControllerNewCommentData,
   IncidentControllerNewCommentResponse,
   IncidentControllerSetOwnerSeenData,
+  IncidentControllerDeleteIncidentData,
+  IncidentControllerDeleteIncidentResponse,
   ShoppingListControllerGetShoppingListData,
   ShoppingListControllerGetShoppingListResponse,
   ShoppingListControllerSyncItemsData,
   ShoppingListControllerSyncItemsResponse,
   ShoppingListControllerSearchItemData,
   ShoppingListControllerSearchItemResponse,
+  GeneralTaskControllerCreateGeneralTaskData,
+  GeneralTaskControllerCreateGeneralTaskResponse,
+  GeneralTaskControllerUpdateGeneralTaskData,
+  GeneralTaskControllerUpdateGeneralTaskResponse,
+  GeneralTaskControllerGetGeneralTasksData,
+  GeneralTaskControllerGetGeneralTasksResponse,
+  GeneralTaskControllerDeleteGeneralTaskData,
+  GeneralTaskControllerGetGeneralTaskByIdData,
+  GeneralTaskControllerGetGeneralTaskByIdResponse,
+  GeneralTaskControllerManuallyGenerateTasksData,
+  GeneralShoppingListControllerCreateGeneralShoppingListData,
+  GeneralShoppingListControllerCreateGeneralShoppingListResponse,
+  GeneralShoppingListControllerUpdateGeneralShoppingListData,
+  GeneralShoppingListControllerUpdateGeneralShoppingListResponse,
+  GeneralShoppingListControllerGetGeneralShoppingListsData,
+  GeneralShoppingListControllerGetGeneralShoppingListsResponse,
+  GeneralShoppingListControllerGetGeneralShoppingListByIdData,
+  GeneralShoppingListControllerGetGeneralShoppingListByIdResponse,
+  GeneralShoppingListControllerDeleteGeneralShoppingListData,
+  GeneralShoppingListControllerGenerateFromTemplateData,
+  GeneralShoppingListControllerDuplicateGeneralShoppingListData,
+  GeneralShoppingListControllerDuplicateGeneralShoppingListResponse,
 } from './types.gen';
 import { client as _heyApiClient } from './client.gen';
 
@@ -154,6 +182,19 @@ export const userControllerCreateUser = <ThrowOnError extends boolean = false>(
   options: Options<UserControllerCreateUserData, ThrowOnError>
 ) => {
   return (options.client ?? _heyApiClient).post<UserControllerCreateUserResponse, unknown, ThrowOnError>({
+    url: '/api/user',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const userControllerUpdateUserProfile = <ThrowOnError extends boolean = false>(
+  options: Options<UserControllerUpdateUserProfileData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<UserControllerUpdateUserProfileResponse, unknown, ThrowOnError>({
     url: '/api/user',
     ...options,
     headers: {
@@ -304,6 +345,19 @@ export const taskControllerEditTask = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const taskControllerDeleteTask = <ThrowOnError extends boolean = false>(
+  options: Options<TaskControllerDeleteTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<TaskControllerDeleteTaskResponse, unknown, ThrowOnError>({
+    url: '/api/task/delete',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
 export const taskControllerGetAllTasks = <ThrowOnError extends boolean = false>(
   options: Options<TaskControllerGetAllTasksData, ThrowOnError>
 ) => {
@@ -397,6 +451,15 @@ export const incidentControllerSetOwnerSeen = <ThrowOnError extends boolean = fa
   });
 };
 
+export const incidentControllerDeleteIncident = <ThrowOnError extends boolean = false>(
+  options: Options<IncidentControllerDeleteIncidentData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<IncidentControllerDeleteIncidentResponse, unknown, ThrowOnError>({
+    url: '/api/incident/delete',
+    ...options,
+  });
+};
+
 export const shoppingListControllerGetShoppingList = <ThrowOnError extends boolean = false>(
   options: Options<ShoppingListControllerGetShoppingListData, ThrowOnError>
 ) => {
@@ -424,6 +487,163 @@ export const shoppingListControllerSearchItem = <ThrowOnError extends boolean = 
 ) => {
   return (options.client ?? _heyApiClient).get<ShoppingListControllerSearchItemResponse, unknown, ThrowOnError>({
     url: '/api/shopping-list/search-item',
+    ...options,
+  });
+};
+
+export const generalTaskControllerCreateGeneralTask = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralTaskControllerCreateGeneralTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<GeneralTaskControllerCreateGeneralTaskResponse, unknown, ThrowOnError>({
+    url: '/api/general-task/create',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const generalTaskControllerUpdateGeneralTask = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralTaskControllerUpdateGeneralTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<GeneralTaskControllerUpdateGeneralTaskResponse, unknown, ThrowOnError>({
+    url: '/api/general-task/update',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const generalTaskControllerGetGeneralTasks = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralTaskControllerGetGeneralTasksData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<GeneralTaskControllerGetGeneralTasksResponse, unknown, ThrowOnError>({
+    url: '/api/general-task',
+    ...options,
+  });
+};
+
+export const generalTaskControllerDeleteGeneralTask = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralTaskControllerDeleteGeneralTaskData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<unknown, unknown, ThrowOnError>({
+    url: '/api/general-task/{id}',
+    ...options,
+  });
+};
+
+export const generalTaskControllerGetGeneralTaskById = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralTaskControllerGetGeneralTaskByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<GeneralTaskControllerGetGeneralTaskByIdResponse, unknown, ThrowOnError>({
+    url: '/api/general-task/{id}',
+    ...options,
+  });
+};
+
+export const generalTaskControllerManuallyGenerateTasks = <ThrowOnError extends boolean = false>(
+  options?: Options<GeneralTaskControllerManuallyGenerateTasksData, ThrowOnError>
+) => {
+  return (options?.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/general-task/generate-tasks',
+    ...options,
+  });
+};
+
+export const generalShoppingListControllerCreateGeneralShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerCreateGeneralShoppingListData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    GeneralShoppingListControllerCreateGeneralShoppingListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/general-shopping-list/create',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const generalShoppingListControllerUpdateGeneralShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerUpdateGeneralShoppingListData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    GeneralShoppingListControllerUpdateGeneralShoppingListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/general-shopping-list/update',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const generalShoppingListControllerGetGeneralShoppingLists = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListsData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GeneralShoppingListControllerGetGeneralShoppingListsResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/general-shopping-list/list',
+    ...options,
+  });
+};
+
+export const generalShoppingListControllerGetGeneralShoppingListById = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerGetGeneralShoppingListByIdData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GeneralShoppingListControllerGetGeneralShoppingListByIdResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/general-shopping-list/details',
+    ...options,
+  });
+};
+
+export const generalShoppingListControllerDeleteGeneralShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerDeleteGeneralShoppingListData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).delete<unknown, unknown, ThrowOnError>({
+    url: '/api/general-shopping-list/delete',
+    ...options,
+  });
+};
+
+export const generalShoppingListControllerGenerateFromTemplate = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerGenerateFromTemplateData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, unknown, ThrowOnError>({
+    url: '/api/general-shopping-list/generate',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+};
+
+export const generalShoppingListControllerDuplicateGeneralShoppingList = <ThrowOnError extends boolean = false>(
+  options: Options<GeneralShoppingListControllerDuplicateGeneralShoppingListData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    GeneralShoppingListControllerDuplicateGeneralShoppingListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/api/general-shopping-list/duplicate',
     ...options,
   });
 };

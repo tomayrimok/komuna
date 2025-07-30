@@ -47,7 +47,12 @@ export const SettingLeftbar = () => {
         </HStack>
         <Stack direction="column" justifyContent="space-between" gap="2" flex="1">
           <VStack align="stretch" gap="4">
-            <Button justifyContent="start" variant="ghost" size="lg">
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: '/roommate/profile' })}
+            >
               <IconUserCog />
               {t('roommate.homepage.leftbar.profile_settings')}
             </Button>
