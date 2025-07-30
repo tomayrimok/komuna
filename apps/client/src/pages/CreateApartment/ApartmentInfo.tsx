@@ -37,7 +37,7 @@ export const ApartmentInfo = ({ aptDetails, updateField, isEdit }: CommonApartme
   return (
     <Stack width="100%" gap="6">
       <ApartmentTitle
-        title={t('create_apartment.apartment_info.title')}
+        title={isEdit ? t('create_apartment.edit_apartment.title') : t('create_apartment.apartment_info.title')}
         description={t('create_apartment.apartment_info.description')}
       />
       {fields.map((field) => (

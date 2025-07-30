@@ -56,6 +56,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
               {t('create_apartment.apartment_settings.contract_end_date')}
             </Field.Label>
             <Input
+              width={"50vw"}
               value={aptDetails.apartmentSettings.contractEndDate ? toISODateString(parseDate(aptDetails.apartmentSettings.contractEndDate)) : ''}
               type="date"
               min={toISODateString(new Date())}
@@ -63,7 +64,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
               backgroundColor="white"
               size="xl"
               fontSize="xl"
-              variant={'flushed'}
+              variant={'outline'}
               resize={'none'}
             />
           </HStack>
@@ -125,6 +126,7 @@ export const ApartmentSettings = ({ aptDetails, updateField }: CommonApartmentPr
                 fontSize="xl"
                 ms={"auto"}
               />
+
             </InputGroup>
           </HStack>
         </Field.Root>

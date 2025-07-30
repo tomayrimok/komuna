@@ -37,6 +37,9 @@
         "title": "I am..."
       }
     },
+    "edit_apartment": {
+      "title": "Edit apartment"
+    },
     "apartment_settings": {
       "accounts_location": {
         "electricity": "Electricity",

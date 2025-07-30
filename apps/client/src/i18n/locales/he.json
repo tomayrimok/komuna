@@ -37,6 +37,9 @@
         "title": "אני..."
       }
     },
+    "edit_apartment": {
+      "title": "עריכת דירה"
+    },
     "apartment_settings": {
       "accounts_location": {
         "electricity": "חשמל",
