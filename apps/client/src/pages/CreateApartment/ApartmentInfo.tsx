@@ -5,7 +5,7 @@ import { ApartmentInfoDto, UserRole } from '@komuna/types';
 import { ApartmentTitle } from '../NewApartment/ApartmentTitle';
 import type { CommonApartmentProps } from './create-apartment.types';
 
-export const ApartmentInfo = ({ aptDetails, updateField, isEdit }: CommonApartmentProps<'apartmentInfo'> & { isEdit: boolean }) => {
+export const ApartmentInfo = ({ aptDetails, updateField }: CommonApartmentProps<'apartmentInfo'>) => {
   const { t } = useTranslation();
 
   const fields = useMemo(
@@ -37,7 +37,7 @@ export const ApartmentInfo = ({ aptDetails, updateField, isEdit }: CommonApartme
   return (
     <Stack width="100%" gap="6">
       <ApartmentTitle
-        title={isEdit ? t('create_apartment.edit_apartment.title') : t('create_apartment.apartment_info.title')}
+        title={t('create_apartment.apartment_info.title')}
         description={t('create_apartment.apartment_info.description')}
       />
       {fields.map((field) => (
@@ -55,30 +55,28 @@ export const ApartmentInfo = ({ aptDetails, updateField, isEdit }: CommonApartme
         </Field.Root>
       ))}
 
-      {isEdit ? null : (
-        <RadioCard.Root
-          orientation="vertical"
-          align="center"
-          defaultValue={aptDetails.apartmentInfo.role}
-          onValueChange={({ value }) => updateField('role', value)}
-          w={"100%"}
-        >
-          <RadioCard.Label fontWeight="bold" fontSize="md">
-            {t('create_apartment.apartment_info.who_am_i.title')}
-          </RadioCard.Label>
-          <HStack justifyContent={"space-between"} w={"100%"}>
-            {roles.map((role) => (
-              <RadioCard.Item key={role.value} value={role.value}>
-                <RadioCard.ItemHiddenInput />
-                <RadioCard.ItemControl>
-                  <Image height="130px" src={role.image} />
-                  <RadioCard.ItemText>{role.title}</RadioCard.ItemText>
-                </RadioCard.ItemControl>
-              </RadioCard.Item>
-            ))}
-          </HStack>
-        </RadioCard.Root>
-      )}
+      <RadioCard.Root
+        orientation="vertical"
+        align="center"
+        defaultValue={aptDetails.apartmentInfo.role}
+        onValueChange={({ value }) => updateField('role', value)}
+        w={"100%"}
+      >
+        <RadioCard.Label fontWeight="bold" fontSize="md">
+          {t('create_apartment.apartment_info.who_am_i.title')}
+        </RadioCard.Label>
+        <HStack justifyContent={"space-between"} w={"100%"}>
+          {roles.map((role) => (
+            <RadioCard.Item key={role.value} value={role.value}>
+              <RadioCard.ItemHiddenInput />
+              <RadioCard.ItemControl>
+                <Image height="130px" src={role.image} />
+                <RadioCard.ItemText>{role.title}</RadioCard.ItemText>
+              </RadioCard.ItemControl>
+            </RadioCard.Item>
+          ))}
+        </HStack>
+      </RadioCard.Root>
     </Stack>
   );
 };

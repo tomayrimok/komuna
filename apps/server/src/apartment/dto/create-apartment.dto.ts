@@ -7,7 +7,7 @@ import {
   UserRole,
 } from '@komuna/types';
 import { Transform, Type } from 'class-transformer';
-import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateIf, ValidateNested } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { BillsDetailsDto } from './bills-details.dto';
 
 /** First form */
@@ -31,7 +31,14 @@ class ApartmentInfoDto implements BaseApartmentInfoDto {
 class ApartmentSettingsDto implements BaseApartmentSettingsDto {
   @IsOptional()
   @IsDate()
-  @Transform(({ value }) => (value ? new Date(value) : undefined))
+  @Transform(({ value }) => {
+    // The client sends a string in the format 'dd/mm/yyyy'
+    if (typeof value === 'string') {
+      const [day, month, year] = value.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    return value;
+  })
   contractEndDate?: Date;
 
   @IsString()
@@ -58,11 +65,6 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
 
   @IsString()
   @IsOptional()
-  @ValidateIf(
-    (obj, value) =>
-      Object.values(RENTER_PAYMENT_WAYS).includes(value) ||
-      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(value) /// uuid
-  )
   payableByUserId?: string;
 
   @IsNumber()
@@ -70,21 +72,12 @@ class RenterSettingsDto implements BaseRenterSettingsDto {
   @IsOptional()
   houseCommitteeRent?: number;
 
-  @IsString()
+  @IsEnum(RENTER_PAYMENT_WAYS) // TODO check this passes correctly
   @IsOptional()
-  @ValidateIf(
-    (obj, value) =>
-      Object.values(RENTER_PAYMENT_WAYS).includes(value) ||
-      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(value) /// uuid
-  )
-  houseCommitteePayerUserId?: string;
+  houseCommitteePayerUserId?: RENTER_PAYMENT_WAYS;
 }
 
 export class CreateApartmentDto implements BaseCreateApartmentDto {
-  @IsString()
-  @IsOptional()
-  apartmentId: string;
-
   @ValidateNested()
   @Type(() => ApartmentInfoDto)
   apartmentInfo: ApartmentInfoDto;

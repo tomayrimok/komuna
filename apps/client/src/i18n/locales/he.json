@@ -37,9 +37,6 @@
         "title": "אני..."
       }
     },
-    "edit_apartment": {
-      "title": "עריכת דירה"
-    },
     "apartment_settings": {
       "accounts_location": {
         "electricity": "חשמל",
@@ -58,10 +55,11 @@
     "done_btn": "סיום",
     "renter_settings": {
       "house_maintenance_fee": "מחיר חודשי ועד הבית",
-      "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו לחלק את התשלומים בין השותפים.",
+      "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו').",
       "renter_house_maintenance_payment_ways": {
         "paying_for_renter": "מישהו אחר משלם את וועד הבית",
         "renter_pays": "אני משלם את ועד הבית",
+        "renters_paying_equally": "מתחלקים שווה בשווה",
         "title": "אופן התשלום החודשי"
       },
       "renter_payment_ways": {
@@ -69,7 +67,6 @@
         "renter_pays": "אני משלם על עצמי",
         "title": "אופן התשלום החודשי"
       },
-      "select_roomate": "בחר שותף",
       "renter_rent_price": "מחיר שכר הדירה שלי",
       "title": "הגדרות השוכר"
     },
@@ -148,8 +145,7 @@
       "navigation": {
         "home": "בית",
         "incidents": "תקלות",
-        "settings": "הגדרות",
-        "residents": "שוכרים"
+        "settings": "הגדרות"
       },
       "title": "ברוכים הבאים, <b>{{firstName}}!</b>"
     }
@@ -400,9 +396,6 @@
     "IN_PROGRESS": "בתהליך",
     "OPEN": "פתוח",
     "SOLVED": "נפתר"
-  },
-  "edit_apartment": {
-    "success": "הדירה עודכנה בהצלחה."
   },
   "task_category": {
     "create_task": {

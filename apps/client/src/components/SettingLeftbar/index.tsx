@@ -50,15 +50,15 @@ export const SettingLeftbar = () => {
 
           <Stack direction="column" justifyContent="space-between" gap="2" flex="1">
             <VStack align="stretch" gap="4">
-              {/* <Button justifyContent="start" variant="ghost" size="lg">
+              <Button justifyContent="start" variant="ghost" size="lg">
                 <IconUserCog />
                 {t('roommate.homepage.leftbar.profile_settings')}
-              </Button> */}
+              </Button>
 
-              {/* <Button justifyContent="start" variant="ghost" size="lg">
+              <Button justifyContent="start" variant="ghost" size="lg">
                 <IconHomeCog />
                 {t('roommate.homepage.leftbar.apartment_settings')}
-              </Button> */}
+              </Button>
 
               <Button
                 justifyContent="start"
@@ -110,7 +110,7 @@ export const SettingLeftbar = () => {
               </Text>
             </VStack>
           </HStack>
-          {/* <IconSettings /> */}
+          <IconSettings />
         </HStack>
         <Codes role={UserRole.ROOMMATE} />
 
@@ -126,12 +126,7 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.profile_settings')}
             </Button>
 
-            <Button
-              justifyContent="start"
-              variant="ghost"
-              size="lg"
-              onClick={() => navigate({ to: isLandlord ? '/landlord/edit-apartment' : '/roommate/edit-apartment' })}
-            >
+            <Button justifyContent="start" variant="ghost" size="lg">
               <IconHomeCog />
               {t('roommate.homepage.leftbar.apartment_settings')}
             </Button>
@@ -166,10 +161,10 @@ export const SettingLeftbar = () => {
               {t('roommate.homepage.leftbar.shopping_templates')}
             </Button>
 
-            {/* <Button justifyContent="start" variant="ghost" size="lg">
+            <Button justifyContent="start" variant="ghost" size="lg">
               <IconSettings />
               {t('roommate.homepage.leftbar.app_settings')}
-            </Button> */}
+            </Button>
 
             <Button
               justifyContent="start"

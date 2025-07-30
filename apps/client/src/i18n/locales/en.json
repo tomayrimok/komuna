@@ -37,9 +37,6 @@
         "title": "I am..."
       }
     },
-    "edit_apartment": {
-      "title": "Edit apartment"
-    },
     "apartment_settings": {
       "accounts_location": {
         "electricity": "Electricity",
@@ -62,6 +59,7 @@
       "renter_house_maintenance_payment_ways": {
         "paying_for_renter": "Someone else pays for the rent",
         "renter_pays": "I'm paying for the rent",
+        "renters_paying_equally": "Rent payment is shared equally",
         "title": "Monthly rent payment method"
       },
       "renter_payment_ways": {
@@ -69,7 +67,6 @@
         "renter_pays": "I'm paying for myself",
         "title": "Monthly rent payment method"
       },
-      "select_roomate": "Select a roommate",
       "renter_rent_price": "My rent's price",
       "title": "Renter settings"
     },
@@ -168,8 +165,7 @@
       "navigation": {
         "home": "Home",
         "incidents": "Incidents",
-        "settings": "Settings",
-        "residents": "Residents"
+        "settings": "Settings"
       },
       "title": "Welcome, <b>{{firstName}}!</b>"
     }
@@ -424,9 +420,6 @@
     "IN_PROGRESS": "In Progress",
     "OPEN": "Open",
     "SOLVED": "Solved"
-  },
-  "edit_apartment": {
-    "success": "Apartment updated successfully."
   },
   "task_category": {
     "buttons": {

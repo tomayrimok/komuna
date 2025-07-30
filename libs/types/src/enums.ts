@@ -46,7 +46,8 @@ export enum WeekDay {
 //TODO check that this works. It's been moved into common @komuna/types
 export enum RENTER_PAYMENT_WAYS {
   RENTER = 'RENTER',
-  ELSE = 'ELSE',
+  EQUALLY = 'EQUALLY',
+  ELSE = 'ELSE', // TODO this must be a user id! Might need to change the whole type of this field
 }
 
 export enum SplitType {

@@ -366,29 +366,6 @@
         ]
       }
     },
-    "/api/apartment/{apartmentId}/codes": {
-      "get": {
-        "operationId": "ApartmentController_getCodes",
-        "parameters": [
-          {
-            "name": "apartmentId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Apartment"
-        ]
-      }
-    },
     "/api/expense/apartment-expenses": {
       "get": {
         "operationId": "ExpenseController_getApartmentExpenses",
