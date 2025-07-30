@@ -58,7 +58,7 @@
     "done_btn": "סיום",
     "renter_settings": {
       "house_maintenance_fee": "מחיר חודשי ועד הבית",
-      "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו להגדיר מי משלם על מה ועל מי (שכר דירה, וועד בית וכו').",
+      "on_create_notice": "לאחר יצירת הדירה וצירוף השותפים תוכלו לחלק את התשלומים בין השותפים.",
       "renter_house_maintenance_payment_ways": {
         "paying_for_renter": "מישהו אחר משלם את וועד הבית",
         "renter_pays": "אני משלם את ועד הבית",

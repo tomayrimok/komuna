@@ -168,12 +168,12 @@ export const RenterSettings = ({
         ))}
       </Stack>
 
-      {/* {isEdit ? null : (
+      {isEdit ? null : (
         <Alert.Root status="info">
           <Alert.Indicator />
           <Alert.Title>{t('create_apartment.renter_settings.on_create_notice')}</Alert.Title>
         </Alert.Root>
-      )} */}
+      )}
     </>
   );
 };
