@@ -24,7 +24,11 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
 import { useNavigate } from '@tanstack/react-router';
 
-export const ResidentsList = () => {
+interface ResidentsListProps {
+  hideTopbar?: boolean;
+}
+
+export const ResidentsList = ({ hideTopbar }: ResidentsListProps) => {
   const { data: residents, isLoading } = useApartmentResidents();
   const { sessionDetails } = useAuth();
   const { t } = useTranslation();
@@ -65,7 +69,7 @@ export const ResidentsList = () => {
           <Badge w="fit-content" ms='auto' size="lg">{t('residents.residents_amount', { amount: residents?.length })}</Badge>
         </HStack>}
       mt={0}
-      goBack={() => navigate({ to: '..' })}
+      goBack={hideTopbar ? undefined : () => navigate({ to: '..' })}
       borderRadius={"40px"}
     >
 

@@ -9,8 +9,11 @@ import { Apartment } from './apartment.entity';
 export class ApartmentService {
   constructor(
     @InjectRepository(Apartment)
-    private readonly apartmentRepo: Repository<Apartment>
-  ) { }
+    private readonly apartmentRepo: Repository<Apartment>,
+    
+    @InjectRepository(UserApartment)
+    private readonly userApartmentRepo: Repository<UserApartment>
+  ) {}
 
   createApartment(apartment: Partial<Apartment>) {
     return this.apartmentRepo.save(apartment);
@@ -18,6 +21,25 @@ export class ApartmentService {
 
   async updateApartment(apartmentId: string, apartment: Partial<Apartment>) {
     return await this.apartmentRepo.update({ apartmentId }, apartment);
+  }
+
+  async updateApartmentByApartmentId(
+    apartmentId: string,
+    isLandlord: boolean,
+    resident: UserApartment,
+    apartment: Partial<Apartment>,
+    payableByUserId: string
+  ) {
+    const { residents, landlord, ...apartmentFields } = apartment;
+    const res = await this.apartmentRepo.update({ apartmentId }, apartmentFields);
+
+    if (!isLandlord)
+      await this.userApartmentRepo.update(
+        { apartmentId, userId: resident.userId },
+        { rent: resident.rent, payableByUser: { userId: payableByUserId } }
+      );
+
+    return res;
   }
 
   public async addRoommate(apartment: Apartment, userApartment: UserApartment) {
@@ -37,7 +59,7 @@ export class ApartmentService {
   async getApartmentWithResidents(apartmentId: string) {
     const apartment = await this.apartmentRepo.findOne({
       where: { apartmentId },
-      relations: ['residents', 'residents.user'],
+      relations: ['residents', 'residents.user', 'residents.payableByUser', 'houseCommitteePayerUser'],
     });
 
     if (!apartment) {
