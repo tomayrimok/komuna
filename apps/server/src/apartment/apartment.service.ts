@@ -80,4 +80,8 @@ export class ApartmentService {
       .leftJoinAndSelect('apartment.landlord', 'landlord')
       .getOne();
   }
+
+  async getCodes(apartmentId: string) {
+    return await this.apartmentRepo.findOneBy({ apartmentId });
+  }
 }

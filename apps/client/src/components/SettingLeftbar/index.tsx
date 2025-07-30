@@ -1,4 +1,4 @@
-import { Avatar, Button, HStack, Stack, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, CardRoot, HStack, Stack, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
   IconBellCog,
@@ -17,6 +17,7 @@ import { LanguegeSelector } from '../LanguegeSelector';
 import { useIsRTL } from '../../hooks/useIsRTL';
 import { useNavigate } from '@tanstack/react-router';
 import { UserRole } from '@komuna/types';
+import { Codes } from '../General/codes';
 
 export const SettingLeftbar = () => {
   const { currentUserDetails, logout, sessionDetails } = useAuth();
@@ -25,6 +26,72 @@ export const SettingLeftbar = () => {
   const isLandlord = sessionDetails?.role === UserRole.LANDLORD;
   const navigate = useNavigate();
 
+  if (isLandlord) {
+    return (
+      <Sidebar trigger={<IconMenu2 />}>
+        <Stack dir={dir} padding="6" gap="7">
+          <HStack justifyContent="space-between">
+            <HStack gap="4">
+              <Avatar.Root size="lg" shape="full" border="2px solid" borderColor="brand.900">
+                <Avatar.Image src={currentUserDetails?.image} />
+                <Avatar.Fallback name="avatar" />
+              </Avatar.Root>
+              <VStack gap="0" alignItems="start">
+                <Text color="brand.900" fontSize="xl">
+                  {currentUserDetails?.firstName} {currentUserDetails?.lastName}
+                </Text>
+                <Text color="brand.900" fontSize="sm" dir="ltr">
+                  {currentUserDetails?.phoneNumber}
+                </Text>
+              </VStack>
+            </HStack>
+          </HStack>
+          <Codes role={UserRole.LANDLORD} />
+
+          <Stack direction="column" justifyContent="space-between" gap="2" flex="1">
+            <VStack align="stretch" gap="4">
+              <Button justifyContent="start" variant="ghost" size="lg">
+                <IconUserCog />
+                {t('roommate.homepage.leftbar.profile_settings')}
+              </Button>
+
+              <Button justifyContent="start" variant="ghost" size="lg">
+                <IconHomeCog />
+                {t('roommate.homepage.leftbar.apartment_settings')}
+              </Button>
+
+              <Button
+                justifyContent="start"
+                variant="ghost"
+                size="lg"
+                onClick={() => navigate({ to: '/landlord/residents' })}
+              >
+                <IconUsersGroup />
+                {t('residents.landlord_title')}
+              </Button>
+
+              <Button
+                justifyContent="start"
+                variant="ghost"
+                size="lg"
+                onClick={() => navigate({ to: '/select-apartment' })}
+              >
+                <IconHomeEdit />
+                {t('roommate.homepage.leftbar.select_apartment')}
+              </Button>
+            </VStack>
+            <Stack gap="4" alignItems="start">
+              <LanguegeSelector />
+              <Button justifyContent="start" variant="ghost" size="lg" onClick={logout}>
+                <IconLogout />
+                {t('roommate.homepage.leftbar.logout')}
+              </Button>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Sidebar>
+    )
+  }
   return (
     <Sidebar trigger={<IconMenu2 />}>
       <Stack dir={dir} padding="6" gap="7">
@@ -45,6 +112,8 @@ export const SettingLeftbar = () => {
           </HStack>
           <IconSettings />
         </HStack>
+        <Codes role={UserRole.ROOMMATE} />
+
         <Stack direction="column" justifyContent="space-between" gap="2" flex="1">
           <VStack align="stretch" gap="4">
             <Button
@@ -71,35 +140,31 @@ export const SettingLeftbar = () => {
               justifyContent="start"
               variant="ghost"
               size="lg"
-              onClick={() => navigate({ to: isLandlord ? '/landlord/residents' : '/roommate/residents' })}
+              onClick={() => navigate({ to: '/roommate/residents' })}
             >
               <IconUsersGroup />
               {t('roommate.homepage.leftbar.roommates')}
             </Button>
 
-            {!isLandlord && (
-              <Button
-                justifyContent="start"
-                variant="ghost"
-                size="lg"
-                onClick={() => navigate({ to: '/roommate/general-tasks' })}
-              >
-                <IconBellCog />
-                {t('roommate.homepage.leftbar.notifications_settings')}
-              </Button>
-            )}
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: '/roommate/general-tasks' })}
+            >
+              <IconBellCog />
+              {t('roommate.homepage.leftbar.notifications_settings')}
+            </Button>
 
-            {!isLandlord && (
-              <Button
-                justifyContent="start"
-                variant="ghost"
-                size="lg"
-                onClick={() => navigate({ to: '/roommate/general-shopping-lists' })}
-              >
-                <IconShoppingCart />
-                {t('roommate.homepage.leftbar.shopping_templates')}
-              </Button>
-            )}
+            <Button
+              justifyContent="start"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate({ to: '/roommate/general-shopping-lists' })}
+            >
+              <IconShoppingCart />
+              {t('roommate.homepage.leftbar.shopping_templates')}
+            </Button>
 
             <Button justifyContent="start" variant="ghost" size="lg">
               <IconSettings />
@@ -117,6 +182,7 @@ export const SettingLeftbar = () => {
             </Button>
           </VStack>
           <Stack gap="4" alignItems="start">
+
             <LanguegeSelector />
             <Button justifyContent="start" variant="ghost" size="lg" onClick={logout}>
               <IconLogout />

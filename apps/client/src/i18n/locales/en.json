@@ -1,37 +1,100 @@
 {
-  "web": {
-    "title": "Sorry",
-    "description": "This site is supported only on mobile devices. Please open it on your phone to continue."
-  },
-  "delete_confirmation": {
-    "message_with_name": "Are you sure you want to delete \"{{name}}\"?",
-    "message": "Are you sure you want to delete this item?"
-  },
+  "add-roommates": "Add Roommates",
   "apartment_with_no_address": "Apartment with no address",
-  "no-thanks": "No, thanks",
   "button": "Let's get started",
-  "komuna": "Komuna",
+  "cancel": "Cancel",
   "catchphrase": "Peace at home between roommates",
-  "welcome": "Welcome!",
-  "login": {
-    "title": "Login",
-    "description": "Enter your phone number here and we will send you a verification code.",
-    "phone": "Phone number",
-    "send_code": "Send code",
-    "pin_code": {
-      "title": "Phone Number Verification",
-      "description": "We sent a code to the number <phone>{{phone}}</phone> to verify your phone number. It should arrive within 2–5 minutes.",
-      "continue": "Continue",
-      "didnt_get_code": "I didn't get the code, resend",
-      "resend_successfully": "We resent the code to phone number {{phone}}. Please check again."
-    }
+  "choose_apartment": {
+    "create_new_apartment_btn": "New apartment",
+    "leaser": "Landlord",
+    "renter": "Resident",
+    "title": "Choose the apartment you wish to join:"
+  },
+  "common": {
+    "duplicate": "Duplicate",
+    "error": "Error",
+    "lets_start": "Let's start!",
+    "loading": "Loading...",
+    "new": "New",
+    "next": "Next",
+    "previous": "Previous",
+    "seen": "Seen",
+    "success": "Success",
+    "today": "Today",
+    "tomorrow": "Tomorrow"
+  },
+  "continue": "Continue",
+  "create_apartment": {
+    "apartment_info": {
+      "apartment_address": "Apartment address",
+      "apartment_name": "What's the apartment's name?",
+      "city": "City",
+      "description": "A few more setting - and we're done😊",
+      "title": "Creating a new apartment",
+      "who_am_i": {
+        "leaser": "Landlord",
+        "renter": "Renter",
+        "title": "I am..."
+      }
+    },
+    "apartment_settings": {
+      "accounts_location": {
+        "electricity": "Electricity",
+        "gas": "Gas",
+        "supplier_name": "Suppler's name...",
+        "title": "Location of accounts",
+        "water": "Water"
+      },
+      "contract_document_upload": "Upload the contract document",
+      "contract_end_date": "Contract end date",
+      "file_upload": "Upload file",
+      "rent_price": "Total rent price",
+      "title": "Apartment's settings"
+    },
+    "continue_btn": "Continue",
+    "done_btn": "Done",
+    "renter_settings": {
+      "house_maintenance_fee": "Monthly house maintenance fee",
+      "on_create_notice": "After creating the apartment and invinting your roommates to join it, you could define who pays and for what (rent, house maintenance and so on)",
+      "renter_house_maintenance_payment_ways": {
+        "paying_for_renter": "Someone else pays for the rent",
+        "renter_pays": "I'm paying for the rent",
+        "title": "Monthly rent payment method"
+      },
+      "renter_payment_ways": {
+        "paying_for_renter": "Someone else pays for me",
+        "renter_pays": "I'm paying for myself",
+        "title": "Monthly rent payment method"
+      },
+      "select_roomate": "בחר שותף",
+      "renter_rent_price": "My rent's price",
+      "title": "Renter settings"
+    },
+    "save_btn": "Save",
+    "share_apartment": {
+      "description": "Now you can invite the rest of the apartment's roomates",
+      "error": "We could not generate the code. Please try again later.",
+      "landlord_description": "This is the code for inviting the landlord",
+      "roommate_description": "This is the code for inviting the roomates",
+      "landlord_code": "Landlord code",
+      "roommate_code": "Roommate code",
+      "sharing_through_whatsapp": "שתף באמצעות וואטסאפ",
+      "title": "The apartment was created successfully 🎉",
+      "to_app": "To the app"
+    },
+    "skip_btn": "Skip"
   },
   "create_profile": {
-    "title": "Great! Almost done...",
+    "create_profile": "Create profile",
     "description": "We need a few more details to introduce you to everyone.",
     "first_name": "First name",
     "last_name": "Last name",
-    "create_profile": "Create profile"
+    "title": "Great! Almost done..."
+  },
+  "delete": "Delete",
+  "delete_confirmation": {
+    "message": "Are you sure you want to delete this item?",
+    "message_with_name": "Are you sure you want to delete \"{{name}}\"?"
   },
   "edit_profile": {
     "title": "Edit Profile",
@@ -46,151 +109,99 @@
     "update_error": "Update failed",
     "update_error_description": "Failed to update profile. Please try again."
   },
-  "select_apartment": {
-    "no_apartments": {
-      "title": "Profile created successfully!",
-      "description": "{{firstName}}, welcome! Please choose what you’d like to do:",
-      "create_new_apartment": "Create a new apartment",
-      "join_apartment": "Join an existing apartment"
-    }
+  "error": {
+    "action_failed": "Action failed. Please try again.",
+    "error": "An error occurred",
+    "incorrect_values": "Incorrect values. Please check and try again."
   },
-  "roommate": {
-    "homepage": {
-      "title": "Welcome, <b>{{firstName}}!</b>",
-      "last_updates": "Latest updates",
-      "leftbar": {
-        "profile_settings": "Profile settings",
-        "apartment_settings": "Apartment settings",
-        "notifications_settings": "Task Templates & Notifications",
-        "app_settings": "App settings",
-        "logout": "Log out",
-        "change_languege": "Change language",
-        "select_apartment": "Select Apartment",
-        "roommates": "Roommates",
-        "shopping_templates": "Shopping Templates"
-      },
-      "navigation": {
-        "tasks": "Tasks",
-        "payments": "Payments",
-        "home": "Home",
-        "shopping": "Shopping",
-        "incidents": "Incidents"
-      }
-    }
+  "general_templates": {
+    "detailed_description_placeholder": "Detailed template description (optional)",
+    "detailed_task_description_placeholder": "Detailed task description (optional)",
+    "example_placeholder": "Example: Cleaning supplies",
+    "example_task_placeholder": "Example: Clean bathroom",
+    "shopping_list_templates": "Shopping List Templates"
   },
+  "incidents": {
+    "add_note": "Add a note",
+    "create_incident": "Create incident",
+    "edit_incident": "Edit incident",
+    "incident_deleted": "Incident deleted successfully",
+    "incident_description": "Incident's description",
+    "incident_details": "Incident's details",
+    "incident_saved": "Incident saved successfully",
+    "incident_title": "Title",
+    "new_incident": "New",
+    "no_incidents": "Life is pretty... No incidents",
+    "notes_and_updates": "Notes and updates",
+    "num_open_incidents": "{{count}} Open incidents",
+    "open_incidents": "Open incidents",
+    "seen": "Seen",
+    "seen_by_manager": "Seen",
+    "seen_by_manager_description": "Seen by the landlord",
+    "solved_incidents": "Solved incidents",
+    "update_status": "Update status",
+    "urgency_level": "Urgency level"
+  },
+  "join_existing_apartment": {
+    "apartment_already_joined": "You have already joined this apartment.",
+    "apartment_not_found": "Apartment not found",
+    "apartment_taken": "There is already a landlord for this apartment.",
+    "description": "Ask your roomate who created the apartment for the code to join it.",
+    "join_btn": "Join apartment",
+    "success": "You have successfully joined the apartment!",
+    "title": "Connecting to an existing apartment"
+  },
+  "komuna": "Komuna",
   "landlord": {
     "homepage": {
-      "title": "Welcome, <b>{{firstName}}!</b>",
       "leftbar": {
-        "profile_settings": "Profile settings",
         "apartment_settings": "Apartment settings",
-        "notifications_settings": "Notification & event settings",
         "app_settings": "App settings",
+        "change_languege": "Change language",
         "logout": "Log out",
-        "change_languege": "Change language"
+        "notifications_settings": "Notification & event settings",
+        "profile_settings": "Profile settings"
       },
       "navigation": {
         "home": "Home",
-        "settings": "Settings",
-        "incidents": "Incidents"
-      }
+        "incidents": "Incidents",
+        "settings": "Settings"
+      },
+      "title": "Welcome, <b>{{firstName}}!</b>"
     }
   },
-  "shopping": {
-    "shopping_list": "Shopping list",
-    "add_item": "Add item",
-    "personal": "Personal list",
-    "apartment": "Apartment list",
-    "list_is_empty": "The list is empty",
-    "item_name": "Item name",
-    "item_quantity": "Item quantity",
-    "choose_purchased_items": "Select purchased items",
-    "search_item": "Search item",
-    "make_purchase": "Make purchase",
-    "purchase_made": "Purchase made from a shopping list",
-    "num_unpurchased_items": "{{count}} items waiting to be purchased",
-    "search_add_item": "Add item...",
-    "wanna_buy": "Want to buy something?",
-    "no_results": "No results found",
-    "no_category": "No category",
-    "missing_item": "Missing item? Add \"{{searchTerm}}\"",
-    "duplicate_success": "Shopping list template duplicated successfully",
-    "duplicate_error": "Failed to duplicate shopping list template",
-    "lets_add_items": "Let's add some items!",
-    "every": "Every",
-    "delete_success": "Shopping list template deleted successfully",
-    "mark_all_as_purchased": "Mark all",
-    "general_lists": {
-      "create_template": "Create Shopping List Template",
-      "edit_template": "Edit Shopping List Template",
-      "duplicate": "Duplicate",
-      "copy_to_list": "Copy to Shopping List",
-      "edit_details": "Edit Details",
-      "delete": "Delete",
-      "template_name": "Template Name",
-      "description": "Description",
-      "frequency": "Frequency",
-      "active": "Active",
-      "inactive": "Inactive",
-      "manual_template": "Manual Template",
-      "automatic_template": "Automatic Template",
-      "shared_list": "Shared List",
-      "personal_list": "Personal List",
-      "confirm_delete": "Are you sure you want to delete this shopping list template?",
-      "update_success": "Shopping list template updated successfully",
-      "create_success": "Shopping list template created successfully",
-      "save_error": "Failed to save shopping list template",
-      "update": "Update",
-      "create": "Create",
-      "copy_to_list_success": "Items copied to your active shopping list",
-      "items": "{{count}} items",
-      "one_item": "One item",
-      "last_generation": "Last generation",
-      "next_generation": "Next generation",
-      "context_type": "Context type",
-      "no_templates": "No shopping list templates available",
-      "create_templates": "Create templates for recurring shopping lists or manual use"
+  "login": {
+    "description": "Enter your phone number here and we will send you a verification code.",
+    "phone": "Phone number",
+    "pin_code": {
+      "continue": "Continue",
+      "description": "We sent a code to the number <phone>{{phone}}</phone> to verify your phone number. It should arrive within 2–5 minutes.",
+      "didnt_get_code": "I didn't get the code, resend",
+      "resend_successfully": "We resent the code to phone number {{phone}}. Please check again.",
+      "title": "Phone Number Verification"
     },
-    "frequency": {
-      "daily": {
-        "one": "Daily",
-        "two": "Every 2 days",
-        "many": "Every {{count}} days"
-      },
-      "weekly": {
-        "one": "Weekly",
-        "two": "Every 2 weeks",
-        "many": "Every {{count}} weeks"
-      },
-      "monthly": {
-        "one": "Monthly",
-        "two": "Every 2 months",
-        "many": "Every {{count}} months"
-      },
-      "yearly": {
-        "one": "Yearly",
-        "two": "Every 2 years",
-        "many": "Every {{count}} years"
-      }
-    },
-    "frequency_units": {
-      "DAILY": "Days",
-      "WEEKLY": "Weeks",
-      "MONTHLY": "Months",
-      "YEARLY": "Years"
-    },
-    "quantity": "Unit"
+    "send_code": "Send code",
+    "title": "Login"
   },
-  "save": "Save",
-  "cancel": "Cancel",
-  "continue": "Continue",
-  "delete": "Delete",
-  "other-options": "Other Options",
-  "select-roommates": "Select Roommates",
-  "select-roommate": "Select Roommate",
-  "add-roommates": "Add Roommates",
+  "month-short": {
+    "1": "Jan",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep"
+  },
   "months": {
     "1": "January",
+    "10": "October",
+    "11": "November",
+    "12": "December",
     "2": "February",
     "3": "March",
     "4": "April",
@@ -198,206 +209,303 @@
     "6": "June",
     "7": "July",
     "8": "August",
-    "9": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December"
+    "9": "September"
   },
-  "create_apartment": {
-    "renter_settings": {
-      "select_roomate": "Select Roommate"
-    }
+  "no-thanks": "No, thanks",
+  "onboarding": {
+    "professional_expense_management": {
+      "description": "Split expenses fairly, track debts and payments, and disconnect from complicated calculations.",
+      "title": "Professional Expense Management"
+    },
+    "quick_incident_reporting": {
+      "description": "Report apartment issues, track repair status and get real-time progress updates.",
+      "title": "Quick Incident Reporting"
+    },
+    "shared_shopping_lists": {
+      "description": "Create shared shopping lists, add items and track what's been bought and what's left.",
+      "title": "Shared Shopping Lists"
+    },
+    "smart_task_management": {
+      "description": "Create, share and track home tasks easily. Set recurring tasks and track progress of all roommates.",
+      "title": "Smart Task Management"
+    },
+    "smooth_communication": {
+      "description": "Add notes, updates and messages. Keep everyone updated and perfectly coordinated.",
+      "title": "Smooth Communication"
+    },
+    "title": "Discover what you can do with Komuna",
+    "watch_tutorial": "Watch Tutorial 🚀"
   },
+  "other-options": "Other Options",
   "payments": {
-    "debt": "You have a small debt of {{amount}}₪ 😞",
-    "balanced": "Everything is balanced here!",
-    "people-owe-you": "How nice! People owe you",
-    "owe-you-to": "{{name}} owes you {{amount}}₪",
-    "someone-you-owe": "You owe {{name}} {{amount}}₪",
-    "settle-up": "Let's settle up",
-    "paid-by": "{{name}} paid {{amount}}₪",
-    "you-paid": "You paid {{amount}}₪",
-    "you-lent": "You lent\n{{amount}}₪",
-    "you-borrowed": "You borrowed\n{{amount}}₪",
-    "settle-up-title": "Who should we settle up with?",
-    "you-owe": "You owe {{amount}}₪",
-    "owe-you": "Owes you {{amount}}₪",
-    "payment-made": "Let's settle the payment with a shake, from {{payer}} to {{receiver}}",
     "amount-prefix": "For the amount of",
-    "settle-up-success": "The debt has been successfully settled",
-    "no-debts": "No debts",
-    "no-debt": "No debt",
-    "hide-purchased": "Hide purchased items",
-    "show-purchased": "Show purchased items",
+    "balanced": "Everything is balanced here!",
+    "debt": "You have a small debt of",
     "expense": {
-      "select-paid-by": "Select who paid for the expense:",
       "all-expenses": "All Expenses",
+      "and-splits": "and splits",
+      "are-you-sure-create-expense": "Would you like to create an expense for the purchased items?",
       "create-expense": "Create Expense",
-      "no-expenses": "No expenses",
-      "out-of": "{{amount}} out of {{total}}",
-      "remaining": "{{amount}} remaining",
-      "expense-saved": "The expense has been successfully saved",
-      "split-equal-split-title": "Select the roommates who participated in the expense, and divide it equally among them",
-      "split-by-amount-title": "For each roommate, you can enter the amount they need to pay",
-      "split-by-percentage-title": "For each roommate, you can enter the percentage of the expense they need to pay",
-      "split-options": "Split Options",
       "edit-expense": "Edit Expense",
+      "equally": "equally",
+      "expense-amount": "Expense Amount",
       "expense-description": "Expense Description",
       "expense-extended-description": "Shopping list items",
-      "expense-amount": "Expense Amount",
+      "expense-saved": "The expense has been successfully saved",
+      "no-expenses": "No expenses",
+      "out-of": "{{amount}} out of {{total}}",
       "paid-by": "Paid by",
-      "and-splits": "and splits",
-      "equally": "equally",
-      "unequally": "unequally",
-      "are-you-sure-create-expense": "Would you like to create an expense for the purchased items?"
+      "remaining": "{{amount}} remaining",
+      "select-paid-by": "Select who paid for the expense:",
+      "split-by-amount-title": "For each roommate, you can enter the amount they need to pay",
+      "split-by-percentage-title": "For each roommate, you can enter the percentage of the expense they need to pay",
+      "split-equal-split-title": "Select the roommates who participated in the expense, and divide it equally among them",
+      "split-options": "Split Options",
+      "unequally": "unequally"
+    },
+    "hide-purchased": "Hide purchased items",
+    "no-debt": "No debt",
+    "no-debts": "No debts",
+    "owe-you": "Owes you {{amount}}₪",
+    "owe-you-to": "{{name}} owes you {{amount}}₪",
+    "paid-by": "{{name}} paid {{amount}}₪",
+    "payment-made": "Let's settle the payment with a shake, from {{payer}} to {{receiver}}",
+    "people-owe-you": "How nice! People owe you",
+    "settle-up": "Let's settle up",
+    "settle-up-success": "The debt has been successfully settled",
+    "settle-up-title": "Who should we settle up with?",
+    "show-purchased": "Show purchased items",
+    "someone-you-owe": "You owe {{name}} {{amount}}₪",
+    "you-borrowed": "You borrowed\n{{amount}}₪",
+    "you-lent": "You lent\n{{amount}}₪",
+    "you-owe": "You owe {{amount}}₪",
+    "you-paid": "You paid {{amount}}₪"
+  },
+  "residents": {
+    "joined_at": "Joined at",
+    "landlord_title": "Residents list",
+    "no-residents": "It seems like you are the only one here...",
+    "no-residents-description": "To see residents here, you need to invite them to the apartment.",
+    "rent": "Rent",
+    "residents_amount": "{{amount}} Roomates",
+    "title": "Roomates list",
+    "total_rent": "Total rent"
+  },
+  "roommate": {
+    "homepage": {
+      "last_updates": "Latest updates",
+      "leftbar": {
+        "apartment_settings": "Apartment settings",
+        "app_settings": "App settings",
+        "change_languege": "Change language",
+        "logout": "Log out",
+        "notifications_settings": "Task Templates & Notifications",
+        "profile_settings": "Profile settings",
+        "roommates": "Roommates",
+        "select_apartment": "Select Apartment",
+        "shopping_templates": "Shopping Templates"
+      },
+      "navigation": {
+        "home": "Home",
+        "incidents": "Incidents",
+        "payments": "Payments",
+        "shopping": "Shopping",
+        "tasks": "Tasks"
+      },
+      "title": "Welcome, <b>{{firstName}}!</b>"
     }
   },
-  "error": {
-    "error": "An error occurred",
-    "action_failed": "Action failed. Please try again.",
-    "incorrect_values": "Incorrect values. Please check and try again."
+  "save": "Save",
+  "select-roommate": "Select Roommate",
+  "select-roommates": "Select Roommates",
+  "select_apartment": {
+    "has_apartments": {
+      "apartments_list": "Back to choosing an existing apartment",
+      "title": "Want to join another apartment?"
+    },
+    "no_apartments": {
+      "create_new_apartment": "Create a new apartment",
+      "description": "{{firstName}}, welcome! Please choose what you’d like to do:",
+      "join_apartment": "Join an existing apartment",
+      "title": "Profile created successfully!"
+    }
+  },
+  "shopping": {
+    "add_item": "Add item",
+    "apartment": "Apartment list",
+    "choose_purchased_items": "Select purchased items",
+    "delete_success": "Shopping list template deleted successfully",
+    "duplicate_error": "Failed to duplicate shopping list template",
+    "duplicate_success": "Shopping list template duplicated successfully",
+    "every": "Every",
+    "frequency": {
+      "daily": {
+        "many": "Every {{count}} days",
+        "one": "Daily",
+        "two": "Every 2 days"
+      },
+      "monthly": {
+        "many": "Every {{count}} months",
+        "one": "Monthly",
+        "two": "Every 2 months"
+      },
+      "weekly": {
+        "many": "Every {{count}} weeks",
+        "one": "Weekly",
+        "two": "Every 2 weeks"
+      },
+      "yearly": {
+        "many": "Every {{count}} years",
+        "one": "Yearly",
+        "two": "Every 2 years"
+      }
+    },
+    "frequency_units": {
+      "DAILY": "Days",
+      "MONTHLY": "Months",
+      "WEEKLY": "Weeks",
+      "YEARLY": "Years"
+    },
+    "general_lists": {
+      "active": "Active",
+      "automatic_template": "Automatic Template",
+      "confirm_delete": "Are you sure you want to delete this shopping list template?",
+      "context_type": "Context type",
+      "copy_to_list": "Copy to Shopping List",
+      "copy_to_list_success": "Items copied to your active shopping list",
+      "create": "Create",
+      "create_success": "Shopping list template created successfully",
+      "create_template": "Create Shopping List Template",
+      "create_templates": "Create templates for recurring shopping lists or manual use",
+      "delete": "Delete",
+      "description": "Description",
+      "duplicate": "Duplicate",
+      "edit_details": "Edit Details",
+      "edit_template": "Edit Shopping List Template",
+      "frequency": "Frequency",
+      "inactive": "Inactive",
+      "items": "{{count}} items",
+      "last_generation": "Last generation",
+      "manual_template": "Manual Template",
+      "next_generation": "Next generation",
+      "no_templates": "No shopping list templates available",
+      "one_item": "One item",
+      "personal_list": "Personal List",
+      "save_error": "Failed to save shopping list template",
+      "shared_list": "Shared List",
+      "template_name": "Template Name",
+      "update": "Update",
+      "update_success": "Shopping list template updated successfully"
+    },
+    "hide-purchased": "Hide purchased items",
+    "item_name": "Item name",
+    "item_quantity": "Item quantity",
+    "lets_add_items": "Let's add some items!",
+    "list_is_empty": "The list is empty",
+    "make_purchase": "Make purchase",
+    "mark_all_as_purchased": "Mark all",
+    "missing_item": "Missing item? Add \"{{searchTerm}}\"",
+    "no_category": "No category",
+    "no_results": "No results found",
+    "num_unpurchased_items": "{{count}} items waiting to be purchased",
+    "personal": "Personal list",
+    "purchase_made": "Purchase made from a shopping list",
+    "quantity": "Unit",
+    "search_add_item": "Add item...",
+    "search_item": "Search item",
+    "shopping_list": "Shopping list",
+    "wanna_buy": "Want to buy something?"
+  },
+  "status": {
+    "IN_PROGRESS": "In Progress",
+    "OPEN": "Open",
+    "SOLVED": "Solved"
   },
   "edit_apartment": {
     "success": "Apartment updated successfully."
   },
   "task_category": {
-    "title": "Tasks",
+    "buttons": {
+      "done": "Done",
+      "mark_as_done": "Mark as Done",
+      "mark_as_not_done": "Mark as Not Done",
+      "postpone": "Postpone"
+    },
+    "create_task": {
+      "active": "Active",
+      "assigned_to": "Assign Roommates To Task",
+      "calculate_tasks": "Calculate New Tasks Now",
+      "create": "Create",
+      "create_task": "Create Task",
+      "created_by": "Created By",
+      "description": "Description",
+      "description_placeholder": "Enter Description",
+      "due_date": "Due Date",
+      "due_time": "Enter Due Time (optional)",
+      "group_description": "One roommate marks the task as complete for everyone",
+      "group_type": "Group",
+      "images": "Upload Images Of The Task (optional)",
+      "no_tasks": "No task templates available",
+      "personal_description": "Every roommate marks the task as complete for themselves",
+      "personal_type": "Personal",
+      "recurrence": "Recurrence",
+      "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
+      "success": "Task created successfully",
+      "task_name": "Task Name",
+      "task_type": "Task Type",
+      "title": "Enter Task's Title",
+      "update": "Update"
+    },
+    "delete_task": {
+      "success": "Task deleted successfully"
+    },
+    "load_tasks": "Load Completed Tasks",
     "task_list": "Your Tasks:",
     "tasks": {
+      "create_task": "Create task",
       "due_date": "Due To",
       "last_run": "Last Run",
       "next_run": "Next Run"
     },
-    "buttons": {
-      "done": "Done",
-      "postpone": "Postpone",
-      "mark_as_done": "Mark as Done",
-      "mark_as_not_done": "Mark as Not Done"
-    },
-    "create_task": {
-      "create_task": "Create Task",
-      "task_name": "Task Name",
-      "title": "Enter Task's Title",
-      "due_date": "Due Date",
-      "description_placeholder": "Enter Description",
-      "description": "Description",
-      "assigned_to": "Assign Roommates To Task",
-      "recurrence": "Recurrence",
-      "recurrence_placeholder": "Enter Recurrence Rule (e.g., every 2 weeks)",
-      "created_by": "Created By",
-      "images": "Upload Images Of The Task (optional)",
-      "due_time": "Enter Due Time (optional)",
-      "success": "Task created successfully",
-      "group_description": "One roommate marks the task as complete for everyone",
-      "personal_description": "Every roommate marks the task as complete for themselves",
-      "task_type": "Task Type",
-      "group_type": "Group",
-      "personal_type": "Personal",
-      "active": "Active",
-      "update": "Update",
-      "create": "Create",
-      "calculate_tasks": "Calculate New Tasks Now",
-      "no_tasks": "No task templates available"
-    },
-    "load_tasks": "Load Completed Tasks",
-    "delete_task": {
-      "success": "Task deleted successfully"
-    }
-  },
-  "incidents": {
-    "no_incidents": "No incidents",
-    "incident_details": "Incident Details",
-    "open_incidents": "Open incidents",
-    "solved_incidents": "Solved incidents",
-    "notes_and_updates": "Notes and updates",
-    "add_note": "Add note",
-    "update_status": "Update status",
-    "create_incident": "Create New Incident",
-    "edit_incident": "Edit Incident",
-    "seen_by_manager_description": "Seen by the manager",
-    "seen": "Seen",
-    "incident_deleted": "Incident deleted successfully"
-  },
-  "urgency": {
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High",
-    "extreme": "Extreme"
+    "title": "Tasks"
   },
   "tasks": {
-    "no_tasks": "Great! No tasks on the horizon",
     "create_task": "Create New Task",
-    "edit_task": "Edit Task",
-    "task_title": "Title",
-    "task_participants": "Task Participants (if no roommates selected, task will be assigned to you)",
-    "task_description": "Task Description",
     "due_date": "Due Date",
-    "task_saved": "Task saved successfully",
-    "status_updated": "Task status updated successfully",
-    "notes_and_updates": "Notes and Updates",
-    "open_tasks": "Open Tasks",
-    "solved_tasks": "Solved Tasks",
-    "num_open_tasks": "{{count}} tasks you need to complete",
-    "num_apartment_tasks": "{{total}} open apartment tasks",
+    "edit_task": "Edit Task",
     "general_tasks": {
+      "create_success": "Task template created successfully",
       "create_template": "Create Task Template",
       "edit_template": "Edit Task Template",
       "group_task": "Group Task",
       "personal_task": "Personal Task",
-      "update_success": "Task template updated successfully",
-      "create_success": "Task template created successfully",
       "save_error": "Failed to save task template",
       "tasks_created": "Tasks created successfully. You can view them on the tasks page.",
-      "tasks_creation_error": "Error creating tasks"
-    }
-  },
-  "status": {
-    "OPEN": "Open",
-    "IN_PROGRESS": "In Progress",
-    "SOLVED": "Solved"
-  },
-  "common": {
-    "today": "Today",
-    "tomorrow": "Tomorrow",
-    "new": "New",
-    "seen": "Seen",
-    "success": "Success",
-    "error": "Error",
-    "loading": "Loading...",
-    "next": "Next",
-    "lets_start": "Let's start!",
-    "duplicate": "Duplicate",
-    "previous": "Previous"
-  },
-  "onboarding": {
-    "title": "Discover what you can do with Komuna",
-    "watch_tutorial": "Watch Tutorial 🚀",
-    "smart_task_management": {
-      "title": "Smart Task Management",
-      "description": "Create, share and track home tasks easily. Set recurring tasks and track progress of all roommates."
+      "tasks_creation_error": "Error creating tasks",
+      "update_success": "Task template updated successfully"
     },
-    "professional_expense_management": {
-      "title": "Professional Expense Management",
-      "description": "Split expenses fairly, track debts and payments, and disconnect from complicated calculations."
-    },
-    "quick_incident_reporting": {
-      "title": "Quick Incident Reporting",
-      "description": "Report apartment issues, track repair status and get real-time progress updates."
-    },
-    "shared_shopping_lists": {
-      "title": "Shared Shopping Lists",
-      "description": "Create shared shopping lists, add items and track what's been bought and what's left."
-    },
-    "smooth_communication": {
-      "title": "Smooth Communication",
-      "description": "Add notes, updates and messages. Keep everyone updated and perfectly coordinated."
-    }
+    "no_tasks": "Great! No tasks on the horizon",
+    "notes_and_updates": "Notes and Updates",
+    "num_apartment_tasks": "{{total}} open apartment tasks",
+    "num_open_tasks": "{{count}} tasks you need to complete",
+    "open_tasks": "Open Tasks",
+    "solved_tasks": "Solved Tasks",
+    "status_updated": "Task status updated successfully",
+    "task_description": "Task Description",
+    "task_participants": "Task Participants (if no roommates selected, task will be assigned to you)",
+    "task_saved": "Task saved successfully",
+    "task_title": "Title"
   },
-  "general_templates": {
-    "shopping_list_templates": "Shopping List Templates",
-    "example_placeholder": "Example: Cleaning supplies",
-    "detailed_description_placeholder": "Detailed template description (optional)",
-    "example_task_placeholder": "Example: Clean bathroom",
-    "detailed_task_description_placeholder": "Detailed task description (optional)"
-  }
+  "title": "Welcome to Komuna",
+  "urgency": {
+    "EXTREME": "Extreme",
+    "HIGH": "High",
+    "LOW": "Low",
+    "MEDIUM": "Medium"
+  },
+  "web": {
+    "description": "This site is supported only on mobile devices. Please open it on your phone to continue.",
+    "title": "Sorry"
+  },
+  "welcome": "Welcome!"
 }

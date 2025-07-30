@@ -211,6 +211,35 @@
         "tags": [
           "User"
         ]
+      },
+      "put": {
+        "operationId": "UserController_updateUserProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
       }
     },
     "/api/user/logout": {
@@ -317,6 +346,29 @@
     "/api/apartment/{apartmentId}/roommates": {
       "get": {
         "operationId": "ApartmentController_getRoommates",
+        "parameters": [
+          {
+            "name": "apartmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/api/apartment/{apartmentId}/codes": {
+      "get": {
+        "operationId": "ApartmentController_getCodes",
         "parameters": [
           {
             "name": "apartmentId",
@@ -2174,6 +2226,20 @@
         "required": [
           "user"
         ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
       },
       "CreateApartmentDto": {
         "type": "object",
