@@ -1,5 +1,5 @@
 import { Box, Flex, VStack, IconButton, Text } from '@chakra-ui/react';
-import { IconHome, IconHeadphones, IconMessageCircleExclamation, IconSettings } from '@tabler/icons-react';
+import { IconHome, IconHeadphones, IconMessageCircleExclamation, IconSettings, IconUsersGroup } from '@tabler/icons-react';
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { useIsRTL } from '../../hooks/useIsRTL';
@@ -34,7 +34,7 @@ const LandlordBottomNav = () => {
   return (
     <Box background="white" w="100%" h="97px" zIndex="1" dir={dir} boxShadow="2xl">
       <Flex justify="space-around" align="center" h="100%" position="relative" zIndex="1">
-        <NavItem icon={IconSettings} label={t('landlord.homepage.navigation.settings')} route="/landlord/settings" />
+        <NavItem icon={IconUsersGroup} label={t('landlord.homepage.navigation.residents')} route="/landlord/residents" />
         <NavItem icon={IconHome} label={t('landlord.homepage.navigation.home')} route="/landlord" />
         <NavItem
           icon={IconMessageCircleExclamation}

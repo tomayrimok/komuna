@@ -4,7 +4,9 @@ import { API, ApiTypes, CreateApartmentHttpResponse } from '@komuna/types';
 import { toaster } from '../../chakra/ui/toaster';
 import { t } from 'i18next';
 
-const createApartment = async (body: ApiTypes.CreateApartmentDto): Promise<CreateApartmentHttpResponse> => {
+type CreateApartmentDto = ApiTypes.CreateApartmentDto & { apartmentId: string };
+
+const createApartment = async (body: CreateApartmentDto): Promise<CreateApartmentHttpResponse> => {
   try {
     const { data } = await API.apartmentControllerCreateApartment({ body });
     if (!data) throw new Error('No data returned from API');
@@ -16,7 +18,7 @@ const createApartment = async (body: ApiTypes.CreateApartmentDto): Promise<Creat
 };
 
 interface UseCreateApartmentMutationReturn {
-  triggerCreateApartment: (data: ApiTypes.CreateApartmentDto) => void;
+  triggerCreateApartment: (data: CreateApartmentDto) => void;
   isPending: boolean;
   isSuccess: boolean;
 }
@@ -25,14 +27,14 @@ export const useCreateApartment = ({
   onSuccess,
   onError,
 }: {
-  onSuccess?: (result: CreateApartmentHttpResponse, variables: ApiTypes.CreateApartmentDto) => void;
+  onSuccess?: (result: CreateApartmentHttpResponse, variables: CreateApartmentDto) => void;
   onError?: (message: string) => void;
 }): UseCreateApartmentMutationReturn => {
   const {
     isSuccess,
     isPending,
     mutate: triggerCreateApartment,
-  } = useMutation<CreateApartmentHttpResponse, { error: string }, ApiTypes.CreateApartmentDto>({
+  } = useMutation<CreateApartmentHttpResponse, { error: string }, CreateApartmentDto>({
     mutationKey: ['createApartment'],
     mutationFn: (body) => createApartment(body),
     onSuccess: (result, variables) => {

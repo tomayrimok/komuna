@@ -1,6 +1,6 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, HStack, VStack } from '@chakra-ui/react';
+import { Button, HStack } from '@chakra-ui/react';
 import { Navigate, useNavigate } from '@tanstack/react-router';
 import { ApartmentSettings } from './ApartmentSettings';
 import ApartmentLayout from '../NewApartment/ApartmentLayout';
@@ -12,8 +12,8 @@ import { ShareApartmentCode } from './ShareApartmentCode';
 import { useCreateApartment } from '../../hooks/query/useCreateApartment';
 import { toaster } from '../../chakra/ui/toaster';
 import { useQueryClient } from '@tanstack/react-query';
-import { AUTH_QUERY_KEY } from '../../hooks/query/useAuthQuery';
 import { useAuth } from '../../context/auth/AuthProvider';
+import { useApartment } from '../../hooks/useApartment';
 
 enum CreateApartmentPages {
   ApartmentInfo = 1,
@@ -59,7 +59,7 @@ const INITIAL_APT_DETAILS: CreateApartmentDto = {
 const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, setPageState, isEdit }) => {
   switch (page) {
     case CreateApartmentPages.ApartmentInfo:
-      return <ApartmentInfo aptDetails={aptDetails} updateField={setPageState('apartmentInfo')} />;
+      return <ApartmentInfo aptDetails={aptDetails} updateField={setPageState('apartmentInfo')} isEdit={isEdit} />;
     case CreateApartmentPages.ApartmentSettings:
       return <ApartmentSettings aptDetails={aptDetails} updateField={setPageState('apartmentSettings')} />;
     case CreateApartmentPages.RenterSettings:
@@ -67,7 +67,7 @@ const CreateApartmentForm: FC<CreateApartmentFormProps> = ({ page, aptDetails, s
     case CreateApartmentPages.ShareApartmentCode:
       return <ShareApartmentCode />;
     case CreateApartmentPages.GoToApp:
-      return <Navigate to="/" />;
+      return <Navigate to={"/" + aptDetails.apartmentInfo.role} />;
     default:
       return null;
   }
@@ -87,11 +87,62 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { setSessionDetails } = useAuth();
+  const { setSessionDetails, sessionDetails, currentUserDetails } = useAuth();
+  const { data } = useApartment();
+
+  useEffect(() => {
+    if (isEdit && data?.apartmentId) {
+      let personalRent = 0;
+      let payableByUserId = '';
+
+      if (currentUserDetails?.userId && data.residents.length) {
+        const resident = data.residents.find(({ userId }) => userId === currentUserDetails?.userId);
+        personalRent = resident?.rent ?? 0;
+        payableByUserId = resident?.payableByUser?.userId ?? RENTER_PAYMENT_WAYS.RENTER;
+      }
+
+      setsAptDetails((prev) => ({
+        ...prev,
+        apartmentInfo: {
+          ...prev.apartmentInfo,
+          role: sessionDetails.role ?? UserRole.ROOMMATE,
+
+          name: data.name,
+          address: data.address,
+          city: data.city,
+        },
+        apartmentSettings: {
+          ...prev.apartmentSettings,
+          rent: data.rent,
+          contractEndDate: data.contractEndDate ? new Date(data.contractEndDate) : undefined,
+          // TODO: Handle contractUrl upload: contractUrl: data.contractUrl
+          billsDetails: data.billsDetails,
+        },
+        renterSettings: {
+          ...prev.renterSettings,
+          rent: personalRent,
+          payableByUserId,
+          houseCommitteeRent: data.houseCommitteeRent,
+          houseCommitteePayerUserId: data.houseCommitteePayerUser?.userId ?? RENTER_PAYMENT_WAYS.RENTER,
+        },
+      }));
+    }
+  }, [isEdit, sessionDetails, currentUserDetails, data]);
+
   const { triggerCreateApartment } = useCreateApartment({
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] }); // getting the new apartment
-      setSessionDetails(() => ({ apartmentId: res.apartmentId, role: aptDetails.apartmentInfo.role }));
+      if (!isEdit)
+        setSessionDetails(() => ({ apartmentId: res.apartmentId, role: aptDetails.apartmentInfo.role }));
+      else {
+        queryClient.invalidateQueries({ queryKey: ['apartment'] });
+
+        toaster.create({
+          title: t('edit_apartment.success'),
+          type: 'success',
+        });
+        return;
+      }
+
       setPage(CreateApartmentPages.ShareApartmentCode);
     },
     onError: () => {
@@ -129,7 +180,7 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
       (aptDetails.apartmentInfo.role === UserRole.LANDLORD && page === CreateApartmentPages.ApartmentSettings) ||
       (aptDetails.apartmentInfo.role === UserRole.ROOMMATE && page === CreateApartmentPages.RenterSettings)
     ) {
-      triggerCreateApartment(aptDetails);
+      triggerCreateApartment({ ...aptDetails, apartmentId: isEdit ? data?.apartmentId ?? '' : '' });
       return;
     }
     incPage();
@@ -140,7 +191,8 @@ const CreateApartment: FC<CreateApartmentProps> = ({ isEdit }) => {
    */
   const goPageBack = (currentPage: CreateApartmentPages) => {
     if (currentPage === CreateApartmentPages.ApartmentInfo) {
-      navigate({ to: '/new-apartment' });
+      if (isEdit) navigate({ to: "/" + aptDetails.apartmentInfo.role });
+      else navigate({ to: '/new-apartment' });
     } else {
       setPage((prevPage) => prevPage - 1);
     }
